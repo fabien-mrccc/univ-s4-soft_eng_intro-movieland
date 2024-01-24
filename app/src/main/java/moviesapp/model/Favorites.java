@@ -1,5 +1,6 @@
 package moviesapp.model;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 public class Favorites {
 
@@ -17,7 +18,7 @@ public class Favorites {
         return favorites.isEmpty();
     }
 
-    /** Add a film to the favorites of the user
+    /** Add a film to the favorites of the user (only if it is not already in the list)
      @param movie the movie to add to the list
      **/
     public void add(Movie movie){
@@ -76,10 +77,17 @@ public class Favorites {
     }
 
     /**
-     * Add a group of movies to the user favorite list
+     * Add a group of movies to the user favorite list by selecting only those
+     * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
     public void addAll(List<Movie> movies){
-        favorites.addAll(movies);
+        List<Movie> moviesNotInFavoriteList = new ArrayList<>();
+        for(Movie movie : movies){
+            if(!favorites.contains(movie)){
+                moviesNotInFavoriteList.add(movie);
+            }
+        }
+        favorites.addAll(moviesNotInFavoriteList);
     }
 }
