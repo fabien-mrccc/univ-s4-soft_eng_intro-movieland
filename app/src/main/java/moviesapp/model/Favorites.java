@@ -2,6 +2,8 @@ package moviesapp.model;
 import java.util.ArrayList;
 import java.util.List;
 public class Favorites {
+
+    public static final Favorites instance = new Favorites();
     private final List<Movie> favorites;
 
     private Favorites(){
