@@ -61,8 +61,6 @@ public class FavoritesTest {
     }
     @Test
     void testRemove(){
-        Movie movie1 = new Movie();
-        Movie movie2 = new Movie();
         favorites.add(movie1);
         favorites.add(movie2);
         favorites.remove(movie1);
