@@ -27,11 +27,11 @@ public class Favorites {
     }
 
     /**
-     * Check if the favorites list contains a specific movie
+     * Check if the favorites list contains a specific movie, returns false if the list is empty
      * @param movie the movie that we check if it is in our list
      * @return boolean
      */
-    public boolean contains(Movie movie){
+    private boolean contains(Movie movie){
         if(isEmpty()){
             return false;
         }
