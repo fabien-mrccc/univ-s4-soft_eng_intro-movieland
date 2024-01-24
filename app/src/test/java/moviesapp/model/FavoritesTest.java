@@ -24,24 +24,18 @@ public class FavoritesTest {
         if(!favorites.isEmpty()){
             favorites.clear();
         }
-        assertThat(favorites.toString()).isEqualTo("Your list of favorites is empty.");
+        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
         favorites.add(movie1);
-        assertThat(favorites.toString()).isEqualTo(movie1.toString());
+        assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
         favorites.add(movie2);
         favorites.add(movie3);
-        assertThat(favorites.toString()).isEqualTo(
-                movie1
-                        + "\n"
-                        + movie2
-                        + "\n"
-                        + movie3);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
         favorites.remove(movie2);
-        assertThat(favorites.toString()).isEqualTo(
-                movie1
-                        + "\n"
-                        + movie3);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie3 + "\n")).isTrue();
         favorites.remove(movie1);
         favorites.remove(movie3);
-        assertThat(favorites.toString()).isEqualTo("Your list of favorites is empty.");
+        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
     }
 }
