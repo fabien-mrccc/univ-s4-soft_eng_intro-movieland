@@ -28,4 +28,15 @@ public class Favorites {
             System.out.println("This movie does not belong to your list of favorites");
         }
     }
+    @Override
+    public String toString(){
+        String favoritesString = "";
+        if(favorites.isEmpty()){
+            favoritesString = "Your list of favorites is empty.";
+        }
+        for(Movie movie: favorites){
+            favoritesString= movie.toString() + "\n";
+        }
+        return favoritesString;
+    }
 }
