@@ -17,10 +17,4 @@ public class FavoritesTest {
         Movie movie1 = new Movie();
         Movie movie2 = new Movie();
     }
-
-    @Test
-    void testContains() {
-        Movie movie = new Movie();
-
-    }
 }
