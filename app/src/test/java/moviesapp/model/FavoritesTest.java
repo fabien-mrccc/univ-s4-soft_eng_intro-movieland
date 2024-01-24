@@ -84,4 +84,13 @@ public class FavoritesTest {
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
     }
+
+    @Test
+    void testIsEmpty(){
+        assertThat(favorites.isEmpty()).isTrue();
+        favorites.add(movie2);
+        assertThat(favorites.isEmpty()).isFalse();
+        favorites.clear();
+        assertThat(favorites.isEmpty()).isTrue();
+    }
 }
