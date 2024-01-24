@@ -73,9 +73,4 @@ public class FavoritesTest {
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("This movie does not belong to your list of favorites");
     }
-    @Test
-    void testContains() {
-        Movie movie = new Movie();
-
-    }
 }
