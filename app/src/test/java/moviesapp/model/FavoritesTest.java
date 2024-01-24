@@ -72,4 +72,16 @@ public class FavoritesTest {
         assertThatCode(() -> favorites.remove(movie2)).doesNotThrowAnyException();
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
     }
+
+    @Test
+    void testClear(){
+        assertThat(favorites.isEmpty()).isTrue();
+        favorites.clear();
+        assertThat(favorites.isEmpty()).isTrue();
+        favorites.add(movie1);
+        favorites.add(movie2);
+        assertThat(favorites.isEmpty()).isFalse();
+        favorites.clear();
+        assertThat(favorites.isEmpty()).isTrue();
+    }
 }
