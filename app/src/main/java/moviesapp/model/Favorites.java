@@ -82,6 +82,9 @@ public class Favorites {
      * @param movies: the movies that we want to add to the user favorite list
      */
     public void addAll(List<Movie> movies){
+        if(movies == null){
+            return;
+        }
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(!favorites.contains(movie)){
