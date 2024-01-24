@@ -35,6 +35,9 @@ public class Favorites {
         if(isEmpty()){
             return false;
         }
+        if(movie == null){
+            return true;
+        }
         return favorites.contains(movie);
     }
 
