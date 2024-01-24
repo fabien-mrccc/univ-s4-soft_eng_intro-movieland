@@ -1,6 +1,7 @@
 package moviesapp.model;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,15 +16,20 @@ public class FavoritesTest {
         favorites = Favorites.instance;
     }
 
+    @BeforeEach
+    void setupBeforeEach(){
+        if(!favorites.isEmpty()){
+            favorites.clear();
+        }
+    }
+
     @Test
     void testAdd() {
+
     }
 
     @Test
     void testToString(){
-        if(!favorites.isEmpty()){
-            favorites.clear();
-        }
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
         favorites.add(movie1);
         assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
