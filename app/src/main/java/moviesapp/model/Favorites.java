@@ -22,7 +22,7 @@ public class Favorites {
     /** Remove a film from the list of favorites
      @param movie the movie to remove from the list
      **/
-    public void removeFromFavorites(Movie movie){
+    public void remove(Movie movie){
         try {favorites.remove(movie);}
         catch (UnsupportedOperationException e){
             System.out.println("This movie does not belong to your list of favorites");
