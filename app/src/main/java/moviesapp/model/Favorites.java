@@ -13,7 +13,7 @@ public class Favorites {
     /** return true if the list of favorites is empty, if not return false
      @return boolean
      **/
-    private boolean isEmpty(){
+    public boolean isEmpty(){
         return favorites.isEmpty();
     }
 
@@ -21,7 +21,7 @@ public class Favorites {
      @param movie the movie to add to the list
      **/
     public void add(Movie movie){
-        if(!favorites.contains(movie)){
+        if(!contains(movie)){
             favorites.add(movie);
         }
     }
@@ -52,6 +52,7 @@ public class Favorites {
         String favoritesString = "";
         if(favorites.isEmpty()){
             favoritesString = "Your list of favorites is empty.";
+            return favoritesString;
         }
         for(Movie movie: favorites){
             favoritesString= movie.toString() + "\n";
