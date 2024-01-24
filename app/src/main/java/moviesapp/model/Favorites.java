@@ -25,6 +25,9 @@ public class Favorites {
      * @return boolean
      */
     public boolean contains(Movie movie){
+        if(isEmpty()){
+            return false;
+        }
         return favorites.contains(movie);
     }
 
