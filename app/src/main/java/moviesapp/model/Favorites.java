@@ -13,7 +13,7 @@ public class Favorites {
     /** return true if the list of favorites is empty, if not return false
      @return boolean
      **/
-    private boolean isEmpty(){
+    public boolean isEmpty(){
         return favorites.isEmpty();
     }
 
