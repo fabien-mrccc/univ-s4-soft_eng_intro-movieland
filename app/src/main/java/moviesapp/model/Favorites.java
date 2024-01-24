@@ -1,7 +1,12 @@
 package moviesapp.model;
+import java.util.ArrayList;
 import java.util.List;
 public class Favorites {
-    private List<Movie> favorites;
+    private final List<Movie> favorites;
+
+    private Favorites(){
+        favorites = new ArrayList<>();
+    }
 
     /** return true if the list of favorites is empty, if not return false
      @return boolean
