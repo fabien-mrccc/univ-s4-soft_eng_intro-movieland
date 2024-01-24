@@ -25,7 +25,21 @@ public class FavoritesTest {
 
     @Test
     void testAdd() {
-
+        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
+        favorites.add(movie1);
+        assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
+        favorites.add(movie2);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n")).isTrue();
+        favorites.add(movie3);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
+        favorites.add(null);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
+        favorites.add(movie3);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
     }
 
     @Test
