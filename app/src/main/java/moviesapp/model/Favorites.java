@@ -52,6 +52,7 @@ public class Favorites {
         String favoritesString = "";
         if(favorites.isEmpty()){
             favoritesString = "Your list of favorites is empty.";
+            return favoritesString;
         }
         for(Movie movie: favorites){
             favoritesString= movie.toString() + "\n";
