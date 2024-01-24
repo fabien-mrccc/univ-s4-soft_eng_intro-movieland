@@ -2,6 +2,8 @@ package moviesapp.model;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.junit.jupiter.api.BeforeAll;
 
 public class FavoritesTest {
@@ -27,6 +29,9 @@ public class FavoritesTest {
         assertThat(favorites.toString()).isEqualTo(movie2.toString());
         favorites.remove(movie2);
         assertThat(favorites.toString()).isEqualTo("Your list of favorites is empty.");
+        assertThatThrownBy(() -> favorites.remove(movie2))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("This movie does not belong to your list of favorites");
     }
     @Test
     void testContains() {
