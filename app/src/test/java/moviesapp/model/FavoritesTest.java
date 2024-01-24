@@ -1,10 +1,16 @@
 package moviesapp.model;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FavoritesTest {
-    private Favorites favorites;
+    private static Favorites favorites;
+
+    @BeforeAll
+    static void setupBeforeAll(){
+        favorites = Favorites.instance;
+    }
 
     @Test
     void testAdd() {
