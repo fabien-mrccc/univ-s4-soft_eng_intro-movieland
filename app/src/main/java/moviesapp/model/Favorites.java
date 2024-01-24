@@ -49,15 +49,15 @@ public class Favorites {
     }
     @Override
     public String toString(){
-        String favoritesString = "";
+        StringBuilder favoritesString = new StringBuilder();
         if(favorites.isEmpty()){
-            favoritesString = "Your list of favorites is empty.";
-            return favoritesString;
+            favoritesString = new StringBuilder("Your list of favorites is empty.");
+            return favoritesString.toString();
         }
         for(Movie movie: favorites){
-            favoritesString= movie.toString() + "\n";
+            favoritesString.append(movie).append("\n");
         }
-        return favoritesString;
+        return favoritesString.toString();
     }
 
     /**
