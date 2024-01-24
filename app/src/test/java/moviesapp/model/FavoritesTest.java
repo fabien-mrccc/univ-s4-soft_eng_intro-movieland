@@ -8,7 +8,6 @@ public class FavoritesTest {
 
     @Test
     void testAdd() {
-        Favorites favorites = new Favorites();
         Movie movie1 = new Movie();
         Movie movie2 = new Movie();
 
