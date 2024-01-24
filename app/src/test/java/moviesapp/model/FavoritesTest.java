@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class FavoritesTest {
     private static Favorites favorites;
@@ -57,5 +58,24 @@ public class FavoritesTest {
         favorites.remove(movie1);
         favorites.remove(movie3);
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
+    }
+    @Test
+    void testRemove(){
+        Movie movie1 = new Movie();
+        Movie movie2 = new Movie();
+        favorites.add(movie1);
+        favorites.add(movie2);
+        favorites.remove(movie1);
+        assertThat(favorites.toString()).isEqualTo(movie2.toString());
+        favorites.remove(movie2);
+        assertThat(favorites.toString()).isEqualTo("Your list of favorites is empty.");
+        assertThatThrownBy(() -> favorites.remove(movie2))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("This movie does not belong to your list of favorites");
+    }
+    @Test
+    void testContains() {
+        Movie movie = new Movie();
+
     }
 }
