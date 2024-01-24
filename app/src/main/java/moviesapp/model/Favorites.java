@@ -1,7 +1,14 @@
 package moviesapp.model;
+import java.util.ArrayList;
 import java.util.List;
 public class Favorites {
-    private List<Movie> favorites;
+
+    public static final Favorites instance = new Favorites();
+    private final List<Movie> favorites;
+
+    private Favorites(){
+        favorites = new ArrayList<>();
+    }
 
     /** return true if the list of favorites is empty, if not return false
      @return boolean
@@ -17,6 +24,18 @@ public class Favorites {
         if(!favorites.contains(movie)){
             favorites.add(movie);
         }
+    }
+
+    /**
+     * Check if the favorites list contains a specific movie, returns false if the list is empty
+     * @param movie the movie that we check if it is in our list
+     * @return boolean
+     */
+    private boolean contains(Movie movie){
+        if(isEmpty()){
+            return false;
+        }
+        return favorites.contains(movie);
     }
 
     /** Remove a film from the list of favorites
