@@ -9,4 +9,12 @@ public class Favorites {
     public boolean isEmpty(){
         return favorites.isEmpty();
     }
+    /** Add a film to the favorites of the user
+     @param movie
+     **/
+    public void addToFavorites(Movie movie){
+        if(!favorites.contains(movie)){
+            favorites.add(movie);
+        }
+    }
 }
