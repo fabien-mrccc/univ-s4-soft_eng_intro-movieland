@@ -12,7 +12,7 @@ public class Favorites {
     /** Add a film to the favorites of the user
      @param movie
      **/
-    public void addToFavorites(Movie movie){
+    public void add(Movie movie){
         if(!favorites.contains(movie)){
             favorites.add(movie);
         }
