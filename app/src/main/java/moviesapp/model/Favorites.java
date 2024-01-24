@@ -21,7 +21,7 @@ public class Favorites {
      @param movie the movie to add to the list
      **/
     public void add(Movie movie){
-        if(!favorites.contains(movie)){
+        if(!contains(movie)){
             favorites.add(movie);
         }
     }
