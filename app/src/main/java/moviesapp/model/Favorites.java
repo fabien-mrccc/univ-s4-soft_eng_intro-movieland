@@ -59,4 +59,16 @@ public class Favorites {
         }
         return favoritesString;
     }
+
+    /**
+     * Remove all the movies registered in user favorite list.
+     */
+    public void clear(){
+        try{
+            favorites.clear();
+        }
+        catch(UnsupportedOperationException e){
+            System.out.println("The operation was unsuccessful.");
+        }
+    }
 }
