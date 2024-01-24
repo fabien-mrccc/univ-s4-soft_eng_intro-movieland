@@ -1,5 +1,4 @@
 package moviesapp.model;
 
-public class Favorite {
-
+public class Movie {
 }
