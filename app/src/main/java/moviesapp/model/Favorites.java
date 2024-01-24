@@ -74,4 +74,12 @@ public class Favorites {
             System.out.println("The operation was unsuccessful.");
         }
     }
+
+    /**
+     * Add a group of movies to the user favorite list
+     * @param movies: the movies that we want to add to the user favorite list
+     */
+    public void addAll(List<Movie> movies){
+        favorites.addAll(movies);
+    }
 }
