@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class FavoritesTest {
@@ -11,6 +14,8 @@ public class FavoritesTest {
     private final Movie movie1 = new Movie();
     private final Movie movie2 = new Movie();
     private final Movie movie3 = new Movie();
+
+    private final List<Movie> movies = new ArrayList<>();
 
     @BeforeAll
     static void setupBeforeAll(){
@@ -92,5 +97,25 @@ public class FavoritesTest {
         assertThat(favorites.isEmpty()).isFalse();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
+    }
+
+    @Test
+    void testAddAll(){
+        movies.add(movie1);
+        movies.add(movie2);
+        movies.add(movie3);
+        favorites.addAll(movies);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
+        favorites.addAll(movies);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
+        favorites.addAll(null);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
+        List<Movie> emptyList = new ArrayList<>();
+        favorites.addAll(emptyList);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
     }
 }
