@@ -3,8 +3,8 @@ package moviesapp.model;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class FavoritesTest {
     private static Favorites favorites;
@@ -64,11 +64,12 @@ public class FavoritesTest {
         favorites.add(movie1);
         favorites.add(movie2);
         favorites.remove(movie1);
-        assertThat(favorites.toString()).isEqualTo(movie2.toString());
+        assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
+        favorites.remove(null);
+        assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
         favorites.remove(movie2);
-        assertThat(favorites.toString()).isEqualTo("Your list of favorites is empty.");
-        assertThatThrownBy(() -> favorites.remove(movie2))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessage("This movie does not belong to your list of favorites");
+        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
+        assertThatCode(() -> favorites.remove(movie2)).doesNotThrowAnyException();
+        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
     }
 }

@@ -47,7 +47,7 @@ public class Favorites {
     public void remove(Movie movie){
         try {favorites.remove(movie);}
         catch (UnsupportedOperationException e){
-            System.out.println("This movie does not belong to your list of favorites");
+            System.out.println("This movie does not belong to your list of favorites.");
         }
     }
     @Override
