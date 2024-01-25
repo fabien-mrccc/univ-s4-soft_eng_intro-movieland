@@ -76,7 +76,7 @@ public class Favorites {
     }
 
     /**
-     * Add a group of movies to the user favorite list by selecting only those
+     * Add a group of movies to the user's favorite list by selecting only those
      * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
@@ -88,10 +88,10 @@ public class Favorites {
     }
     /**
      * Filter the list of movies given on parameters by removing from the list
-     * the movies already on the favorites
-     * @return the list of movies to add to favorites (those who are not already on the favorites
-     * @param movies the list of movies to add to favorites (those who are already
-     *               on the favorites and those who are not)
+     * the movies already in the favorites
+     * @return the list of movies to add to favorites (those which are not already in the favorites)
+     * @param movies: the list of movies to add to favorites (those which are already
+     *               in the favorites and those which are not)
      */
     private List<Movie> moviesToAddToFavorites(List<Movie> movies){
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
@@ -102,5 +102,31 @@ public class Favorites {
         }
         return moviesNotInFavoriteList;
     }
-
+    /**
+     * Remove a group of movies from the user's favorite list by selecting only those
+     * which are already in it
+     * @param movies: the movies that we want to remove from the favorites
+     */
+    public void removeAll(List<Movie> movies){
+        if(movies == null){
+            return;
+        }
+        favorites.removeAll(moviesToRemoveFromFavorites(movies));
+    }
+    /**
+     * Filter the list of movies given on parameters by removing from the list
+     * the movies not in the favorites
+     * @return the list of movies to remove from favorites (only those which are in the favorites)
+     * @param movies: the list of movies to remove from favorites (those which are in the favorites
+     *             and those which are not)
+     */
+    private List<Movie> moviesToRemoveFromFavorites(List<Movie> movies){
+        List<Movie> moviesInFavoriteList = new ArrayList<>();
+        for(Movie movie : movies){
+            if(favorites.contains(movie)){
+                moviesInFavoriteList.add(movie);
+            }
+        }
+        return moviesInFavoriteList;
+    }
 }
