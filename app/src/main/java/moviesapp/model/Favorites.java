@@ -84,12 +84,23 @@ public class Favorites {
         if(movies == null){
             return;
         }
+        favorites.addAll(moviesToAddToFavorites(movies));
+    }
+    /**
+     * Filter the list of movies given on parameters by removing from the list
+     * the movies already on the favorites
+     * @return the list of movies to add to favorites (those who are not already on the favorites
+     * @param movies the list of movies to add to favorites (those who are already
+     *               on the favorites and those who are not)
+     */
+    private List<Movie> moviesToAddToFavorites(List<Movie> movies){
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(!favorites.contains(movie)){
                 moviesNotInFavoriteList.add(movie);
             }
         }
-        favorites.addAll(moviesNotInFavoriteList);
+        return moviesNotInFavoriteList;
     }
+
 }
