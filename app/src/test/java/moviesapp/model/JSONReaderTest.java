@@ -15,7 +15,7 @@ public class JSONReaderTest {
 
         assertThat(movie.adult()).isFalse();
         assertThat(movie.backdropPath().equals("/3KiwdVe0XqLNrBVYrpVMlvZaPdm.jpg")).isTrue();
-        assertThat(movie.genreIds().equals("[99]")).isTrue();
+        assertThat(movie.genreIds().get(0)).isEqualTo(99);
         assertThat(movie.id()).isEqualTo(32571);
         assertThat(movie.originalLanguage().equals("xx")).isTrue();
         assertThat(movie.originalTittle().equals("Monkeyshines, No. 1")).isTrue();
