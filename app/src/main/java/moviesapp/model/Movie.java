@@ -1,6 +1,6 @@
 package moviesapp.model;
 
-public record Movie(boolean adult, String backdropPath, int genreIds, int id, String originalLanguage,
-                    String originalTittle, String Overview, String popularity, String posterPath, String releaseDate,
-                    String title, boolean video, int voteAverage, int voteCount) {
+public record Movie(boolean adult, String backdropPath, String genreIds, int id, String originalLanguage,
+                    String originalTittle, String Overview, double popularity, String posterPath, String releaseDate,
+                    String title, boolean video, double voteAverage, int voteCount) {
 }
