@@ -30,35 +30,44 @@ public class JSONReader {
             }
 
             if(movieSelected != null){
-                JsonNode jsonGenreIds = movieSelected.get("genre_ids");
-                List<Integer> genreIds = new ArrayList<>();
-
-                for(JsonNode jsonGenreId: jsonGenreIds){
-                    genreIds.add(jsonGenreId.asInt());
-                }
-
-                return new Movie(
-                        movieSelected.get("adult").asBoolean(),
-                        movieSelected.get("backdrop_path").asText(),
-                        genreIds,
-                        movieSelected.get("id").asInt(),
-                        movieSelected.get("original_language").asText(),
-                        movieSelected.get("original_title").asText(),
-                        movieSelected.get("overview").asText(),
-                        movieSelected.get("popularity").asDouble(),
-                        movieSelected.get("poster_path").asText(),
-                        movieSelected.get("release_date").asText(),
-                        movieSelected.get("title").asText(),
-                        movieSelected.get("video").asBoolean(),
-                        movieSelected.get("vote_average").asDouble(),
-                        movieSelected.get("vote_count").asInt()
-                );
+                return jsonNodeToMovie(movieSelected);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Convert a jsonNode to a Movie
+     * @param jsonNode: the jsonNode to convert to a movie
+     * @return the jsonNode converted to a movie
+     */
+    private Movie jsonNodeToMovie(JsonNode jsonNode){
+        JsonNode jsonGenreIds = jsonNode.get("genre_ids");
+        List<Integer> genreIds = new ArrayList<>();
+
+        for(JsonNode jsonGenreId: jsonGenreIds){
+            genreIds.add(jsonGenreId.asInt());
+        }
+
+        return new Movie(
+                jsonNode.get("adult").asBoolean(),
+                jsonNode.get("backdrop_path").asText(),
+                genreIds,
+                jsonNode.get("id").asInt(),
+                jsonNode.get("original_language").asText(),
+                jsonNode.get("original_title").asText(),
+                jsonNode.get("overview").asText(),
+                jsonNode.get("popularity").asDouble(),
+                jsonNode.get("poster_path").asText(),
+                jsonNode.get("release_date").asText(),
+                jsonNode.get("title").asText(),
+                jsonNode.get("video").asBoolean(),
+                jsonNode.get("vote_average").asDouble(),
+                jsonNode.get("vote_count").asInt()
+        );
     }
 
     /**
@@ -74,6 +83,10 @@ public class JSONReader {
         return movieList;
     }
 
+    /**
+     * Return a list of Movie containing there information from the JSON file
+     * @return the list of Movie contained in the JSON File
+     */
     public List<Movie> findAllMovies(){
         List<Movie> movieList = new ArrayList<>();
         try {
