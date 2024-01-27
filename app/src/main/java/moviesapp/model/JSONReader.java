@@ -6,7 +6,7 @@ import java.util.List;
 
 public class JSONReader {
 
-    private String path;
+    private final String path;
 
     public JSONReader(String path){
         this.path = path;
