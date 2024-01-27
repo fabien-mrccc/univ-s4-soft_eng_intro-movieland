@@ -60,11 +60,11 @@ public class JSONReader {
                 System.out.println("vote_average : " + vote_average);
                 System.out.println("vote_count : " + vote_count);
                 System.out.println("--------------------") ;
-
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
