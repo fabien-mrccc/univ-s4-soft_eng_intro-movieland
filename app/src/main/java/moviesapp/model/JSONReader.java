@@ -19,15 +19,8 @@ public class JSONReader {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonFile);
-            JsonNode movieSelected = null;
 
-            JsonNode jsonMovies = jsonNode.get("results");
-
-            for(JsonNode jsonMovie : jsonMovies ){
-                if(jsonMovie.get("id").asInt() == movieID){
-                    movieSelected = jsonMovie;
-                }
-            }
+            JsonNode movieSelected = selectJsonNode(jsonNode.get("results"), movieID);
 
             if(movieSelected != null){
                 return jsonNodeToMovie(movieSelected);
@@ -35,6 +28,21 @@ public class JSONReader {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Select a JsonNode in a bunch of JsonNode according to an id
+     * @param jsonNodes: a bunch of JsonNode to browse
+     * @param id: the id of the JsonNode searched
+     * @return the JsonNode searched, or null
+     */
+    private JsonNode selectJsonNode(JsonNode jsonNodes, int id){
+        for(JsonNode jsonNode : jsonNodes ){
+            if(jsonNode.get("id").asInt() == id){
+                return jsonNode;
+            }
         }
         return null;
     }
