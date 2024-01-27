@@ -1,6 +1,8 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONReader {
     private final File jsonFile;
@@ -50,5 +52,13 @@ public class JSONReader {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Movie> findMovies(List<Movie> favourites){
+        List<Movie> movieList = new ArrayList<>();
+        for (Movie movie : favourites){
+            movieList.add(findMovie(movie.id()));
+        }
+        return movieList;
     }
 }
