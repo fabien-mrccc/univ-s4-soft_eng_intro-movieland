@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONReader {
-
-    private final String path;
+    private final File jsonFile;
 
     public JSONReader(String path){
-        this.path = path;
+        jsonFile = new File(path);
     }
 
     /**
@@ -18,9 +17,8 @@ public class JSONReader {
      */
     public Movie findMovie(int movieID) {
         try {
-            String filePath = "path";
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(new File(filePath));
+            JsonNode jsonNode = objectMapper.readTree(jsonFile);
             int page = jsonNode.get("page").asInt();
             JsonNode resultsNode = jsonNode.get("results");
             List<JsonNode> elt = new ArrayList<>();
