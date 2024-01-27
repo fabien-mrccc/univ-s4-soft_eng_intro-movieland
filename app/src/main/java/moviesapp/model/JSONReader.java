@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class reader {
+public class JSONReader {
     public void Print_information(){
         try{
             String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/données.json";
