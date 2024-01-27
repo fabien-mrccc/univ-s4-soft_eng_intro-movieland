@@ -6,13 +6,19 @@ import java.util.List;
 
 public class JSONReader {
 
+    private final String path;
+
+    public JSONReader(String path){
+        this.path = path;
+    }
+
     /**
-     * Recover data of a movie in a JSON file selected with the id provided in parameter
-     * @param id: the id of the movie that we want recover data from the JSON file
+     * Return a Movie object with information from a JSON file selected with the movieID provided in parameter
+     * @param movieID: the id of the movie that we want recover data from the JSON file
      */
-    public void findMovie(int id) {
+    public Movie findMovie(int movieID) {
         try {
-            String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/data_example.json";
+            String filePath = "path";
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new File(filePath));
             int page = jsonNode.get("page").asInt();
@@ -20,7 +26,7 @@ public class JSONReader {
             List<JsonNode> elt = new ArrayList<>();
 
             for(JsonNode result : resultsNode ){
-                if(result.get("id").asInt() == id){
+                if(result.get("id").asInt() == movieID){
                     elt.add(result) ;
                 }
             }
@@ -42,7 +48,7 @@ public class JSONReader {
                 System.out.println("--------------------") ;
                 System.out.println("adulte : " + adult);
                 System.out.println("backdrop_path : " + backdrop_path);
-                System.out.println("id : " + id);
+                System.out.println("movieID : " + movieID);
                 System.out.println("language : " + language);
                 System.out.println("original_title : " + original_title);
                 System.out.println("overview : " + overview);
@@ -54,11 +60,11 @@ public class JSONReader {
                 System.out.println("vote_average : " + vote_average);
                 System.out.println("vote_count : " + vote_count);
                 System.out.println("--------------------") ;
-
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
