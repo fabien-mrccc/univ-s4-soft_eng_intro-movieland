@@ -1,6 +1,9 @@
 package moviesapp.model;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -27,5 +30,31 @@ public class JSONReaderTest {
         assertThat(movie.video()).isFalse();
         assertThat(movie.voteAverage()).isEqualTo(4.9);
         assertThat(movie.voteCount()).isEqualTo(90);
+    }
+
+    @Test
+    void testFindMovies(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        List<Integer> idList = new ArrayList<>();
+        idList.add(32571);
+        idList.add(33315);
+        List<Movie> movieList = jsonReader.findMovies(idList);
+        assertThat(movieList.get(0).title().equals("Monkeyshines, No. 1")).isTrue();
+        assertThat(movieList.get(0).voteCount() == 90).isTrue();
+        assertThat(movieList.get(1).title().equals("Monkeyshines, No. 2")).isTrue();
+        assertThat(movieList.get(1).voteCount() == 47).isTrue();
+    }
+
+    @Test
+    void testFindAllMovies(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        List<Movie> movieList = jsonReader.findAllMovies();
+        assertThat(movieList.get(0).title().equals("Monkeyshines, No. 1")).isTrue();
+        assertThat(movieList.get(0).voteCount() == 90).isTrue();
+        assertThat(movieList.get(1).title().equals("Monkeyshines, No. 2")).isTrue();
+        assertThat(movieList.get(1).voteCount() == 47).isTrue();
+        assertThat(movieList.get(9).title().equals("Escrime")).isTrue();
+        assertThat(movieList.get(9).voteCount() == 4).isTrue();
+        assertThat(movieList.size() == 10).isTrue();
     }
 }
