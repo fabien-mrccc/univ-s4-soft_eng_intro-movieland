@@ -12,7 +12,7 @@ public class JSONReader {
     }
 
     /**
-     * Return a Movie object containing its information from the JSON file selected with the movieID provided in parameter
+     * Return a Movie containing its information from the JSON file selected with the movieID provided in parameter
      * @param movieID: the id of the movie that we want recover data from the JSON file
      */
     public Movie findMovie(int movieID) {
@@ -30,10 +30,17 @@ public class JSONReader {
             }
 
             if(movieSelected != null){
+                JsonNode jsonGenreIds = movieSelected.get("genre_ids");
+                List<Integer> genreIds = new ArrayList<>();
+
+                for(JsonNode jsonGenreId: jsonGenreIds){
+                    genreIds.add(jsonGenreId.asInt());
+                }
+
                 return new Movie(
                         movieSelected.get("adult").asBoolean(),
                         movieSelected.get("backdrop_path").asText(),
-                        movieSelected.get("genre_ids").asText(),
+                        genreIds,
                         movieSelected.get("id").asInt(),
                         movieSelected.get("original_language").asText(),
                         movieSelected.get("original_title").asText(),
@@ -54,10 +61,15 @@ public class JSONReader {
         return null;
     }
 
-    public List<Movie> findMovies(List<Movie> favourites){
+    /**
+     * Return a list of Movie containing there information from the JSON file selected with a list of movieID provided in parameter
+     * @param moviesID: the list of movieID to select movies in JSON File
+     * @return the list of Movie selected according to the list of id
+     */
+    public List<Movie> findMovies(List<Integer> moviesID){
         List<Movie> movieList = new ArrayList<>();
-        for (Movie movie : favourites){
-            movieList.add(findMovie(movie.id()));
+        for (Integer movieID : moviesID){
+            movieList.add(findMovie(movieID));
         }
         return movieList;
     }
