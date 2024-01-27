@@ -1,6 +1,8 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONReader {
     private final File jsonFile;
@@ -45,6 +47,33 @@ public class JSONReader {
                         movieSelected.get("vote_count").asInt()
                 );
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Movie> findMovies(List<Movie> favourites){
+        List<Movie> movieList = new ArrayList<>();
+        for (Movie movie : favourites){
+            movieList.add(findMovie(movie.id()));
+        }
+        return movieList;
+    }
+
+    public List<Movie> findAllMovies(){
+        List<Movie> movieList = new ArrayList<>();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonFile);
+
+            JsonNode jsonMovies = jsonNode.get("results");
+
+            for(JsonNode jsonMovie : jsonMovies ){
+                movieList.add(findMovie(jsonMovie.get("id").asInt()));
+            }
+            return movieList;
         }
         catch (Exception e) {
             e.printStackTrace();
