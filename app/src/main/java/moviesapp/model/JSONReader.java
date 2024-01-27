@@ -13,7 +13,7 @@ public class JSONReader {
     }
 
     /**
-     * Return a Movie object with information from a JSON file selected with the movieID provided in parameter
+     * Return a Movie object containing its information from the JSON file selected with the movieID provided in parameter
      * @param movieID: the id of the movie that we want recover data from the JSON file
      */
     public Movie findMovie(int movieID) {
