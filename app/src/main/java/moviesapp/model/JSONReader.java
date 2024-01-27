@@ -6,6 +6,12 @@ import java.util.List;
 
 public class JSONReader {
 
+    private String path;
+
+    public JSONReader(String path){
+        this.path = path;
+    }
+
     /**
      * Recover data of a movie in a JSON file selected with the id provided in parameter
      * @param id: the id of the movie that we want recover data from the JSON file
