@@ -7,7 +7,7 @@ import java.util.List;
 public class JSONReader {
     public void Print_information(){
         try{
-            String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/données.json";
+            String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/data_example.json";
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new File(filePath));
 
@@ -55,7 +55,7 @@ public class JSONReader {
 
     public void movie_informations(int id) {
         try {
-            String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/données.json";
+            String filePath = "s_team_pigl_moviesapp/app/src/main/java/moviesapp/model/data_example.json";
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(new File(filePath));
             int page = jsonNode.get("page").asInt();
