@@ -19,16 +19,12 @@ public class JSONReader {
      * @param movieID: the id of the movie that we want recover data from the JSON file
      */
     public Movie findMovie(int movieID) {
-        try {
-            JsonNode jsonNode = objectMapper.readTree(jsonFile);
-            JsonNode movieSelected = selectJsonNode(jsonNode.get("results"), movieID);
-
+        JsonNode jsonMovies = getJsonMoviesNode();
+        if(jsonMovies != null){
+            JsonNode movieSelected = selectJsonNode(jsonMovies, movieID);
             if(movieSelected != null){
                 return jsonNodeToMovie(movieSelected);
             }
-        }
-        catch (IOException e) {
-            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         return null;
     }
