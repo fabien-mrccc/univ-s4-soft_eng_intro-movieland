@@ -1,6 +1,7 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class JSONReader {
                 return jsonNodeToMovie(movieSelected);
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         return null;
     }
@@ -107,7 +108,7 @@ public class JSONReader {
             }
             return movieList;
         }
-        catch (Exception e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
         return null;
