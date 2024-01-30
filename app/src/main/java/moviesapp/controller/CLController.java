@@ -2,11 +2,9 @@ package moviesapp.controller;
 
 import moviesapp.model.Favorites;
 
-import java.util.Scanner;
+public final class CLController {
 
-public final class ClController {
-
-    public ClController() {
+    public CLController() {
     }
 
     public void clear(String input) {

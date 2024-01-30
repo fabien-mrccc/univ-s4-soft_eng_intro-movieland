@@ -1,5 +1,5 @@
 package moviesapp.controll;
-import moviesapp.controller.ClController;
+import moviesapp.controller.CLController;
 import moviesapp.model.Movie;
 import moviesapp.model.JSONReader;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +20,7 @@ public class ClControllerTest {
     }
     @Test
     public void clearTest(){
-        ClController controlle = new ClController() ;
+        CLController controlle = new CLController() ;
         Movie movie = jsonReader.findMovie(32571) ;
         Movie movie2 = jsonReader.findMovie(32571) ;
         Favorites.instance.add(movie);
