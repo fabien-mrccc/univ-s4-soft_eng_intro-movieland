@@ -23,6 +23,15 @@ public final class CLController {
         }
     }
 
+    /**
+     * Exit command that asks user if he is sure that he wants to leave the application, exit it if yes
+     */
+    public void exit(){
+        if(askToConfirm("Are you sure that you want to leave the application?")){
+            System.exit(0);
+        }
+    }
+
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
