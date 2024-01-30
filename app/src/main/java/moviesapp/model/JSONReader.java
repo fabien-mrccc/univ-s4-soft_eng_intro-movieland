@@ -1,14 +1,17 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JSONReader {
     private final File jsonFile;
+    private final ObjectMapper objectMapper;
 
     public JSONReader(String path){
         jsonFile = new File(path);
+        objectMapper = new ObjectMapper();
     }
 
     /**
@@ -16,18 +19,12 @@ public class JSONReader {
      * @param movieID: the id of the movie that we want recover data from the JSON file
      */
     public Movie findMovie(int movieID) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(jsonFile);
-
-            JsonNode movieSelected = selectJsonNode(jsonNode.get("results"), movieID);
-
+        JsonNode jsonMovies = getJsonMoviesNode();
+        if(jsonMovies != null){
+            JsonNode movieSelected = selectJsonNode(jsonMovies, movieID);
             if(movieSelected != null){
                 return jsonNodeToMovie(movieSelected);
             }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -97,19 +94,30 @@ public class JSONReader {
      */
     public List<Movie> findAllMovies(){
         List<Movie> movieList = new ArrayList<>();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(jsonFile);
+        JsonNode jsonMovies = getJsonMoviesNode();
 
-            JsonNode jsonMovies = jsonNode.get("results");
-
+        if(jsonMovies != null){
             for(JsonNode jsonMovie : jsonMovies ){
                 movieList.add(findMovie(jsonMovie.get("id").asInt()));
             }
             return movieList;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        return null;
+    }
+
+    /**
+     * Return the origin jsonNode from our default jsonFile with exception management
+     * @return the origin jsonNode from our default jsonFile
+     */
+    private JsonNode getJsonMoviesNode(){
+        try{
+            return objectMapper.readTree(jsonFile).get("results");
+        }
+        catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        }
+        catch (NullPointerException e){
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
         }
         return null;
     }
