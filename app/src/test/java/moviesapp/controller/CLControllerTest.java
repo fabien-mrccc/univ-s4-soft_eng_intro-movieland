@@ -1,5 +1,4 @@
-package moviesapp.controll;
-import moviesapp.controller.CLController;
+package moviesapp.controller;
 import moviesapp.model.Movie;
 import moviesapp.model.JSONReader;
 import org.junit.jupiter.api.BeforeAll;
