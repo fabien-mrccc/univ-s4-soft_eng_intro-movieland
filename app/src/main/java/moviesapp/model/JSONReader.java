@@ -109,7 +109,7 @@ public class JSONReader {
             return movieList;
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         return null;
     }
