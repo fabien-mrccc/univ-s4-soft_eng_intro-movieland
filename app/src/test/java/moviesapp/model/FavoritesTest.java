@@ -108,6 +108,9 @@ public class FavoritesTest {
     @Test
     void testAddAll(){
         movies.add(movie1);
+        favorites.addAll(movies);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n")).isTrue();
         movies.add(movie2);
         movies.add(movie3);
         favorites.addAll(movies);
