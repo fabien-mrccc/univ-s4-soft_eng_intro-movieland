@@ -24,4 +24,14 @@ public final class CLController {
     }
 
 
+    /**
+     * Print a terminal message with choice (yes or no) and return true if yes, false if no
+     * @param string the message to print
+     * @return true if yes, false if no
+     */
+    private boolean askToConfirm(String string){
+        System.out.println(string);
+        System.out.print(" (y/n)?: ");
+        return scanner.nextLine().equals("y");
+    }
 }
