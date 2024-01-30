@@ -11,7 +11,7 @@ import moviesapp.model.Favorites;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClControllerTest {
+public class CLControllerTest {
     private static JSONReader jsonReader;
 
     @BeforeAll
