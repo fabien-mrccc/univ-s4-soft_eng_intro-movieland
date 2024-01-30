@@ -1,5 +1,5 @@
 package moviesapp.controll;
-import moviesapp.controller.Controller;
+import moviesapp.controller.ClController;
 import moviesapp.model.Movie;
 import moviesapp.model.JSONReader;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,7 +11,7 @@ import moviesapp.model.Favorites;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ControllerTest {
+public class ClControllerTest {
     private static JSONReader jsonReader;
 
     @BeforeAll
@@ -20,12 +20,12 @@ public class ControllerTest {
     }
     @Test
     public void clearTest(){
-        Controller controlle = new Controller() ;
+        ClController controlle = new ClController() ;
         Movie movie = jsonReader.findMovie(32571) ;
         Movie movie2 = jsonReader.findMovie(32571) ;
         Favorites.instance.add(movie);
         Favorites.instance.add(movie2);
-        controlle.clear();
+        controlle.clear("yes");
         assertThat(Favorites.instance.isEmpty()).isTrue();
 
 
