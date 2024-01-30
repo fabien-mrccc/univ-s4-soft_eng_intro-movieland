@@ -13,14 +13,22 @@ public final class CLController {
 
     public CLController() {
         commands = new ArrayList<>();
+        setupCommands();
         scanner = new Scanner(System.in);
-
     }
 
     public void clear(String input) {
         if (input.equals("yes")){
             Favorites.instance.clear();
         }
+    }
+
+    /**
+     * Add elements to the command list
+     */
+    private void setupCommands(){
+        commands.add("exit");
+        commands.add("help");
     }
 
     /**
