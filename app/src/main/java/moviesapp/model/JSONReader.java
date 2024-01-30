@@ -6,9 +6,11 @@ import java.util.List;
 
 public class JSONReader {
     private final File jsonFile;
+    private final ObjectMapper objectMapper;
 
     public JSONReader(String path){
         jsonFile = new File(path);
+        objectMapper = new ObjectMapper();
     }
 
     /**
@@ -17,9 +19,7 @@ public class JSONReader {
      */
     public Movie findMovie(int movieID) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonFile);
-
             JsonNode movieSelected = selectJsonNode(jsonNode.get("results"), movieID);
 
             if(movieSelected != null){
@@ -98,7 +98,6 @@ public class JSONReader {
     public List<Movie> findAllMovies(){
         List<Movie> movieList = new ArrayList<>();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonFile);
 
             JsonNode jsonMovies = jsonNode.get("results");
