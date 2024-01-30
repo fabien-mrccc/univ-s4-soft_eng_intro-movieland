@@ -17,30 +17,6 @@ public class Favorites {
         return favorites.isEmpty();
     }
 
-    /** Add a film to the favorites of the user (only if it is not already in the list)
-     @param movie the movie to add to the list
-     **/
-    public void add(Movie movie){
-        if(!contains(movie)){
-            favorites.add(movie);
-        }
-    }
-
-    /**
-     * Check if the favorites list contains a specific movie, returns false if the list is empty
-     * @param movie the movie that we check if it is in our list
-     * @return boolean
-     */
-    private boolean contains(Movie movie){
-        if(isEmpty()){
-            return false;
-        }
-        if(movie == null){
-            return true;
-        }
-        return favorites.contains(movie);
-    }
-
     /** Remove a film from the list of favorites
      @param movie the movie to remove from the list
      **/
@@ -76,7 +52,7 @@ public class Favorites {
     }
 
     /**
-     * Add a group of movies to the user's favorite list by selecting only those
+     * Add one or a group of movies to the user's favorite list by selecting only those
      * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
@@ -103,7 +79,7 @@ public class Favorites {
         return moviesNotInFavoriteList;
     }
     /**
-     * Remove a group of movies from the user's favorite list by selecting only those
+     * Remove one or a group of movies from the user's favorite list by selecting only those
      * which are already in it
      * @param movies: the movies that we want to remove from the favorites
      */
