@@ -98,18 +98,30 @@ public class JSONReader {
      */
     public List<Movie> findAllMovies(){
         List<Movie> movieList = new ArrayList<>();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(jsonFile);
+        JsonNode jsonMovies = getJsonMoviesNode();
 
-            JsonNode jsonMovies = jsonNode.get("results");
-
+        if(jsonMovies != null){
             for(JsonNode jsonMovie : jsonMovies ){
                 movieList.add(findMovie(jsonMovie.get("id").asInt()));
             }
             return movieList;
         }
+        return null;
+    }
+
+    /**
+     * Return the origin jsonNode from our default jsonFile with exception management
+     * @return the origin jsonNode from our default jsonFile
+     */
+    private JsonNode getJsonMoviesNode(){
+        try{
+            return objectMapper.readTree(jsonFile).get("results");
+        }
         catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        }
+        catch (NullPointerException e){
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
         }
         return null;
     }
