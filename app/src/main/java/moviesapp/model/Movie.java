@@ -10,7 +10,7 @@ public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, 
         return "movie n°"+ id +":\n  title: "+title+"\n  original title: "+originalTitle+
                 "\n  release date: "+releaseDate+ "\n  original language: "+originalLanguage+
                 "\n  genreIds: "+genreIds+"\n  popularity: " +popularity+"\n  adult: "+adult+
-                "\n  vote average: "+voteAverage+"\n vote count: " +voteCount+"\n  overview:\n"
+                "\n  vote average: "+voteAverage+"\n  vote count: " +voteCount+"\n  overview: "
                 +overview;
     }
 }
