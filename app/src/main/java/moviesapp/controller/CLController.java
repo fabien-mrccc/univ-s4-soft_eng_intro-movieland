@@ -57,11 +57,28 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            System.out.println(string);
-            System.out.println(" (y/n)?: ");
+            System.out.println(string + " (y/n): ");
             answer = scanner.nextLine();
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
+    }
+
+    public void select(){
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        for(;;) {
+            System.out.println("Input your command: ");
+            command = scanner.nextLine();
+            if(command.equals("clear")){
+                clear();
+            }
+            else if(command.equals("exit")){
+                exit();
+            }
+            else{
+                System.out.println("command '" + command +  "' doesn't exist.");
+            }
+        }
     }
 }
