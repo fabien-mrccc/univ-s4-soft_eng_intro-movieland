@@ -56,7 +56,7 @@ public class Favorites {
      * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
-    public void addAll(List<Movie> movies){
+    public void add(List<Movie> movies){
         if(movies == null){
             return;
         }

@@ -40,11 +40,11 @@ public class FavoritesTest {
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
         List<Movie> moviesToAdd = new ArrayList<>();
         moviesToAdd.add(movie1);
-        favorites.addAll(moviesToAdd);
+        favorites.add(moviesToAdd);
         assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
         moviesToAdd.add(movie2);
         moviesToAdd.add(movie3);
-        favorites.addAll(moviesToAdd);
+        favorites.add(moviesToAdd);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
         List<Movie> moviesToRemove = new ArrayList<>();
@@ -64,7 +64,7 @@ public class FavoritesTest {
         moviesToAdd.add(movie1);
         moviesToAdd.add(movie2);
         moviesToAdd.remove(movie1);
-        favorites.addAll(moviesToAdd);
+        favorites.add(moviesToAdd);
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
         favorites.removeAll(null);
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
@@ -83,7 +83,7 @@ public class FavoritesTest {
         List<Movie> moviesToAdd = new ArrayList<>();
         moviesToAdd.add(movie1);
         moviesToAdd.add(movie2);
-        favorites.addAll(moviesToAdd);
+        favorites.add(moviesToAdd);
         assertThat(favorites.isEmpty()).isFalse();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
@@ -94,7 +94,7 @@ public class FavoritesTest {
         assertThat(favorites.isEmpty()).isTrue();
         List<Movie> moviesToAdd = new ArrayList<>();
         moviesToAdd.add(movie2);
-        favorites.addAll(moviesToAdd);
+        favorites.add(moviesToAdd);
         assertThat(favorites.isEmpty()).isFalse();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
@@ -103,22 +103,22 @@ public class FavoritesTest {
     @Test
     void testAddAll(){
         movies.add(movie1);
-        favorites.addAll(movies);
+        favorites.add(movies);
         assertThat(favorites.toString().equals(
                 movie1 + "\n")).isTrue();
         movies.add(movie2);
         movies.add(movie3);
-        favorites.addAll(movies);
+        favorites.add(movies);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.addAll(movies);
+        favorites.add(movies);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.addAll(null);
+        favorites.add(null);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
         List<Movie> emptyList = new ArrayList<>();
-        favorites.addAll(emptyList);
+        favorites.add(emptyList);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
     }
@@ -127,18 +127,18 @@ public class FavoritesTest {
         movies.add(movie1);
 
         movies.add(movie1);
-        favorites.addAll(movies);
+        favorites.add(movies);
         favorites.removeAll(movies);
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
         movies.add(movie1);
         movies.add(movie2);
-        favorites.addAll(movies); // favorites contains movie1 and movie2
+        favorites.add(movies); // favorites contains movie1 and movie2
         movies.remove(movie2);
         favorites.removeAll(movies);// we want to remove movie2 from favorites
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
         movies.add(movie1);
         movies.add(movie2);
-        favorites.addAll(movies); // favorites contains movie1 and movie2
+        favorites.add(movies); // favorites contains movie1 and movie2
         movies.remove(movie2);
         movies.add(movie3);
         favorites.removeAll(movies);// we want to remove movie1 and movie3 from favorites
