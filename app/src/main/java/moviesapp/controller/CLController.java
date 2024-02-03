@@ -80,12 +80,25 @@ public final class CLController {
      * @param movies the movies that we want to print
      */
     private void printMoviesDetails(List<Movie> movies){
-        if(movies == null){
+        if(noMovieFound(movies)){
             return;
         }
         for(Movie movie : movies){
             System.out.println(movie);
         }
+    }
+
+    /**
+     * Check if a list is empty or null and deduct that no movie where found
+     * @param movies the list of movies to check
+     * @return true if the list is without movies inside, otherwise false
+     */
+    private boolean noMovieFound(List<Movie> movies){
+        if(movies == null || movies.isEmpty()){
+            System.out.println("No movie found.");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -171,7 +184,7 @@ public final class CLController {
                     break;
 
                 default :
-                    System.out.println("*** Command '" + command +  "' doesn't exist. ***\n");
+                    System.out.println("*** Command '" + command +  "' doesn't exist. ***");
                     break;
             }
         }
