@@ -18,21 +18,29 @@ public final class CLController {
     }
 
     /**
-     * test if askToReturn is true and if it is clear the favourite list
+     * Add elements to the command list
      */
+    private void setupCommands(){
+        commands.add("favorites");
+        commands.add("clear");
+        commands.add("exit");
+    }
 
+    /**
+     * Command that print all movies stored in user favorite list
+     */
+    public void favorites(){
+        //todo : penser ajouter la nouvelle fonction de Amina
+        System.out.printf(Favorites.instance.toString());
+    }
+
+    /**
+     * Test if askToConfirm is true and if it is clear the favourite list
+     */
     public void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
         }
-    }
-
-    /**
-     * Add elements to the command list
-     */
-    private void setupCommands(){
-        commands.add("exit");
-        commands.add("help");
     }
 
     /**
@@ -43,15 +51,6 @@ public final class CLController {
             System.exit(0);
         }
     }
-    /**
-     * display command that asks user if he is sure that he wants to display his favorites, exit it if yes
-     */
-    public void favorites(){
-        //todo : penser ajouter la nouvelle fonction de Amina
-        System.out.printf(Favorites.instance.toString());
-    }
-
-
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
@@ -69,9 +68,8 @@ public final class CLController {
     }
 
     /**
-     * Select a method to execute based on a scanner and execute it
+     * Select a method to execute based on user input and execute it
      */
-
     public void select(){
         Scanner scanner = new Scanner(System.in);
         String command;
