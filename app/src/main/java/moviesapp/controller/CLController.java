@@ -58,7 +58,7 @@ public final class CLController {
         String answer;
         do{
             System.out.println(string);
-            System.out.print(" (y/n)?: ");
+            System.out.println(" (y/n)?: ");
             answer = scanner.nextLine();
         }while(!answer.equals("y") && !answer.equals("n"));
 
