@@ -7,6 +7,15 @@ public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, 
                     String title, boolean video, double voteAverage, int voteCount) {
     @Override
     public String toString(){
+        return "__________________________  \n"+"  title: "+title+"\n  popularity: " +popularity+"\n  release year: "
+                +releaseDate.substring(0,3)+"\n__________________________  ";
+    }
+
+    /**
+     * return the details of the movie
+     * @return the details of the movie
+     */
+    public String details(){
         return "__________________________  \n"+"movie n°"+ id +":\n  title: "+title+"\n  original title: "+originalTitle+
                 "\n  release date: "+releaseDate+ "\n  original language: "+originalLanguage+
                 "\n  genreIds: "+genreIds+"\n  popularity: " +popularity+"\n  adult: "+adult+
