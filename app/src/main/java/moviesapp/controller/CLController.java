@@ -87,13 +87,24 @@ public final class CLController {
     }
 
     /**
+     * print a list of commands
+     */
+
+    private void help(){
+        System.out.println("Command List :\n");
+        for (String command : commands){
+            System.out.println("  " + command + "\n");
+        }
+        System.out.println("lower/uppercase doesn't matter");
+    }
+
+    /**
      * Select a method to execute based on user input and execute it
      */
 
     public void select(){
-        Scanner scanner = new Scanner(System.in);
         String command;
-        for(;;) {
+        for (;;) {
             System.out.println("Input your command: ");
             command = scanner.nextLine().toLowerCase(Locale.ROOT);
 
@@ -108,6 +119,10 @@ public final class CLController {
 
                 case "catalog":
                     displayCatalog();
+                    break;
+
+                case "help":
+                    help();
                     break;
 
                 default :
