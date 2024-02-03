@@ -61,12 +61,18 @@ public final class CLController {
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        List<Movie> movies = searchMovies();
+        printMoviesDetails(movies);
+    }
+
+    /**
+     * Ask name and year information to the user to select a specific group of movies
+     * @return the group of movies found
+     */
+    private List<Movie> searchMovies(){
         String name = askValue("Name of the movie: ");
         String year = askValue("Year of release: ");
-        List<Movie> movies = jsonReader.findMovies(name, year);
-
-
+        return jsonReader.findMovies(name, year);
     }
 
     /**
@@ -162,7 +168,7 @@ public final class CLController {
                     break;
 
                 default :
-                    System.out.println("*** Command '" + command +  " doesn't exist. ***\n");
+                    System.out.println("*** Command '" + command +  "' doesn't exist. ***\n");
                     break;
             }
         }
