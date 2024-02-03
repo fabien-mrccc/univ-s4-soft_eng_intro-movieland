@@ -80,7 +80,7 @@ public final class CLController {
         List<Movie> movieList = jsonReader.findAllMovies();
         StringBuilder movies = new StringBuilder();
         for(Movie movie : movieList){
-            movies.append(movie.toString() + "\n");
+            movies.append(movie.toString()).append("\n");
         }
         System.out.println(movies);
     }
