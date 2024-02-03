@@ -60,7 +60,8 @@ public class Favorites {
         if(movies == null){
             return;
         }
-        favorites.addAll(moviesToAddToFavorites(movies));
+        try{favorites.addAll(moviesToAddToFavorites(movies));}
+        catch (Exception e){System.out.println("The list you're searching does not respect the basic rules of a list of  movies!");}
     }
     /**
      * Filter the list of movies given on parameters by removing from the list
