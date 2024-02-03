@@ -127,6 +127,7 @@ public final class CLController {
     private void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
+            System.out.println("Your favorite list has been cleared.");
         }
     }
 
