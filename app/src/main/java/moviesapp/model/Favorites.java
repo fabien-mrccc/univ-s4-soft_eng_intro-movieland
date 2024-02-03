@@ -17,15 +17,6 @@ public class Favorites {
         return favorites.isEmpty();
     }
 
-    /** Remove a film from the list of favorites
-     @param movie the movie to remove from the list
-     **/
-    public void remove(Movie movie){
-        try {favorites.remove(movie);}
-        catch (UnsupportedOperationException e){
-            System.out.println("This movie does not belong to your list of favorites.");
-        }
-    }
     @Override
     public String toString(){
         StringBuilder favoritesString = new StringBuilder();
@@ -84,7 +75,7 @@ public class Favorites {
      * which are already in it
      * @param movies: the movies that we want to remove from the favorites
      */
-    public void removeAll(List<Movie> movies){
+    public void remove(List<Movie> movies){
         if(movies == null){
             return;
         }
