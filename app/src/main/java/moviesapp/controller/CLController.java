@@ -34,7 +34,7 @@ public final class CLController {
     /**
      * Command that print all movies stored in user favorite list
      */
-    public void favorites(){
+    public void displayFavorites(){
         //todo : penser ajouter la nouvelle fonction de Amina
         System.out.printf(Favorites.instance.toString());
     }
