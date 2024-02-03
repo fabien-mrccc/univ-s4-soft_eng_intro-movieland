@@ -26,6 +26,9 @@ public final class CLController {
     private void setupCommands(){
         commands.add("help");
         commands.add("catalog");
+        commands.add("details");
+        commands.add("add");
+        commands.add("remove");
         commands.add("favorites");
         commands.add("clear");
         commands.add("exit");
@@ -87,7 +90,7 @@ public final class CLController {
     }
 
     /**
-     * print a list of commands
+     * Print the list of commands available
      */
 
     private void help(){
