@@ -17,6 +17,10 @@ public final class CLController {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * test if askToReturn is true and if it is clear the favourite list
+     */
+
     public void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
@@ -64,6 +68,10 @@ public final class CLController {
 
         return answer.equals("y");
     }
+
+    /**
+     * Select a method to execute based on a scanner and execute it
+     */
 
     public void select(){
         Scanner scanner = new Scanner(System.in);
