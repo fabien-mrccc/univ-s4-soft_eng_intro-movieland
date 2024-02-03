@@ -12,11 +12,13 @@ import java.util.Scanner;
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
+    private final JSONReader jsonReader;
 
     public CLController() {
         commands = new ArrayList<>();
         setupCommands();
         scanner = new Scanner(System.in);
+        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
     }
 
     /**
@@ -46,9 +48,7 @@ public final class CLController {
     /**
      * Display only the name, the year of release and the average note of every film in the catalog
      */
-
     private void displayCatalog(){
-        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
         List<Movie> movieList = jsonReader.findAllMovies();
         StringBuilder movies = new StringBuilder();
         for(Movie movie : movieList){
@@ -57,12 +57,23 @@ public final class CLController {
         System.out.println(movies);
     }
 
+    /**
+     * Search a specific group of movies and print their detailed information
+     */
     private void details(){
         JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
         String name = askValue("Name of the movie: ");
         String year = askValue("Year of release: ");
         List<Movie> movies = jsonReader.findMovies(name, year);
 
+
+    }
+
+    /**
+     * Print all movies information details according to a specific group
+     * @param movies the movies that we want to print
+     */
+    private void printMoviesDetails(List<Movie> movies){
         for(Movie movie : movies){
             System.out.println(movie);
         }
@@ -125,8 +136,9 @@ public final class CLController {
      */
     public void select(){
         for (;;) {
-            System.out.println("Input your command: ");
+            System.out.println("\nInput your command: ");
             String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
+            System.out.println();
 
             switch(command){
                 case "clear":
@@ -150,7 +162,7 @@ public final class CLController {
                     break;
 
                 default :
-                    System.out.println("command '" + command +  "' doesn't exist.");
+                    System.out.println("*** Command '" + command +  " doesn't exist. ***\n");
                     break;
             }
         }
