@@ -8,52 +8,11 @@ import java.util.List;
 public class JSONReader {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
-
+    private final JsonNode jsonMovies ;
     public JSONReader(String path){
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
-    }
-
-    /**
-     * Return a Movie containing its information from the JSON file selected with the movieID provided in parameter
-     * @param movieID: the id of the movie that we want recover data from the JSON file
-     */
-    public Movie findMovie(int movieID) {
-        JsonNode jsonMovies = getJsonMoviesNode();
-        if(jsonMovies != null){
-            JsonNode movieSelected = selectJsonNode(jsonMovies, movieID);
-            if(movieSelected != null){
-                return jsonNodeToMovie(movieSelected);
-            }
-        }
-        return null;
-    }
-
-    public Movie detailMovie(JsonNode jsonFile , String name){
-        for(JsonNode jsonNode : jsonFile ){
-            if(jsonNode.get("title").asText().equals(name)){
-                int temp = jsonNode.get("id").asInt() ;
-                return jsonNodeToMovie(jsonNode);
-            }
-        }
-        return null;
-    }
-
-
-
-    /**
-     * Select a JsonNode in a bunch of JsonNode according to an id
-     * @param jsonNodes: a bunch of JsonNode to browse
-     * @param id: the id of the JsonNode searched
-     * @return the JsonNode searched, or null
-     */
-    private JsonNode selectJsonNode(JsonNode jsonNodes, int id){
-        for(JsonNode jsonNode : jsonNodes ){
-            if(jsonNode.get("id").asInt() == id){
-                return jsonNode;
-            }
-        }
-        return null;
+        jsonMovies = getJsonMoviesNode() ;
     }
 
     /**
@@ -88,16 +47,64 @@ public class JSONReader {
     }
 
     /**
-     * Return a list of Movie containing there information from the JSON file selected with a list of movieID provided in parameter
-     * @param moviesID: the list of movieID to select movies in JSON File
-     * @return the list of Movie selected according to the list of id
+     * Return a list of movies containing there information from the JSON file selected with a name(optional) and year (optional) provided in parameter.
+     * @param name the name of the movie
+     * @param year the release year of the movie
+     * @return return a list of movies
      */
-    public List<Movie> findMovies(List<Integer> moviesID){
+    public List<Movie> findMovies(String name , String year){
         List<Movie> movieList = new ArrayList<>();
-        for (Integer movieID : moviesID){
-            movieList.add(findMovie(movieID));
+
+        if(name != null && year ==null){
+            findMoviesByName(movieList , name );
+        }
+        else if(name == null && year !=null){
+            findMoviesByYear(movieList , year );
+        }
+        else if(name != null ){
+            findMovies(movieList , year , name ) ;
         }
         return movieList;
+    }
+
+    /**
+     * Add to a list of movies the movie(s) from the JSON file selected with the name provided in parameter.
+     * @param movies is a list of movies to which we add the new movie(s) to the list
+     * @param name the name of the movie researched
+     */
+    private void findMoviesByName(List<Movie> movies , String name ) {
+        for (JsonNode movie : jsonMovies) {
+            if(movie.get("original_title").asText().contains(name)) {
+                movies.add(jsonNodeToMovie(movie));
+            }
+        }
+    }
+
+    /**
+     * Add to a list of movies the movie(s) from the JSON file selected with the year provided in parameter.
+     * @param movies is a list of movies to which we add the new movie(s) to the list
+     * @param year the year of the movie researched
+     */
+    private void findMoviesByYear(List<Movie> movies , String year ) {
+        for (JsonNode movie : jsonMovies) {
+            if(movie.get("release_date").asText().contains(year)) {
+                movies.add(jsonNodeToMovie(movie));
+            }
+        }
+    }
+
+    /**
+     * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided in parameter.
+     * @param movies is a list of movies to which we add the new movie(s) to the list
+     * @param year the year of the movie researched
+     * @param name the name of the movie researched
+     */
+    private void findMovies(List<Movie> movies , String year , String name) {
+        for (JsonNode movie : jsonMovies) {
+            if(movie.get("release_date").asText().contains(year) && movie.get("original_title").asText().contains(name)) {
+                movies.add(jsonNodeToMovie(movie));
+            }
+        }
     }
 
     /**
@@ -106,11 +113,9 @@ public class JSONReader {
      */
     public List<Movie> findAllMovies(){
         List<Movie> movieList = new ArrayList<>();
-        JsonNode jsonMovies = getJsonMoviesNode();
-
         if(jsonMovies != null){
             for(JsonNode jsonMovie : jsonMovies ){
-                movieList.add(findMovie(jsonMovie.get("id").asInt()));
+                movieList.add(jsonNodeToMovie(jsonMovie));
             }
             return movieList;
         }
@@ -133,4 +138,5 @@ public class JSONReader {
         }
         return null;
     }
+
 }
