@@ -10,8 +10,8 @@ public class Favorites {
         favorites = new ArrayList<>();
     }
 
-    /** return true if the list of favorites is empty, if not return false
-     @return boolean
+    /** Return true if the list of favorites is empty, if not return false
+     *  @return boolean
      **/
     public boolean isEmpty(){
         return favorites.isEmpty();
@@ -54,6 +54,7 @@ public class Favorites {
         try{favorites.addAll(moviesToAddToFavorites(movies));}
         catch (Exception e){System.out.println("The list you're searching does not respect the basic rules of a list of  movies!");}
     }
+
     /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies already in the favorites
@@ -70,6 +71,7 @@ public class Favorites {
         }
         return moviesNotInFavoriteList;
     }
+
     /**
      * Remove one or a group of movies from the user's favorite list by selecting only those
      * which are already in it
@@ -81,6 +83,7 @@ public class Favorites {
         }
         favorites.removeAll(moviesToRemoveFromFavorites(movies));
     }
+
     /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies not in the favorites

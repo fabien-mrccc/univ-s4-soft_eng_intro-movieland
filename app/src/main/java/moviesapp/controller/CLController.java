@@ -148,7 +148,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            answer = askValue(string + " (y/n): ");
+            answer = askValue(string + " (y/n): ").trim();
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
