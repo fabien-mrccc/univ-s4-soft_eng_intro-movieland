@@ -64,6 +64,9 @@ public class JSONReader {
         else if(name != null ){
             findMovies(movieList , year , name ) ;
         }
+        else{
+            return null;
+        }
         return movieList;
     }
 
