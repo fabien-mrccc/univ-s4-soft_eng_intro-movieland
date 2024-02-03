@@ -45,7 +45,7 @@ public final class CLController {
     public void favorites(){
         if(askToConfirm("Are you sure that you want to display your favorite(s)?")){
             //todo : penser ajouter la nouvelle fonction de Amina
-            Favorites.instance.toString() ;
+            System.out.printf(Favorites.instance.toString());
         }
     }
 

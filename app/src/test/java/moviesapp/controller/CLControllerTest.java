@@ -1,6 +1,7 @@
 package moviesapp.controller;
 import moviesapp.model.JSONReader;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class CLControllerTest {
     private static JSONReader jsonReader;
@@ -8,8 +9,8 @@ public class CLControllerTest {
     private static CLController controller;
 
     @BeforeAll
-    static void setupBeforeAll(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+    static void setupBeforeAll() {
+        jsonReader = new JSONReader(System.getProperty("user.dir") + "/src/test/java/moviesapp/model/data_example.json");
         controller = new CLController();
     }
 }
