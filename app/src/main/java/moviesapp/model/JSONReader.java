@@ -53,16 +53,19 @@ public class JSONReader {
      * @return return a list of movies
      */
     public List<Movie> findMovies(String name , String year){
-        if(name == null && year == null){
+        boolean nameEmpty = name.isEmpty();
+        boolean yearEmpty = year.isEmpty();
+
+        if(nameEmpty && yearEmpty){
             return null;
         }
 
         List<Movie> movieList = new ArrayList<>();
 
-        if(name != null && year == null){
-            findMoviesByName(movieList , name );
+        if(!nameEmpty && yearEmpty){
+            findMoviesByName(movieList , name);
         }
-        else if(name == null){
+        else if(nameEmpty){
             findMoviesByYear(movieList , year );
         }
         else{
