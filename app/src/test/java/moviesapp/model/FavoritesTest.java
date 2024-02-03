@@ -85,7 +85,7 @@ public class FavoritesTest {
     }
 
     @Test
-    void testAddAll(){
+    void testAdd(){
         movies.add(movie1);
         favorites.add(movies);
         assertThat(favorites.toString().equals(
