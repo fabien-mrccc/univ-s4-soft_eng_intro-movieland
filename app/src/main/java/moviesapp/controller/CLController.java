@@ -34,7 +34,7 @@ public final class CLController {
     /**
      * Command that print all movies stored in user favorite list
      */
-    public void displayFavorites(){
+    private void displayFavorites(){
         //todo : penser ajouter la nouvelle fonction de Amina
         System.out.printf(Favorites.instance.toString());
     }
@@ -42,7 +42,7 @@ public final class CLController {
     /**
      * Test if askToConfirm is true and if it is clear the favourite list
      */
-    public void clear() {
+    private void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
         }
@@ -51,7 +51,7 @@ public final class CLController {
     /**
      * Exit command that asks user if he is sure that he wants to leave the application, exit it if yes
      */
-    public void exit(){
+    private void exit(){
         if(askToConfirm("Are you sure that you want to leave the application?")){
             System.exit(0);
         }
