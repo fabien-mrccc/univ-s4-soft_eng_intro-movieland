@@ -114,13 +114,11 @@ public final class CLController {
         return scanner.nextLine();
     }
 
-
-
     /**
      * Command that print all movies stored in user favorite list
      */
     private void displayFavorites(){
-        System.out.printf(Favorites.instance.toString());
+        System.out.printf(Favorites.instance+"\n");
     }
 
     /**
@@ -149,8 +147,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            System.out.println(string + " (y/n): ");
-            answer = scanner.nextLine();
+            answer = askValue(string + " (y/n): ");
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
@@ -184,6 +181,10 @@ public final class CLController {
 
                 case "details":
                     details();
+                    break;
+
+                case "favorites":
+                    displayFavorites();
                     break;
 
                 default :
