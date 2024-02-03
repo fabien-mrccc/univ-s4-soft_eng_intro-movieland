@@ -29,6 +29,7 @@ public final class CLController {
     private void setupCommands(){
         commands.add("exit");
         commands.add("help");
+        commands.add("favorites") ;
     }
 
     /**
