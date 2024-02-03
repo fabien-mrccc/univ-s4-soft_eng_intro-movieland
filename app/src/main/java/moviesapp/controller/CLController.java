@@ -96,17 +96,22 @@ public final class CLController {
         for(;;) {
             System.out.println("Input your command: ");
             command = scanner.nextLine().toLowerCase(Locale.ROOT);
-            if(command.equals("clear")){
-                clear();
-            }
-            else if(command.equals("exit")){
-                exit();
-            }
-            else if(command.equals("catalog")){
-                displayCatalog();
-            }
-            else{
-                System.out.println("command '" + command +  "' doesn't exist.");
+            switch(command){
+                case "clear":
+                    clear();
+                    break;
+
+                case "exit":
+                    exit();
+                    break;
+
+                case "catalog":
+                    displayCatalog();
+                    break;
+
+                default :
+                    System.out.println("command '" + command +  "' doesn't exist.");
+                    break;
             }
         }
     }
