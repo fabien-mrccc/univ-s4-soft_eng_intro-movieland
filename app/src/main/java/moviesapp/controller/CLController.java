@@ -39,6 +39,14 @@ public final class CLController {
             System.exit(0);
         }
     }
+    /**
+     * display command that asks user if he is sure that he wants to display his favorites, exit it if yes
+     */
+    public void favorites(){
+        //todo : penser ajouter la nouvelle fonction de Amina
+        System.out.printf(Favorites.instance.toString());
+    }
+
 
 
     /**
@@ -47,9 +55,14 @@ public final class CLController {
      * @return true if yes, false if no
      */
     private boolean askToConfirm(String string){
-        System.out.println(string);
-        System.out.print(" (y/n)?: ");
-        return scanner.nextLine().equals("y");
+        String answer;
+        do{
+            System.out.println(string);
+            System.out.print(" (y/n)?: ");
+            answer = scanner.nextLine();
+        }while(!answer.equals("y") && !answer.equals("n"));
+
+        return answer.equals("y");
     }
 
     public void select(){
