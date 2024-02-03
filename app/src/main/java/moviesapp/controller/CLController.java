@@ -103,7 +103,6 @@ public final class CLController {
      */
 
     public void select(){
-        Scanner scanner = new Scanner(System.in);
         String command;
         for (;;) {
             System.out.println("Input your command: ");
