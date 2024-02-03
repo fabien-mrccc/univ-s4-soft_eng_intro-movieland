@@ -24,6 +24,8 @@ public final class CLController {
      * Add elements to the command list
      */
     private void setupCommands(){
+        commands.add("help");
+        commands.add("catalog");
         commands.add("favorites");
         commands.add("clear");
         commands.add("exit");
