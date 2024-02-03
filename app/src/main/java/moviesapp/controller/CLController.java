@@ -30,6 +30,7 @@ public final class CLController {
         commands.add("exit");
         commands.add("help");
         commands.add("favorites") ;
+        commands.add("clear");
     }
 
     /**
