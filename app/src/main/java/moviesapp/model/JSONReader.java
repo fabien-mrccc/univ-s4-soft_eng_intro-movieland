@@ -53,19 +53,20 @@ public class JSONReader {
      * @return return a list of movies
      */
     public List<Movie> findMovies(String name , String year){
+        if(name == null && year == null){
+            return null;
+        }
+
         List<Movie> movieList = new ArrayList<>();
 
-        if(name != null && year ==null){
+        if(name != null && year == null){
             findMoviesByName(movieList , name );
         }
-        else if(name == null && year !=null){
+        else if(name == null){
             findMoviesByYear(movieList , year );
         }
-        else if(name != null ){
-            findMovies(movieList , year , name ) ;
-        }
         else{
-            return null;
+            findMovies(movieList , name , year);
         }
         return movieList;
     }
@@ -102,7 +103,7 @@ public class JSONReader {
      * @param year the year of the movie researched
      * @param name the name of the movie researched
      */
-    private void findMovies(List<Movie> movies , String year , String name) {
+    private void findMovies(List<Movie> movies, String name, String year) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().contains(year) && movie.get("original_title").asText().contains(name)) {
                 movies.add(jsonNodeToMovie(movie));
