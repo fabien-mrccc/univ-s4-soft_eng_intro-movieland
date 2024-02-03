@@ -39,6 +39,16 @@ public final class CLController {
             System.exit(0);
         }
     }
+    /**
+     * display command that asks user if he is sure that he wants to display his favorites, exit it if yes
+     */
+    public void favorites(){
+        if(askToConfirm("Are you sure that you want to display your favorite(s)?")){
+            //todo : penser ajouter la nouvelle fonction de Amina
+            Favorites.instance.toString() ;
+        }
+    }
+
 
 
     /**
