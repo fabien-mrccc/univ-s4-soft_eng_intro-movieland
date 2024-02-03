@@ -1,9 +1,12 @@
 package moviesapp.controller;
 
 import moviesapp.model.Favorites;
+import moviesapp.model.JSONReader;
+import moviesapp.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public final class CLController {
@@ -68,19 +71,37 @@ public final class CLController {
     }
 
     /**
+     * Display only the name the year of release and the average note of every film in the catalog
+     */
+
+    private void displayCatalog(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
+        List<Movie> movieList = jsonReader.findAllMovies();
+        StringBuilder movies = new StringBuilder();
+        for(Movie movie : movieList){
+            movies.append(movie.toString()).append("\n");
+        }
+        System.out.println(movies);
+    }
+
+    /**
      * Select a method to execute based on user input and execute it
      */
+
     public void select(){
         Scanner scanner = new Scanner(System.in);
         String command;
         for(;;) {
             System.out.println("Input your command: ");
-            command = scanner.nextLine();
+            command = scanner.nextLine().toLowerCase(Locale.ROOT);
             if(command.equals("clear")){
                 clear();
             }
             else if(command.equals("exit")){
                 exit();
+            }
+            else if(command.equals("catalog")){
+                displayCatalog();
             }
             else{
                 System.out.println("command '" + command +  "' doesn't exist.");
