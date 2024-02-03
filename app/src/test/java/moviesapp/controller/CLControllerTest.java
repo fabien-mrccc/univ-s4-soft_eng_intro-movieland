@@ -13,4 +13,6 @@ public class CLControllerTest {
         jsonReader = new JSONReader(System.getProperty("user.dir") + "/src/test/java/moviesapp/model/data_example.json");
         controller = new CLController();
     }
+
+
 }
