@@ -1,9 +1,12 @@
 package moviesapp.controller;
 
 import moviesapp.model.Favorites;
+import moviesapp.model.JSONReader;
+import moviesapp.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public final class CLController {
@@ -17,20 +20,32 @@ public final class CLController {
         scanner = new Scanner(System.in);
     }
 
-    public void clear() {
-        if (askToConfirm("Are you sure that you want to delete your favourites?")){
-            Favorites.instance.clear();
-        }
-    }
-
     /**
      * Add elements to the command list
      */
     private void setupCommands(){
-        commands.add("exit");
         commands.add("help");
-        commands.add("favorites") ;
+        commands.add("catalog");
+        commands.add("favorites");
         commands.add("clear");
+        commands.add("exit");
+    }
+
+    /**
+     * Command that print all movies stored in user favorite list
+     */
+    public void displayFavorites(){
+        //todo : penser ajouter la nouvelle fonction de Amina
+        System.out.printf(Favorites.instance.toString());
+    }
+
+    /**
+     * Test if askToConfirm is true and if it is clear the favourite list
+     */
+    public void clear() {
+        if (askToConfirm("Are you sure that you want to delete your favourites?")){
+            Favorites.instance.clear();
+        }
     }
 
     /**
@@ -41,21 +56,6 @@ public final class CLController {
             System.exit(0);
         }
     }
-    /**
-     * display command that asks user if he is sure that he wants to display his favorites, exit it if yes
-     */
-    public void favorites(){
-        //todo : penser ajouter la nouvelle fonction de Amina
-        System.out.printf(Favorites.instance.toString());
-    }
-
-    public void detail(){
-        //todo : attendre que amina finisse de modifier la classe JSONReader
-    }
-
-
-
-
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
@@ -63,8 +63,72 @@ public final class CLController {
      * @return true if yes, false if no
      */
     private boolean askToConfirm(String string){
-        System.out.println(string);
-        System.out.print(" (y/n)?: ");
-        return scanner.nextLine().equals("y");
+        String answer;
+        do{
+            System.out.println(string + " (y/n): ");
+            answer = scanner.nextLine();
+        }while(!answer.equals("y") && !answer.equals("n"));
+
+        return answer.equals("y");
+    }
+
+    /**
+     * Display only the name the year of release and the average note of every film in the catalog
+     */
+
+    private void displayCatalog(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
+        List<Movie> movieList = jsonReader.findAllMovies();
+        StringBuilder movies = new StringBuilder();
+        for(Movie movie : movieList){
+            movies.append(movie.toString()).append("\n");
+        }
+        System.out.println(movies);
+    }
+
+    /**
+     * print a list of commands
+     */
+
+    private void help(){
+        System.out.println("Command List :\n");
+        for (String command : commands){
+            System.out.println("  " + command + "\n");
+        }
+        System.out.println("lower/uppercase doesn't matter");
+    }
+
+    /**
+     * Select a method to execute based on user input and execute it
+     */
+
+    public void select(){
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        for (;;) {
+            System.out.println("Input your command: ");
+            command = scanner.nextLine().toLowerCase(Locale.ROOT);
+            switch(command){
+                case "clear":
+                    clear();
+                    break;
+
+                case "exit":
+                    exit();
+                    break;
+
+                case "catalog":
+                    displayCatalog();
+                    break;
+
+                case "help":
+                    help();
+                    break;
+
+                default :
+                    System.out.println("command '" + command +  "' doesn't exist.");
+                    break;
+            }
+        }
     }
 }
