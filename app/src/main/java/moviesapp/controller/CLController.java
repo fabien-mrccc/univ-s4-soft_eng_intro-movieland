@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public final class CLController {
-
     private final List<String> commands;
     private final Scanner scanner;
 
@@ -24,30 +23,28 @@ public final class CLController {
      * Add elements to the command list
      */
     private void setupCommands(){
-        commands.add("help");
-        commands.add("catalog");
-        commands.add("details");
-        commands.add("add");
-        commands.add("remove");
-        commands.add("favorites");
-        commands.add("clear");
-        commands.add("exit");
+        commands.add("help: get a list of commands available");
+        commands.add("catalog: see all movies available on the application");
+        commands.add("details: see detailed information about one or several movies");
+        commands.add("add: add one or several movies to your favorite list");
+        commands.add("remove: remove one or several movies to your favorite list");
+        commands.add("favorites: see movies in your favorite list");
+        commands.add("clear: remove all the movies in your favorite list");
+        commands.add("exit: leave the application");
     }
 
     /**
      * Print the list of commands available
      */
-
     private void help(){
-        System.out.println("Command List :\n");
+        System.out.println("Commands available (lower/uppercase doesn't matter): ");
         for (String command : commands){
-            System.out.println("  " + command + "\n");
+            System.out.println("•" + command);
         }
-        System.out.println("lower/uppercase doesn't matter");
     }
 
     /**
-     * Display only the name the year of release and the average note of every film in the catalog
+     * Display only the name, the year of release and the average note of every film in the catalog
      */
 
     private void displayCatalog(){
@@ -64,13 +61,11 @@ public final class CLController {
         JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
         String name = askValue("Name of the movie: ");
         String year = askValue("Year of release: ");
-        List<Movie> movies = new ArrayList<>();
-        movies = jsonReader.findMovies(name, year);
+        List<Movie> movies = jsonReader.findMovies(name, year);
 
         for(Movie movie : movies){
             System.out.println(movie);
         }
-
     }
 
     /**
@@ -124,10 +119,6 @@ public final class CLController {
 
         return answer.equals("y");
     }
-
-
-
-
 
     /**
      * Select a method to execute based on user input and execute it
