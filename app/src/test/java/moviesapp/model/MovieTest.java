@@ -12,8 +12,8 @@ public class MovieTest {
         Movie movie1 = new Movie(true,"backdropPath",genreIds,1,"originalLanguage",
                 "originalTitle","overview",2,"posterPath","releaseDate",
                 "title",false,3,4);
-        assertThat(movie1.toString()).isEqualTo("movie n°1:\n  title: title\n  original title: originalTitle"+
+        assertThat(movie1.toString()).isEqualTo("__________________________  \nmovie n°1:\n  title: title\n  original title: originalTitle"+
                 "\n  release date: releaseDate\n  original language: originalLanguage\n  genreIds: "+genreIds+
-                "\n  popularity: 2.0\n  adult: true\n  vote average: 3.0\n  vote count: 4\n  overview: overview");
+                "\n  popularity: 2.0\n  adult: true\n  vote average: 3.0\n  vote count: 4\n  overview: overview\n__________________________  ");
     }
 }
