@@ -49,6 +49,12 @@ public final class CLController {
         System.out.printf(Favorites.instance.toString());
     }
 
+    public void detail(){
+        //todo : attendre que amina finisse de modifier la classe JSONReader
+    }
+
+
+
 
 
     /**

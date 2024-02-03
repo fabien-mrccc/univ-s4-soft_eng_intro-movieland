@@ -29,6 +29,18 @@ public class JSONReader {
         return null;
     }
 
+    public Movie detailMovie(JsonNode jsonFile , String name){
+        for(JsonNode jsonNode : jsonFile ){
+            if(jsonNode.get("title").asText().equals(name)){
+                int temp = jsonNode.get("id").asInt() ;
+                return jsonNodeToMovie(jsonNode);
+            }
+        }
+        return null;
+    }
+
+
+
     /**
      * Select a JsonNode in a bunch of JsonNode according to an id
      * @param jsonNodes: a bunch of JsonNode to browse
