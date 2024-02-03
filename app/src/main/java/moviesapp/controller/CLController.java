@@ -51,4 +51,22 @@ public final class CLController {
         System.out.print(" (y/n)?: ");
         return scanner.nextLine().equals("y");
     }
+
+    public void select(){
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        for(;;) {
+            System.out.println("Input your command: ");
+            command = scanner.nextLine();
+            if(command.equals("clear")){
+                clear();
+            }
+            else if(command.equals("exit")){
+                exit();
+            }
+            else{
+                System.out.println("command '" + command +  "' doesn't exist.");
+            }
+        }
+    }
 }
