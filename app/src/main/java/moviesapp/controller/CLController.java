@@ -96,6 +96,7 @@ public final class CLController {
         for(;;) {
             System.out.println("Input your command: ");
             command = scanner.nextLine().toLowerCase(Locale.ROOT);
+
             switch(command){
                 case "clear":
                     clear();
