@@ -61,8 +61,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            System.out.println(string);
-            System.out.print(" (y/n)?: ");
+            System.out.println(string + " (y/n): ");
             answer = scanner.nextLine();
         }while(!answer.equals("y") && !answer.equals("n"));
 
