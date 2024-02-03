@@ -35,10 +35,52 @@ public final class CLController {
     }
 
     /**
+     * Print the list of commands available
+     */
+
+    private void help(){
+        System.out.println("Command List :\n");
+        for (String command : commands){
+            System.out.println("  " + command + "\n");
+        }
+        System.out.println("lower/uppercase doesn't matter");
+    }
+
+    /**
+     * Display only the name the year of release and the average note of every film in the catalog
+     */
+
+    private void displayCatalog(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
+        List<Movie> movieList = jsonReader.findAllMovies();
+        StringBuilder movies = new StringBuilder();
+        for(Movie movie : movieList){
+            movies.append(movie.toString()).append("\n");
+        }
+        System.out.println(movies);
+    }
+
+    private void details(){
+        List<Movie> movies = new ArrayList<>();
+
+    }
+
+    /**
+     * Print a message to the user and return its input.
+     * @param message to print to the user
+     * @return its input
+     */
+    private String askValue(String message){
+        System.out.println(message);
+        return scanner.nextLine();
+    }
+
+
+
+    /**
      * Command that print all movies stored in user favorite list
      */
     private void displayFavorites(){
-        //todo : penser ajouter la nouvelle fonction de Amina
         System.out.printf(Favorites.instance.toString());
     }
 
@@ -75,31 +117,9 @@ public final class CLController {
         return answer.equals("y");
     }
 
-    /**
-     * Display only the name the year of release and the average note of every film in the catalog
-     */
 
-    private void displayCatalog(){
-        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
-        List<Movie> movieList = jsonReader.findAllMovies();
-        StringBuilder movies = new StringBuilder();
-        for(Movie movie : movieList){
-            movies.append(movie.toString()).append("\n");
-        }
-        System.out.println(movies);
-    }
 
-    /**
-     * Print the list of commands available
-     */
 
-    private void help(){
-        System.out.println("Command List :\n");
-        for (String command : commands){
-            System.out.println("  " + command + "\n");
-        }
-        System.out.println("lower/uppercase doesn't matter");
-    }
 
     /**
      * Select a method to execute based on user input and execute it
