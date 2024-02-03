@@ -18,7 +18,7 @@ public final class CLController {
     }
 
     public void clear(String input) {
-        if (input.equals("yes")){
+        if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
         }
     }
