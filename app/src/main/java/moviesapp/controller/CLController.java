@@ -80,6 +80,9 @@ public final class CLController {
      * @param movies the movies that we want to print
      */
     private void printMoviesDetails(List<Movie> movies){
+        if(movies == null){
+            return;
+        }
         for(Movie movie : movies){
             System.out.println(movie);
         }
