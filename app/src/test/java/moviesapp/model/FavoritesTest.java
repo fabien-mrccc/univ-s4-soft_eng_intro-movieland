@@ -36,51 +36,26 @@ public class FavoritesTest {
     }
 
     @Test
-    void testAdd() {
-        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
-        favorites.add(movie1);
-        assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
-        favorites.add(movie2);
-        assertThat(favorites.toString().equals(
-                movie1 + "\n" + movie2 + "\n")).isTrue();
-        favorites.add(movie3);
-        assertThat(favorites.toString().equals(
-                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.add(null);
-        assertThat(favorites.toString().equals(
-                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.add(movie3);
-        assertThat(favorites.toString().equals(
-                movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-    }
-
-    @Test
     void testToString(){
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
-        favorites.add(movie1);
+        List<Movie> moviesToAdd = new ArrayList<>();
+        moviesToAdd.add(movie1);
+        favorites.add(moviesToAdd);
         assertThat(favorites.toString().equals(movie1 + "\n")).isTrue();
-        favorites.add(movie2);
-        favorites.add(movie3);
+        moviesToAdd.add(movie2);
+        moviesToAdd.add(movie3);
+        favorites.add(moviesToAdd);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.remove(movie2);
+        List<Movie> moviesToRemove = new ArrayList<>();
+        moviesToRemove.add(movie2);
+        favorites.remove(moviesToRemove);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie3 + "\n")).isTrue();
-        favorites.remove(movie1);
-        favorites.remove(movie3);
-        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
-    }
-    @Test
-    void testRemove(){
-        favorites.add(movie1);
-        favorites.add(movie2);
-        favorites.remove(movie1);
-        assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
-        favorites.remove(null);
-        assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
-        favorites.remove(movie2);
-        assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
-        assertThatCode(() -> favorites.remove(movie2)).doesNotThrowAnyException();
+        moviesToRemove.remove(movie2);
+        moviesToRemove.add(movie1);
+        moviesToRemove.add(movie3);
+        favorites.remove(moviesToRemove);
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
     }
 
@@ -89,8 +64,10 @@ public class FavoritesTest {
         assertThat(favorites.isEmpty()).isTrue();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
-        favorites.add(movie1);
-        favorites.add(movie2);
+        List<Movie> moviesToAdd = new ArrayList<>();
+        moviesToAdd.add(movie1);
+        moviesToAdd.add(movie2);
+        favorites.add(moviesToAdd);
         assertThat(favorites.isEmpty()).isFalse();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
@@ -99,7 +76,9 @@ public class FavoritesTest {
     @Test
     void testIsEmpty(){
         assertThat(favorites.isEmpty()).isTrue();
-        favorites.add(movie2);
+        List<Movie> moviesToAdd = new ArrayList<>();
+        moviesToAdd.add(movie2);
+        favorites.add(moviesToAdd);
         assertThat(favorites.isEmpty()).isFalse();
         favorites.clear();
         assertThat(favorites.isEmpty()).isTrue();
@@ -108,45 +87,48 @@ public class FavoritesTest {
     @Test
     void testAddAll(){
         movies.add(movie1);
+        favorites.add(movies);
+        assertThat(favorites.toString().equals(
+                movie1 + "\n")).isTrue();
         movies.add(movie2);
         movies.add(movie3);
-        favorites.addAll(movies);
+        favorites.add(movies);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.addAll(movies);
+        favorites.add(movies);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
-        favorites.addAll(null);
+        favorites.add(null);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
         List<Movie> emptyList = new ArrayList<>();
-        favorites.addAll(emptyList);
+        favorites.add(emptyList);
         assertThat(favorites.toString().equals(
                 movie1 + "\n" + movie2 + "\n" + movie3 + "\n")).isTrue();
     }
     @Test
-    void testRemoveAll(){
+    void testRemove(){
         movies.add(movie1);
-        favorites.addAll(movies);
-        favorites.removeAll(movies);
+        favorites.add(movies);
+        favorites.remove(movies);
         assertThat(favorites.toString().equals("Your list of favorites is empty.")).isTrue();
         movies.add(movie1);
         movies.add(movie2);
-        favorites.addAll(movies); // favorites contains movie1 and movie2
+        favorites.add(movies); // favorites contains movie1 and movie2
         movies.remove(movie2);
-        favorites.removeAll(movies);// we want to remove movie2 from favorites
+        favorites.remove(movies);// we want to remove movie2 from favorites
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
         movies.add(movie1);
         movies.add(movie2);
-        favorites.addAll(movies); // favorites contains movie1 and movie2
+        favorites.add(movies); // favorites contains movie1 and movie2
         movies.remove(movie2);
         movies.add(movie3);
-        favorites.removeAll(movies);// we want to remove movie1 and movie3 from favorites
+        favorites.remove(movies);// we want to remove movie1 and movie3 from favorites
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
-        favorites.removeAll(null);
+        favorites.remove(null);
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
         List<Movie> emptyList = new ArrayList<>();
-        favorites.removeAll(emptyList);
+        favorites.remove(emptyList);
         assertThat(favorites.toString().equals(movie2 + "\n")).isTrue();
     }
 }
