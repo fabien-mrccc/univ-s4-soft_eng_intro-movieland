@@ -17,7 +17,7 @@ public final class CLController {
         scanner = new Scanner(System.in);
     }
 
-    public void clear(String input) {
+    public void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
             Favorites.instance.clear();
         }
