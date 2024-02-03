@@ -64,4 +64,22 @@ public final class CLController {
 
         return answer.equals("y");
     }
+
+    public void select(){
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        for(;;) {
+            System.out.println("Input your command: ");
+            command = scanner.nextLine();
+            if(command.equals("clear")){
+                clear();
+            }
+            else if(command.equals("exit")){
+                exit();
+            }
+            else{
+                System.out.println("command '" + command +  "' doesn't exist.");
+            }
+        }
+    }
 }
