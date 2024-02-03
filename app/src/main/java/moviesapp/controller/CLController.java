@@ -61,7 +61,15 @@ public final class CLController {
     }
 
     private void details(){
+        JSONReader jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        String name = askValue("Name of the movie: ");
+        String year = askValue("Year of release: ");
         List<Movie> movies = new ArrayList<>();
+        movies = jsonReader.findMovies(name, year);
+
+        for(Movie movie : movies){
+            System.out.println(movie);
+        }
 
     }
 
@@ -124,12 +132,10 @@ public final class CLController {
     /**
      * Select a method to execute based on user input and execute it
      */
-
     public void select(){
-        String command;
         for (;;) {
             System.out.println("Input your command: ");
-            command = scanner.nextLine().toLowerCase(Locale.ROOT);
+            String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
 
             switch(command){
                 case "clear":
@@ -146,6 +152,10 @@ public final class CLController {
 
                 case "help":
                     help();
+                    break;
+
+                case "details":
+                    details();
                     break;
 
                 default :
