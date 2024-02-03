@@ -50,9 +50,12 @@ public final class CLController {
      */
     private void displayCatalog(){
         List<Movie> movieList = jsonReader.findAllMovies();
+        if(noMovieFound(movieList)){
+            return;
+        }
         StringBuilder movies = new StringBuilder();
         for(Movie movie : movieList){
-            movies.append(movie.toString()).append("\n");
+            movies.append(movie).append("\n");
         }
         System.out.println(movies);
     }
