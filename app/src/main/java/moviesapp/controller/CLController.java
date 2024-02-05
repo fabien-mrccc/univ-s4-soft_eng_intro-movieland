@@ -116,6 +116,17 @@ public final class CLController {
         movieToAdd.add(movies.findMovie(id , movies));
         Favorites.instance.add(movieToAdd);
     }
+    /**
+     * remove a specific movie chosen by the user with an id to the favorite list
+     * @param movies chosen to browse
+     */
+    private void removeMovieById(Movies movies){
+        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed below.");
+        String id = askValue("ID of the movie to remove to your favorites: ") ;
+        Movies movieToRemove = new Movies();
+        movieToRemove.add(movies.findMovie(id , movies));
+        Favorites.instance.remove(movieToRemove); ;
+    }
 
     /**
      * add to the favorites one or several movies
@@ -123,7 +134,6 @@ public final class CLController {
     private void add(){
         do{
             Movies movies = searchMovies();
-
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     addMovieById(movies);
@@ -145,10 +155,9 @@ public final class CLController {
     private void remove(){
         do{
             Movies movies = searchMovies();
-
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    addMovieById(movies);
+                    removeMovieById(movies);
                 }
                 else{
                     Favorites.instance.remove(movies);
