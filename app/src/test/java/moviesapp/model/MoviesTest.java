@@ -1,4 +1,32 @@
 package moviesapp.model;
 
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class MoviesTest {
+    private final Movie movie1 = new Movie(true,null,null,"1",null,
+            null, null,0,null,null,null,true,
+            0, 0);
+    private final Movie movie2 = new Movie(true,null,null,"2",null,
+            null, null,0,null,null,null,true,
+            0, 0);
+    private final Movie movie3 = new Movie(true,null,null,"3",null,
+            null, null,0,null,null,null,true,
+            0, 0);
+    Movies movies = new Movies();
+    List<Movie> moviesToAddToMovies = new ArrayList<>();
+    @Test
+    void testToString(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.toString().equals(
+                movie2 + "\n" + movie1 + "\n" + movie3 + "\n")).isTrue();
+        assertThat(movies.toString().equals("Your list of movies is empty.")).isTrue();
+    }
 }
