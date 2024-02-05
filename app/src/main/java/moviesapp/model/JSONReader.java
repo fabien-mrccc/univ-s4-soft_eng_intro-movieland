@@ -32,7 +32,7 @@ public class JSONReader {
                 jsonNode.get("adult").asBoolean(),
                 jsonNode.get("backdrop_path").asText(),
                 genreIds,
-                jsonNode.get("id").asInt(),
+                jsonNode.get("id").asText(),
                 jsonNode.get("original_language").asText(),
                 jsonNode.get("original_title").asText(),
                 jsonNode.get("overview").asText(),
