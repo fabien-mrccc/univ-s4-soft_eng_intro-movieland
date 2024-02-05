@@ -19,9 +19,9 @@ public class JSONReaderTest {
     @Test
     void testFindMovies(){
 
-        List<Movie> movieList1 = jsonReader.findMovies("Monkeyshines" , null) ;
-        List<Movie> movieList2= jsonReader.findMovies(null, "1890") ;
-        List<Movie> movieList3 = jsonReader.findMovies(null , null) ;
+        List<Movie> movieList1 = jsonReader.findMovies("Monkeyshines" , "") ;
+        List<Movie> movieList2= jsonReader.findMovies("", "1890") ;
+        List<Movie> movieList3 = jsonReader.findMovies("" , "") ;
         List<Movie> movieList4 = jsonReader.findMovies("Monkeyshines" , "1890") ;
 
         for (Movie movie : movieList1){
@@ -37,6 +37,12 @@ public class JSONReaderTest {
             assertThat(movie.title().contains("Monkeyshines")).isTrue() ;
         }
 
+        List<Movie> movieListNull1 = jsonReader.findMovies("Monkeyshines" , null) ;
+        List<Movie> movieListNull2= jsonReader.findMovies(null , "1890") ;
+        List<Movie> movieListNull3 = jsonReader.findMovies(null , null) ;
+        assertThat(movieListNull1 == null).isTrue() ;
+        assertThat(movieListNull2 == null).isTrue() ;
+        assertThat(movieListNull3 == null).isTrue() ;
     }
 
     @Test
