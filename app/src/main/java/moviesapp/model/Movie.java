@@ -22,4 +22,9 @@ public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, 
                 "\n  vote average: "+voteAverage+"\n  vote count: " +voteCount+"\n  overview: "
                 +overview+ "\n__________________________  ";
     }
+
+    public String toStringWithID(){
+        return "__________________________  \n"+"  title: "+title+"\n  vote average: " +voteAverage+"\n  release year: "
+                +releaseDate.substring(0,4)+"\n  id: "+id+"\n__________________________  ";
+    }
 }
