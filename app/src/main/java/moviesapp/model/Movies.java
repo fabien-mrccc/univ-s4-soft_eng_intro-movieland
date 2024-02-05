@@ -21,4 +21,12 @@ public class Movies {
         }
         return moviesString.toString();
     }
+
+    /**
+     * Add a movie to the list
+     * @param movie the movie that we want to add
+     */
+    public void add(Movie movie){
+        movies.add(movie);
+    }
 }
