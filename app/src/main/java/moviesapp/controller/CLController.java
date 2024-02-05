@@ -152,6 +152,21 @@ public final class CLController {
     }
 
     /**
+     * add to the favorites one or several movies
+     */
+    private void add(){
+        do{
+            List<Movie> movies = searchMovies();
+            if ( movies.size() > 1){
+                addMovieById(movies);
+            }
+        }
+        while(askToConfirm("Do you want to add another movie?"));
+        System.out.println("Movies added to your favorite list: ");
+        displayFavorites();
+    }
+
+    /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
      * @param string the message to print
      * @return true if yes, false if no
@@ -197,6 +212,10 @@ public final class CLController {
 
                 case "favorites":
                     displayFavorites();
+                    break;
+
+                case "add":
+                    add();
                     break;
 
                 default :
