@@ -47,7 +47,7 @@ public class Favorites {
      * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
-    public void add(List<Movie> movies){
+    public void add(Movies movies){
         if(movies == null){
             return;
         }
@@ -62,7 +62,7 @@ public class Favorites {
      * @param movies: the list of movies to add to favorites (those which are already
      *               in the favorites and those which are not)
      */
-    private List<Movie> moviesToAddToFavorites(List<Movie> movies){
+    private List<Movie> moviesToAddToFavorites(Movies movies){
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(!favorites.contains(movie)){
@@ -77,7 +77,7 @@ public class Favorites {
      * which are already in it
      * @param movies: the movies that we want to remove from the favorites
      */
-    public void remove(List<Movie> movies){
+    public void remove(Movies movies){
         if(movies == null){
             return;
         }
@@ -91,7 +91,7 @@ public class Favorites {
      * @param movies: the list of movies to remove from favorites (those which are in the favorites
      *             and those which are not)
      */
-    private List<Movie> moviesToRemoveFromFavorites(List<Movie> movies){
+    private List<Movie> moviesToRemoveFromFavorites(Movies movies){
         List<Movie> moviesInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(favorites.contains(movie)){
