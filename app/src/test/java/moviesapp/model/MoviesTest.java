@@ -56,4 +56,11 @@ public class MoviesTest {
         moviesFull.add(null);
         assertThat(truth).isTrue();
     }
+    @Test
+    void testIsEmpty(){
+        assertThat(movies.isEmpty()).isTrue();
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.isEmpty()).isFalse();
+    }
 }
