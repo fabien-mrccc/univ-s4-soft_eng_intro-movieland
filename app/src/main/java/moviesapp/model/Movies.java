@@ -29,4 +29,12 @@ public class Movies {
     public void add(Movie movie){
         movies.add(movie);
     }
+
+    /**
+     * Return true if the list of movies is empty, otherwise false
+     * @return true if the list of movies is empty, otherwise false
+     */
+    public boolean isEmpty(){
+        return movies.isEmpty();
+    }
 }
