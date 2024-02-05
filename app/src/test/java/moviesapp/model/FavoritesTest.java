@@ -11,13 +11,13 @@ import static org.assertj.core.api.Assertions.*;
 
 public class FavoritesTest {
     private static Favorites favorites;
-    private final Movie movie1 = new Movie(true,null,null,1,null,
+    private final Movie movie1 = new Movie(true,null,null,"1",null,
             null, null,0,null,null,null,true,
             0, 0);
-    private final Movie movie2 = new Movie(true,null,null,2,null,
+    private final Movie movie2 = new Movie(true,null,null,"2",null,
             null, null,0,null,null,null,true,
             0, 0);
-    private final Movie movie3 = new Movie(true,null,null,3,null,
+    private final Movie movie3 = new Movie(true,null,null,"3",null,
             null, null,0,null,null,null,true,
             0, 0);
 
