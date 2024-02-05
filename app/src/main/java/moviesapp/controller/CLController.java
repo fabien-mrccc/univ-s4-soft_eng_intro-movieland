@@ -160,7 +160,7 @@ public final class CLController {
         displayFavorites();
         System.out.println("End of your favorite list.");
     }
-    }
+
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
@@ -216,7 +216,7 @@ public final class CLController {
 
                 case "remove":
                     remove();
-                    breal;
+                    break;
 
                 default :
                     System.out.println("*** Command '" + command +  "' doesn't exist. ***");
