@@ -81,7 +81,7 @@ public class JSONReader {
      */
     private void findMoviesByName(List<Movie> movies , String name ) {
         for (JsonNode movie : jsonMovies) {
-            if(movie.get("original_title").asText().contains(name)) {
+            if(movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }
