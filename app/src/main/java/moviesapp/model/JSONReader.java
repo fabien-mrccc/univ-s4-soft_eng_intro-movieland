@@ -52,7 +52,7 @@ public class JSONReader {
      * @param year the release year of the movie
      * @return return a list of movies
      */
-    public List<Movie> findMovies(String name , String year){
+    public Movies findMovies(String name , String year){
         if(name == null || year == null){
             return null;
         }
@@ -64,7 +64,7 @@ public class JSONReader {
             return null;
         }
 
-        List<Movie> movieList = new ArrayList<>();
+        Movies movieList = new Movies();
 
         if(!nameEmpty && yearEmpty){
             findMoviesByName(movieList , name);
@@ -83,7 +83,7 @@ public class JSONReader {
      * @param movies is a list of movies to which we add the new movie(s) to the list
      * @param name the name of the movie researched
      */
-    private void findMoviesByName(List<Movie> movies , String name ) {
+    private void findMoviesByName(Movies movies, String name ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
@@ -96,7 +96,7 @@ public class JSONReader {
      * @param movies is a list of movies to which we add the new movie(s) to the list
      * @param year the year of the movie researched
      */
-    private void findMoviesByYear(List<Movie> movies , String year ) {
+    private void findMoviesByYear(Movies movies , String year ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
@@ -110,7 +110,7 @@ public class JSONReader {
      * @param year the year of the movie researched
      * @param name the name of the movie researched
      */
-    private void findMovies(List<Movie> movies, String name, String year) {
+    private void findMovies(Movies movies, String name, String year) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())
                     && movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
@@ -120,26 +120,11 @@ public class JSONReader {
     }
 
     /**
-     * Return of a movie selected with a list of movies and an id provided in parameter.
-     * @param id of movie to find
-     * @param movies to browse
-     * @return the movie found with selection or null
-     */
-    public Movie findMovie(String id , List<Movie> movies){
-        for(Movie movie : movies){
-            if(movie.id().equals(id)){
-                return movie ;
-            }
-        }
-        return null ;
-    }
-
-    /**
      * Return a list of Movie containing there information from the JSON file
      * @return the list of Movie contained in the JSON File
      */
-    public List<Movie> findAllMovies(){
-        List<Movie> movieList = new ArrayList<>();
+    public Movies findAllMovies(){
+        Movies movieList = new Movies();
         if(jsonMovies != null){
             for(JsonNode jsonMovie : jsonMovies ){
                 movieList.add(jsonNodeToMovie(jsonMovie));
