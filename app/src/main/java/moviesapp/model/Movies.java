@@ -122,4 +122,13 @@ public class Movies implements Iterable<Movie> {
     public void remove(Movie movie){
         movies.remove(movie);
     }
+
+    /**
+     * Return a movie according to an index provided in parameter
+     * @param index to find our movie in movies list
+     * @return the Movie found with the index
+     */
+    public Movie get(int index){
+        return movies.get(index);
+    }
 }
