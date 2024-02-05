@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MoviesTest {
@@ -93,5 +94,19 @@ public class MoviesTest {
         assertThat(moviesFull.findMovie("3",moviesFull)).isEqualTo(movie3);
         assertThat(moviesFull.findMovie(null ,moviesFull)).isEqualTo(null);
         assertThat(moviesFull.findMovie("4",moviesFull)).isEqualTo(null);
+    }
+    @Test
+    void testRemove(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        moviesFull.remove(movie1);
+        Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie3 + "\n");
+        assertThat(truth).isTrue();
+        moviesFull.remove(null);
+        assertThat(truth).isTrue();
+        moviesFull.remove(movie1);
+        assertThat(truth).isTrue();
     }
 }
