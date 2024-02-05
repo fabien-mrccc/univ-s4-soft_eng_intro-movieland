@@ -141,6 +141,17 @@ public final class CLController {
     }
 
     /**
+     * add a specific movie chosen by the user with an id to the favorite list
+     * @param movies chosen to browse
+     */
+    private void addMovieById(List<Movie> movies){
+        String id = askValue("ID of the movie: ") ;
+        List<Movie> movieToAdd = new ArrayList<>();
+        movieToAdd.add(jsonReader.findMovie(id , movies));
+        Favorites.instance.add(movieToAdd);
+    }
+
+    /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
      * @param string the message to print
      * @return true if yes, false if no
