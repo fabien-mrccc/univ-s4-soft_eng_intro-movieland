@@ -49,7 +49,9 @@ public class Movies implements Iterable<Movie> {
      * @param movie the movie that we want to add
      */
     public void add(Movie movie){
-        movies.add(movie);
+        if(movie != null) {
+            movies.add(movie);
+        }
     }
 
     /**
