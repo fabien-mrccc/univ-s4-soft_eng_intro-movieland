@@ -17,6 +17,9 @@ public class MoviesTest {
     private final Movie movie3 = new Movie(true,null,null,"3",null,
             null, null,0,null,"2023",null,true,
             0, 0);
+    private final Movie movie4 = new Movie(true,null,null,"4",null,
+            null, null,0,null,"2023",null,true,
+            0, 0);
     Movies movies = new Movies();
     List<Movie> moviesToAddToMovies = new ArrayList<>();
     @Test
@@ -40,5 +43,17 @@ public class MoviesTest {
                 movie2.toStringWithID() + "\n" + movie1.toStringWithID() + "\n" +
                         movie3.toStringWithID() + "\n")).isTrue();
         assertThat(movies.toStringWithID().equals("Your list of movies is empty.")).isTrue();
+    }
+    @Test
+    void testAdd(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        moviesFull.add(movie4);
+        Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie1 + "\n" + movie3 + "\n" + movie4 +"\n");
+        assertThat(truth).isTrue();
+        moviesFull.add(null);
+        assertThat(truth).isTrue();
     }
 }
