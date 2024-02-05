@@ -37,4 +37,37 @@ public class Movies {
     public boolean isEmpty(){
         return movies.isEmpty();
     }
+
+    /**
+     * Print all movies information details according to a specific group
+     */
+    public void printMoviesDetails(){
+        if(noMovieFound(movies)){
+            return;
+        }
+        for(Movie movie : movies){
+            System.out.println(movie);
+        }
+    }
+
+    /**
+     * Check if a list is empty or null and deduct that no movie where found
+     * @param movies the list of movies to check
+     * @return true if the list is without movies inside, otherwise false
+     */
+    private boolean noMovieFound(List<Movie> movies){
+        if(movies == null || movies.isEmpty()){
+            System.out.println("No movie found.");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return the size of the movies list
+     * @return the size of the movies list
+     */
+    public int size(){
+        return movies.size();
+    }
 }
