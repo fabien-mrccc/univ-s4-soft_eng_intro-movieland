@@ -115,6 +115,21 @@ public class JSONReader {
     }
 
     /**
+     * Return of a movie selected with a list of movies and an id provided in parameter.
+     * @param id of movie to find
+     * @param movies to browse
+     * @return the movie found with selection or null
+     */
+    public Movie findMovie(String id , List<Movie> movies){
+        for(Movie movie : movies){
+            if(movie.id().equals(id)){
+                return movie ;
+            }
+        }
+        return null ;
+    }
+
+    /**
      * Return a list of Movie containing there information from the JSON file
      * @return the list of Movie contained in the JSON File
      */
