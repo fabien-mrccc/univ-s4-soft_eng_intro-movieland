@@ -9,7 +9,7 @@ public class MovieTest {
     void testDetails(){
         List<Integer> genreIds = new ArrayList<>();
         genreIds.add(0);
-        Movie movie1 = new Movie(true,"backdropPath",genreIds,1,"originalLanguage",
+        Movie movie1 = new Movie(true,"backdropPath",genreIds,"1","originalLanguage",
                 "originalTitle","overview",2,"posterPath","releaseDate",
                 "title",false,3,4);
         assertThat(movie1.details()).isEqualTo("__________________________  \nmovie n°1:\n  title: title\n  original title: originalTitle"+
@@ -21,9 +21,21 @@ public class MovieTest {
     void testToString(){
         List<Integer> genreIds = new ArrayList<>();
         genreIds.add(0);
-        Movie movie1 = new Movie(true,"backdropPath",genreIds,1,"originalLanguage",
+        Movie movie1 = new Movie(true,"backdropPath",genreIds,"1","originalLanguage",
                 "originalTitle","overview",2,"posterPath","releaseDate",
                 "title",false,3,4);
-        assertThat(movie1.toString()).isEqualTo("__________________________  \n  title: title\n  vote average: 3.0\n  release year: rele\n__________________________  ");
+        assertThat(movie1.toString())
+                .isEqualTo("__________________________  \n  title: title\n  vote average: 3.0\n  release year: rele\n__________________________  ");
+    }
+
+    @Test
+    void testToStringWithID(){
+        List<Integer> genreIds = new ArrayList<>();
+        genreIds.add(0);
+        Movie movie1 = new Movie(true,"backdropPath",genreIds,"1","originalLanguage",
+                "originalTitle","overview",2,"posterPath","releaseDate",
+                "title",false,3,4);
+        assertThat(movie1.toStringWithID())
+                .isEqualTo("__________________________  \n  title: title\n  vote average: 3.0\n  release year: rele\n  id: 1\n__________________________  ");
     }
 }
