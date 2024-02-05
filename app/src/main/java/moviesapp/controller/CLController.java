@@ -2,7 +2,7 @@ package moviesapp.controller;
 
 import moviesapp.model.Favorites;
 import moviesapp.model.JSONReader;
-import moviesapp.model.Movie;
+import moviesapp.model.Movies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,59 +49,24 @@ public final class CLController {
      * Display only the name, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
-        List<Movie> movieList = jsonReader.findAllMovies();
-        if(noMovieFound(movieList)){
-            return;
-        }
-        StringBuilder movies = new StringBuilder();
-        for(Movie movie : movieList){
-            movies.append(movie).append("\n");
-        }
-        System.out.println(movies);
+        System.out.println(jsonReader.findAllMovies());
     }
 
     /**
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        List<Movie> movies = searchMovies();
-        printMoviesDetails(movies);
+        searchMovies().printMoviesDetails();
     }
 
     /**
      * Ask name and year information to the user to select a specific group of movies
      * @return the group of movies found
      */
-    private List<Movie> searchMovies(){
+    private Movies searchMovies(){
         String name = askValue("Name of the movie: ");
         String year = askValue("Year of release: ");
         return jsonReader.findMovies(name, year);
-    }
-
-    /**
-     * Print all movies information details according to a specific group
-     * @param movies the movies that we want to print
-     */
-    private void printMoviesDetails(List<Movie> movies){
-        if(noMovieFound(movies)){
-            return;
-        }
-        for(Movie movie : movies){
-            System.out.println(movie);
-        }
-    }
-
-    /**
-     * Check if a list is empty or null and deduct that no movie where found
-     * @param movies the list of movies to check
-     * @return true if the list is without movies inside, otherwise false
-     */
-    private boolean noMovieFound(List<Movie> movies){
-        if(movies == null || movies.isEmpty()){
-            System.out.println("No movie found.");
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -144,10 +109,11 @@ public final class CLController {
      * add a specific movie chosen by the user with an id to the favorite list
      * @param movies chosen to browse
      */
-    private void addMovieById(List<Movie> movies){
-        String id = askValue("\nID of the movie: ") ;
-        List<Movie> movieToAdd = new ArrayList<>();
-        movieToAdd.add(jsonReader.findMovie(id , movies));
+    private void addMovieById(Movies movies){
+        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed below.");
+        String id = askValue("ID of the movie to add to your favorites: ") ;
+        Movies movieToAdd = new Movies();
+        movieToAdd.add(movies.findMovie(id , movies));
         Favorites.instance.add(movieToAdd);
     }
 
@@ -156,14 +122,21 @@ public final class CLController {
      */
     private void add(){
         do{
-            List<Movie> movies = searchMovies();
-            if ( movies.size() > 1){
-                addMovieById(movies);
+            Movies movies = searchMovies();
+
+            if (!Movies.noMovieFound(movies)) {
+                if (movies.size() > 1){
+                    addMovieById(movies);
+                }
+                else{
+                    Favorites.instance.add(movies);
+                }
             }
         }
         while(askToConfirm("Do you want to add another movie?"));
-        System.out.println("Movies added to your favorite list: ");
+        System.out.println("\nMovies added to your favorite list: ");
         displayFavorites();
+        System.out.println("End of your favorite list.");
     }
 
     /**
