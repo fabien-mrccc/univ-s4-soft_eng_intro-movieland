@@ -70,7 +70,7 @@ public class Movies implements Iterable<Movie> {
             return;
         }
         for(Movie movie : movies){
-            System.out.println(movie);
+            System.out.println(movie.details());
         }
     }
 
