@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,6 +9,10 @@ public class Movies implements Iterable<Movie> {
 
     public Movies(List<Movie> movies){
         this.movies = movies;
+    }
+
+    public Movies(){
+        this.movies = new ArrayList<>();
     }
 
     @Override
