@@ -145,7 +145,7 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void addMovieById(List<Movie> movies){
-        String id = askValue("ID of the movie: ") ;
+        String id = askValue("\nID of the movie: ") ;
         List<Movie> movieToAdd = new ArrayList<>();
         movieToAdd.add(jsonReader.findMovie(id , movies));
         Favorites.instance.add(movieToAdd);
