@@ -71,4 +71,15 @@ public class MoviesTest {
         assertThat(Movies.noMovieFound(null)).isTrue();
         assertThat(Movies.noMovieFound(moviesFull)).isFalse();
     }
+    @Test
+    void testSize(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.size()).isEqualTo(3);
+        moviesFull.add(movie4);
+        assertThat(moviesFull.size()).isEqualTo(4);
+        assertThat(movies.size()).isEqualTo(0);
+    }
 }
