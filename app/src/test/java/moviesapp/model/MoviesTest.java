@@ -82,4 +82,16 @@ public class MoviesTest {
         assertThat(moviesFull.size()).isEqualTo(4);
         assertThat(movies.size()).isEqualTo(0);
     }
+    @Test
+    void testFindMovie(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.findMovie("1",moviesFull)).isEqualTo(movie1);
+        assertThat(moviesFull.findMovie("2",moviesFull)).isEqualTo(movie2);
+        assertThat(moviesFull.findMovie("3",moviesFull)).isEqualTo(movie3);
+        assertThat(moviesFull.findMovie(null ,moviesFull)).isEqualTo(null);
+        assertThat(moviesFull.findMovie("4",moviesFull)).isEqualTo(null);
+    }
 }
