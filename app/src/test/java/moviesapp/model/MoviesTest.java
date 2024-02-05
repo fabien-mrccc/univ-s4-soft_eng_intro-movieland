@@ -109,4 +109,14 @@ public class MoviesTest {
         moviesFull.remove(movie1);
         assertThat(truth).isTrue();
     }
+    @Test
+    void testGet(){
+        moviesToAddToMovies.add(movie2);
+        moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie3);
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.get(0)).isEqualTo(movie2);
+        assertThat(moviesFull.get(1)).isEqualTo(movie1);
+        assertThat(moviesFull.get(2)).isEqualTo(movie3);
+    }
 }
