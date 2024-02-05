@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,11 +24,16 @@ public class MoviesTest {
             0, 0);
     Movies movies = new Movies();
     List<Movie> moviesToAddToMovies = new ArrayList<>();
-    @Test
-    void testToString(){
+    @BeforeEach
+    void setUpBeforeEach(){
         moviesToAddToMovies.add(movie2);
         moviesToAddToMovies.add(movie1);
         moviesToAddToMovies.add(movie3);
+
+    }
+
+    @Test
+    void testToString(){
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(moviesFull.toString().equals(
                 movie2 + "\n" + movie1 + "\n" + movie3 + "\n")).isTrue();
@@ -35,9 +41,6 @@ public class MoviesTest {
     }
     @Test
     void testToStringWithID(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         System.out.println(moviesFull.toStringWithID());
         assertThat(moviesFull.toStringWithID().equals(
@@ -47,9 +50,6 @@ public class MoviesTest {
     }
     @Test
     void testAdd(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         moviesFull.add(movie4);
         Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie1 + "\n" + movie3 + "\n" + movie4 +"\n");
@@ -66,7 +66,6 @@ public class MoviesTest {
     }
     @Test
     void testNoMovieFound(){
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(Movies.noMovieFound(movies)).isTrue();
         assertThat(Movies.noMovieFound(null)).isTrue();
@@ -74,9 +73,6 @@ public class MoviesTest {
     }
     @Test
     void testSize(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(moviesFull.size()).isEqualTo(3);
         moviesFull.add(movie4);
@@ -84,10 +80,13 @@ public class MoviesTest {
         assertThat(movies.size()).isEqualTo(0);
     }
     @Test
+    void testHasNext(){
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.iterator().hasNext()).isTrue();
+        assertThat(movies.iterator().hasNext()).isFalse();
+    }
+    @Test
     void testFindMovie(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(moviesFull.findMovie("1",moviesFull)).isEqualTo(movie1);
         assertThat(moviesFull.findMovie("2",moviesFull)).isEqualTo(movie2);
@@ -97,9 +96,6 @@ public class MoviesTest {
     }
     @Test
     void testRemove(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         moviesFull.remove(movie1);
         Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie3 + "\n");
@@ -111,9 +107,6 @@ public class MoviesTest {
     }
     @Test
     void testGet(){
-        moviesToAddToMovies.add(movie2);
-        moviesToAddToMovies.add(movie1);
-        moviesToAddToMovies.add(movie3);
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(moviesFull.get(0)).isEqualTo(movie2);
         assertThat(moviesFull.get(1)).isEqualTo(movie1);
