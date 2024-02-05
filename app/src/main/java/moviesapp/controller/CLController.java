@@ -140,6 +140,29 @@ public final class CLController {
     }
 
     /**
+     * remove to the favorites the movie chosen by the user
+     */
+    private void remove(){
+        do{
+            Movies movies = searchMovies();
+
+            if (!Movies.noMovieFound(movies)) {
+                if (movies.size() > 1){
+                    addMovieById(movies);
+                }
+                else{
+                    Favorites.instance.remove(movies);
+                }
+            }
+        }
+        while(askToConfirm("Do you want to remove another movie?"));
+        System.out.println("\nyour favorites list : ");
+        displayFavorites();
+        System.out.println("End of your favorite list.");
+    }
+
+
+    /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
      * @param string the message to print
      * @return true if yes, false if no
@@ -189,6 +212,10 @@ public final class CLController {
 
                 case "add":
                     add();
+                    break;
+
+                case "remove":
+                    remove();
                     break;
 
                 default :
