@@ -30,7 +30,7 @@ public class JSONReaderTest {
         for (Movie movie : movieList2){
             assertThat(movie.releaseDate().contains("1890")).isTrue();
         }
-        assertThat(movieList3.isEmpty()).isTrue() ;
+        assertThat(movieList3 == null).isTrue() ;
 
         for (Movie movie : movieList4){
             assertThat(movie.releaseDate().contains("1890")).isTrue();
