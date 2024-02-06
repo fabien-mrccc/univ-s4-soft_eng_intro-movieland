@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class MoviesTest {
     private final Movie movie1 = new Movie(true,null,null,"1",null,
@@ -84,6 +83,13 @@ public class MoviesTest {
         Movies moviesFull = new Movies(moviesToAddToMovies);
         assertThat(moviesFull.iterator().hasNext()).isTrue();
         assertThat(movies.iterator().hasNext()).isFalse();
+    }
+    @Test
+    void testNext(){
+        Movies moviesFull = new Movies(moviesToAddToMovies);
+        assertThat(moviesFull.iterator().next()).isEqualTo(movie2);
+        assertThatThrownBy(() -> movies.iterator().next()).isInstanceOf
+                (IllegalStateException.class).hasMessage("No more elements in the iterator.");
     }
     @Test
     void testFindMovie(){
