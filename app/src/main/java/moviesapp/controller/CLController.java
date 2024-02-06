@@ -4,10 +4,7 @@ import moviesapp.model.Favorites;
 import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
@@ -70,6 +67,16 @@ public final class CLController {
     }
 
     /**
+     * Ask name and year information to the user to select a specific group of favorites movies
+     * @return the group of movies found
+     */
+    private Movies searchFavorites(){
+        String name = askValue("Name of the movie to remove: ");
+        String year = askValue("Year of release: ");
+        return Favorites.instance.findMovies(name, year);
+    }
+
+    /**
      * Print a message to the user and return its input.
      * @param message to print to the user
      * @return its input
@@ -125,7 +132,7 @@ public final class CLController {
         String id = askValue("ID of the movie to remove to your favorites: ") ;
         Movies movieToRemove = new Movies();
         movieToRemove.add(movies.findMovie(id , movies));
-        Favorites.instance.remove(movieToRemove); ;
+        Favorites.instance.remove(movieToRemove);
     }
 
     /**
@@ -150,22 +157,27 @@ public final class CLController {
     }
 
     /**
-     * remove to the favorites the movie chosen by the user
+     * Remove to the favorites the movie chosen by the user
      */
     private void remove(){
         do{
-            System.out.println("your actual favorites list: ");
-            Movies movies = Favorites.instance.findMovies();
-            if (!Favorites.instance.isEmpty()){
-                removeMovieById(movies);
+            if(Favorites.instance.isEmpty()){
+                break;
             }
-            else{
-                System.out.println("your favorites list is empty: ");
-                return ;
+            System.out.println("Your actual favorites list: ");
+            displayFavorites() ;
+            Movies movies = searchFavorites() ;
+            if (!Movies.noMovieFound(movies)) {
+                if (movies.size() > 1){
+                    removeMovieById(movies);
+                }
+                else{
+                    Favorites.instance.remove(movies);
+                }
             }
         }
-        while(askToConfirm("Do you want to add another movie?"));
-        System.out.println("\nMovies added to your favorite list: ");
+        while(askToConfirm("Do you want to remove another movie?"));
+        System.out.println("\nYour favorites list updated: ");
         displayFavorites();
         System.out.println("End of your favorite list.");
     }
