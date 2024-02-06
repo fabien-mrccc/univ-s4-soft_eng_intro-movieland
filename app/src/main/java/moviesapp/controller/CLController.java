@@ -156,9 +156,7 @@ public final class CLController {
             }
         }
         while(askToConfirm("Do you want to add another movie?"));
-        System.out.println("\nMovies added to your favorite list: ");
-        displayFavorites();
-        System.out.println("End of your favorite list.");
+        printFavoritesUpdate() ;
     }
 
     /**
@@ -182,6 +180,13 @@ public final class CLController {
             }
         }
         while(askToConfirm("Do you want to remove another movie?"));
+        printFavoritesUpdate() ;
+    }
+
+    /**
+     * print the favorites list modified
+     */
+    private void printFavoritesUpdate(){
         System.out.println("\nYour favorites list updated: ");
         displayFavorites();
         System.out.println("End of your favorite list.");
@@ -196,7 +201,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            answer = askValue(string + " (y/n): ").trim();
+            answer = askValue(string + " [Y/n]: ").trim();
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
