@@ -85,6 +85,18 @@ public class Favorites {
     }
 
     /**
+     * take the list of favorites and return the list of movies of favorites
+     * @return a list of movies taken by the favorites
+     */
+    public Movies findMovies(){
+        Movies movies = new Movies() ;
+        for(Movie movie : favorites){
+            movies.add(movie);
+        }
+        return movies ;
+    }
+
+    /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies not in the favorites
      * @return the list of movies to remove from favorites (only those which are in the favorites)
