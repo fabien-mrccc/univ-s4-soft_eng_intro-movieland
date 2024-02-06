@@ -154,18 +154,18 @@ public final class CLController {
      */
     private void remove(){
         do{
-            Movies movies = searchMovies();
-            if (!Movies.noMovieFound(movies)) {
-                if (movies.size() > 1){
-                    removeMovieById(movies);
-                }
-                else{
-                    Favorites.instance.remove(movies);
-                }
+            System.out.println("your actual favorites list: ");
+            Movies movies = Favorites.instance.findMovies();
+            if (!Favorites.instance.isEmpty()){
+                removeMovieById(movies);
+            }
+            else{
+                System.out.println("your favorites list is empty: ");
+                return ;
             }
         }
-        while(askToConfirm("Do you want to remove another movie?"));
-        System.out.println("\nyour favorites list : ");
+        while(askToConfirm("Do you want to add another movie?"));
+        System.out.println("\nMovies added to your favorite list: ");
         displayFavorites();
         System.out.println("End of your favorite list.");
     }
