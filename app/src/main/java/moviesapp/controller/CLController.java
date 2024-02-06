@@ -113,26 +113,31 @@ public final class CLController {
     }
 
     /**
-     * add a specific movie chosen by the user with an id to the favorite list
+     * Add a specific movie chosen by the user with an id to the favorite list
      * @param movies chosen to browse
      */
     private void addMovieById(Movies movies){
-        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed below.");
-        String id = askValue("ID of the movie to add to your favorites: ") ;
-        Movies movieToAdd = new Movies();
-        movieToAdd.add(movies.findMovie(id , movies));
-        Favorites.instance.add(movieToAdd);
+        Favorites.instance.add(selectMovieById(movies));
     }
     /**
-     * remove a specific movie chosen by the user with an id to the favorite list
+     * Remove a specific movie chosen by the user with an id to the favorite list
      * @param movies chosen to browse
      */
     private void removeMovieById(Movies movies){
+        Favorites.instance.remove(selectMovieById(movies));
+    }
+
+    /**
+     * Ask the user the id of movie that he wants to select in a Movies object
+     * @param movies to browse
+     * @return movie selected in a Movies object
+     */
+    private Movies selectMovieById(Movies movies){
         System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed below.");
-        String id = askValue("ID of the movie to remove to your favorites: ") ;
-        Movies movieToRemove = new Movies();
-        movieToRemove.add(movies.findMovie(id , movies));
-        Favorites.instance.remove(movieToRemove);
+        String id = askValue("ID of the movie to add to your favorites: ") ;
+        Movies movieSelected= new Movies();
+        movieSelected.add(movies.findMovie(id , movies));
+        return movieSelected ;
     }
 
     /**
