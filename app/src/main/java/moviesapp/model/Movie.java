@@ -2,13 +2,24 @@ package moviesapp.model;
 
 import java.util.List;
 
-public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, int id, String originalLanguage,
+public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, String id, String originalLanguage,
                     String originalTitle, String overview, double popularity, String posterPath, String releaseDate,
                     String title, boolean video, double voteAverage, int voteCount) {
     @Override
     public String toString(){
-        return "__________________________  \n"+"  title: "+title+"\n  vote average: " +voteAverage+"\n  release year: "
-                +releaseDate.substring(0,4)+"\n__________________________  ";
+        String print =
+                "__________________________  " +
+                        "\n  title: "+title+
+                        "\n  vote average: " +voteAverage;
+        if(releaseDate != null && releaseDate.length() >= 4){
+            print += "\n  release year: "+releaseDate.substring(0,4);
+        }
+        else{
+            print += "\n  release year: empty";
+        }
+        print += "\n__________________________  ";
+
+        return print;
     }
 
     /**
@@ -21,5 +32,10 @@ public record Movie(boolean adult, String backdropPath, List<Integer> genreIds, 
                 "\n  genreIds: "+genreIds+"\n  popularity: " +popularity+"\n  adult: "+adult+
                 "\n  vote average: "+voteAverage+"\n  vote count: " +voteCount+"\n  overview: "
                 +overview+ "\n__________________________  ";
+    }
+
+    public String toStringWithID(){
+        return "__________________________  \n"+"  title: "+title+"\n  vote average: " +voteAverage+"\n  release year: "
+                +releaseDate.substring(0,4)+"\n  id: "+id+"\n__________________________  ";
     }
 }

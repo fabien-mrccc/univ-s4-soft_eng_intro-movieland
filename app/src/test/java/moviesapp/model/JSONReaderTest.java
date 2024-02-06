@@ -2,9 +2,6 @@ package moviesapp.model;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -18,40 +15,37 @@ public class JSONReaderTest {
     }
 
     @Test
-    void testFindMovie(){
-        Movie movie = jsonReader.findMovie(32571);
-
-        assertThat(movie.adult()).isFalse();
-        assertThat(movie.backdropPath().equals("/3KiwdVe0XqLNrBVYrpVMlvZaPdm.jpg")).isTrue();
-        assertThat(movie.genreIds().get(0)).isEqualTo(99);
-        assertThat(movie.id()).isEqualTo(32571);
-        assertThat(movie.originalLanguage().equals("xx")).isTrue();
-        assertThat(movie.originalTitle().equals("Monkeyshines, No. 1")).isTrue();
-        assertThat(movie.overview().equals("Experimental film made to test the original cylinder format of the Kinet")).isTrue();
-        assertThat(movie.popularity()).isEqualTo(6.209);
-        assertThat(movie.posterPath().equals("/a41Z3Owp1TsXcUlBCRhbb9eJjWW.jpg")).isTrue();
-        assertThat(movie.releaseDate().equals("1890-11-21")).isTrue();
-        assertThat(movie.title().equals("Monkeyshines, No. 1")).isTrue();
-        assertThat(movie.video()).isFalse();
-        assertThat(movie.voteAverage()).isEqualTo(4.9);
-        assertThat(movie.voteCount()).isEqualTo(90);
-    }
-
-    @Test
     void testFindMovies(){
-        List<Integer> idList = new ArrayList<>();
-        idList.add(32571);
-        idList.add(33315);
-        List<Movie> movieList = jsonReader.findMovies(idList);
-        assertThat(movieList.get(0).title().equals("Monkeyshines, No. 1")).isTrue();
-        assertThat(movieList.get(0).voteCount() == 90).isTrue();
-        assertThat(movieList.get(1).title().equals("Monkeyshines, No. 2")).isTrue();
-        assertThat(movieList.get(1).voteCount() == 47).isTrue();
+
+        Movies movieList1 = jsonReader.findMovies("Monkeyshines" , "") ;
+        Movies movieList2= jsonReader.findMovies("", "1890") ;
+        Movies movieList3 = jsonReader.findMovies("" , "") ;
+        Movies movieList4 = jsonReader.findMovies("Monkeyshines" , "1890") ;
+
+        for (Movie movie : movieList1){
+            assertThat(movie.title().contains("Monkeyshines")).isTrue() ;
+        }
+        for (Movie movie : movieList2){
+            assertThat(movie.releaseDate().contains("1890")).isTrue();
+        }
+        assertThat(movieList3 == null).isTrue() ;
+
+        for (Movie movie : movieList4){
+            assertThat(movie.releaseDate().contains("1890")).isTrue();
+            assertThat(movie.title().contains("Monkeyshines")).isTrue() ;
+        }
+
+        Movies movieListNull1 = jsonReader.findMovies("Monkeyshines" , null) ;
+        Movies movieListNull2= jsonReader.findMovies(null , "1890") ;
+        Movies movieListNull3 = jsonReader.findMovies(null , null) ;
+        assertThat(movieListNull1 == null).isTrue() ;
+        assertThat(movieListNull2 == null).isTrue() ;
+        assertThat(movieListNull3 == null).isTrue() ;
     }
 
     @Test
     void testFindAllMovies(){
-        List<Movie> movieList = jsonReader.findAllMovies();
+        Movies movieList = jsonReader.findAllMovies();
         assertThat(movieList.get(0).title().equals("Monkeyshines, No. 1")).isTrue();
         assertThat(movieList.get(0).voteCount() == 90).isTrue();
         assertThat(movieList.get(1).title().equals("Monkeyshines, No. 2")).isTrue();
