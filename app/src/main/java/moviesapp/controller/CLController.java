@@ -193,9 +193,9 @@ public final class CLController {
         System.out.println("End of your favorite list.");
     }
 
-    private void searchTitle() {
+    private void search() {
         tmdbAPI search = new tmdbAPI();
-        search.SearchTitle(scanner.nextLine());
+        search.searchMovie(scanner.nextLine());
     }
 
 
@@ -256,7 +256,7 @@ public final class CLController {
                     break;
 
                 case "search":
-                    searchTitle();
+                    search();
                     break;
 
                 default :
