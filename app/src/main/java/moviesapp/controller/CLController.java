@@ -15,7 +15,7 @@ public final class CLController {
         commands = new ArrayList<>();
         setupCommands();
         scanner = new Scanner(System.in);
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/data_example.json");
+        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
     }
 
     /**

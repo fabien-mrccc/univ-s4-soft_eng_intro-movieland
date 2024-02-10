@@ -99,5 +99,4 @@ public class JSONReader extends SearchMovies {
         }
         return null;
     }
-
 }
