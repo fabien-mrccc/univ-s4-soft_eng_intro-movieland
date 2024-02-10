@@ -105,4 +105,21 @@ public class JSONReader extends SearchMovies {
         }
         return null;
     }
+
+    /**
+     * Return the number of total pages of movies available in the json file of the class
+     * @return the number of total pages of movies available in the json file of the class
+     */
+    public int numberOfPagesOfMoviesInJson(){
+        try{
+            return objectMapper.readTree(jsonFile).get("total_pages").asInt();
+        }
+        catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        }
+        catch (NullPointerException e){
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+        }
+        return 0;
+    }
 }
