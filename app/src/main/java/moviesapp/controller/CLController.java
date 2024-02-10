@@ -3,6 +3,7 @@ package moviesapp.controller;
 import moviesapp.model.Favorites;
 import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
+import moviesapp.model.tmdbAPI;
 
 import java.util.*;
 
@@ -192,6 +193,11 @@ public final class CLController {
         System.out.println("End of your favorite list.");
     }
 
+    private void searchTitle() {
+        tmdbAPI search = new tmdbAPI();
+        search.SearchTitle(scanner.nextLine());
+    }
+
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
@@ -247,6 +253,10 @@ public final class CLController {
 
                 case "remove":
                     remove();
+                    break;
+
+                case "search":
+                    searchTitle();
                     break;
 
                 default :
