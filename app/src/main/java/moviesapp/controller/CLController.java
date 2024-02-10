@@ -83,7 +83,7 @@ public final class CLController {
      */
     private String askValue(String message){
         System.out.println(message);
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     /**
@@ -201,7 +201,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            answer = askValue(string + " [Y/n]: ").trim();
+            answer = askValue(string + " [Y/n]: ");
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
