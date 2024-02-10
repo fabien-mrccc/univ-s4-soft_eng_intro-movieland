@@ -54,4 +54,9 @@ public class JSONReaderTest {
         assertThat(movieList.get(9).voteCount() == 4).isTrue();
         assertThat(movieList.size() == 10).isTrue();
     }
+
+    @Test
+    void testNumberOfPagesOfMoviesInJson(){
+        assertThat(jsonReader.numberOfPagesOfMoviesInJson()).isEqualTo(1);
+    }
 }
