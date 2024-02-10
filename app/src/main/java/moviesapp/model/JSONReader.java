@@ -122,4 +122,21 @@ public class JSONReader extends SearchMovies {
         }
         return 0;
     }
+
+    /**
+     * Return a specific jsonNode from our json file of the class
+     * @return a specific jsonNode from our json file of the class
+     */
+    private JsonNode getSpecificJsonNode(String jsonNodeName){
+        try{
+            return objectMapper.readTree(jsonFile).get(jsonNodeName);
+        }
+        catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        }
+        catch (NullPointerException e){
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+        }
+        return null;
+    }
 }
