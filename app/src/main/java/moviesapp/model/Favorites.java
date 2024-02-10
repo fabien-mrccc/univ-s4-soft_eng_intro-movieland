@@ -1,7 +1,7 @@
 package moviesapp.model;
 import java.util.ArrayList;
 import java.util.List;
-public class Favorites {
+public class Favorites extends SearchMovies{
 
     public static final Favorites instance = new Favorites();
     private final List<Movie> favorites;
@@ -10,46 +10,13 @@ public class Favorites {
         favorites = new ArrayList<>();
     }
 
-    /** return true if the list of favorites is empty, if not return false
-     @return boolean
+    /** Return true if the list of favorites is empty, if not return false
+     *  @return boolean
      **/
     public boolean isEmpty(){
         return favorites.isEmpty();
     }
 
-    /** Add a film to the favorites of the user (only if it is not already in the list)
-     @param movie the movie to add to the list
-     **/
-    public void add(Movie movie){
-        if(!contains(movie)){
-            favorites.add(movie);
-        }
-    }
-
-    /**
-     * Check if the favorites list contains a specific movie, returns false if the list is empty
-     * @param movie the movie that we check if it is in our list
-     * @return boolean
-     */
-    private boolean contains(Movie movie){
-        if(isEmpty()){
-            return false;
-        }
-        if(movie == null){
-            return true;
-        }
-        return favorites.contains(movie);
-    }
-
-    /** Remove a film from the list of favorites
-     @param movie the movie to remove from the list
-     **/
-    public void remove(Movie movie){
-        try {favorites.remove(movie);}
-        catch (UnsupportedOperationException e){
-            System.out.println("This movie does not belong to your list of favorites.");
-        }
-    }
     @Override
     public String toString(){
         StringBuilder favoritesString = new StringBuilder();
@@ -76,16 +43,18 @@ public class Favorites {
     }
 
     /**
-     * Add a group of movies to the user's favorite list by selecting only those
+     * Add one or a group of movies to the user's favorite list by selecting only those
      * which are not already in it
      * @param movies: the movies that we want to add to the user favorite list
      */
-    public void addAll(List<Movie> movies){
+    public void add(Movies movies){
         if(movies == null){
             return;
         }
-        favorites.addAll(moviesToAddToFavorites(movies));
+        try{favorites.addAll(moviesToAddToFavorites(movies));}
+        catch (Exception e){System.out.println("The list you're searching does not respect the basic rules of a list of  movies!");}
     }
+
     /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies already in the favorites
@@ -93,7 +62,7 @@ public class Favorites {
      * @param movies: the list of movies to add to favorites (those which are already
      *               in the favorites and those which are not)
      */
-    private List<Movie> moviesToAddToFavorites(List<Movie> movies){
+    private List<Movie> moviesToAddToFavorites(Movies movies){
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(!favorites.contains(movie)){
@@ -102,17 +71,42 @@ public class Favorites {
         }
         return moviesNotInFavoriteList;
     }
+
     /**
-     * Remove a group of movies from the user's favorite list by selecting only those
+     * Remove one or a group of movies from the user's favorite list by selecting only those
      * which are already in it
      * @param movies: the movies that we want to remove from the favorites
      */
-    public void removeAll(List<Movie> movies){
+    public void remove(Movies movies){
         if(movies == null){
             return;
         }
         favorites.removeAll(moviesToRemoveFromFavorites(movies));
     }
+
+    public void findMoviesByName(Movies movies, String name ) {
+        for (Movie movie : favorites) {
+            if(movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
+    }
+    public void findMoviesByYear(Movies movies , String year ) {
+        for (Movie movie : favorites) {
+            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
+    }
+    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
+        for (Movie movie : favorites) {
+            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())
+                    && movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
+    }
+
     /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies not in the favorites
@@ -120,7 +114,7 @@ public class Favorites {
      * @param movies: the list of movies to remove from favorites (those which are in the favorites
      *             and those which are not)
      */
-    private List<Movie> moviesToRemoveFromFavorites(List<Movie> movies){
+    private List<Movie> moviesToRemoveFromFavorites(Movies movies){
         List<Movie> moviesInFavoriteList = new ArrayList<>();
         for(Movie movie : movies){
             if(favorites.contains(movie)){
