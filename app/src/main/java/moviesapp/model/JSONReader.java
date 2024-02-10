@@ -90,20 +90,11 @@ public class JSONReader extends SearchMovies {
     }
 
     /**
-     * Return the origin jsonNode from our default jsonFile with exception management
+     * Return the origin jsonNode from our default jsonFile
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonMoviesNode(){
-        try{
-            return objectMapper.readTree(jsonFile).get("results");
-        }
-        catch (IOException e) {
-            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
-        }
-        catch (NullPointerException e){
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
-        }
-        return null;
+        return getSpecificJsonNode("results");
     }
 
     /**
@@ -111,15 +102,12 @@ public class JSONReader extends SearchMovies {
      * @return the number of total pages of movies available in the json file of the class
      */
     public int numberOfPagesOfMoviesInJson(){
-        try{
-            return objectMapper.readTree(jsonFile).get("total_pages").asInt();
+        JsonNode totalPagesNode = getSpecificJsonNode("total_pages");
+
+        if(totalPagesNode != null){
+            return totalPagesNode.asInt();
         }
-        catch (IOException e) {
-            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
-        }
-        catch (NullPointerException e){
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
-        }
+
         return 0;
     }
 
@@ -135,7 +123,7 @@ public class JSONReader extends SearchMovies {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         catch (NullPointerException e){
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get("+ jsonNodeName +") exception");
         }
         return null;
     }
