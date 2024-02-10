@@ -25,12 +25,11 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.24.2")
 
     // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.google.guava:guava:32.0.0-android'
 
     // Jackson Databind
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
-
 }
 
 
@@ -41,19 +40,20 @@ javafx {
 
 application {
     // Define the main class for the application.
+    mainModule = 'moviesapp'
     mainClass = 'moviesapp.App'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+    outputs.upToDateWhen { false }
 }
 
-task(runCLI, dependsOn: 'classes', type: JavaExec) {
+tasks.register('runCLI', JavaExec) {
+    dependsOn 'classes'
     main = 'moviesapp.AppCLI'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    args "list"
-    args "today"
 }
 
