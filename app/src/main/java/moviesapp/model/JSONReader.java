@@ -45,6 +45,8 @@ public class JSONReader extends SearchMovies {
                 jsonNode.get("vote_count").asInt()
         );
     }
+
+    @Override
     public void findMoviesByName(Movies movies, String name ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
@@ -52,6 +54,8 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
+
+    @Override
     public void findMoviesByYear(Movies movies , String year ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())) {
@@ -59,6 +63,8 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
+
+    @Override
     public void findMoviesByNameAndYear(Movies movies, String name, String year) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())
