@@ -1,5 +1,7 @@
 package moviesapp.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +96,7 @@ public class Movies implements Iterable<Movie> {
         return movies.size();
     }
 
+    @NotNull
     @Override
     public Iterator<Movie> iterator() {
         return new MoviesIterator();
