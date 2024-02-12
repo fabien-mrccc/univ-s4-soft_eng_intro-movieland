@@ -59,10 +59,10 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
-    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
+    public void findMoviesByTitleAndReleaseYear(Movies movies, String title, String releaseYear) {
         for (JsonNode movie : jsonMovies) {
-            if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())
-                    && movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
+            if(movie.get("release_date").asText().toLowerCase().contains(releaseYear.toLowerCase())
+                    && movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }

@@ -98,10 +98,10 @@ public class Favorites extends SearchMovies{
             }
         }
     }
-    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
+    public void findMoviesByTitleAndReleaseYear(Movies movies, String title, String releaseYear) {
         for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())
-                    && movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+            if(movie.releaseDate().toLowerCase().contains(releaseYear.toLowerCase())
+                    && movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
                 movies.add(movie);
             }
         }
