@@ -94,11 +94,11 @@ public class MoviesTest {
     @Test
     void testFindMovie(){
         Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.findMovie("1",moviesFull)).isEqualTo(movie1);
-        assertThat(moviesFull.findMovie("2",moviesFull)).isEqualTo(movie2);
-        assertThat(moviesFull.findMovie("3",moviesFull)).isEqualTo(movie3);
-        assertThat(moviesFull.findMovie(null ,moviesFull)).isEqualTo(null);
-        assertThat(moviesFull.findMovie("4",moviesFull)).isEqualTo(null);
+        assertThat(moviesFull.findMovieByID("1")).isEqualTo(movie1);
+        assertThat(moviesFull.findMovieByID("2")).isEqualTo(movie2);
+        assertThat(moviesFull.findMovieByID("3")).isEqualTo(movie3);
+        assertThat(moviesFull.findMovieByID(null)).isEqualTo(null);
+        assertThat(moviesFull.findMovieByID("4")).isEqualTo(null);
     }
     @Test
     void testRemove(){
