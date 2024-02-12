@@ -102,28 +102,12 @@ public class Favorites extends SearchMovies{
     }
 
     @Override
-    public void findMoviesByName(Movies movies, String title) {
+    public void findMoviesByCriteria(Movies movies, String name, String year) {
         for (Movie movie : favorites) {
-            if(movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
-                movies.add(movie);
-            }
-        }
-    }
+            boolean nameCondition = (name == null) || movie.originalTitle().toLowerCase().contains(name.toLowerCase());
+            boolean yearCondition = (year == null) || movie.releaseDate().toLowerCase().contains(year.toLowerCase());
 
-    @Override
-    public void findMoviesByYear(Movies movies , String releaseYear) {
-        for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(releaseYear.toLowerCase())) {
-                movies.add(movie);
-            }
-        }
-    }
-
-    @Override
-    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
-        for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())
-                    && movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+            if (nameCondition && yearCondition) {
                 movies.add(movie);
             }
         }
