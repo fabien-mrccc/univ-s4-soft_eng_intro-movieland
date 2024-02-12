@@ -214,14 +214,13 @@ public final class CLController {
     }
 
     /**
-     * print the favorites list modified
+     * Print the favorites list modified
      */
     private void printFavoritesUpdate(){
         System.out.println("\nYour favorites list updated: ");
         displayFavorites();
         System.out.println("End of your favorite list.");
     }
-
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no

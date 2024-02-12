@@ -84,29 +84,6 @@ public class Favorites extends SearchMovies{
         favorites.removeAll(moviesToRemoveFromFavorites(movies));
     }
 
-    public void findMoviesByName(Movies movies, String title) {
-        for (Movie movie : favorites) {
-            if(movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
-                movies.add(movie);
-            }
-        }
-    }
-    public void findMoviesByYear(Movies movies , String releaseYear) {
-        for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(releaseYear.toLowerCase())) {
-                movies.add(movie);
-            }
-        }
-    }
-    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
-        for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())
-                    && movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
-                movies.add(movie);
-            }
-        }
-    }
-
     /**
      * Filter the list of movies given on parameters by removing from the list
      * the movies not in the favorites
@@ -122,5 +99,33 @@ public class Favorites extends SearchMovies{
             }
         }
         return moviesInFavoriteList;
+    }
+
+    @Override
+    public void findMoviesByName(Movies movies, String title) {
+        for (Movie movie : favorites) {
+            if(movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
+    }
+
+    @Override
+    public void findMoviesByYear(Movies movies , String releaseYear) {
+        for (Movie movie : favorites) {
+            if(movie.releaseDate().toLowerCase().contains(releaseYear.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
+    }
+
+    @Override
+    public void findMoviesByNameAndYear(Movies movies, String name, String year) {
+        for (Movie movie : favorites) {
+            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())
+                    && movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+                movies.add(movie);
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
+
     public JSONReader(String path){
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
@@ -21,17 +22,11 @@ public class JSONReader extends SearchMovies {
      * @return the jsonNode converted to a movie
      */
     private Movie jsonNodeToMovie(JsonNode jsonNode){
-        JsonNode jsonGenreIds = jsonNode.get("genre_ids");
-        List<Integer> genreIds = new ArrayList<>();
-
-        for(JsonNode jsonGenreId: jsonGenreIds){
-            genreIds.add(jsonGenreId.asInt());
-        }
 
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
                 jsonNode.get("backdrop_path").asText(),
-                genreIds,
+                getGenreIdsFromJSON(jsonNode),
                 jsonNode.get("id").asText(),
                 jsonNode.get("original_language").asText(),
                 jsonNode.get("original_title").asText(),
@@ -45,6 +40,23 @@ public class JSONReader extends SearchMovies {
                 jsonNode.get("vote_count").asInt()
         );
     }
+
+    /**
+     * Browse genre_ids jsonNode to collect values to store in a list
+     * @param jsonNode to browse
+     * @return the list of genre identifiers
+     */
+    private List<Integer> getGenreIdsFromJSON(JsonNode jsonNode){
+        JsonNode jsonGenreIds = jsonNode.get("genre_ids");
+        List<Integer> genreIds = new ArrayList<>();
+
+        for(JsonNode jsonGenreId: jsonGenreIds){
+            genreIds.add(jsonGenreId.asInt());
+        }
+
+        return genreIds;
+    }
+
     public void findMoviesByName(Movies movies, String title) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase())) {
