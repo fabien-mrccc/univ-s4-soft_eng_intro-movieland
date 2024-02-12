@@ -11,7 +11,7 @@ public class JSONReaderTest {
 
     @BeforeAll
     static void setupBeforeAll(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        jsonReader = new JSONReader(System.getProperty("user.dir") + "/src/test/java/moviesapp/model/data-example.json");
     }
 
     @Test
