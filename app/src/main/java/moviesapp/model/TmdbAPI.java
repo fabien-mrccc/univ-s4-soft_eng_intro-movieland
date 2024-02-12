@@ -125,9 +125,9 @@ public class TmdbAPI {
     private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
-        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
-        buildUrlWithGenres(urlBuilder, genreIds, genreIds.isEmpty());
-        buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage.isEmpty());
+        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
+        buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
+        buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
 
         return urlBuilder + apiKey;
     }
@@ -180,7 +180,7 @@ public class TmdbAPI {
      */
     private String urlBuilderSearch(String title, String releaseYear){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/search/movie?" + language + "&query=" + title);
-        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
+        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
         return urlBuilder + apiKey;
     }
 
