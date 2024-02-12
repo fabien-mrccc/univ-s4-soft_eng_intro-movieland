@@ -15,12 +15,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TmdbApiTest {
-    private static tmdbAPI api;
+    private static TmdbAPI api;
     private static OkHttpClient client;
 
     @BeforeAll
     static void setupBeforeAll() {
-        api = new tmdbAPI();
+        api = new TmdbAPI();
         client = new OkHttpClient();
     }
 
