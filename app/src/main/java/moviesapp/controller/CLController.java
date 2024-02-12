@@ -25,6 +25,7 @@ public final class CLController {
     private void setupCommands(){
         commands.add("help: get a list of commands available");
         commands.add("catalog: see all movies available on the application");
+        commands.add("search: show specific movies based on your criteria");
         commands.add("details: see detailed information about one or several movies");
         commands.add("add: add one or several movies to your favorite list");
         commands.add("remove: remove one or several movies to your favorite list");
@@ -93,16 +94,6 @@ public final class CLController {
             } while(askToConfirm("Do you want to add more genres?"));
         }
         return genres;
-    }
-
-    /**
-     * Ask title and release year information to the user to select a specific group of favorite movies
-     * @return the group of movies found
-     */
-    private Movies searchFavoritesToRemove(){
-        String title = askValue("Title of the movie to remove: ");
-        String releaseYear = askValue("Year of release: ");
-        return Favorites.instance.findMovies(title, releaseYear);
     }
 
     /**
@@ -211,6 +202,16 @@ public final class CLController {
         }
         while(askToConfirm("Do you want to remove another movie?"));
         printFavoritesUpdate() ;
+    }
+
+    /**
+     * Ask title and release year information to the user to select a specific group of favorite movies
+     * @return the group of movies found
+     */
+    private Movies searchFavoritesToRemove(){
+        String title = askValue("Title of the movie to remove: ");
+        String releaseYear = askValue("Year of release: ");
+        return Favorites.instance.findMovies(title, releaseYear);
     }
 
     /**

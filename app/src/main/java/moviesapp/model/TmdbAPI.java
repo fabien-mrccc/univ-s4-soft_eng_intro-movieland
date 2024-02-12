@@ -11,10 +11,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class TmdbAPI {
 
@@ -23,10 +20,10 @@ public class TmdbAPI {
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
     private final static String language = "language=en-US";
-    public static final HashMap<String, String> GENRE_ID_MAP;
+    public static final TreeMap<String, String> GENRE_ID_MAP;
 
     static {
-        GENRE_ID_MAP = new HashMap<>();
+        GENRE_ID_MAP = new TreeMap<>();
         GENRE_ID_MAP.put("action", "28");
         GENRE_ID_MAP.put("adventure", "12");
         GENRE_ID_MAP.put("animation", "16");
@@ -55,7 +52,7 @@ public class TmdbAPI {
     public StringBuilder genreList(){
         StringBuilder list = new StringBuilder();
         for (String genre : GENRE_ID_MAP.keySet()) {
-            list.append("  ").append(genre).append("\n");
+            list.append("  -").append(genre).append("\n");
         }
         return list;
     }
@@ -63,17 +60,17 @@ public class TmdbAPI {
     /**
      * call every necessary methods to create the apropriate url from the given parameters
      * @param title part of or complete title of a movie
-     * @param year year of release of movie
-     * @param genre a list of genre
+     * @param releaseYear year of release of movie
+     * @param genres a list of genres
      * @param voteAverage the min vote average
      */
-    public void searchMovie(String title, String year, List<String> genre, String voteAverage){
+    public void searchMovie(String title, String releaseYear, List<String> genres, String voteAverage){
         String url;
         if(title.isEmpty()){
-            url = urlBuilderDiscover(year, genresToGenreIds(genre), voteAverage);
+            url = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
         }
         else{
-            url = urlBuilderMovie(title, year);
+            url = urlBuilderMovie(title, releaseYear);
         }
         Request request = new Request.Builder().url(url).build();
 
