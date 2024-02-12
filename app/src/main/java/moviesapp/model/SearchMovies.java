@@ -3,18 +3,18 @@ package moviesapp.model;
 public abstract class SearchMovies {
 
     /**
-     * Return a list of movies containing there information from the JSON file selected with a name(optional) and year (optional) provided in parameter.
-     * @param name the name of the movie
-     * @param year the release year of the movie
+     * Return a list of movies containing there information from the JSON file selected with a title(optional) and release year (optional) provided in parameter.
+     * @param title the title of the movie
+     * @param releaseYear the releaseYear of the movie
      * @return return a list of movies
      */
-    public Movies findMovies(String name , String year){
-        if(name == null || year == null){
+    public Movies findMovies(String title , String releaseYear){
+        if(title == null || releaseYear == null){
             return null;
         }
 
-        boolean nameEmpty = name.isEmpty();
-        boolean yearEmpty = year.isEmpty();
+        boolean nameEmpty = title.isEmpty();
+        boolean yearEmpty = releaseYear.isEmpty();
 
         if(nameEmpty && yearEmpty){
             return null;
@@ -23,13 +23,13 @@ public abstract class SearchMovies {
         Movies movieList = new Movies();
 
         if(!nameEmpty && yearEmpty){
-            findMoviesByName(movieList , name);
+            findMoviesByName(movieList , title);
         }
         else if(nameEmpty){
-            findMoviesByYear(movieList , year );
+            findMoviesByYear(movieList , releaseYear );
         }
         else{
-            findMoviesByNameAndYear(movieList , name , year);
+            findMoviesByNameAndYear(movieList , title , releaseYear);
         }
         return movieList;
     }
