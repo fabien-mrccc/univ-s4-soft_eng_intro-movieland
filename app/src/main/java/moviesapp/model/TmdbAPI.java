@@ -103,6 +103,10 @@ public class TmdbAPI {
      * @return a list of ids
      */
     private List<String> genresToGenreIds(List<String> genres){
+        if(genres == null){
+            return null;
+        }
+
         List<String> genreIds = new ArrayList<>();
 
         for(String genre : genres){
