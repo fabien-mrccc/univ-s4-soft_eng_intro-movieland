@@ -84,16 +84,16 @@ public class Favorites extends SearchMovies{
         favorites.removeAll(moviesToRemoveFromFavorites(movies));
     }
 
-    public void findMoviesByName(Movies movies, String name ) {
+    public void findMoviesByName(Movies movies, String title) {
         for (Movie movie : favorites) {
-            if(movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+            if(movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
                 movies.add(movie);
             }
         }
     }
-    public void findMoviesByYear(Movies movies , String year ) {
+    public void findMoviesByYear(Movies movies , String releaseYear) {
         for (Movie movie : favorites) {
-            if(movie.releaseDate().toLowerCase().contains(year.toLowerCase())) {
+            if(movie.releaseDate().toLowerCase().contains(releaseYear.toLowerCase())) {
                 movies.add(movie);
             }
         }

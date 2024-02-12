@@ -3,18 +3,18 @@ package moviesapp.model;
 public abstract class SearchMovies {
 
     /**
-     * Return a list of movies containing there information from the JSON file selected with a name(optional) and year (optional) provided in parameter.
-     * @param name the name of the movie
-     * @param year the release year of the movie
+     * Return a list of movies containing there information from the JSON file selected with a title(optional) and release year (optional) provided in parameter.
+     * @param title the title of the movie
+     * @param releaseYear the releaseYear of the movie
      * @return return a list of movies
      */
-    public Movies findMovies(String name , String year){
-        if(name == null || year == null){
+    public Movies findMovies(String title , String releaseYear){
+        if(title == null || releaseYear == null){
             return null;
         }
 
-        boolean nameEmpty = name.isEmpty();
-        boolean yearEmpty = year.isEmpty();
+        boolean nameEmpty = title.isEmpty();
+        boolean yearEmpty = releaseYear.isEmpty();
 
         if(nameEmpty && yearEmpty){
             return null;
@@ -23,28 +23,28 @@ public abstract class SearchMovies {
         Movies movieList = new Movies();
 
         if(!nameEmpty && yearEmpty){
-            findMoviesByName(movieList , name);
+            findMoviesByName(movieList , title);
         }
         else if(nameEmpty){
-            findMoviesByYear(movieList , year );
+            findMoviesByYear(movieList , releaseYear );
         }
         else{
-            findMoviesByNameAndYear(movieList , name , year);
+            findMoviesByNameAndYear(movieList , title , releaseYear);
         }
         return movieList;
     }
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the name provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the title provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param name the name of the movie researched
+     * @param title the title of the movie researched
      */
-    public abstract void findMoviesByName(Movies movies, String name ) ;
+    public abstract void findMoviesByName(Movies movies, String title ) ;
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the year provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the release releaseYear provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param year the year of the movie researched
+     * @param releaseYear the releaseYear of the movie researched
      */
-    public abstract void findMoviesByYear(Movies movies , String year );
+    public abstract void findMoviesByYear(Movies movies , String releaseYear);
     /**
      * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list

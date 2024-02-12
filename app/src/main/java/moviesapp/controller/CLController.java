@@ -3,7 +3,7 @@ package moviesapp.controller;
 import moviesapp.model.Favorites;
 import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
-import moviesapp.model.tmdbAPI;
+import moviesapp.model.TmdbAPI;
 
 import java.util.*;
 
@@ -44,7 +44,7 @@ public final class CLController {
     }
 
     /**
-     * Display only the name, the year of release and the average note of every film in the catalog
+     * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
         System.out.println(jsonReader.findAllMovies());
@@ -58,48 +58,42 @@ public final class CLController {
     }
 
     /**
-     * Ask name and year information to the user to select a specific group of movies
+     * Ask title and release year information to the user to select a specific group of movies
      * @return the group of movies found
      */
     private Movies searchMovies(){
-        String title = "";
-        String year;
-        List<String> genre = new ArrayList<>();
-        String voteAverage = "";
-        tmdbAPI api = new tmdbAPI();
-        String temp;
-        if(askToConfirm("do you have the name of the movie?")){
-            System.out.println("only the name is mandatory");
-            title = askValue("Name of the movie: ");
-            year = askValue("Year of release: ");
-            api.searchMovie(title, year, genre, voteAverage);
-            return jsonReader.findAllMovies();
-        }
-        else {
-            year = askValue("Year of release: ");
-            voteAverage = askValue("minimum mark :");
-            if(askToConfirm("do you want to specify or more genres?")){
-                System.out.println("List of genres :");
-                System.out.println(api.genreList());
-                do{
-                    temp = askValue("enter genre name :");
-                    if (tmdbAPI.GENRE_ID_MAP.containsKey(temp)) {
-                        genre.add(temp);
-                    } else {
-                        System.out.println("Genre not found. Please enter a valid genre.");
-                    }
-                }while(askToConfirm("do you want to add more genres"));
-            }
-            api.searchMovie(title, year, genre, voteAverage);
-        }
-
+        TmdbAPI api = new TmdbAPI();
+        String title = askValue("Title of the movie: ");
+        String releaseYear = askValue("Year of release: ");
+        String voteAverage = askValue("Movie's minimum rate: ");
+        List<String> genres = specifiedGenres(api);
+        api.searchMovie(title, releaseYear, genres, voteAverage);
         return jsonReader.findAllMovies();
     }
 
-    /*old searchMovie :
-    String name = askValue("Name of the movie: ");
-        String year = askValue("Year of release: ");
-        return jsonReader.findMovies(name, year);*/
+    /**
+     * Return the user's specified genres
+     * @param api the api that contains all the genres available
+     * @return the user's specified genres
+     */
+    private List<String> specifiedGenres(TmdbAPI api){
+        List<String> genres = new ArrayList<>();
+
+        if(askToConfirm("Do you want to specify one or more genres?")){
+            System.out.println("\nList of genres: \n" + api.genreList());
+
+            do{
+                String genreName = askValue("Enter genre name: ");
+                if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
+                    genres.add(genreName);
+                }
+                else {
+                    System.out.println("Genre not found. Please enter a valid genre.");
+                }
+            } while(askToConfirm("Do you want to add more genres?"));
+        }
+        return genres;
+    }
 
     /**
      * Ask name and year information to the user to select a specific group of favorites movies
@@ -236,7 +230,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            answer = askValue(string + " [Y/n]: ").trim();
+            answer = askValue(string + " [Y/n]: ").trim().toLowerCase();
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
