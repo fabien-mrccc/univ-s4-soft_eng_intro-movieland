@@ -44,7 +44,7 @@ public final class CLController {
     }
 
     /**
-     * Display only the name, the year of release and the average note of every film in the catalog
+     * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
         System.out.println(jsonReader.findAllMovies());
@@ -58,41 +58,28 @@ public final class CLController {
     }
 
     /**
-     * Ask name and year information to the user to select a specific group of movies
+     * Ask title and release year information to the user to select a specific group of movies
      * @return the group of movies found
      */
     private Movies searchMovies(){
-        String title = "";
-        String year;
-        List<String> genre = new ArrayList<>();
-        String voteAverage = "";
+        List<String> genres = new ArrayList<>();
         tmdbAPI api = new tmdbAPI();
-        String temp;
-        if(askToConfirm("do you have the name of the movie?")){
-            System.out.println("only the name is mandatory");
-            title = askValue("Name of the movie: ");
-            year = askValue("Year of release: ");
-            api.searchMovie(title, year, genre, voteAverage);
-            return jsonReader.findAllMovies();
+        String title = askValue("Title of the movie: ");
+        String releaseYear = askValue("Year of release: ");
+        String voteAverage = askValue("Movie's minimum rate: ");
+        if(askToConfirm("Do you want to specify one or more genres?")){
+            System.out.println("List of genres: \n" + api.genreList());
+            do{
+                String genreName = askValue("Enter genre name: ");
+                if (tmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
+                    genres.add(genreName);
+                }
+                else {
+                    System.out.println("Genre not found. Please enter a valid genre.");
+                }
+            }while(askToConfirm("do you want to add more genres"));
         }
-        else {
-            year = askValue("Year of release: ");
-            voteAverage = askValue("minimum mark :");
-            if(askToConfirm("do you want to specify or more genres?")){
-                System.out.println("List of genres :");
-                System.out.println(api.genreList());
-                do{
-                    temp = askValue("enter genre name :");
-                    if (tmdbAPI.GENRE_ID_MAP.containsKey(temp)) {
-                        genre.add(temp);
-                    } else {
-                        System.out.println("Genre not found. Please enter a valid genre.");
-                    }
-                }while(askToConfirm("do you want to add more genres"));
-            }
-            api.searchMovie(title, year, genre, voteAverage);
-        }
-
+        api.searchMovie(title, releaseYear, genres, voteAverage);
         return jsonReader.findAllMovies();
     }
 
@@ -236,7 +223,7 @@ public final class CLController {
     private boolean askToConfirm(String string){
         String answer;
         do{
-            answer = askValue(string + " [Y/n]: ").trim();
+            answer = askValue(string + " [Y/n]: ").trim().toLowerCase();
         }while(!answer.equals("y") && !answer.equals("n"));
 
         return answer.equals("y");
