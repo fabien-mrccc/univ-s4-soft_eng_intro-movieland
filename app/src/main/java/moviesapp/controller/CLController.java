@@ -96,13 +96,13 @@ public final class CLController {
     }
 
     /**
-     * Ask name and year information to the user to select a specific group of favorites movies
+     * Ask title and release year information to the user to select a specific group of favorite movies
      * @return the group of movies found
      */
-    private Movies searchFavorites(){
-        String name = askValue("Name of the movie to remove: ");
-        String year = askValue("Year of release: ");
-        return Favorites.instance.findMovies(name, year);
+    private Movies searchFavoritesToRemove(){
+        String title = askValue("Title of the movie to remove: ");
+        String releaseYear = askValue("Year of release: ");
+        return Favorites.instance.findMovies(title, releaseYear);
     }
 
     /**
@@ -123,7 +123,7 @@ public final class CLController {
     }
 
     /**
-     * Test if askToConfirm is true and if it is clear the favourite list
+     * Test if askToConfirm is true ,and if it is, clear the favourite list
      */
     private void clear() {
         if (askToConfirm("Are you sure that you want to delete your favourites?")){
@@ -198,7 +198,7 @@ public final class CLController {
             }
             System.out.println("Your actual favorites list: ");
             displayFavorites() ;
-            Movies movies = searchFavorites() ;
+            Movies movies = searchFavoritesToRemove() ;
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     removeMovieById(movies);
