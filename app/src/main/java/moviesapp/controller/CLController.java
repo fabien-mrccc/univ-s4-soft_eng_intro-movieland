@@ -62,10 +62,44 @@ public final class CLController {
      * @return the group of movies found
      */
     private Movies searchMovies(){
-        String name = askValue("Name of the movie: ");
-        String year = askValue("Year of release: ");
-        return jsonReader.findMovies(name, year);
+        String title = "";
+        String year;
+        List<String> genre = new ArrayList<>();
+        String voteAverage = "";
+        tmdbAPI api = new tmdbAPI();
+        String temp;
+        if(askToConfirm("do you have the name of the movie?")){
+            System.out.println("only the name is mandatory");
+            title = askValue("Name of the movie: ");
+            year = askValue("Year of release: ");
+            api.searchMovie(title, year, genre, voteAverage);
+            return jsonReader.findAllMovies();
+        }
+        else {
+            year = askValue("Year of release: ");
+            voteAverage = askValue("minimum mark :");
+            if(askToConfirm("do you want to specify or more genres?")){
+                System.out.println("List of genres :");
+                System.out.println(api.genreList());
+                do{
+                    temp = askValue("enter genre name :");
+                    if (tmdbAPI.GENRE_ID_MAP.containsKey(temp)) {
+                        genre.add(temp);
+                    } else {
+                        System.out.println("Genre not found. Please enter a valid genre.");
+                    }
+                }while(askToConfirm("do you want to add more genres"));
+            }
+            api.searchMovie(title, year, genre, voteAverage);
+        }
+
+        return jsonReader.findAllMovies();
     }
+
+    /*old searchMovie :
+    String name = askValue("Name of the movie: ");
+        String year = askValue("Year of release: ");
+        return jsonReader.findMovies(name, year);*/
 
     /**
      * Ask name and year information to the user to select a specific group of favorites movies
@@ -193,11 +227,6 @@ public final class CLController {
         System.out.println("End of your favorite list.");
     }
 
-    private void search() {
-        tmdbAPI search = new tmdbAPI();
-        search.searchMovie(scanner.nextLine());
-    }
-
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no
@@ -243,6 +272,10 @@ public final class CLController {
                     details();
                     break;
 
+                case "search":
+                    searchMovies();
+                    break;
+
                 case "favorites":
                     displayFavorites();
                     break;
@@ -253,10 +286,6 @@ public final class CLController {
 
                 case "remove":
                     remove();
-                    break;
-
-                case "search":
-                    search();
                     break;
 
                 default :

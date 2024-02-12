@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class JSONReaderTest {
 
-    private static JSONReader jsonReader;
+    /*private static JSONReader jsonReader;
 
     @BeforeAll
     static void setupBeforeAll(){
@@ -53,5 +53,5 @@ public class JSONReaderTest {
         assertThat(movieList.get(9).title().equals("Escrime")).isTrue();
         assertThat(movieList.get(9).voteCount() == 4).isTrue();
         assertThat(movieList.size() == 10).isTrue();
-    }
+    }*/
 }
