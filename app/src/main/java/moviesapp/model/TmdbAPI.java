@@ -18,14 +18,13 @@ import java.util.Locale;
 
 public class TmdbAPI {
 
-    String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
-    OkHttpClient client = new OkHttpClient();
+    private final String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
+    private final OkHttpClient client = new OkHttpClient();
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
     private final static String language = "language=en-US";
     public static final HashMap<String, String> GENRE_ID_MAP;
 
-    //liste of literally all genres available on TMDB
     static {
         GENRE_ID_MAP = new HashMap<>();
         GENRE_ID_MAP.put("action", "28");
