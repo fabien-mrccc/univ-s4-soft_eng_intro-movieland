@@ -46,7 +46,7 @@ public class TmdbAPI {
     }
 
     /**
-     * return a list of every registered genres
+     * Return a list of every registered genres
      * @return list of every genre
      */
     public StringBuilder genreList(){
@@ -58,35 +58,47 @@ public class TmdbAPI {
     }
 
     /**
-     * call every necessary methods to create the apropriate url from the given parameters
+     * Call every necessary methods to create the appropriate url from the given parameters
      * @param title part of or complete title of a movie
      * @param releaseYear year of release of movie
      * @param genres a list of genres
      * @param voteAverage the min vote average
      */
     public void searchMovie(String title, String releaseYear, List<String> genres, String voteAverage){
-        String url;
-        if(title.isEmpty()){
-            url = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
-        }
-        else{
-            url = urlBuilderMovie(title, releaseYear);
-        }
-        Request request = new Request.Builder().url(url).build();
+        Request request = buildRequest(title, releaseYear, genres, voteAverage);
 
         try {
             Response response = client.newCall(request).execute();
 
-            if(response.isSuccessful()){
+            if(response.isSuccessful() && response.body() != null){
                 String searchResult = response.body().string();
                 requestToFile(searchResult);
             }
             else{
-                System.out.println("error :" + response.code());
+                System.out.println("Error: " + response.code());
             }
         }catch(IOException e){
-            e.printStackTrace();
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' or 'String searchResult = response.body().string();' ");
         }
+    }
+
+    /**
+     * According to title value (null or not), choose to build API request from url with API search command or API discover command
+     * @param title part of or complete title of a movie
+     * @param releaseYear year of release of movie
+     * @param genres a list of genres
+     * @param voteAverage the min vote average
+     * @return the request built
+     */
+    private Request buildRequest(String title, String releaseYear, List<String> genres, String voteAverage){
+        String urlString;
+        if(title.isEmpty()){
+            urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
+        }
+        else{
+            urlString = urlBuilderMovie(title, releaseYear);
+        }
+        return new Request.Builder().url(urlString).build();
     }
 
     /**
