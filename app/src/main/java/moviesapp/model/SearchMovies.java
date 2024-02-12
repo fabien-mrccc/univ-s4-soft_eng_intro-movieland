@@ -29,7 +29,7 @@ public abstract class SearchMovies {
             findMoviesByYear(movieList , releaseYear );
         }
         else{
-            findMoviesByTitleAndReleaseYear(movieList , title , releaseYear);
+            findMoviesByNameAndYear(movieList , title , releaseYear);
         }
         return movieList;
     }
@@ -38,18 +38,32 @@ public abstract class SearchMovies {
      * @param movies is a list of movies to which we add the new movie(s) to the list
      * @param title the title of the movie researched
      */
-    public abstract void findMoviesByName(Movies movies, String title ) ;
+    public void findMoviesByName(Movies movies, String title ){
+        findMoviesByCriteria(movies, title, null);
+    }
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the release year provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the release releaseYear provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
      * @param releaseYear the releaseYear of the movie researched
      */
-    public abstract void findMoviesByYear(Movies movies , String releaseYear);
+    public void findMoviesByYear(Movies movies , String releaseYear){
+        findMoviesByCriteria(movies, null, releaseYear);
+    }
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the title and release year provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param releaseYear the releaseYear of the movie researched
-     * @param title the title of the movie researched
+     * @param year the year of the movie researched
+     * @param name the name of the movie researched
      */
-    public abstract void findMoviesByTitleAndReleaseYear(Movies movies, String title, String releaseYear) ;
+    public void findMoviesByNameAndYear(Movies movies, String name, String year){
+        findMoviesByCriteria(movies, name, year);
+    }
+
+    /**
+     * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided or not in parameter.
+     * @param movies is a list of movies to which we add the new movie(s) to the list
+     * @param year the year of the movie researched
+     * @param name the name of the movie researched
+     */
+    public abstract void findMoviesByCriteria(Movies movies, String name, String year);
 }

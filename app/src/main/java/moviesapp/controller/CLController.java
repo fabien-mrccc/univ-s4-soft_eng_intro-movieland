@@ -139,6 +139,7 @@ public final class CLController {
     private void addMovieById(Movies movies){
         Favorites.instance.add(selectMovieById(movies));
     }
+
     /**
      * Remove a specific movie chosen by the user with an id to the favorite list
      * @param movies chosen to browse
@@ -153,10 +154,10 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieById(Movies movies){
-        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed below.");
+        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
         String id = askValue("ID of the movie to add to your favorites: ") ;
-        Movies movieSelected= new Movies();
-        movieSelected.add(movies.findMovie(id , movies));
+        Movies movieSelected = new Movies();
+        movieSelected.add(movies.findMovieByID(id));
         return movieSelected ;
     }
 
@@ -214,14 +215,13 @@ public final class CLController {
     }
 
     /**
-     * print the favorites list modified
+     * Print the favorites list modified
      */
     private void printFavoritesUpdate(){
         System.out.println("\nYour favorites list updated: ");
         displayFavorites();
         System.out.println("End of your favorite list.");
     }
-
 
     /**
      * Print a terminal message with choice (yes or no) and return true if yes, false if no

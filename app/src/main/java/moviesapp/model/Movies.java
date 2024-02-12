@@ -120,10 +120,9 @@ public class Movies implements Iterable<Movie> {
     /**
      * Return of a movie selected with a list of movies and an id provided in parameter.
      * @param id of movie to find
-     * @param movies to browse
      * @return the movie found with selection or null
      */
-    public Movie findMovie(String id , Movies movies){
+    public Movie findMovieByID(String id){
         for(Movie movie : movies){
             if(movie.id().equals(id)){
                 return movie;
