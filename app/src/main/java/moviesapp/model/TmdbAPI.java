@@ -66,6 +66,7 @@ public class TmdbAPI {
      * @param voteAverage the min vote average
      */
     public void searchMovie(String title, String releaseYear, List<String> genres, String voteAverage){
+        eraseJSONContent();
         Request request = buildRequest(title, releaseYear, genres, voteAverage);
 
         try {
@@ -74,6 +75,18 @@ public class TmdbAPI {
 
         } catch(IOException e){
             System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+        }
+    }
+
+    /**
+     * Erase api-results.json content
+     */
+    private void eraseJSONContent(){
+        try{
+            FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json");
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("IOException e from 'new FileWriter(...)");
         }
     }
 
