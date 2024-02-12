@@ -52,9 +52,9 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
-    public void findMoviesByYear(Movies movies , String year ) {
+    public void findMoviesByYear(Movies movies , String releaseYear) {
         for (JsonNode movie : jsonMovies) {
-            if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())) {
+            if(movie.get("release_date").asText().toLowerCase().contains(releaseYear.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }

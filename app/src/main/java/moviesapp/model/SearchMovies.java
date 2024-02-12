@@ -40,11 +40,11 @@ public abstract class SearchMovies {
      */
     public abstract void findMoviesByName(Movies movies, String title ) ;
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the year provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the release releaseYear provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param year the year of the movie researched
+     * @param releaseYear the releaseYear of the movie researched
      */
-    public abstract void findMoviesByYear(Movies movies , String year );
+    public abstract void findMoviesByYear(Movies movies , String releaseYear);
     /**
      * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
