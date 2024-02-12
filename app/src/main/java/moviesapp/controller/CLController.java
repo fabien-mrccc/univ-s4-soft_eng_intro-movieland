@@ -69,7 +69,12 @@ public final class CLController {
         String voteAverage = askValue("Movie's minimum rate: ");
         List<String> genres = specifiedGenres(api);
         api.searchMovie(title, releaseYear, genres, voteAverage);
+        printMoviesFoundBySearch();
         return jsonReader.findAllMovies();
+    }
+
+    private void printMoviesFoundBySearch(){
+        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
     }
 
     /**
