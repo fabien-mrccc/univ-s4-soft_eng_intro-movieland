@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class tmdbAPI {
+public class TmdbAPI {
 
     String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
     OkHttpClient client = new OkHttpClient();

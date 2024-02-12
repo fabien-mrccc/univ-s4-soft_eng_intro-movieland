@@ -3,7 +3,7 @@ package moviesapp.controller;
 import moviesapp.model.Favorites;
 import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
-import moviesapp.model.tmdbAPI;
+import moviesapp.model.TmdbAPI;
 
 import java.util.*;
 
@@ -62,16 +62,17 @@ public final class CLController {
      * @return the group of movies found
      */
     private Movies searchMovies(){
-        List<String> genres = new ArrayList<>();
-        tmdbAPI api = new tmdbAPI();
+        TmdbAPI api = new TmdbAPI();
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
+        List<String> genres = new ArrayList<>();
+
         if(askToConfirm("Do you want to specify one or more genres?")){
             System.out.println("List of genres: \n" + api.genreList());
             do{
                 String genreName = askValue("Enter genre name: ");
-                if (tmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
+                if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
                 else {
