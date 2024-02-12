@@ -25,8 +25,8 @@ public final class CLController {
     private void setupCommands(){
         commands.add("help: get a list of commands available");
         commands.add("catalog: see all movies available on the application");
-        commands.add("details: see detailed information about one or several movies");
         commands.add("search: show specific movies based on your criteria");
+        commands.add("details: see detailed information about one or several movies");
         commands.add("add: add one or several movies to your favorite list");
         commands.add("remove: remove one or several movies to your favorite list");
         commands.add("favorites: see movies in your favorite list");
