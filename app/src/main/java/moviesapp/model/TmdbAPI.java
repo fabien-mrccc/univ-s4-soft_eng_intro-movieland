@@ -124,17 +124,12 @@ public class TmdbAPI {
      * @return the desired url based on given parameters
      */
     private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage){
-        boolean isVoteAverageEmpty = voteAverage.isEmpty();
-
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
         buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
         buildUrlWithGenres(urlBuilder, genreIds, genreIds.isEmpty());
+        buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage.isEmpty());
 
-
-        if(!isVoteAverageEmpty){
-            urlBuilder.append("&vote_average.gte=").append(voteAverage);
-        }
         return urlBuilder + apiKey;
     }
 
@@ -163,6 +158,18 @@ public class TmdbAPI {
                 urlBuilder.append(genre).append(",");
             }
             urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+        }
+    }
+
+    /**
+     * Append to urlBuilder string corresponding to voteAverage argument if it is not empty
+     * @param urlBuilder StringBuilder to modify
+     * @param voteAverage of the movies to search with API with discover command
+     * @param isVoteAverageEmpty flag to append to urlBuilder
+     */
+    private void buildUrlWithVoteAverage(StringBuilder urlBuilder, String voteAverage, boolean isVoteAverageEmpty){
+        if(!isVoteAverageEmpty){
+            urlBuilder.append("&vote_average.gte=").append(voteAverage);
         }
     }
 
