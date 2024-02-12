@@ -1,5 +1,9 @@
 package moviesapp.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -94,9 +98,14 @@ public class TmdbAPI {
      * @param result response of the api request
      */
     private void requestToFile(String result){
-        try(FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)){
-            fileWriter.write(result);
-        } catch (IOException e){
+        try {
+            ObjectMapper mapper = JsonMapper.builder().build();
+            ObjectNode node = mapper.readValue(result, ObjectNode.class);
+            try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(fileWriter, node);
+            }
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
