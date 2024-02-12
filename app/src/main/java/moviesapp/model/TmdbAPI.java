@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -199,18 +200,23 @@ public class TmdbAPI {
 
     /**
      * Turns the response to an API request into a JSON file
-     * @param result response of the api request
+     * @param searchResult response of the api request
      */
-    private void searchResultFromRequestToFile(String result){
+    private void searchResultFromRequestToFile(String searchResult){
+        ObjectMapper mapper = JsonMapper.builder().build();
+
         try {
-            ObjectMapper mapper = JsonMapper.builder().build();
-            ObjectNode node = mapper.readValue(result, ObjectNode.class);
+            ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);
+
             try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
+            } catch (IOException e) {
+                System.err.println("IOException from 'new FileWriter(...)' or 'mapper.writeValue(fileWriter, node)'");
             }
-        }catch (IOException e){
-            e.printStackTrace();
+
+        } catch (JsonProcessingException e){
+            System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
         }
     }
 }
