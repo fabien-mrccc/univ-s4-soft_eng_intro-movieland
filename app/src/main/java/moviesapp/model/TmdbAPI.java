@@ -69,16 +69,10 @@ public class TmdbAPI {
 
         try {
             Response response = client.newCall(request).execute();
+            reactToRequestResponse(response);
 
-            if(response.isSuccessful() && response.body() != null){
-                String searchResult = response.body().string();
-                requestToFile(searchResult);
-            }
-            else{
-                System.out.println("Error: " + response.code());
-            }
-        }catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' or 'String searchResult = response.body().string();' ");
+        } catch(IOException e){
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
         }
     }
 
@@ -186,10 +180,28 @@ public class TmdbAPI {
     }
 
     /**
-     * turns the response of an api request into a json file
+     * Convert the request response to a JSON file if it is successful or print an error.
+     * @param response from the API after a specific request
+     */
+    private void reactToRequestResponse(Response response){
+        try{
+            if(response.isSuccessful() && response.body() != null){
+                String searchResult = response.body().string();
+                searchResultFromRequestToFile(searchResult);
+            }
+            else{
+                System.err.println("Error API request: " + response.code());
+            }
+        } catch (IOException e){
+            System.err.println("IOException e from 'String searchResult = response.body().string();'");
+        }
+    }
+
+    /**
+     * Turns the response to an API request into a JSON file
      * @param result response of the api request
      */
-    private void requestToFile(String result){
+    private void searchResultFromRequestToFile(String result){
         try {
             ObjectMapper mapper = JsonMapper.builder().build();
             ObjectNode node = mapper.readValue(result, ObjectNode.class);
