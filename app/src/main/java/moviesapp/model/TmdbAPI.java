@@ -92,6 +92,7 @@ public class TmdbAPI {
      */
     private Request buildRequest(String title, String releaseYear, List<String> genres, String voteAverage){
         String urlString;
+
         if(title.isEmpty()){
             urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
         }
@@ -102,50 +103,59 @@ public class TmdbAPI {
     }
 
     /**
-     * turns the response of an api request into a json file
-     * @param result response of the api request
+     * Return a list of genre ids from a list of genre
+     * @param genres a list of genres
+     * @return a list of ids
      */
-    private void requestToFile(String result){
-        try {
-            ObjectMapper mapper = JsonMapper.builder().build();
-            ObjectNode node = mapper.readValue(result, ObjectNode.class);
-            try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                mapper.writeValue(fileWriter, node);
-            }
-        }catch (IOException e){
-            e.printStackTrace();
+    private List<String> genresToGenreIds(List<String> genres){
+        List<String> genreIds = new ArrayList<>();
+
+        for(String genre : genres){
+            genreIds.add(GENRE_ID_MAP.get(genre.toLowerCase(Locale.ROOT).trim()));
         }
+        return genreIds;
     }
 
     /**
-     * return an url from the given parameters
-     * @param year year of release of a film
+     * Return an url using API discover command from the given parameters
+     * @param releaseYear release year of a film
      * @param genreIds list of genres of a film
      * @param voteAverage minimum vote average ofa film
      * @return the desired url based on given parameters
      */
-    private String urlBuilderDiscover(String year, List<String> genreIds, String voteAverage){
-        boolean noYear = year.isEmpty();
-        boolean noGenre = genreIds.isEmpty();
-        boolean noVoteAverage = voteAverage.isEmpty();
-        StringBuilder currentUrl = new StringBuilder(baseUrl + "/discover/movie?" + language);
-        if(!noYear){
-            currentUrl.append("&primary_release_year=").append(year);
-        }
-        if(!noVoteAverage){
-            currentUrl.append("&vote_average.gte=").append(voteAverage);
-        }
-        if(!noGenre){
-            currentUrl.append("&with_genres=");
-            for (int i = 0; i < genreIds.size(); i++) {
-                currentUrl.append(genreIds.get(i));
+    private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage){
+        boolean isGenreEmpty = genreIds.isEmpty();
+        boolean isVoteAverageEmpty = voteAverage.isEmpty();
+
+        StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
+
+        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
+
+        if(!isGenreEmpty){
+            urlBuilder.append("&with_genres=");
+            for (int i = 0 ; i < genreIds.size(); i++) {
+                urlBuilder.append(genreIds.get(i));
                 if (i < genreIds.size() - 1) {
-                    currentUrl.append(",");
+                    urlBuilder.append(",");
                 }
             }
         }
-        return currentUrl + apiKey;
+        if(!isVoteAverageEmpty){
+            urlBuilder.append("&vote_average.gte=").append(voteAverage);
+        }
+        return urlBuilder + apiKey;
+    }
+
+    /**
+     * Append to urlBuilder string corresponding to releaseYear argument if it is not empty
+     * @param urlBuilder StringBuilder to modify
+     * @param releaseYear of the movies to search with API with discover command
+     * @param isReleaseYearEmpty flag to append to urlBuilder
+     */
+    private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String releaseYear, boolean isReleaseYearEmpty){
+        if(!isReleaseYearEmpty){
+            urlBuilder.append("&primary_release_year=").append(releaseYear);
+        }
     }
 
     /**
@@ -163,15 +173,19 @@ public class TmdbAPI {
     }
 
     /**
-     * return a list of genre ids from a list of genres
-     * @param genreList a list of genres
-     * @return a list of ids
+     * turns the response of an api request into a json file
+     * @param result response of the api request
      */
-    private List<String> genresToGenreIds(List<String> genreList){
-        List<String> genreIds = new ArrayList<>();
-        for(String genre : genreList){
-            genreIds.add(GENRE_ID_MAP.get(genre.toLowerCase(Locale.ROOT).trim()));
+    private void requestToFile(String result){
+        try {
+            ObjectMapper mapper = JsonMapper.builder().build();
+            ObjectNode node = mapper.readValue(result, ObjectNode.class);
+            try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(fileWriter, node);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        return genreIds;
     }
 }
