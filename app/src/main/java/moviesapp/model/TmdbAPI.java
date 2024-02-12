@@ -124,22 +124,14 @@ public class TmdbAPI {
      * @return the desired url based on given parameters
      */
     private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage){
-        boolean isGenreEmpty = genreIds.isEmpty();
         boolean isVoteAverageEmpty = voteAverage.isEmpty();
 
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
         buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
+        buildUrlWithGenres(urlBuilder, genreIds, genreIds.isEmpty());
 
-        if(!isGenreEmpty){
-            urlBuilder.append("&with_genres=");
-            for (int i = 0 ; i < genreIds.size(); i++) {
-                urlBuilder.append(genreIds.get(i));
-                if (i < genreIds.size() - 1) {
-                    urlBuilder.append(",");
-                }
-            }
-        }
+
         if(!isVoteAverageEmpty){
             urlBuilder.append("&vote_average.gte=").append(voteAverage);
         }
@@ -155,6 +147,22 @@ public class TmdbAPI {
     private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String releaseYear, boolean isReleaseYearEmpty){
         if(!isReleaseYearEmpty){
             urlBuilder.append("&primary_release_year=").append(releaseYear);
+        }
+    }
+
+    /**
+     * Append to urlBuilder string corresponding to genreIds argument if it is not empty
+     * @param urlBuilder StringBuilder to modify
+     * @param genreIds of the movies to search with API with discover command
+     * @param isGenreEmpty flag to append to urlBuilder
+     */
+    private void buildUrlWithGenres(StringBuilder urlBuilder, List<String> genreIds, boolean isGenreEmpty){
+        if(!isGenreEmpty){
+            urlBuilder.append("&with_genres=");
+            for(String genre : genreIds){
+                urlBuilder.append(genre).append(",");
+            }
+            urlBuilder.deleteCharAt(urlBuilder.length() - 1);
         }
     }
 
