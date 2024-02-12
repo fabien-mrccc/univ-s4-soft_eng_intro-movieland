@@ -176,15 +176,13 @@ public class TmdbAPI {
     /**
      * Return an url using API search command from the given parameters
      * @param title title or part of a title of a movie
-     * @param year year of release of a movie
+     * @param releaseYear release year of a movie
      * @return the desired url based on given parameters
      */
-    private String urlBuilderSearch(String title, String year){
-        boolean noYear = year.isEmpty();
-        if(!noYear){
-            return baseUrl + "/search/movie?query=" + title + "&primary_release_year=" + year + language + apiKey;
-        }
-        return baseUrl + "/search/movie?" + language + "&query=" + title + apiKey;
+    private String urlBuilderSearch(String title, String releaseYear){
+        StringBuilder urlBuilder = new StringBuilder(baseUrl + "/search/movie?" + language + "&query=" + title);
+        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear.isEmpty());
+        return urlBuilder + apiKey;
     }
 
     /**
