@@ -45,9 +45,9 @@ public class JSONReader extends SearchMovies {
                 jsonNode.get("vote_count").asInt()
         );
     }
-    public void findMoviesByName(Movies movies, String name ) {
+    public void findMoviesByName(Movies movies, String title) {
         for (JsonNode movie : jsonMovies) {
-            if(movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
+            if(movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase())) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }

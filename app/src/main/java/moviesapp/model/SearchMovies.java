@@ -34,11 +34,11 @@ public abstract class SearchMovies {
         return movieList;
     }
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the name provided in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the title provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param name the name of the movie researched
+     * @param title the title of the movie researched
      */
-    public abstract void findMoviesByName(Movies movies, String name ) ;
+    public abstract void findMoviesByName(Movies movies, String title ) ;
     /**
      * Add to a list of movies the movie(s) from the JSON file selected with the year provided in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list

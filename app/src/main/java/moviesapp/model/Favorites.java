@@ -84,9 +84,9 @@ public class Favorites extends SearchMovies{
         favorites.removeAll(moviesToRemoveFromFavorites(movies));
     }
 
-    public void findMoviesByName(Movies movies, String name ) {
+    public void findMoviesByName(Movies movies, String title) {
         for (Movie movie : favorites) {
-            if(movie.originalTitle().toLowerCase().contains(name.toLowerCase())) {
+            if(movie.originalTitle().toLowerCase().contains(title.toLowerCase())) {
                 movies.add(movie);
             }
         }
