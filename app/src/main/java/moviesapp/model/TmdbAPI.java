@@ -97,7 +97,7 @@ public class TmdbAPI {
             urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
         }
         else{
-            urlString = urlBuilderMovie(title, releaseYear);
+            urlString = urlBuilderSearch(title, releaseYear);
         }
         return new Request.Builder().url(urlString).build();
     }
@@ -174,12 +174,12 @@ public class TmdbAPI {
     }
 
     /**
-     * return an url from given parameters
+     * Return an url using API search command from the given parameters
      * @param title title or part of a title of a movie
      * @param year year of release of a movie
-     * @return the desired url from given url
+     * @return the desired url based on given parameters
      */
-    private String urlBuilderMovie(String title, String year){
+    private String urlBuilderSearch(String title, String year){
         boolean noYear = year.isEmpty();
         if(!noYear){
             return baseUrl + "/search/movie?query=" + title + "&primary_release_year=" + year + language + apiKey;
