@@ -11,7 +11,7 @@ public class JSONReaderTest {
 
     @BeforeAll
     static void setupBeforeAll(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/data_example.json");
+        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/test/java/moviesapp/model/api-results.json");
     }
 
     @Test
@@ -53,5 +53,10 @@ public class JSONReaderTest {
         assertThat(movieList.get(9).title().equals("Escrime")).isTrue();
         assertThat(movieList.get(9).voteCount() == 4).isTrue();
         assertThat(movieList.size() == 10).isTrue();
+    }
+
+    @Test
+    void testNumberOfPagesOfMoviesInJson(){
+        assertThat(jsonReader.numberOfPagesOfMoviesInJson()).isEqualTo(1);
     }
 }

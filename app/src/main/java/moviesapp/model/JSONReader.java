@@ -45,6 +45,8 @@ public class JSONReader extends SearchMovies {
                 jsonNode.get("vote_count").asInt()
         );
     }
+
+    @Override
     public void findMoviesByName(Movies movies, String name ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase())) {
@@ -52,6 +54,8 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
+
+    @Override
     public void findMoviesByYear(Movies movies , String year ) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())) {
@@ -59,6 +63,8 @@ public class JSONReader extends SearchMovies {
             }
         }
     }
+
+    @Override
     public void findMoviesByNameAndYear(Movies movies, String name, String year) {
         for (JsonNode movie : jsonMovies) {
             if(movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase())
@@ -84,20 +90,41 @@ public class JSONReader extends SearchMovies {
     }
 
     /**
-     * Return the origin jsonNode from our default jsonFile with exception management
+     * Return the origin jsonNode from our default jsonFile
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonMoviesNode(){
+        return getSpecificJsonNode("results");
+    }
+
+    /**
+     * Return the number of total pages of movies available in the json file of the class
+     * @return the number of total pages of movies available in the json file of the class
+     */
+    public int numberOfPagesOfMoviesInJson(){
+        JsonNode totalPagesNode = getSpecificJsonNode("total_pages");
+
+        if(totalPagesNode != null){
+            return totalPagesNode.asInt();
+        }
+
+        return 0;
+    }
+
+    /**
+     * Return a specific jsonNode from our json file of the class
+     * @return a specific jsonNode from our json file of the class
+     */
+    private JsonNode getSpecificJsonNode(String jsonNodeName){
         try{
-            return objectMapper.readTree(jsonFile).get("results");
+            return objectMapper.readTree(jsonFile).get(jsonNodeName);
         }
         catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         catch (NullPointerException e){
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get("+ jsonNodeName +") exception");
         }
         return null;
     }
-
 }

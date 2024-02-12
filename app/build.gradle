@@ -30,6 +30,9 @@ dependencies {
     // Jackson Databind
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
+
+    //themoviedbapi
+    implementation group: 'uk.co.conoregan', name: 'themoviedbapi', version: '1.15.1'
 }
 
 
