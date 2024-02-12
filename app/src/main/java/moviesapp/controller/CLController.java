@@ -84,7 +84,7 @@ public final class CLController {
             System.out.println("\nList of genres: \n" + api.genreList());
 
             do{
-                String genreName = askValue("Enter genre name: ");
+                String genreName = askValue("Enter genre name: ").trim().toLowerCase();
                 if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
