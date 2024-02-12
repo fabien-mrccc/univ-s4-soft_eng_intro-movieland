@@ -66,10 +66,22 @@ public final class CLController {
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
+        List<String> genres = specifiedGenres(api);
+        api.searchMovie(title, releaseYear, genres, voteAverage);
+        return jsonReader.findAllMovies();
+    }
+
+    /**
+     * Return the user's specified genres
+     * @param api the api that contains all the genres available
+     * @return the user's specified genres
+     */
+    private List<String> specifiedGenres(TmdbAPI api){
         List<String> genres = new ArrayList<>();
 
         if(askToConfirm("Do you want to specify one or more genres?")){
-            System.out.println("List of genres: \n" + api.genreList());
+            System.out.println("\nList of genres: \n" + api.genreList());
+
             do{
                 String genreName = askValue("Enter genre name: ");
                 if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
@@ -78,16 +90,10 @@ public final class CLController {
                 else {
                     System.out.println("Genre not found. Please enter a valid genre.");
                 }
-            }while(askToConfirm("do you want to add more genres"));
+            } while(askToConfirm("Do you want to add more genres?"));
         }
-        api.searchMovie(title, releaseYear, genres, voteAverage);
-        return jsonReader.findAllMovies();
+        return genres;
     }
-
-    /*old searchMovie :
-    String name = askValue("Name of the movie: ");
-        String year = askValue("Year of release: ");
-        return jsonReader.findMovies(name, year);*/
 
     /**
      * Ask name and year information to the user to select a specific group of favorites movies
