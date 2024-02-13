@@ -5,17 +5,25 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import java.io.IOException;
 import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
-    private final JSONReader jsonReader;
+    private JSONReader jsonReader;
 
     public CLController() {
         commands = new ArrayList<>();
         setupCommands();
         scanner = new Scanner(System.in);
+        jsonReaderUpdate();
+    }
+
+    /**
+     * Update the file read by the jsonReader
+     */
+    private void jsonReaderUpdate(){
         jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
     }
 
@@ -24,14 +32,14 @@ public final class CLController {
      */
     private void setupCommands(){
         commands.add("help: get a list of commands available");
-        commands.add("catalog: see all movies available on the application");
-        commands.add("search: show specific movies based on your criteria");
-        commands.add("details: see detailed information about one or several movies");
-        commands.add("add: add one or several movies to your favorite list");
-        commands.add("remove: remove one or several movies to your favorite list");
-        commands.add("favorites: see movies in your favorite list");
-        commands.add("clear: remove all the movies in your favorite list");
-        commands.add("exit: leave the application");
+        commands.add("(1)catalog: see all movies available on the application");
+        commands.add("(2)search: show specific movies based on your criteria");
+        commands.add("(3)details: see detailed information about one or several movies");
+        commands.add("(4)add: add one or several movies to your favorite list");
+        commands.add("(5)remove: remove one or several movies to your favorite list");
+        commands.add("(6)favorites: see movies in your favorite list");
+        commands.add("(7)clear: remove all the movies in your favorite list");
+        commands.add("(8)exit: leave the application");
     }
 
     /**
@@ -48,28 +56,61 @@ public final class CLController {
      * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
-        System.out.println(jsonReader.findAllMovies());
+        TmdbAPI api = new TmdbAPI();
+        String page = "";
+        int i = 1;
+        do {
+            if(i != 1) {
+                page = askValue("which page do you want :");
+            }
+            api.displayCatalog(page);
+            jsonReaderUpdate();
+            System.out.println(jsonReader.findAllMovies());
+            i=0;
+        }while(askToConfirm("do you want to change the page?(y/n)"));
     }
 
     /**
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        searchMovies().printMoviesDetails();
+        searchMoviesToReturn().printMoviesDetails();
     }
 
     /**
-     * Ask title and release year information to the user to select a specific group of movies
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
+     */
+    private void searchMoviesToPrint(){
+        searchMovies();
+        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+    }
+
+    /**
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      * @return the group of movies found
      */
-    private Movies searchMovies(){
-        TmdbAPI api = new TmdbAPI();
-        String title = askValue("Title of the movie: ");
-        String releaseYear = askValue("Year of release: ");
-        String voteAverage = askValue("Movie's minimum rate: ");
-        List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage);
+    private Movies searchMoviesToReturn(){
+        searchMovies();
         return jsonReader.findAllMovies();
+    }
+
+    /**
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies
+     */
+    private void searchMovies(){
+        do{
+            TmdbAPI api = new TmdbAPI();
+            String title = askValue("Title of the movie: ");
+            String releaseYear = askValue("Year of release: ");
+            String voteAverage = askValue("Movie's minimum rate: ");
+            List<String> genres = specifiedGenres(api);
+            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            jsonReaderUpdate();
+            String page = askValue("Select your page [total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "]: ");
+            api.searchMovie(title, releaseYear, genres, voteAverage , page);
+            jsonReaderUpdate();
+            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        } while(askToConfirm("Do you want to watch another page? : "));
     }
 
     /**
@@ -84,7 +125,7 @@ public final class CLController {
             System.out.println("\nList of genres: \n" + api.genreList());
 
             do{
-                String genreName = askValue("Enter genre name: ");
+                String genreName = askValue("Enter genre name: ").trim().toLowerCase();
                 if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
@@ -154,7 +195,7 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieById(Movies movies){
-        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
+        System.out.println("\nYour list of movies with identifiers: \n" + movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
         String id = askValue("ID of the movie to add to your favorites: ") ;
         Movies movieSelected = new Movies();
         movieSelected.add(movies.findMovieByID(id));
@@ -166,7 +207,7 @@ public final class CLController {
      */
     private void add(){
         do{
-            Movies movies = searchMovies();
+            Movies movies = searchMoviesToReturn();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     addMovieById(movies);
@@ -247,15 +288,15 @@ public final class CLController {
             System.out.println();
 
             switch(command){
-                case "clear":
+                case "7":
                     clear();
                     break;
 
-                case "exit":
+                case "8":
                     exit();
                     break;
 
-                case "catalog":
+                case "1":
                     displayCatalog();
                     break;
 
@@ -263,23 +304,23 @@ public final class CLController {
                     help();
                     break;
 
-                case "details":
+                case "3":
                     details();
                     break;
 
-                case "search":
-                    searchMovies();
+                case "2":
+                    searchMoviesToPrint();
                     break;
 
-                case "favorites":
+                case "6":
                     displayFavorites();
                     break;
 
-                case "add":
+                case "4":
                     add();
                     break;
 
-                case "remove":
+                case "5":
                     remove();
                     break;
 

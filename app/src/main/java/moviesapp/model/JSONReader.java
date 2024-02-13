@@ -1,13 +1,11 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
-import com.sun.source.tree.Tree;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 import static moviesapp.model.TmdbAPI.GENRE_ID_MAP;
+
 public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
@@ -26,7 +24,7 @@ public class JSONReader extends SearchMovies {
      * @param jsonNode: the jsonNode to convert to a movie
      * @return the jsonNode converted to a movie
      */
-    private Movie jsonNodeToMovie(JsonNode jsonNode){
+    private Movie jsonNodeToMovie(JsonNode jsonNode) {
 
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
@@ -94,8 +92,29 @@ public class JSONReader extends SearchMovies {
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonMoviesNode(){
+        return getSpecificJsonNode("results");
+    }
+
+    /**
+     * Return the number of total pages of movies available in the json file of the class
+     * @return the number of total pages of movies available in the json file of the class
+     */
+    public int numberOfPagesOfMoviesInJson(){
+        JsonNode totalPagesNode = getSpecificJsonNode("total_pages");
+
+        if(totalPagesNode != null){
+            return totalPagesNode.asInt();
+        }
+
+        return 0;
+    }
+    /**
+     * Return a specific jsonNode from our json file of the class
+     * @return a specific jsonNode from our json file of the class
+     */
+    private JsonNode getSpecificJsonNode(String jsonNodeName){
         try{
-            return objectMapper.readTree(jsonFile).get("results");
+            return objectMapper.readTree(jsonFile).get(jsonNodeName);
         }
         catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");

@@ -1,5 +1,7 @@
 package moviesapp.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,8 +21,7 @@ public class Movies implements Iterable<Movie> {
     public String toString(){
         StringBuilder moviesString = new StringBuilder();
         if(movies.isEmpty()){
-            moviesString = new StringBuilder("Your list of movies is empty.");
-            return moviesString.toString();
+            return "Your list of movies is empty.";
         }
         for(Movie movie: movies){
             moviesString.append(movie).append("\n");
@@ -69,6 +70,7 @@ public class Movies implements Iterable<Movie> {
         if(noMovieFound(this)){
             return;
         }
+        System.out.println("\nYour list of movies with detailed information: ");
         for(Movie movie : movies){
             System.out.println(movie.details());
         }
@@ -94,6 +96,7 @@ public class Movies implements Iterable<Movie> {
         return movies.size();
     }
 
+    @NotNull
     @Override
     public Iterator<Movie> iterator() {
         return new MoviesIterator();
