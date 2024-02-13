@@ -32,14 +32,14 @@ public final class CLController {
      */
     private void setupCommands(){
         commands.add("help: get a list of commands available");
-        commands.add("(1)catalog: see all movies available on the application");
-        commands.add("(2)search: show specific movies based on your criteria");
-        commands.add("(3)details: see detailed information about one or several movies");
-        commands.add("(4)add: add one or several movies to your favorite list");
-        commands.add("(5)remove: remove one or several movies to your favorite list");
-        commands.add("(6)favorites: see movies in your favorite list");
-        commands.add("(7)clear: remove all the movies in your favorite list");
-        commands.add("(8)exit: leave the application");
+        commands.add("[1] catalog: see all movies available on the application");
+        commands.add("[2] search: show specific movies based on your criteria");
+        commands.add("[3] details: see detailed information about precedent research");
+        commands.add("[4] add: add one or several movies to your favorite list");
+        commands.add("[5] remove: remove one or several movies to your favorite list");
+        commands.add("[6] favorites: see movies in your favorite list");
+        commands.add("[7] clear: remove all the movies in your favorite list");
+        commands.add("[8] exit: leave the application");
     }
 
     /**
@@ -74,7 +74,12 @@ public final class CLController {
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        searchMoviesToReturn().printMoviesDetails();
+        if(jsonReader.findAllMovies().isEmpty()){
+            System.out.println("No movie found");
+        }
+        else{
+            jsonReader.findAllMovies().printMoviesDetails();
+        }
     }
 
     /**
