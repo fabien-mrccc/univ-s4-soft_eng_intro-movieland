@@ -246,4 +246,27 @@ public class TmdbAPI {
             System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
         }
     }
+
+    /**
+     *
+     */
+    public void searchPopularMovies(){
+        Request request = buildPopularRequest();
+
+        try {
+            Response response = client.newCall(request).execute();
+            reactToRequestResponse(response);
+
+        } catch(IOException e){
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+        }
+    }
+
+    /**
+     * Build API request from url with API popular command
+     * @return API request from url with API popular command
+     */
+    private Request buildPopularRequest(){
+        return new Request.Builder().url(baseUrl + "/movie/popular?" + language).build();
+    }
 }
