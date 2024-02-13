@@ -8,12 +8,14 @@ import java.util.List;
 public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
-    private final JsonNode jsonMovies;
+    private final JsonNode jsonMovies ;
+    private final JsonNode jsonGenres;
 
-    public JSONReader(String path) {
+    public JSONReader(String path){
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
-        jsonMovies = getJsonMoviesNode();
+        jsonMovies = getJsonMoviesNode() ;
+        jsonGenres = getJsonGenresNode();
     }
 
     /**
@@ -43,7 +45,6 @@ public class JSONReader extends SearchMovies {
 
     /**
      * Browse genre_ids jsonNode to collect values to store in a list
-     *
      * @param jsonNode to browse
      * @return the list of genre identifiers
      */
@@ -122,4 +123,24 @@ public class JSONReader extends SearchMovies {
         }
         return null;
     }
+
+    /**
+     * Return the origin jsonNode from our default jsonFile with exception management
+     * @return the origin jsonNode from our default jsonFile
+     */
+    private JsonNode getJsonGenresNode() {
+        try {
+            return objectMapper.readTree(jsonFile).get("genres");
+        } catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"genres\") exception");
+        }
+        return null;
+    }
+
+    public JsonNode getJsonGenres(){
+        return jsonGenres;
+    }
+
 }

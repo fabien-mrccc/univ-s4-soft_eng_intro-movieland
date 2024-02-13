@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static moviesapp.model.TmdbAPI.GENRE_ID_MAP;
+import static moviesapp.model.TmdbAPI.fillGENRE_ID_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TmdbAPITest {
@@ -54,5 +56,15 @@ public class TmdbAPITest {
         }
 
         return fileContent;
+    }
+
+    @Test
+    void testFillGENRE_ID_MAP(){
+        assertThat(GENRE_ID_MAP.isEmpty()).isTrue();
+        fillGENRE_ID_MAP();
+        assertThat(GENRE_ID_MAP.isEmpty()).isFalse();
+        assertThat(GENRE_ID_MAP.toString()).isEqualTo(  "{Action=28, Adventure=12, Animation=16, Comedy=35, Crime=80, Documentary=99, " +
+                "Drama=18, Family=10751, Fantasy=14, History=36, Horror=27, Music=10402, Mystery=9648, Romance=10749, Science Fiction=878, " +
+                "TV Movie=10770, Thriller=53, War=10752, Western=37}");
     }
 }

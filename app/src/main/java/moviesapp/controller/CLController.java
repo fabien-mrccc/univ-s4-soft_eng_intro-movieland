@@ -127,6 +127,7 @@ public final class CLController {
 
             do{
                 String genreName = askValue("Enter genre name: ").trim().toLowerCase();
+                genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
                 if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
