@@ -265,7 +265,7 @@ public class TmdbAPI {
                 System.out.println("error :" + response.code());
             }
         }catch(IOException e){
-            e.printStackTrace();
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
         }
     }
 
@@ -282,7 +282,7 @@ public class TmdbAPI {
                 mapper.writeValue(fileWriter, node);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.err.println("IOException from 'new FileWriter(...)' or 'mapper.writeValue(fileWriter, node)'");
         }
     }
 }
