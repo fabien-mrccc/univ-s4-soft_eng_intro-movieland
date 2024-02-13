@@ -48,11 +48,9 @@ public class JSONReader extends SearchMovies {
 
     /**
      * Convert a jsonNode to a Genre and add it to GENRE_ID_MAP if it's not already in it
-     * @param jsonNode: the jsonNode to convert to a Genre
-     * @return the jsonNode converted to a Genre
      */
-    private void jsonNodeToGenreInGENRE_ID_MAP(JsonNode jsonNode){
-        GENRE_ID_MAP.put(jsonNode.get("name").asText(),jsonNode.get("id").asText());
+    protected void jsonNodeToGenreInGENRE_ID_MAP(){
+        GENRE_ID_MAP.put(jsonGenres.get("name").asText(),jsonGenres.get("id").asText());
     }
 
     /**
@@ -129,4 +127,9 @@ public class JSONReader extends SearchMovies {
         }
         return null;
     }
+
+    public JsonNode getJsonGenres(){
+        return jsonGenres;
+    }
+
 }
