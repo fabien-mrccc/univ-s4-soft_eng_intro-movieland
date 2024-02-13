@@ -55,26 +55,36 @@ public final class CLController {
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        searchMovies().printMoviesDetails();
+        searchMoviesToReturn().printMoviesDetails();
     }
 
     /**
-     * Ask title and release year information to the user to select a specific group of movies
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
+     */
+    private void searchMoviesToPrint(){
+        searchMovies();
+        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+    }
+
+    /**
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      * @return the group of movies found
      */
-    private Movies searchMovies(){
+    private Movies searchMoviesToReturn(){
+        searchMovies();
+        return jsonReader.findAllMovies();
+    }
+
+    /**
+     * Ask title, release year, vote average and genres information to the user to select a specific group of movies
+     */
+    private void searchMovies(){
         TmdbAPI api = new TmdbAPI();
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
         List<String> genres = specifiedGenres(api);
         api.searchMovie(title, releaseYear, genres, voteAverage);
-        printMoviesFoundBySearch();
-        return jsonReader.findAllMovies();
-    }
-
-    private void printMoviesFoundBySearch(){
-        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
     }
 
     /**
@@ -171,7 +181,7 @@ public final class CLController {
      */
     private void add(){
         do{
-            Movies movies = searchMovies();
+            Movies movies = searchMoviesToReturn();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     addMovieById(movies);
@@ -273,7 +283,7 @@ public final class CLController {
                     break;
 
                 case "search":
-                    searchMovies();
+                    searchMoviesToPrint();
                     break;
 
                 case "favorites":
