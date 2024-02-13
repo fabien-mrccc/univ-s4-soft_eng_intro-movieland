@@ -159,7 +159,7 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieById(Movies movies){
-        System.out.println(movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
+        System.out.println("\nYour list of movies with identifiers: \n" + movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
         String id = askValue("ID of the movie to add to your favorites: ") ;
         Movies movieSelected = new Movies();
         movieSelected.add(movies.findMovieByID(id));
