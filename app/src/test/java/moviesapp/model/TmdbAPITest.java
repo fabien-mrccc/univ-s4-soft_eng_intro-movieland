@@ -19,7 +19,7 @@ public class TmdbAPITest {
 
     @Test
     void searchMovieTest() {
-        api.searchMovie("", "1890",null , null);
+        api.searchMovies("", "1890",null , null);
 
         String apiResultsJSONContent = readContentFromAPIResultsJSON();
         String dataExampleJSONContent = readContentFromDataExampleJSON();

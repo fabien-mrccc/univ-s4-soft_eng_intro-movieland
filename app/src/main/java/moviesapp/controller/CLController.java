@@ -5,7 +5,6 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
-import java.io.IOException;
 import java.util.*;
 
 public final class CLController {
@@ -21,7 +20,7 @@ public final class CLController {
     }
 
     /**
-     * update the file read by the jsonReader
+     * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
         jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
@@ -92,7 +91,7 @@ public final class CLController {
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
         List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage);
+        api.searchMovies(title, releaseYear, genres, voteAverage);
         jsonReaderUpdate();
     }
 
