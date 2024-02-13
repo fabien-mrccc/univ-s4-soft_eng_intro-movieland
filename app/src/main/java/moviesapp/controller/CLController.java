@@ -1,6 +1,9 @@
 package moviesapp.controller;
 
-import moviesapp.model.*;
+import moviesapp.model.Favorites;
+import moviesapp.model.JSONReader;
+import moviesapp.model.Movies;
+import moviesapp.model.TmdbAPI;
 
 import java.io.IOException;
 import java.util.*;
@@ -278,7 +281,6 @@ public final class CLController {
      */
     public void select(){
         for (;;) {
-            help();
             System.out.println("\nInput your command: ");
             String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
@@ -294,6 +296,10 @@ public final class CLController {
 
                 case "1":
                     displayCatalog();
+                    break;
+
+                case "help":
+                    help();
                     break;
 
                 case "3":

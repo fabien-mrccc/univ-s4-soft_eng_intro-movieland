@@ -112,7 +112,7 @@ public class JSONReader extends SearchMovies {
      */
     private JsonNode getSpecificJsonNode(String jsonNodeName){
         try{
-            return objectMapper.readTree(jsonFile).get("results");
+            return objectMapper.readTree(jsonFile).get(jsonNodeName);
         }
         catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
