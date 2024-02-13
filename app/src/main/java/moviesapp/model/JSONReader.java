@@ -1,10 +1,13 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
+import com.sun.source.tree.Tree;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.TreeMap;
+import static moviesapp.model.TmdbAPI.GENRE_ID_MAP;
 public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
@@ -44,14 +47,12 @@ public class JSONReader extends SearchMovies {
     }
 
     /**
-     * Convert a jsonNode to a Genre
+     * Convert a jsonNode to a Genre and add it to GENRE_ID_MAP if it's not already in it
      * @param jsonNode: the jsonNode to convert to a Genre
      * @return the jsonNode converted to a Genre
      */
-    private Genre jsonNodeToGenre(JsonNode jsonNode){
-        return new Genre(
-                jsonNode.get("name").asText(),
-                jsonNode.get("id").asText());
+    private void jsonNodeToGenreInGENRE_ID_MAP(JsonNode jsonNode){
+        GENRE_ID_MAP.put(jsonNode.get("name").asText(),jsonNode.get("id").asText());
     }
 
     /**
