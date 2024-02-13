@@ -21,8 +21,7 @@ public class Movies implements Iterable<Movie> {
     public String toString(){
         StringBuilder moviesString = new StringBuilder();
         if(movies.isEmpty()){
-            moviesString = new StringBuilder("Your list of movies is empty.");
-            return moviesString.toString();
+            return "Your list of movies is empty.";
         }
         for(Movie movie: movies){
             moviesString.append(movie).append("\n");

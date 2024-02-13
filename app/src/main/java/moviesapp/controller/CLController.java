@@ -56,7 +56,14 @@ public final class CLController {
      * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
-        System.out.println(jsonReader.findAllMovies());
+        TmdbAPI api = new TmdbAPI();
+        String page;
+        do {
+            page = askValue("which page do you want :");
+            api.displayCatalog(page);
+            jsonReaderUpdate();
+            System.out.println(jsonReader.findAllMovies());
+        }while(askToConfirm("do you want to change the page?(y/n)"));
     }
 
     /**
