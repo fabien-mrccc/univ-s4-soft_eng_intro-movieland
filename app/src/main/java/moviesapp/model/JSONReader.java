@@ -8,12 +8,12 @@ import java.util.List;
 public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
-    private final JsonNode jsonMovies ;
+    private final JsonNode jsonMovies;
 
-    public JSONReader(String path){
+    public JSONReader(String path) {
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
-        jsonMovies = getJsonMoviesNode() ;
+        jsonMovies = getJsonMoviesNode();
     }
 
     /**
@@ -21,7 +21,7 @@ public class JSONReader extends SearchMovies {
      * @param jsonNode: the jsonNode to convert to a movie
      * @return the jsonNode converted to a movie
      */
-    private Movie jsonNodeToMovie(JsonNode jsonNode){
+    private Movie jsonNodeToMovie(JsonNode jsonNode) {
 
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
@@ -43,6 +43,7 @@ public class JSONReader extends SearchMovies {
 
     /**
      * Browse genre_ids jsonNode to collect values to store in a list
+     *
      * @param jsonNode to browse
      * @return the list of genre identifiers
      */
@@ -89,6 +90,27 @@ public class JSONReader extends SearchMovies {
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonMoviesNode(){
+        return getSpecificJsonNode("results");
+    }
+
+    /**
+     * Return the number of total pages of movies available in the json file of the class
+     * @return the number of total pages of movies available in the json file of the class
+     */
+    public int numberOfPagesOfMoviesInJson(){
+        JsonNode totalPagesNode = getSpecificJsonNode("total_pages");
+
+        if(totalPagesNode != null){
+            return totalPagesNode.asInt();
+        }
+
+        return 0;
+    }
+    /**
+     * Return a specific jsonNode from our json file of the class
+     * @return a specific jsonNode from our json file of the class
+     */
+    private JsonNode getSpecificJsonNode(String jsonNodeName){
         try{
             return objectMapper.readTree(jsonFile).get("results");
         }

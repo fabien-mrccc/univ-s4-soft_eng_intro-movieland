@@ -65,8 +65,8 @@ public class TmdbAPI {
      * @param genres a list of genres
      * @param voteAverage the min vote average
      */
-    public void searchMovies(String title, String releaseYear, List<String> genres, String voteAverage){
-        Request request = buildRequest(title, releaseYear, genres, voteAverage);
+    public void searchMovie(String title, String releaseYear, List<String> genres, String voteAverage , String page){
+        Request request = buildRequest(title, releaseYear, genres, voteAverage , page );
 
         try {
             Response response = client.newCall(request).execute();
@@ -85,15 +85,16 @@ public class TmdbAPI {
      * @param voteAverage the min vote average
      * @return the request built
      */
-    private Request buildRequest(String title, String releaseYear, List<String> genres, String voteAverage){
+    private Request buildRequest(String title, String releaseYear, List<String> genres, String voteAverage, String page){
         String urlString;
 
         if(title.isEmpty()){
-            urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage);
+            urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage , page);
         }
         else{
-            urlString = urlBuilderSearch(title, releaseYear);
+            urlString = urlBuilderSearch(title, releaseYear, page);
         }
+        //updatePage
         return new Request.Builder().url(urlString).build();
     }
 
@@ -122,13 +123,13 @@ public class TmdbAPI {
      * @param voteAverage minimum vote average of a film
      * @return the desired url based on given parameters
      */
-    private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage){
+    private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage, String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
         buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
         buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
         buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
-
+        buildUrlWithPage(urlBuilder, page);
         return urlBuilder + apiKey;
     }
 
@@ -143,6 +144,15 @@ public class TmdbAPI {
             urlBuilder.append("&primary_release_year=").append(releaseYear);
         }
     }
+
+    /**
+     * Append to UrlBuilder string corresponding to page
+     * @param urlBuilder StringBuilder to modify
+     * @param page the number of the page
+     */
+    private void buildUrlWithPage(StringBuilder urlBuilder, String page ) {
+            urlBuilder.append("&page=").append(page);
+        }
 
     /**
      * Append to urlBuilder string corresponding to genreIds argument if it is not empty
@@ -178,35 +188,13 @@ public class TmdbAPI {
      * @param releaseYear release year of a movie
      * @return the desired url based on given parameters
      */
-    private String urlBuilderSearch(String title, String releaseYear){
+    private String urlBuilderSearch(String title, String releaseYear , String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/search/movie?" + language + "&query=" + title);
         buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
+        buildUrlWithPage(urlBuilder, page);
         return urlBuilder + apiKey;
     }
 
-    private String urlBuilderPage(String title , String page){
-        return "https://api.themoviedb.org/3/search/movie"
-                + "?api_key=" + apiKey
-                + "&query=" + title
-                + "&page=" + page;
-    }
-
-    private Request buildPages(String title , String page){
-
-        return new Request.Builder().url(urlBuilderPage(title, page)).build();
-    }
-
-    public void SearchMoviesByPages(String title , String page){
-        Request request = buildPages(title,page);
-
-        try {
-            Response response = client.newCall(request).execute();
-            reactToRequestResponse(response);
-
-        } catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
-        }
-    }
     /**
      * Convert the request response to a JSON file if it is successful or print an error.
      * @param response from the API after a specific request
@@ -245,28 +233,5 @@ public class TmdbAPI {
         } catch (JsonProcessingException e){
             System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
         }
-    }
-
-    /**
-     *
-     */
-    public void searchPopularMovies(){
-        Request request = buildPopularRequest();
-
-        try {
-            Response response = client.newCall(request).execute();
-            reactToRequestResponse(response);
-
-        } catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
-        }
-    }
-
-    /**
-     * Build API request from url with API popular command
-     * @return API request from url with API popular command
-     */
-    private Request buildPopularRequest(){
-        return new Request.Builder().url(baseUrl + "/movie/popular?" + language).build();
     }
 }
