@@ -184,6 +184,29 @@ public class TmdbAPI {
         return urlBuilder + apiKey;
     }
 
+    private String urlBuilderPage(String title , String page){
+        return "https://api.themoviedb.org/3/search/movie"
+                + "?api_key=" + apiKey
+                + "&query=" + title
+                + "&page=" + page;
+    }
+
+    private Request buildPages(String title , String page){
+
+        return new Request.Builder().url(urlBuilderPage(title, page)).build();
+    }
+
+    public void SearchMoviesByPages(String title , String page){
+        Request request = buildPages(title,page);
+
+        try {
+            Response response = client.newCall(request).execute();
+            reactToRequestResponse(response);
+
+        } catch(IOException e){
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+        }
+    }
     /**
      * Convert the request response to a JSON file if it is successful or print an error.
      * @param response from the API after a specific request
