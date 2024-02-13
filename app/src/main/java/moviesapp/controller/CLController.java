@@ -87,14 +87,19 @@ public final class CLController {
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      */
     private void searchMovies(){
-        TmdbAPI api = new TmdbAPI();
-        String title = askValue("Title of the movie: ");
-        String releaseYear = askValue("Year of release: ");
-        String voteAverage = askValue("Movie's minimum rate: ");
-        String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
-        List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage , page);
-        jsonReaderUpdate();
+        do{
+            TmdbAPI api = new TmdbAPI();
+            String title = askValue("Title of the movie: ");
+            String releaseYear = askValue("Year of release: ");
+            String voteAverage = askValue("Movie's minimum rate: ");
+            List<String> genres = specifiedGenres(api);
+            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            jsonReaderUpdate();
+            String page = askValue("Select your page [total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "]: ");
+            api.searchMovie(title, releaseYear, genres, voteAverage , page);
+            jsonReaderUpdate();
+            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        } while(askToConfirm("Do you want to watch another page? : "));
     }
 
     /**
