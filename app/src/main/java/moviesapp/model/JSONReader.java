@@ -42,6 +42,17 @@ public class JSONReader extends SearchMovies {
     }
 
     /**
+     * Convert a jsonNode to a Genre
+     * @param jsonNode: the jsonNode to convert to a Genre
+     * @return the jsonNode converted to a Genre
+     */
+    private Genre jsonNodeToGenre(JsonNode jsonNode){
+        return new Genre(
+                jsonNode.get("name").asText(),
+                jsonNode.get("id").asText());
+    }
+
+    /**
      * Browse genre_ids jsonNode to collect values to store in a list
      * @param jsonNode to browse
      * @return the list of genre identifiers
