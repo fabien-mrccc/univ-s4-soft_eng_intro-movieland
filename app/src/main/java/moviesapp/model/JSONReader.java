@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import static moviesapp.model.TmdbAPI.GENRE_ID_MAP;
 
 public class JSONReader extends SearchMovies {
     private final File jsonFile;
