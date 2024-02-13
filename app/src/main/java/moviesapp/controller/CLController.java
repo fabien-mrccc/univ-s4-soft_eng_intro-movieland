@@ -5,17 +5,25 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import java.io.IOException;
 import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
-    private final JSONReader jsonReader;
+    private JSONReader jsonReader;
 
     public CLController() {
         commands = new ArrayList<>();
         setupCommands();
         scanner = new Scanner(System.in);
+        jsonReaderUpdate();
+    }
+
+    /**
+     * Update the file read by the jsonReader
+     */
+    private void jsonReaderUpdate(){
         jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
     }
 
@@ -86,6 +94,7 @@ public final class CLController {
         String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
         List<String> genres = specifiedGenres(api);
         api.searchMovie(title, releaseYear, genres, voteAverage , page);
+        jsonReaderUpdate();
     }
 
     /**

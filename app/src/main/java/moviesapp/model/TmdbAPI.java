@@ -120,7 +120,7 @@ public class TmdbAPI {
      * Return an url using API discover command from the given parameters
      * @param releaseYear release year of a film
      * @param genreIds list of genres of a film
-     * @param voteAverage minimum vote average ofa film
+     * @param voteAverage minimum vote average of a film
      * @return the desired url based on given parameters
      */
     private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage, String page){
