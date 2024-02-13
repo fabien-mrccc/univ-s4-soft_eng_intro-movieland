@@ -83,8 +83,9 @@ public final class CLController {
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
+        String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
         List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage);
+        api.searchMovie(title, releaseYear, genres, voteAverage , page);
     }
 
     /**
@@ -251,17 +252,6 @@ public final class CLController {
 
         return answer.equals("y");
     }
-    private void searchByPage(){
-        do{
-            TmdbAPI api = new TmdbAPI();
-            String title = askValue("Title of the movie: ");
-            String page = askValue("Page: ");
-            api.SearchMoviesByPages(title , page);
-        } while(askToConfirm("Do you want to find another movie ?: ")) ;
-
-
-
-    }
 
     /**
      * Select a method to execute based on user input and execute it
@@ -275,10 +265,6 @@ public final class CLController {
             switch(command){
                 case "clear":
                     clear();
-                    break;
-
-                case "page ":
-                    searchByPage();
                     break;
 
                 case "exit":
