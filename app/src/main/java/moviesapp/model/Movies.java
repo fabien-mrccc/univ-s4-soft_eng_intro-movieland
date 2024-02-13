@@ -71,6 +71,7 @@ public class Movies implements Iterable<Movie> {
         if(noMovieFound(this)){
             return;
         }
+        System.out.println("\nYour list of movies with detailed information: ");
         for(Movie movie : movies){
             System.out.println(movie.details());
         }
