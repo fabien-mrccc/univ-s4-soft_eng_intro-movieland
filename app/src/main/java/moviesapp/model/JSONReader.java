@@ -47,13 +47,6 @@ public class JSONReader extends SearchMovies {
     }
 
     /**
-     * Convert a jsonNode to a Genre and add it to GENRE_ID_MAP if it's not already in it
-     */
-    protected void jsonNodeToGenreInGENRE_ID_MAP(){
-        GENRE_ID_MAP.put(jsonGenres.get("name").asText(),jsonGenres.get("id").asText());
-    }
-
-    /**
      * Browse genre_ids jsonNode to collect values to store in a list
      * @param jsonNode to browse
      * @return the list of genre identifiers
@@ -119,11 +112,11 @@ public class JSONReader extends SearchMovies {
      */
     private JsonNode getJsonGenresNode() {
         try {
-            return objectMapper.readTree(jsonFile).get("");
+            return objectMapper.readTree(jsonFile).get("genres");
         } catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         } catch (NullPointerException e) {
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"genres\") exception");
         }
         return null;
     }
