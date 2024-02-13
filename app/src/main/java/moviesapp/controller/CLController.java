@@ -75,9 +75,12 @@ public final class CLController {
     private void details(){
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
-        System.out.println("give the number of the movie (1-20 from top to bottom)");
-        int index = Integer.parseInt(scanner.nextLine()) - 1;
-        System.out.println(movieList.get(index).details());
+        if(!movieList.isEmpty()) {
+            System.out.println("Give the number of the movie");
+            int index = Integer.parseInt(scanner.nextLine()) - 1;
+            System.out.println(movieList.get(index).details());
+        }
+        System.out.println("There was no movie");
     }
 
     /**
