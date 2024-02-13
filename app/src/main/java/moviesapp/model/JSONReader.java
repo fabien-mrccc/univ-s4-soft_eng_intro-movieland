@@ -9,11 +9,13 @@ public class JSONReader extends SearchMovies {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
+    private final JsonNode jsonGenres;
 
     public JSONReader(String path){
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
         jsonMovies = getJsonMoviesNode() ;
+        jsonGenres = getJsonGenresNode();
     }
 
     /**
@@ -107,6 +109,21 @@ public class JSONReader extends SearchMovies {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
         }
         catch (NullPointerException e){
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+        }
+        return null;
+    }
+
+    /**
+     * Return the origin jsonNode from our default jsonFile with exception management
+     * @return the origin jsonNode from our default jsonFile
+     */
+    private JsonNode getJsonGenresNode() {
+        try {
+            return objectMapper.readTree(jsonFile).get("");
+        } catch (IOException e) {
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+        } catch (NullPointerException e) {
             System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
         }
         return null;
