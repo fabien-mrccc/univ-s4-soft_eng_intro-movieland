@@ -16,6 +16,7 @@ import java.util.*;
 public class TmdbAPI {
 
     String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
+    String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/genres.json";
     OkHttpClient client = new OkHttpClient();
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
@@ -99,6 +100,23 @@ public class TmdbAPI {
             ObjectMapper mapper = JsonMapper.builder().build();
             ObjectNode node = mapper.readValue(result, ObjectNode.class);
             try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(fileWriter, node);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * turns the response of an api request into a json file filled with genres
+     * @param result response of the api request
+     */
+    private void requestToGenresFile(String result){
+        try {
+            ObjectMapper mapper = JsonMapper.builder().build();
+            ObjectNode node = mapper.readValue(result, ObjectNode.class);
+            try (FileWriter fileWriter = new FileWriter(genreFileName, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
             }
