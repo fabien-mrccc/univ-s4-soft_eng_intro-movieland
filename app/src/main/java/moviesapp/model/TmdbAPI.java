@@ -181,4 +181,24 @@ public class TmdbAPI {
         }
         return genreIds;
     }
+
+    public void updateGenresFile(){
+        String url = baseUrl + "/genre/movie/list?language=en" + apiKey;
+
+        Request request = new Request.Builder().url(url).build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            if(response.isSuccessful()){
+                String genresResult = response.body().string();
+                requestToGenresFile(genresResult);
+            }
+            else{
+                System.out.println("error :" + response.code());
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 }
