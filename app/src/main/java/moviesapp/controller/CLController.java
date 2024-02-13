@@ -31,10 +31,9 @@ public final class CLController {
      * Add elements to the command list
      */
     private void setupCommands(){
-        commands.add("help: get a list of commands available");
         commands.add("(1)catalog: see all movies available on the application");
         commands.add("(2)search: show specific movies based on your criteria");
-        commands.add("(3)details: see detailed information about one or several movies");
+        commands.add("(3)details: see detailed information about one movie");
         commands.add("(4)add: add one or several movies to your favorite list");
         commands.add("(5)remove: remove one or several movies to your favorite list");
         commands.add("(6)favorites: see movies in your favorite list");
@@ -74,7 +73,11 @@ public final class CLController {
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        searchMoviesToReturn().printMoviesDetails();
+        jsonReaderUpdate();
+        Movies movieList= jsonReader.findAllMovies();
+        System.out.println("give the number of the movie (1-20 from top to bottom)");
+        int index = Integer.parseInt(scanner.nextLine()) - 1;
+        System.out.println(movieList.get(index).details());
     }
 
     /**
@@ -98,19 +101,14 @@ public final class CLController {
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      */
     private void searchMovies(){
-        do{
-            TmdbAPI api = new TmdbAPI();
-            String title = askValue("Title of the movie: ");
-            String releaseYear = askValue("Year of release: ");
-            String voteAverage = askValue("Movie's minimum rate: ");
-            List<String> genres = specifiedGenres(api);
-            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
-            jsonReaderUpdate();
-            String page = askValue("Select your page [total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "]: ");
-            api.searchMovie(title, releaseYear, genres, voteAverage , page);
-            jsonReaderUpdate();
-            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-        } while(askToConfirm("Do you want to watch another page? : "));
+        TmdbAPI api = new TmdbAPI();
+        String title = askValue("Title of the movie: ");
+        String releaseYear = askValue("Year of release: ");
+        String voteAverage = askValue("Movie's minimum rate: ");
+        String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
+        List<String> genres = specifiedGenres(api);
+        api.searchMovie(title, releaseYear, genres, voteAverage , page);
+        jsonReaderUpdate();
     }
 
     /**
@@ -284,6 +282,7 @@ public final class CLController {
      */
     public void select(){
         for (;;) {
+            help();
             System.out.println("\nInput your command: ");
             String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
@@ -299,10 +298,6 @@ public final class CLController {
 
                 case "1":
                     displayCatalog();
-                    break;
-
-                case "help":
-                    help();
                     break;
 
                 case "3":
