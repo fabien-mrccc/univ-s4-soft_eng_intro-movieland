@@ -32,14 +32,14 @@ public final class CLController {
      */
     private void setupCommands(){
         commands.add("help: get a list of commands available");
-        commands.add("catalog: see all movies available on the application");
-        commands.add("search: show specific movies based on your criteria");
-        commands.add("details: see detailed information about one or several movies");
-        commands.add("add: add one or several movies to your favorite list");
-        commands.add("remove: remove one or several movies to your favorite list");
-        commands.add("favorites: see movies in your favorite list");
-        commands.add("clear: remove all the movies in your favorite list");
-        commands.add("exit: leave the application");
+        commands.add("(1)catalog: see all movies available on the application");
+        commands.add("(2)search: show specific movies based on your criteria");
+        commands.add("(3)details: see detailed information about one or several movies");
+        commands.add("(4)add: add one or several movies to your favorite list");
+        commands.add("(5)remove: remove one or several movies to your favorite list");
+        commands.add("(6)favorites: see movies in your favorite list");
+        commands.add("(7)clear: remove all the movies in your favorite list");
+        commands.add("(8)exit: leave the application");
     }
 
     /**
@@ -56,7 +56,18 @@ public final class CLController {
      * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
-        System.out.println(jsonReader.findAllMovies());
+        TmdbAPI api = new TmdbAPI();
+        String page = "";
+        int i = 1;
+        do {
+            if(i != 1) {
+                page = askValue("which page do you want :");
+            }
+            api.displayCatalog(page);
+            jsonReaderUpdate();
+            System.out.println(jsonReader.findAllMovies());
+            i=0;
+        }while(askToConfirm("do you want to change the page?(y/n)"));
     }
 
     /**
@@ -277,15 +288,15 @@ public final class CLController {
             System.out.println();
 
             switch(command){
-                case "clear":
+                case "7":
                     clear();
                     break;
 
-                case "exit":
+                case "8":
                     exit();
                     break;
 
-                case "catalog":
+                case "1":
                     displayCatalog();
                     break;
 
@@ -293,23 +304,23 @@ public final class CLController {
                     help();
                     break;
 
-                case "details":
+                case "3":
                     details();
                     break;
 
-                case "search":
+                case "2":
                     searchMoviesToPrint();
                     break;
 
-                case "favorites":
+                case "6":
                     displayFavorites();
                     break;
 
-                case "add":
+                case "4":
                     add();
                     break;
 
-                case "remove":
+                case "5":
                     remove();
                     break;
 

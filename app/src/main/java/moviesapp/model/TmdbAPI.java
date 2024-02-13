@@ -217,7 +217,7 @@ public class TmdbAPI {
      * Turns the response to an API request into a JSON file
      * @param searchResult response of the api request
      */
-    private void searchResultFromRequestToFile(String searchResult){
+    public void searchResultFromRequestToFile(String searchResult){
         ObjectMapper mapper = JsonMapper.builder().build();
 
         try {
@@ -234,4 +234,22 @@ public class TmdbAPI {
             System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
         }
     }
+
+    public void displayCatalog(String page){
+        String url = urlBuilderCatalog(page);
+        Request request = new Request.Builder().url(url).build();
+        try {
+            Response response = client.newCall(request).execute();
+            reactToRequestResponse(response);
+
+        } catch(IOException e){
+            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+        }
+    }
+
+    private String urlBuilderCatalog(String page){
+        return baseUrl + "/movie/popular?" + language + "&page=" + page + apiKey;
+    }
+
+
 }
