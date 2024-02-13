@@ -281,6 +281,7 @@ public final class CLController {
      */
     public void select(){
         for (;;) {
+            help();
             System.out.println("\nInput your command: ");
             String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
@@ -296,10 +297,6 @@ public final class CLController {
 
                 case "1":
                     displayCatalog();
-                    break;
-
-                case "help":
-                    help();
                     break;
 
                 case "3":
