@@ -236,6 +236,17 @@ public final class CLController {
 
         return answer.equals("y");
     }
+    private void searchByPage(){
+        do{
+            TmdbAPI api = new TmdbAPI();
+            String title = askValue("Title of the movie: ");
+            String page = askValue("Page: ");
+            api.SearchMoviesByPages(title , page);
+        } while(askToConfirm("Do you want to find another movie ?: ")) ;
+
+
+
+    }
 
     /**
      * Select a method to execute based on user input and execute it
@@ -249,6 +260,10 @@ public final class CLController {
             switch(command){
                 case "clear":
                     clear();
+                    break;
+
+                case "page ":
+                    searchByPage();
                     break;
 
                 case "exit":
