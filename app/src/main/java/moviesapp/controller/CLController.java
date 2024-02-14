@@ -5,7 +5,6 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
-import java.io.IOException;
 import java.util.*;
 
 public final class CLController {
@@ -45,7 +44,7 @@ public final class CLController {
      * Print the list of commands available
      */
     private void help(){
-        System.out.println("Commands available (lower/uppercase doesn't matter): ");
+        System.out.println("Commands available: ");
         for (String command : commands){
             System.out.println("•" + command);
         }
