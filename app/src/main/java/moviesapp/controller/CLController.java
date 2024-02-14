@@ -80,7 +80,9 @@ public final class CLController {
             int index = Integer.parseInt(scanner.nextLine()) - 1;
             System.out.println(movieList.get(index).details());
         }
-        System.out.println("There was no movie");
+        else {
+            System.out.println("There was no movie");
+        }
     }
 
     /**
