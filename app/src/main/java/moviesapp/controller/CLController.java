@@ -5,7 +5,6 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
-import javax.xml.catalog.Catalog;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.*;
@@ -48,7 +47,7 @@ public final class CLController {
      * Print the list of commands available
      */
     private void help(){
-        System.out.println("Commands available: ");
+        System.out.println("\nCommands available: ");
         for (String command : commands){
             System.out.println("•" + command);
         }
@@ -96,7 +95,7 @@ public final class CLController {
         Movies movieList= jsonReader.findAllMovies();
         if(movieList != null) {
             int index = Integer.parseInt(askValue("Enter the index of the movie: ")) - 1;
-            System.out.println(movieList.get(index).details());
+            System.out.println(movieList.get(index - 1).details());
         }
         else {
             System.out.println("There was no movie.");
@@ -141,7 +140,7 @@ public final class CLController {
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askToPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Do you want to change page: [0] No, [1] Previous, [2] Next | page [" + jsonReader.getPageInJson() + "/" + jsonReader.numberOfPagesOfMoviesInJson() +"]"));
+            } while(askPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Choose your action: [0] Continue/Leave command, [1] Previous Page, [2] Next Page | page (" + jsonReader.getPageInJson() + "/" + jsonReader.numberOfPagesOfMoviesInJson() +")"));
         }
     }
     /**
@@ -149,30 +148,35 @@ public final class CLController {
      * @param title ,releaseYear, genres, voteAverage, message the question to ask
      * @return the user's answer
      */
-    private boolean askToPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage ,  String message){
+    private boolean askPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage , String message){
         TmdbAPI api = new TmdbAPI();
         String response = askValue(message);
 
         switch (response) {
             case "2" -> {
-                if(jsonReader.getPageInJson() <= jsonReader.numberOfPagesOfMoviesInJson()){
+                if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
                     api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
                 }
-                return false;
+                System.out.println("\nThere is no next page.");
+                return askPreviousOrNextPage(title, releaseYear, genres, voteAverage , message);
             }
             case "1" -> {
-                if(jsonReader.getPageInJson() >= 1){
+                if(jsonReader.getPageInJson() > 1){
                     api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
                 }
-                return false;
+                System.out.println("\nThere is no precedent page.");
+                return askPreviousOrNextPage(title, releaseYear, genres, voteAverage ,  message);
             }
             case "0" -> {
                 return false;
             }
+            default -> {
+                System.out.println("Please enter a valid option.");
+                return askPreviousOrNextPage(title, releaseYear, genres, voteAverage, message);
+            }
         }
-        return false ;
     }
 
     /**
@@ -258,10 +262,10 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieByIndex(Movies movies){
-        System.out.println("\nYour list of movies with identifiers: \n" + movies.toString() + "\nSelect the index of the movies that correspond to your search, displayed above.");
+        System.out.println("\nYour list of movies with indexes: \n" + movies.toString() + "\nSelect the index of the movies that correspond to your search, displayed above.");
         int index = Integer.parseInt(askValue("Index of the movie to add to your favorites: "));
         Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByIndex(index));
+        movieSelected.add(movies.findMovieByIndex(index - 1));
         return movieSelected ;
     }
 
