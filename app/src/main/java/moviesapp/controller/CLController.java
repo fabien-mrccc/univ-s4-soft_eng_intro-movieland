@@ -341,7 +341,8 @@ public final class CLController {
         jsonCleaner();
         for (;;) {
             help();
-            String command = askValue("\nInput your command: ").toLowerCase(Locale.ROOT).trim();
+            System.out.println("\nInput your command: ");
+            String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
 
             switch(command){
