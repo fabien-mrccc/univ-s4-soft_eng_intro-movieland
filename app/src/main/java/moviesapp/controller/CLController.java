@@ -140,7 +140,7 @@ public final class CLController {
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askToPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Do you want to go to the previous/next/no page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
+            } while(askToPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Do you want to change page: [0] no, [1] previous, [2] next :: [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
         }
         return acceptation;
     }
@@ -156,15 +156,15 @@ public final class CLController {
 
         String response = scanner.nextLine();
         switch (response) {
-            case "next" -> {
+            case "2" -> {
                 api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                 return jsonReader.getPageInJson() <= jsonReader.numberOfPagesOfMoviesInJson();
             }
-            case "previous" -> {
+            case "1" -> {
                 api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                 return jsonReader.getPageInJson() >= 1;
             }
-            case "no" -> {
+            case "0" -> {
                 return false;
             }
         }
