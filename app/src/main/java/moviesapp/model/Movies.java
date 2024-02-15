@@ -125,7 +125,7 @@ public class Movies implements Iterable<Movie> {
      * @param number of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByNumber(int number){
+    public Movie findMovieByIndex(int number){
         if(!(movies == null)){
             return movies.get(number);
         }
