@@ -216,7 +216,7 @@ public class TmdbAPI {
         }
     }
 
-    public void displayCatalog(String page){
+    public void displayCatalog(int page){
         String url = urlBuilderCatalog(page);
         Request request = new Request.Builder().url(url).build();
         try {
@@ -228,7 +228,7 @@ public class TmdbAPI {
         }
     }
 
-    private String urlBuilderCatalog(String page){
+    private String urlBuilderCatalog(int page){
         return baseUrl + "/movie/popular?" + language + "&page=" + page + apiKey;
     }
 

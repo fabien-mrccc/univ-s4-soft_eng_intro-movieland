@@ -5,6 +5,7 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import javax.xml.catalog.Catalog;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.*;
@@ -58,17 +59,33 @@ public final class CLController {
      */
     private void displayCatalog(){
         TmdbAPI api = new TmdbAPI();
-        String page = "";
+        int page = 1;
         boolean printedCatalog = false;
         do {
             if(printedCatalog) {
-                page = askValue("Which page do you want to print: ");
+                page = askCatalogPreviousOrNext(page);
             }
             api.displayCatalog(page);
             jsonReaderUpdate();
             System.out.println(jsonReader.findAllMovies());
             printedCatalog = true;
-        }while(askToConfirm("Do you want to print another page? "));
+        }while(askToConfirm("Do you want to change page?"));
+    }
+
+    /**
+     * Ask whether you want to go to the next or previous page then increment the page accordingly
+     * @param page the current page
+     * @return the page after indentation
+     */
+    private int askCatalogPreviousOrNext(int page){
+        String pageChange = askValue("Do you want to go to the previous/next page?(p/n)");
+        if(pageChange.equals("p") && page > 1){
+            return page - 1;
+        } else if (pageChange.equals("n") && page < jsonReader.numberOfPagesOfMoviesInJson()) {
+            return page + 1;
+        }
+        System.out.println("This page doesn't exist");
+        return page;
     }
 
     /**
@@ -83,17 +100,6 @@ public final class CLController {
         }
         else {
             System.out.println("There was no movie.");
-        }
-    }
-
-    /**
-     * clean the json by emptying it
-     */
-    private void jsonCleaner(){
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write("");
-        } catch (IOException e) {
-            System.err.println("Error truncating file: " + e.getMessage());
         }
     }
 
@@ -121,51 +127,53 @@ public final class CLController {
     /**
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      */
-    private Boolean searchMovies(){
+    private void searchMovies(){
         TmdbAPI api = new TmdbAPI();
-        boolean acceptation = true ;
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
         List<String> genres = specifiedGenres(api);
 
         if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("no information sent ");
-            acceptation = false;
-            return acceptation;
+            System.out.println("No information sent. \nPlease give me more details for your next search.");
         }
-
         else{
             api.searchMovie(title, releaseYear, genres, voteAverage , "1");
-            jsonReaderUpdate();
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askPreviousOrNextPage(title,releaseYear,genres,voteAverage,String.valueOf(jsonReader.getPageInJson()), "Do you want to go to the next/previous page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
-            return acceptation;
+            } while(askToPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Do you want to change page: [0] No, [1] Previous, [2] Next | page [" + jsonReader.getPageInJson() + "/" + jsonReader.numberOfPagesOfMoviesInJson() +"]"));
         }
     }
-
-    private boolean askPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
+    /**
+     * Ask the user to confirm a question
+     * @param title ,releaseYear, genres, voteAverage, message the question to ask
+     * @return the user's answer
+     */
+    private boolean askToPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage ,  String message){
         TmdbAPI api = new TmdbAPI();
-        label:
-        do{
-            String response = askValue(message).trim().toLowerCase();
-            switch (response) {
-                case "next":
+        String response = askValue(message);
+
+        switch (response) {
+            case "2" -> {
+                if(jsonReader.getPageInJson() <= jsonReader.numberOfPagesOfMoviesInJson()){
                     api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
-                case "previous":
+                }
+                return false;
+            }
+            case "1" -> {
+                if(jsonReader.getPageInJson() >= 1){
                     api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
-                case "no":
-                    return false;
-                default:
-                    System.out.println("incorrect");
-                    break label;
+                }
+                return false;
             }
-        }while(askToConfirm(message));
-        return false;
+            case "0" -> {
+                return false;
+            }
+        }
+        return false ;
     }
 
     /**
@@ -338,7 +346,7 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
-        jsonCleaner();
+        jsonReader.jsonCleaner();
         for (;;) {
             help();
             System.out.println("\nInput your command: ");
@@ -363,7 +371,7 @@ public final class CLController {
                     break;
 
                 case "2":
-                    searchMoviesToPrint();
+                    searchMovies();
                     break;
 
                 case "6":

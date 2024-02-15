@@ -132,7 +132,6 @@ public class Movies implements Iterable<Movie> {
      */
     public void remove(Movie movie){
         movies.remove(movie);
-        System.out.println(movies);
     }
 
     /**
