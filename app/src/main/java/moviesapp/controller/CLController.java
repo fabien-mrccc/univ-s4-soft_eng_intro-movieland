@@ -121,16 +121,38 @@ public final class CLController {
         }
 
         else{
+            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            jsonReaderUpdate();
             do{
-                api.searchMovie(title, releaseYear, genres, voteAverage , "1");
-                jsonReaderUpdate();
-                String page = askValue("Select your page [total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "]: ");
-                api.searchMovie(title, releaseYear, genres, voteAverage , page);
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askToConfirm("Do you want to watch another page? : "));
+            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage,String.valueOf(jsonReader.getPageInJson()), "Do you want to go to the next/previous page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
             return acceptation;
         }
+    }
+
+    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
+        TmdbAPI api = new TmdbAPI();
+        System.out.println(message);
+        do{
+            String reponsse = scanner.nextLine();
+            if(reponsse.equals("next")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() + 1));
+                return true ;
+            }
+            if(reponsse.equals("previous")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() -1));
+                return true ;
+            }
+            if(reponsse.equals("no")){
+                return false ;
+            }
+            else{
+                System.out.println("incorrect");
+                break ;
+            }
+        }while(askToConfirm(message));
+        return false;
     }
 
     /**
