@@ -64,6 +64,19 @@ public class Movies implements Iterable<Movie> {
     }
 
     /**
+     * Print all movies information details according to a specific group
+     */
+    public void printMoviesDetails(){
+        if(noMovieFound(this)){
+            return;
+        }
+        System.out.println("\nYour list of movies with detailed information: ");
+        for(Movie movie : movies){
+            System.out.println(movie.details());
+        }
+    }
+
+    /**
      * Check if a list is empty or null and deduct that no movie where found
      * @return true if the list is without movies inside, otherwise false
      */
@@ -112,7 +125,7 @@ public class Movies implements Iterable<Movie> {
      * @param number of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByIndex(int number){
+    public Movie findMovieByNumber(int number){
         if(!(movies == null)){
             return movies.get(number);
         }
