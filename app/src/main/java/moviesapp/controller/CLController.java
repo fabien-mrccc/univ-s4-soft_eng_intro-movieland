@@ -31,15 +31,14 @@ public final class CLController {
      * Add elements to the command list
      */
     private void setupCommands(){
-        commands.add("help: get a list of commands available");
-        commands.add("[1] catalog: see all movies available on the application");
-        commands.add("[2] search: show specific movies based on your criteria");
-        commands.add("[3] details: see detailed information about precedent research");
-        commands.add("[4] add: add one or several movies to your favorite list");
-        commands.add("[5] remove: remove one or several movies to your favorite list");
-        commands.add("[6] favorites: see movies in your favorite list");
-        commands.add("[7] clear: remove all the movies in your favorite list");
-        commands.add("[8] exit: leave the application");
+        commands.add("(1)catalog: see all movies available on the application");
+        commands.add("(2)search: show specific movies based on your criteria");
+        commands.add("(3)details: see detailed information about precedent research");
+        commands.add("(4)add: add one or several movies to your favorite list");
+        commands.add("(5)remove: remove one or several movies to your favorite list");
+        commands.add("(6)favorites: see movies in your favorite list");
+        commands.add("(7)clear: remove all the movies in your favorite list");
+        commands.add("(8)exit: leave the application");
     }
 
     /**
@@ -74,11 +73,15 @@ public final class CLController {
      * Search a specific group of movies and print their detailed information
      */
     private void details(){
-        if(jsonReader.findAllMovies().isEmpty()){
-            System.out.println("No movie found");
+        jsonReaderUpdate();
+        Movies movieList= jsonReader.findAllMovies();
+        if(!movieList.isEmpty()) {
+            System.out.println("Give the number of the movie");
+            int index = Integer.parseInt(scanner.nextLine()) - 1;
+            System.out.println(movieList.get(index).details());
         }
-        else{
-            jsonReader.findAllMovies().printMoviesDetails();
+        else {
+            System.out.println("There was no movie");
         }
     }
 
@@ -168,6 +171,7 @@ public final class CLController {
 
             do{
                 String genreName = askValue("Enter genre name: ").trim().toLowerCase();
+                genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
                 if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
@@ -325,6 +329,7 @@ public final class CLController {
      */
     public void select(){
         for (;;) {
+            help();
             System.out.println("\nInput your command: ");
             String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
