@@ -58,6 +58,10 @@ public class JSONReader extends SearchMovies {
 
         return genreIds;
     }
+    /**
+     * Return the origin jsonNode from our default jsonFile with exception management
+     * @return the origin jsonNode from our default jsonFile
+     */
 
     @Override
     public void findMoviesByCriteria(Movies movies, String name, String year) {
