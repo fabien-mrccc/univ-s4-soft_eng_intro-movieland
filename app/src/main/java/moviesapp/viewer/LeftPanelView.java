@@ -1,4 +1,4 @@
 package moviesapp.viewer;
 
-public class MoviesView {
+public class LeftPanelView {
 }
