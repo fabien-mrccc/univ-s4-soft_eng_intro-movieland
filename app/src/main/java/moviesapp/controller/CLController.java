@@ -5,7 +5,6 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
-import java.io.IOException;
 import java.util.*;
 
 public final class CLController {
@@ -120,7 +119,6 @@ public final class CLController {
         if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("no information sent ");
             acceptation = false;
-            return acceptation;
         }
 
         else{
@@ -129,33 +127,34 @@ public final class CLController {
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage,String.valueOf(jsonReader.getPageInJson()), "Do you want to go to the next/previous page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
-            return acceptation;
+            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage, "Do you want to go to the previous/next/no page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
         }
+        return acceptation;
     }
-
-    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
+    /**
+     * Ask the user to confirm a question
+     * @param title ,releaseYear, genres, voteAverage, message the question to ask
+     * @return the user's answer
+     */
+    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage ,  String message){
         TmdbAPI api = new TmdbAPI();
         System.out.println(message);
-        do{
-            String reponsse = scanner.nextLine();
-            if(reponsse.equals("next")){
-                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() + 1));
-                return true ;
+
+        String reponsse = scanner.nextLine();
+        switch (reponsse) {
+            case "next" -> {
+                api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
+                return jsonReader.getPageInJson() <= jsonReader.numberOfPagesOfMoviesInJson();
             }
-            if(reponsse.equals("previous")){
-                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() -1));
-                return true ;
+            case "previous" -> {
+                api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
+                return jsonReader.getPageInJson() >= 1;
             }
-            if(reponsse.equals("no")){
-                return false ;
+            case "no" -> {
+                return false;
             }
-            else{
-                System.out.println("incorrect");
-                break ;
-            }
-        }while(askToConfirm(message));
-        return false;
+        }
+        return false ;
     }
 
     /**
