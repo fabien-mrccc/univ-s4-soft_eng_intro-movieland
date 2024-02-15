@@ -1,6 +1,7 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +161,17 @@ public class JSONReader extends SearchMovies {
 
     public JsonNode getJsonGenres(){
         return jsonGenres;
+    }
+
+    /**
+     * clean the json by emptying it
+     */
+    public void jsonCleaner(){
+        try (FileWriter writer = new FileWriter(jsonFile)) {
+            writer.write("");
+        } catch (IOException e) {
+            System.err.println("Error truncating file: " + e.getMessage());
+        }
     }
 
 }

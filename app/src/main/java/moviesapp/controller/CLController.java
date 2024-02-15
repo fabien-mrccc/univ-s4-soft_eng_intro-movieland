@@ -104,17 +104,6 @@ public final class CLController {
     }
 
     /**
-     * clean the json by emptying it
-     */
-    private void jsonCleaner(){
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write("");
-        } catch (IOException e) {
-            System.err.println("Error truncating file: " + e.getMessage());
-        }
-    }
-
-    /**
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
      */
     private void searchMoviesToPrint(){
@@ -358,7 +347,7 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
-        jsonCleaner();
+        jsonReader.jsonCleaner();
         for (;;) {
             help();
             System.out.println("\nInput your command: ");
