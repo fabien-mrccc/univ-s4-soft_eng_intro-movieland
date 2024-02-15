@@ -140,7 +140,7 @@ public final class CLController {
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage, "Do you want to go to the previous/next/no page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
+            } while(askToPreviousOrNextPage(title,releaseYear,genres,voteAverage, "Do you want to go to the previous/next/no page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
         }
         return acceptation;
     }
@@ -149,12 +149,13 @@ public final class CLController {
      * @param title ,releaseYear, genres, voteAverage, message the question to ask
      * @return the user's answer
      */
-    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage ,  String message){
+    private boolean askToPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage ,  String message){
         TmdbAPI api = new TmdbAPI();
-        System.out.println(message);
+        System.out.println
+                (message);
 
-        String reponsse = scanner.nextLine();
-        switch (reponsse) {
+        String response = scanner.nextLine();
+        switch (response) {
             case "next" -> {
                 api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                 return jsonReader.getPageInJson() <= jsonReader.numberOfPagesOfMoviesInJson();
