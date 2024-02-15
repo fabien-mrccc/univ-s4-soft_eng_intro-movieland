@@ -13,8 +13,8 @@
     "release_date" : "2024-01-26",
     "title" : "Badland Hunters",
     "video" : false,
-    "vote_average" : 6.732,
-    "vote_count" : 356
+    "vote_average" : 6.735,
+    "vote_count" : 357
   }, {
     "adult" : false,
     "backdrop_path" : "/unvtbkgxh47BewQ8pENvdOdme0r.jpg",
@@ -28,8 +28,8 @@
     "release_date" : "2024-01-19",
     "title" : "Sixty Minutes",
     "video" : false,
-    "vote_average" : 6.973,
-    "vote_count" : 314
+    "vote_average" : 6.964,
+    "vote_count" : 316
   }, {
     "adult" : false,
     "backdrop_path" : "/yyFc8Iclt2jxPmLztbP617xXllT.jpg",
@@ -74,7 +74,7 @@
     "title" : "The Marvels",
     "video" : false,
     "vote_average" : 6.288,
-    "vote_count" : 1640
+    "vote_count" : 1642
   }, {
     "adult" : false,
     "backdrop_path" : "/rz8GGX5Id2hCW1KzAIY4xwbQw1w.jpg",
@@ -118,8 +118,8 @@
     "release_date" : "2023-12-06",
     "title" : "Migration",
     "video" : false,
-    "vote_average" : 7.669,
-    "vote_count" : 622
+    "vote_average" : 7.668,
+    "vote_count" : 623
   }, {
     "adult" : false,
     "backdrop_path" : "/4MCKNAc6AbWjEsM2h9Xc29owo4z.jpg",
@@ -134,7 +134,7 @@
     "title" : "The Beekeeper",
     "video" : false,
     "vote_average" : 7.293,
-    "vote_count" : 1075
+    "vote_count" : 1076
   }, {
     "adult" : false,
     "backdrop_path" : "/sRLC052ieEzkQs9dEtPMfFxYkej.jpg",
@@ -178,8 +178,8 @@
     "release_date" : "2023-11-15",
     "title" : "The Hunger Games: The Ballad of Songbirds & Snakes",
     "video" : false,
-    "vote_average" : 7.214,
-    "vote_count" : 1712
+    "vote_average" : 7.216,
+    "vote_count" : 1713
   }, {
     "adult" : false,
     "backdrop_path" : "/ehumsuIBbgAe1hg343oszCLrAfI.jpg",
@@ -302,5 +302,5 @@
     "vote_count" : 60
   } ],
   "total_pages" : 42467,
-  "total_results" : 849325
+  "total_results" : 849338
 }

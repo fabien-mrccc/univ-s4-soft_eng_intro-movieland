@@ -188,31 +188,32 @@ public final class CLController {
     }
 
     /**
-     * Add a specific movie chosen by the user with an id to the favorite list
+     * Add a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
-    private void addMovieById(Movies movies){
-        Favorites.instance.add(selectMovieById(movies));
+    private void addMovieByNumber(Movies movies){
+        Favorites.instance.add(selectMovieByNumber(movies));
     }
 
     /**
-     * Remove a specific movie chosen by the user with an id to the favorite list
+     * Remove a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
-    private void removeMovieById(Movies movies){
-        Favorites.instance.remove(selectMovieById(movies));
+    private void removeMovieByNumber(Movies movies){
+        Favorites.instance.remove(selectMovieByNumber(movies));
     }
 
     /**
-     * Ask the user the id of movie that he wants to select in a Movies object
+     * Ask the user the number of the movie that he wants to select in a Movies object
      * @param movies to browse
      * @return movie selected in a Movies object
      */
-    private Movies selectMovieById(Movies movies){
-        System.out.println("\nYour list of movies with identifiers: \n" + movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
-        String id = askValue("ID of the movie to add to your favorites: ") ;
+    private Movies selectMovieByNumber(Movies movies){
+        System.out.println("\nYour list of movies with identifiers: \n" + movies.toString() + "\nSelect the number of the movies that correspond to your search, displayed above.");
+        System.out.println("number of the movie to add to your favorites: ");
+        int number = scanner.nextInt(); ;
         Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByID(id));
+        movieSelected.add(movies.findMovieByNumber(number));
         return movieSelected ;
     }
 
@@ -224,7 +225,7 @@ public final class CLController {
             Movies movies = searchMoviesToReturn();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    addMovieById(movies);
+                    addMovieByNumber(movies);
                 }
                 else{
                     Favorites.instance.add(movies);
@@ -248,7 +249,7 @@ public final class CLController {
             Movies movies = searchFavoritesToRemove() ;
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    removeMovieById(movies);
+                    removeMovieByNumber(movies);
                 }
                 else{
                     Favorites.instance.remove(movies);

@@ -125,13 +125,11 @@ public class Movies implements Iterable<Movie> {
      * @param id of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByID(String id){
-        for(Movie movie : movies){
-            if(movie.id().equals(id)){
-                return movie;
-            }
+    public Movie findMovieByNumber(int number){
+        if(!(movies == null)){
+            return movies.get(number);
         }
-        return null ;
+        return null;
     }
 
     /**
