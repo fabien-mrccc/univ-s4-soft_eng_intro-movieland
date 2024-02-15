@@ -5,6 +5,7 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import javax.xml.catalog.Catalog;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.*;
@@ -58,17 +59,33 @@ public final class CLController {
      */
     private void displayCatalog(){
         TmdbAPI api = new TmdbAPI();
-        String page = "";
+        int page = 1;
         boolean printedCatalog = false;
         do {
             if(printedCatalog) {
-                page = askValue("Which page do you want to print: ");
+                page = askCatalogPreviousOrNext(page);
             }
             api.displayCatalog(page);
             jsonReaderUpdate();
             System.out.println(jsonReader.findAllMovies());
             printedCatalog = true;
-        }while(askToConfirm("Do you want to print another page? "));
+        }while(askToConfirm("Do you want to change page?"));
+    }
+
+    /**
+     * Ask whether you want to go to the next or previous page then increment the page accordingly
+     * @param page the current page
+     * @return the page after indentation
+     */
+    private int askCatalogPreviousOrNext(int page){
+        String pageChange = askValue("Do you want to go to the previous/next page?(p/n)");
+        if(pageChange.equals("p") && page > 1){
+            return page - 1;
+        } else if (pageChange.equals("n") && page < jsonReader.numberOfPagesOfMoviesInJson()) {
+            return page + 1;
+        }
+        System.out.println("This page doesn't exist");
+        return page;
     }
 
     /**
