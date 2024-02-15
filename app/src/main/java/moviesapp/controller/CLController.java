@@ -91,9 +91,10 @@ public final class CLController {
     private void details(){
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
+        System.out.println("Below the movies from your precedent search: \n" + movieList);
         if(movieList != null) {
             int index = Integer.parseInt(askValue("Enter the index of the movie: ")) - 1;
-            System.out.println(movieList.get(index - 1).details());
+            System.out.println(movieList.get(index).details());
         }
         else {
             System.out.println("There was no movie.");
