@@ -78,6 +78,7 @@ public final class CLController {
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
         if(!(movieList == null)) {
+            System.out.println("previous search :\n" + movieList);
             System.out.println("Give the number of the movie");
             int index = Integer.parseInt(scanner.nextLine()) - 1;
             System.out.println(movieList.get(index).details());
