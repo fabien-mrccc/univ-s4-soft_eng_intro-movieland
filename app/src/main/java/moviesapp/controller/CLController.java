@@ -35,7 +35,7 @@ public final class CLController {
     private void setupCommands(){
         commands.add("(1)catalog: see all movies available on the application");
         commands.add("(2)search: show specific movies based on your criteria");
-        commands.add("(3)details: see detailed information about one movie");
+        commands.add("(3)details: see detailed information about precedent research");
         commands.add("(4)add: add one or several movies to your favorite list");
         commands.add("(5)remove: remove one or several movies to your favorite list");
         commands.add("(6)favorites: see movies in your favorite list");
@@ -102,8 +102,12 @@ public final class CLController {
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
      */
     private void searchMoviesToPrint(){
-        searchMovies();
-        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        if(searchMovies()){
+            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        }
+        else{
+            System.out.println("Please put information: ");
+        }
     }
 
     /**
@@ -118,15 +122,53 @@ public final class CLController {
     /**
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      */
-    private void searchMovies(){
+    private Boolean searchMovies(){
         TmdbAPI api = new TmdbAPI();
+        boolean acceptation = true ;
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
-        String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
         List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage , page);
-        jsonReaderUpdate();
+
+        if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+            System.out.println("no information sent ");
+            acceptation = false;
+            return acceptation;
+        }
+
+        else{
+            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            jsonReaderUpdate();
+            do{
+                jsonReaderUpdate();
+                System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage,String.valueOf(jsonReader.getPageInJson()), "Do you want to go to the next/previous page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
+            return acceptation;
+        }
+    }
+
+    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
+        TmdbAPI api = new TmdbAPI();
+        System.out.println(message);
+        do{
+            String reponsse = scanner.nextLine();
+            if(reponsse.equals("next")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() + 1));
+                return true ;
+            }
+            if(reponsse.equals("previous")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() -1));
+                return true ;
+            }
+            if(reponsse.equals("no")){
+                return false ;
+            }
+            else{
+                System.out.println("incorrect");
+                break ;
+            }
+        }while(askToConfirm(message));
+        return false;
     }
 
     /**
@@ -318,6 +360,10 @@ public final class CLController {
 
                 case "1":
                     displayCatalog();
+                    break;
+
+                case "help":
+                    help();
                     break;
 
                 case "3":
