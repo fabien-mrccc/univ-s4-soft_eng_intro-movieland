@@ -21,101 +21,117 @@ public class MoviesTest {
     private final Movie movie4 = new Movie(true,null,null,"4",null,
             null, null,0,null,"2023",null,true,
             0, 0);
-    Movies movies = new Movies();
     List<Movie> moviesToAddToMovies = new ArrayList<>();
+    Movies emptyMovies = new Movies();
     @BeforeEach
     void setUpBeforeEach(){
-        moviesToAddToMovies.add(movie2);
         moviesToAddToMovies.add(movie1);
+        moviesToAddToMovies.add(movie2);
         moviesToAddToMovies.add(movie3);
-
     }
 
     @Test
     void testToString(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.toString().equals(
-                movie2 + "\n" + movie1 + "\n" + movie3 + "\n")).isTrue();
-        assertThat(movies.toString().equals("Your list of movies is empty.")).isTrue();
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.toString().equals(
+                indexOfMovie(1) + movie1 + "\n" +
+                        indexOfMovie(2) + movie2 + "\n" +
+                        indexOfMovie(3) + movie3 + "\n")).isTrue();
+        assertThat(emptyMovies.toString().equals("Your list of movies is empty.")).isTrue();
     }
+
     @Test
     void testToStringWithID(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        System.out.println(moviesFull.toStringWithID());
-        assertThat(moviesFull.toStringWithID().equals(
-                movie2.toStringWithID() + "\n" + movie1.toStringWithID() + "\n" +
+        Movies movies = new Movies(moviesToAddToMovies);
+        System.out.println(movies.toStringWithID());
+        assertThat(movies.toStringWithID().equals(
+                movie1.toStringWithID() + "\n" + movie2.toStringWithID() + "\n" +
                         movie3.toStringWithID() + "\n")).isTrue();
-        assertThat(movies.toStringWithID().equals("Your list of movies is empty.")).isTrue();
+        assertThat(emptyMovies.toStringWithID().equals("Your list of movies is empty.")).isTrue();
     }
+
     @Test
     void testAdd(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        moviesFull.add(movie4);
-        Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie1 + "\n" + movie3 + "\n" + movie4 +"\n");
-        assertThat(truth).isTrue();
-        moviesFull.add(null);
-        assertThat(truth).isTrue();
+        Movies movies = new Movies(moviesToAddToMovies);
+        movies.add(movie4);
+        assertThat(movies.toString().equals(
+                indexOfMovie(1) + movie1 + "\n" +
+                        indexOfMovie(2) + movie2 + "\n" +
+                        indexOfMovie(3) + movie3 + "\n" +
+                        indexOfMovie(4) + movie4 +"\n")).isTrue();
     }
+
     @Test
     void testIsEmpty(){
-        assertThat(movies.isEmpty()).isTrue();
+        assertThat(emptyMovies.isEmpty()).isTrue();
         moviesToAddToMovies.add(movie3);
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.isEmpty()).isFalse();
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.isEmpty()).isFalse();
     }
+
     @Test
     void testNoMovieFound(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(Movies.noMovieFound(movies)).isTrue();
+        Movies movies = new Movies(moviesToAddToMovies);
         assertThat(Movies.noMovieFound(null)).isTrue();
-        assertThat(Movies.noMovieFound(moviesFull)).isFalse();
+        assertThat(Movies.noMovieFound(movies)).isFalse();
+
+        assertThat(Movies.noMovieFound(emptyMovies)).isTrue();
     }
+
     @Test
     void testSize(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.size()).isEqualTo(3);
-        moviesFull.add(movie4);
-        assertThat(moviesFull.size()).isEqualTo(4);
-        assertThat(movies.size()).isEqualTo(0);
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.size()).isEqualTo(3);
+        movies.add(movie4);
+        assertThat(movies.size()).isEqualTo(4);
+        assertThat(emptyMovies.size()).isEqualTo(0);
     }
+
     @Test
     void testHasNext(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.iterator().hasNext()).isTrue();
-        assertThat(movies.iterator().hasNext()).isFalse();
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.iterator().hasNext()).isTrue();
+        assertThat(emptyMovies.iterator().hasNext()).isFalse();
     }
+
     @Test
     void testNext(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.iterator().next()).isEqualTo(movie2);
-        assertThatThrownBy(() -> movies.iterator().next()).isInstanceOf
+        Movies movies = new Movies();
+        movies.add(movie1);
+        assertThat(movies.iterator().next()).isEqualTo(movie1);
+        assertThatThrownBy(() -> emptyMovies.iterator().next()).isInstanceOf
                 (IllegalStateException.class).hasMessage("No more elements in the iterator.");
     }
+
     @Test
     void testFindMovie(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.findMovieByID("1")).isEqualTo(movie1);
-        assertThat(moviesFull.findMovieByID("2")).isEqualTo(movie2);
-        assertThat(moviesFull.findMovieByID("3")).isEqualTo(movie3);
-        assertThat(moviesFull.findMovieByID(null)).isEqualTo(null);
-        assertThat(moviesFull.findMovieByID("4")).isEqualTo(null);
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.findMovieByIndex(0)).isEqualTo(movie1);
+        assertThat(movies.findMovieByIndex(1)).isEqualTo(movie2);
+        assertThat(movies.findMovieByIndex(2)).isEqualTo(movie3);
+        assertThat(movies.findMovieByIndex(3)).isEqualTo(null);
     }
+
     @Test
     void testRemove(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        moviesFull.remove(movie1);
-        Boolean truth = moviesFull.toString().equals(movie2 + "\n" + movie3 + "\n");
-        assertThat(truth).isTrue();
-        moviesFull.remove(null);
-        assertThat(truth).isTrue();
-        moviesFull.remove(movie1);
-        assertThat(truth).isTrue();
+        Movies movies = new Movies(moviesToAddToMovies);
+        movies.remove(movie1);
+        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
+        movies.remove(null);
+        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
+        movies.remove(movie1);
+        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
     }
+
     @Test
     void testGet(){
-        Movies moviesFull = new Movies(moviesToAddToMovies);
-        assertThat(moviesFull.get(0)).isEqualTo(movie2);
-        assertThat(moviesFull.get(1)).isEqualTo(movie1);
-        assertThat(moviesFull.get(2)).isEqualTo(movie3);
+        Movies movies = new Movies(moviesToAddToMovies);
+        assertThat(movies.get(0)).isEqualTo(movie1);
+        assertThat(movies.get(1)).isEqualTo(movie2);
+        assertThat(movies.get(2)).isEqualTo(movie3);
+    }
+
+    private String indexOfMovie(int index){
+        return "| n°0" + index;
     }
 }

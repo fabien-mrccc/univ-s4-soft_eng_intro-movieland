@@ -26,10 +26,10 @@ public class Movies implements Iterable<Movie> {
         for(int i = 0; i < movies.size(); i++){
             moviesString.append("| n°");
             if (i < 10){
-                moviesString.append(0).append(i);
+                moviesString.append(0).append(i + 1);
             }
             else{
-                moviesString.append(i);
+                moviesString.append(i + 1);
             }
             moviesString.append(movies.get(i)).append("\n");
         }
@@ -116,14 +116,14 @@ public class Movies implements Iterable<Movie> {
 
     /**
      * Return of a movie selected with a list of movies and an id provided in parameter.
-     * @param number of movie to find
+     * @param index of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByIndex(int number){
-        if(!(movies == null)){
-            return movies.get(number);
+    public Movie findMovieByIndex(int index) {
+        if (movies == null || index < 0 || index >= size()) {
+            return null;
         }
-        return null;
+        return get(index);
     }
 
     /**
@@ -132,6 +132,7 @@ public class Movies implements Iterable<Movie> {
      */
     public void remove(Movie movie){
         movies.remove(movie);
+        System.out.println(movies);
     }
 
     /**

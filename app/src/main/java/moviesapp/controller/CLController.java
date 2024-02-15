@@ -78,7 +78,7 @@ public final class CLController {
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
         if(movieList != null) {
-            int index = Integer.parseInt(askValue("Enter the index of the movie: "));
+            int index = Integer.parseInt(askValue("Enter the index of the movie: ")) - 1;
             System.out.println(movieList.get(index).details());
         }
         else {
@@ -230,7 +230,7 @@ public final class CLController {
     }
 
     /**
-     * Add a specific movie chosen by the user with the index of the movie to the favorite list
+     * Add a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
     private void addMovieByIndex(Movies movies){
@@ -341,7 +341,8 @@ public final class CLController {
         jsonCleaner();
         for (;;) {
             help();
-            String command = askValue("\nInput your command: ").toLowerCase(Locale.ROOT).trim();
+            System.out.println("\nInput your command: ");
+            String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
             System.out.println();
 
             switch(command){
