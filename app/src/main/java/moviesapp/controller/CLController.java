@@ -5,12 +5,15 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import java.io.IOException;
+import java.io.FileWriter;
 import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JSONReader jsonReader;
+    private final static String filePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
 
     public CLController() {
         commands = new ArrayList<>();
@@ -23,28 +26,28 @@ public final class CLController {
      * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
+        jsonReader = new JSONReader(filePath);
     }
 
     /**
      * Add elements to the command list
      */
     private void setupCommands(){
-        commands.add("(1)catalog: see all movies available on the application");
-        commands.add("(2)search: show specific movies based on your criteria");
-        commands.add("(3)details: see detailed information about precedent research");
-        commands.add("(4)add: add one or several movies to your favorite list");
-        commands.add("(5)remove: remove one or several movies to your favorite list");
-        commands.add("(6)favorites: see movies in your favorite list");
-        commands.add("(7)clear: remove all the movies in your favorite list");
-        commands.add("(8)exit: leave the application");
+        commands.add("[1] catalog: see all movies available on the application");
+        commands.add("[2] search: show specific movies based on your criteria");
+        commands.add("[3] details: see detailed information about precedent research");
+        commands.add("[4] add: add one or several movies to your favorite list");
+        commands.add("[5] remove: remove one or several movies to your favorite list");
+        commands.add("[6] favorites: see movies in your favorite list");
+        commands.add("[7] clear: remove all the movies in your favorite list");
+        commands.add("[8] exit: leave the application");
     }
 
     /**
      * Print the list of commands available
      */
     private void help(){
-        System.out.println("Commands available (lower/uppercase doesn't matter): ");
+        System.out.println("Commands available: ");
         for (String command : commands){
             System.out.println("•" + command);
         }
@@ -56,16 +59,16 @@ public final class CLController {
     private void displayCatalog(){
         TmdbAPI api = new TmdbAPI();
         String page = "";
-        int i = 1;
+        boolean printedCatalog = false;
         do {
-            if(i != 1) {
-                page = askValue("which page do you want :");
+            if(printedCatalog) {
+                page = askValue("Which page do you want to print: ");
             }
             api.displayCatalog(page);
             jsonReaderUpdate();
             System.out.println(jsonReader.findAllMovies());
-            i=0;
-        }while(askToConfirm("do you want to change the page?(y/n)"));
+            printedCatalog = true;
+        }while(askToConfirm("Do you want to print another page? "));
     }
 
     /**
@@ -74,13 +77,23 @@ public final class CLController {
     private void details(){
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
-        if(!movieList.isEmpty()) {
-            System.out.println("Give the number of the movie");
-            int index = Integer.parseInt(scanner.nextLine()) - 1;
+        if(movieList != null) {
+            int index = Integer.parseInt(askValue("Enter the index of the movie: ")) - 1;
             System.out.println(movieList.get(index).details());
         }
         else {
-            System.out.println("There was no movie");
+            System.out.println("There was no movie.");
+        }
+    }
+
+    /**
+     * clean the json by emptying it
+     */
+    private void jsonCleaner(){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("");
+        } catch (IOException e) {
+            System.err.println("Error truncating file: " + e.getMessage());
         }
     }
 
@@ -219,31 +232,31 @@ public final class CLController {
     }
 
     /**
-     * Add a specific movie chosen by the user with an id to the favorite list
+     * Add a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
-    private void addMovieById(Movies movies){
-        Favorites.instance.add(selectMovieById(movies));
+    private void addMovieByIndex(Movies movies){
+        Favorites.instance.add(selectMovieByIndex(movies));
     }
 
     /**
-     * Remove a specific movie chosen by the user with an id to the favorite list
+     * Remove a specific movie chosen by the user with the index of the movie to the favorite list
      * @param movies chosen to browse
      */
-    private void removeMovieById(Movies movies){
-        Favorites.instance.remove(selectMovieById(movies));
+    private void removeMovieByIndex(Movies movies){
+        Favorites.instance.remove(selectMovieByIndex(movies));
     }
 
     /**
-     * Ask the user the id of movie that he wants to select in a Movies object
+     * Ask the user the index of the movie that he wants to select in a Movies object
      * @param movies to browse
      * @return movie selected in a Movies object
      */
-    private Movies selectMovieById(Movies movies){
-        System.out.println("\nYour list of movies with identifiers: \n" + movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
-        String id = askValue("ID of the movie to add to your favorites: ") ;
+    private Movies selectMovieByIndex(Movies movies){
+        System.out.println("\nYour list of movies with identifiers: \n" + movies.toString() + "\nSelect the index of the movies that correspond to your search, displayed above.");
+        int index = Integer.parseInt(askValue("Index of the movie to add to your favorites: "));
         Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByID(id));
+        movieSelected.add(movies.findMovieByIndex(index));
         return movieSelected ;
     }
 
@@ -255,7 +268,7 @@ public final class CLController {
             Movies movies = searchMoviesToReturn();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    addMovieById(movies);
+                    addMovieByIndex(movies);
                 }
                 else{
                     Favorites.instance.add(movies);
@@ -279,7 +292,7 @@ public final class CLController {
             Movies movies = searchFavoritesToRemove() ;
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    removeMovieById(movies);
+                    removeMovieByIndex(movies);
                 }
                 else{
                     Favorites.instance.remove(movies);
@@ -327,6 +340,7 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
+        jsonCleaner();
         for (;;) {
             help();
             System.out.println("\nInput your command: ");
@@ -344,10 +358,6 @@ public final class CLController {
 
                 case "1":
                     displayCatalog();
-                    break;
-
-                case "help":
-                    help();
                     break;
 
                 case "3":
