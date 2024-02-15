@@ -6,12 +6,14 @@ import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
 import java.io.IOException;
+import java.io.FileWriter;
 import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JSONReader jsonReader;
+    private final static String filePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
 
     public CLController() {
         commands = new ArrayList<>();
@@ -24,7 +26,7 @@ public final class CLController {
      * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
+        jsonReader = new JSONReader(filePath);
     }
 
     /**
@@ -57,15 +59,15 @@ public final class CLController {
     private void displayCatalog(){
         TmdbAPI api = new TmdbAPI();
         String page = "";
-        int i = 1;
+        boolean printedCatalog = false;
         do {
-            if(i != 1) {
+            if(printedCatalog) {
                 page = askValue("which page do you want :");
             }
             api.displayCatalog(page);
             jsonReaderUpdate();
             System.out.println(jsonReader.findAllMovies());
-            i=0;
+            printedCatalog = true;
         }while(askToConfirm("do you want to change the page?(y/n)"));
     }
 
@@ -75,13 +77,21 @@ public final class CLController {
     private void details(){
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
-        if(!movieList.isEmpty()) {
+        if(!(movieList == null)) {
             System.out.println("Give the number of the movie");
             int index = Integer.parseInt(scanner.nextLine()) - 1;
             System.out.println(movieList.get(index).details());
         }
         else {
             System.out.println("There was no movie");
+        }
+    }
+
+    private void jsonCleaner(){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("");
+        } catch (IOException e) {
+            System.err.println("Error truncating file: " + e.getMessage());
         }
     }
 
@@ -286,6 +296,7 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
+        jsonCleaner();
         for (;;) {
             help();
             System.out.println("\nInput your command: ");
