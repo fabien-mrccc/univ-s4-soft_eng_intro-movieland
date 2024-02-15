@@ -5,8 +5,6 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
-import java.io.IOException;
-import java.io.FileWriter;
 import java.util.*;
 
 public final class CLController {
@@ -99,18 +97,6 @@ public final class CLController {
         }
         else {
             System.out.println("There was no movie.");
-        }
-    }
-
-    /**
-     * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
-     */
-    private void searchMoviesToPrint(){
-        if(searchMovies()){
-            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-        }
-        else{
-            System.out.println("Please put information: ");
         }
     }
 
