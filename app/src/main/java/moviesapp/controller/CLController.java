@@ -5,12 +5,15 @@ import moviesapp.model.JSONReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
+import java.io.IOException;
+import java.io.FileWriter;
 import java.util.*;
 
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JSONReader jsonReader;
+    private final static String filePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
 
     public CLController() {
         commands = new ArrayList<>();
@@ -23,7 +26,7 @@ public final class CLController {
      * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
-        jsonReader = new JSONReader(System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json");
+        jsonReader = new JSONReader(filePath);
     }
 
     /**
@@ -32,7 +35,7 @@ public final class CLController {
     private void setupCommands(){
         commands.add("(1)catalog: see all movies available on the application");
         commands.add("(2)search: show specific movies based on your criteria");
-        commands.add("(3)details: see detailed information about one movie");
+        commands.add("(3)details: see detailed information about precedent research");
         commands.add("(4)add: add one or several movies to your favorite list");
         commands.add("(5)remove: remove one or several movies to your favorite list");
         commands.add("(6)favorites: see movies in your favorite list");
@@ -56,15 +59,15 @@ public final class CLController {
     private void displayCatalog(){
         TmdbAPI api = new TmdbAPI();
         String page = "";
-        int i = 1;
+        boolean printedCatalog = false;
         do {
-            if(i != 1) {
+            if(printedCatalog) {
                 page = askValue("which page do you want :");
             }
             api.displayCatalog(page);
             jsonReaderUpdate();
             System.out.println(jsonReader.findAllMovies());
-            i=0;
+            printedCatalog = true;
         }while(askToConfirm("do you want to change the page?(y/n)"));
     }
 
@@ -74,20 +77,37 @@ public final class CLController {
     private void details(){
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
-        if(!movieList.isEmpty()) {
+        if(!(movieList == null)) {
             System.out.println("Give the number of the movie");
             int index = Integer.parseInt(scanner.nextLine()) - 1;
             System.out.println(movieList.get(index).details());
         }
-        System.out.println("There was no movie");
+        else {
+            System.out.println("There was no movie");
+        }
+    }
+
+    /**
+     * clean the json by emptying it
+     */
+    private void jsonCleaner(){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write("");
+        } catch (IOException e) {
+            System.err.println("Error truncating file: " + e.getMessage());
+        }
     }
 
     /**
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies to print
      */
     private void searchMoviesToPrint(){
-        searchMovies();
-        System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        if(searchMovies()){
+            System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+        }
+        else{
+            System.out.println("Please put information: ");
+        }
     }
 
     /**
@@ -102,15 +122,53 @@ public final class CLController {
     /**
      * Ask title, release year, vote average and genres information to the user to select a specific group of movies
      */
-    private void searchMovies(){
+    private Boolean searchMovies(){
         TmdbAPI api = new TmdbAPI();
+        boolean acceptation = true ;
         String title = askValue("Title of the movie: ");
         String releaseYear = askValue("Year of release: ");
         String voteAverage = askValue("Movie's minimum rate: ");
-        String page = askValue("Select your page (total pages = " + jsonReader.numberOfPagesOfMoviesInJson() + "): ");
         List<String> genres = specifiedGenres(api);
-        api.searchMovie(title, releaseYear, genres, voteAverage , page);
-        jsonReaderUpdate();
+
+        if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+            System.out.println("no information sent ");
+            acceptation = false;
+            return acceptation;
+        }
+
+        else{
+            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            jsonReaderUpdate();
+            do{
+                jsonReaderUpdate();
+                System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
+            } while(AskToPreviousOrNext(title,releaseYear,genres,voteAverage,String.valueOf(jsonReader.getPageInJson()), "Do you want to go to the next/previous page [your page is : [" + jsonReader.getPageInJson() + " /" + jsonReader.numberOfPagesOfMoviesInJson() +"]: "));
+            return acceptation;
+        }
+    }
+
+    private boolean AskToPreviousOrNext(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
+        TmdbAPI api = new TmdbAPI();
+        System.out.println(message);
+        do{
+            String reponsse = scanner.nextLine();
+            if(reponsse.equals("next")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() + 1));
+                return true ;
+            }
+            if(reponsse.equals("previous")){
+                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() -1));
+                return true ;
+            }
+            if(reponsse.equals("no")){
+                return false ;
+            }
+            else{
+                System.out.println("incorrect");
+                break ;
+            }
+        }while(askToConfirm(message));
+        return false;
     }
 
     /**
@@ -175,31 +233,32 @@ public final class CLController {
     }
 
     /**
-     * Add a specific movie chosen by the user with an id to the favorite list
+     * Add a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
-    private void addMovieById(Movies movies){
-        Favorites.instance.add(selectMovieById(movies));
+    private void addMovieByNumber(Movies movies){
+        Favorites.instance.add(selectMovieByNumber(movies));
     }
 
     /**
-     * Remove a specific movie chosen by the user with an id to the favorite list
+     * Remove a specific movie chosen by the user with a number to the favorite list
      * @param movies chosen to browse
      */
-    private void removeMovieById(Movies movies){
-        Favorites.instance.remove(selectMovieById(movies));
+    private void removeMovieByNumber(Movies movies){
+        Favorites.instance.remove(selectMovieByNumber(movies));
     }
 
     /**
-     * Ask the user the id of movie that he wants to select in a Movies object
+     * Ask the user the number of the movie that he wants to select in a Movies object
      * @param movies to browse
      * @return movie selected in a Movies object
      */
-    private Movies selectMovieById(Movies movies){
-        System.out.println("\nYour list of movies with identifiers: \n" + movies.toStringWithID() + "\nSelect the ID from the movies that correspond to your search, displayed above.");
-        String id = askValue("ID of the movie to add to your favorites: ") ;
+    private Movies selectMovieByNumber(Movies movies){
+        System.out.println("\nYour list of movies with identifiers: \n" + movies.toString() + "\nSelect the number of the movies that correspond to your search, displayed above.");
+        System.out.println("number of the movie to add to your favorites: ");
+        int number = scanner.nextInt();
         Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByID(id));
+        movieSelected.add(movies.findMovieByNumber(number));
         return movieSelected ;
     }
 
@@ -211,7 +270,7 @@ public final class CLController {
             Movies movies = searchMoviesToReturn();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    addMovieById(movies);
+                    addMovieByNumber(movies);
                 }
                 else{
                     Favorites.instance.add(movies);
@@ -235,7 +294,7 @@ public final class CLController {
             Movies movies = searchFavoritesToRemove() ;
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
-                    removeMovieById(movies);
+                    removeMovieByNumber(movies);
                 }
                 else{
                     Favorites.instance.remove(movies);
@@ -283,6 +342,7 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
+        jsonCleaner();
         for (;;) {
             help();
             System.out.println("\nInput your command: ");

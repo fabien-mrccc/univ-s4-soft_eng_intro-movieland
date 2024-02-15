@@ -23,8 +23,8 @@ public class Movies implements Iterable<Movie> {
         if(movies.isEmpty()){
             return "Your list of movies is empty.";
         }
-        for(Movie movie: movies){
-            moviesString.append(movie).append("\n");
+        for(int i = 0; i < movies.size(); i++){
+            moviesString.append("n°").append(i).append(movies.get(i)).append("\n");
         }
         return moviesString.toString();
     }
@@ -122,16 +122,14 @@ public class Movies implements Iterable<Movie> {
 
     /**
      * Return of a movie selected with a list of movies and an id provided in parameter.
-     * @param id of movie to find
+     * @param number of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByID(String id){
-        for(Movie movie : movies){
-            if(movie.id().equals(id)){
-                return movie;
-            }
+    public Movie findMovieByNumber(int number){
+        if(!(movies == null)){
+            return movies.get(number);
         }
-        return null ;
+        return null;
     }
 
     /**

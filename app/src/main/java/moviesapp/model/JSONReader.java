@@ -107,6 +107,21 @@ public class JSONReader extends SearchMovies {
 
         return 0;
     }
+
+    /**
+     * return the actual page générate in api-resut
+     * @return the actual page
+     */
+    public int getPageInJson(){
+        JsonNode pageNode = getSpecificJsonNode("page");
+
+        if(pageNode!= null){
+            return pageNode.asInt();
+        }
+
+        return 0;
+    }
+
     /**
      * Return a specific jsonNode from our json file of the class
      * @return a specific jsonNode from our json file of the class
