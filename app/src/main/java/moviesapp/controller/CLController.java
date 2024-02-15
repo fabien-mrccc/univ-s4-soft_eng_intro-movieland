@@ -362,10 +362,6 @@ public final class CLController {
                     displayCatalog();
                     break;
 
-                case "help":
-                    help();
-                    break;
-
                 case "3":
                     details();
                     break;
