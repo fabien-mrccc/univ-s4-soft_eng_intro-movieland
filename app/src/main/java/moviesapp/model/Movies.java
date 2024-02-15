@@ -24,7 +24,7 @@ public class Movies implements Iterable<Movie> {
             return "Your list of movies is empty.";
         }
         for(int i = 0; i < movies.size(); i++){
-            moviesString.append("n°").append(i).append(movies.get(i)).append("\n");
+            moviesString.append("n°").append(i).append("\n").append(movies.get(i)).append("\n");
         }
         return moviesString.toString();
     }
