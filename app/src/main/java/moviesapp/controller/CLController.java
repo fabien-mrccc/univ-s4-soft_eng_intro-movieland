@@ -78,8 +78,7 @@ public final class CLController {
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
         if(movieList != null) {
-            System.out.println("Give the index of the movie: ");
-            int index = Integer.parseInt(scanner.nextLine()) - 1;
+            int index = Integer.parseInt(askValue("Enter the index of the movie: "));
             System.out.println(movieList.get(index).details());
         }
         else {
@@ -149,23 +148,21 @@ public final class CLController {
 
     private boolean askPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage , String page , String message){
         TmdbAPI api = new TmdbAPI();
-        System.out.println(message);
+        label:
         do{
-            String reponsse = scanner.nextLine();
-            if(reponsse.equals("next")){
-                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() + 1));
-                return true ;
-            }
-            if(reponsse.equals("previous")){
-                api.searchMovie(title, releaseYear, genres, voteAverage , String.valueOf(jsonReader.getPageInJson() -1));
-                return true ;
-            }
-            if(reponsse.equals("no")){
-                return false ;
-            }
-            else{
-                System.out.println("incorrect");
-                break ;
+            String response = askValue(message).trim().toLowerCase();
+            switch (response) {
+                case "next":
+                    api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
+                    return true;
+                case "previous":
+                    api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
+                    return true;
+                case "no":
+                    return false;
+                default:
+                    System.out.println("incorrect");
+                    break label;
             }
         }while(askToConfirm(message));
         return false;
@@ -344,8 +341,7 @@ public final class CLController {
         jsonCleaner();
         for (;;) {
             help();
-            System.out.println("\nInput your command: ");
-            String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
+            String command = askValue("\nInput your command: ").toLowerCase(Locale.ROOT).trim();
             System.out.println();
 
             switch(command){
