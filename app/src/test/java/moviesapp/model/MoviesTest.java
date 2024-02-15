@@ -10,16 +10,16 @@ import static org.assertj.core.api.Assertions.*;
 
 public class MoviesTest {
     private final Movie movie1 = new Movie(true,null,null,"1",null,
-            null, null,0,null,"2023",null,true,
+            "movie1", null,0,null,"2023",null,true,
             0, 0);
     private final Movie movie2 = new Movie(true,null,null,"2",null,
-            null, null,0,null,"2023",null,true,
+            "movie2", null,0,null,"2023",null,true,
             0, 0);
     private final Movie movie3 = new Movie(true,null,null,"3",null,
-            null, null,0,null,"2023",null,true,
+            "movie3", null,0,null,"2023",null,true,
             0, 0);
     private final Movie movie4 = new Movie(true,null,null,"4",null,
-            null, null,0,null,"2023",null,true,
+            "movie4", null,0,null,"2023",null,true,
             0, 0);
     List<Movie> moviesToAddToMovies = new ArrayList<>();
     Movies emptyMovies = new Movies();
@@ -116,11 +116,11 @@ public class MoviesTest {
     void testRemove(){
         Movies movies = new Movies(moviesToAddToMovies);
         movies.remove(movie1);
-        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
+        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
         movies.remove(null);
-        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
+        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
         movies.remove(movie1);
-        assertThat(movies.toString().equals(indexOfMovie(2) + movie2 + "\n" + indexOfMovie(3) + movie3 + "\n")).isTrue();
+        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
     }
 
     @Test
