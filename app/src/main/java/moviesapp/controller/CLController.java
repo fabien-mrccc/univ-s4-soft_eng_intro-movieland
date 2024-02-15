@@ -87,6 +87,9 @@ public final class CLController {
         }
     }
 
+    /**
+     * clean the json by emptying it
+     */
     private void jsonCleaner(){
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write("");
@@ -211,7 +214,7 @@ public final class CLController {
     private Movies selectMovieByNumber(Movies movies){
         System.out.println("\nYour list of movies with identifiers: \n" + movies.toString() + "\nSelect the number of the movies that correspond to your search, displayed above.");
         System.out.println("number of the movie to add to your favorites: ");
-        int number = scanner.nextInt(); ;
+        int number = scanner.nextInt();
         Movies movieSelected = new Movies();
         movieSelected.add(movies.findMovieByNumber(number));
         return movieSelected ;

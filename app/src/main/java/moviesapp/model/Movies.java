@@ -122,7 +122,7 @@ public class Movies implements Iterable<Movie> {
 
     /**
      * Return of a movie selected with a list of movies and an id provided in parameter.
-     * @param id of movie to find
+     * @param number of movie to find
      * @return the movie found with selection or null
      */
     public Movie findMovieByNumber(int number){
