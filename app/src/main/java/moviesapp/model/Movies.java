@@ -24,7 +24,14 @@ public class Movies implements Iterable<Movie> {
             return "Your list of movies is empty.";
         }
         for(int i = 0; i < movies.size(); i++){
-            moviesString.append("n°").append(i + 1).append(movies.get(i)).append("\n");
+            moviesString.append("| n°");
+            if (i < 10){
+                moviesString.append(0).append(i + 1);
+            }
+            else{
+                moviesString.append(i + 1);
+            }
+            moviesString.append(movies.get(i)).append("\n");
         }
         return moviesString.toString();
     }
@@ -61,19 +68,6 @@ public class Movies implements Iterable<Movie> {
      */
     public boolean isEmpty(){
         return movies.isEmpty();
-    }
-
-    /**
-     * Print all movies information details according to a specific group
-     */
-    public void printMoviesDetails(){
-        if(noMovieFound(this)){
-            return;
-        }
-        System.out.println("\nYour list of movies with detailed information: ");
-        for(Movie movie : movies){
-            System.out.println(movie.details());
-        }
     }
 
     /**
@@ -122,14 +116,14 @@ public class Movies implements Iterable<Movie> {
 
     /**
      * Return of a movie selected with a list of movies and an id provided in parameter.
-     * @param number of movie to find
+     * @param index of movie to find
      * @return the movie found with selection or null
      */
-    public Movie findMovieByNumber(int number){
-        if(!(movies == null)){
-            return movies.get(number);
+    public Movie findMovieByIndex(int index) {
+        if (movies == null || index < 0 || index >= size()) {
+            return null;
         }
-        return null;
+        return get(index);
     }
 
     /**

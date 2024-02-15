@@ -22,10 +22,17 @@ public class MovieTest {
         List<Integer> genreIds = new ArrayList<>();
         genreIds.add(0);
         Movie movie1 = new Movie(true,"backdropPath",genreIds,"1","originalLanguage",
-                "originalTitle","overview",2,"posterPath","releaseDate",
+                "originalTitle","overview",2,"posterPath","releaseDateTest",
                 "title",false,3,4);
-        assertThat(movie1.toString())
-                .isEqualTo("__________________________  \n  title: title\n  vote average: 3.0\n  release year: rele\n__________________________  ");
+
+        String expectedString =   " |__________________" +
+                "\n  title: title" +
+                "\n  vote average: 3.0" +
+                "\n  release year: rele\n" +
+                "__________________________\n";
+
+        assertThat(movie1.toString()).isEqualTo(expectedString);
+
     }
 
     @Test
