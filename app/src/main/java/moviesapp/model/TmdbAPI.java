@@ -17,9 +17,9 @@ import java.util.*;
 
 public class TmdbAPI {
 
-    String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
+    private final static String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
     private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/genres.json";
-    OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     static OkHttpClient clientGenres = new OkHttpClient();
 
     private final static String baseUrl = "https://api.themoviedb.org/3";
@@ -216,7 +216,7 @@ public class TmdbAPI {
         }
     }
 
-    public void displayCatalog(String page){
+    public void displayCatalog(int page){
         String url = urlBuilderCatalog(page);
         Request request = new Request.Builder().url(url).build();
         try {
@@ -228,7 +228,7 @@ public class TmdbAPI {
         }
     }
 
-    private String urlBuilderCatalog(String page){
+    private String urlBuilderCatalog(int page){
         return baseUrl + "/movie/popular?" + language + "&page=" + page + apiKey;
     }
 
