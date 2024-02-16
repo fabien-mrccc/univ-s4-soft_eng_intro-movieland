@@ -46,7 +46,7 @@ public class TmdbAPI {
      * @param genres a list of genres
      * @param voteAverage the min vote average
      */
-    public void searchMovie(String title, String releaseYear, List<String> genres, String voteAverage , String page){
+    public void searchMovies(String title, String releaseYear, List<String> genres, String voteAverage , String page){
         Request request = buildRequest(title, releaseYear, genres, voteAverage , page );
 
         try {

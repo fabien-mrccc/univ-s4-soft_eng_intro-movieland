@@ -124,7 +124,7 @@ public final class CLController {
             System.out.println("No information sent. \nPlease give me more details for your next search.");
         }
         else{
-            api.searchMovie(title, releaseYear, genres, voteAverage , "1");
+            api.searchMovies(title, releaseYear, genres, voteAverage , "1");
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
@@ -143,7 +143,7 @@ public final class CLController {
         switch (response) {
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
-                    api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
+                    api.searchMovies(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
                 }
                 System.out.println("\nThere is no next page.");
@@ -151,7 +151,7 @@ public final class CLController {
             }
             case "1" -> {
                 if(jsonReader.getPageInJson() > 1){
-                    api.searchMovie(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
+                    api.searchMovies(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
                 }
                 System.out.println("\nThere is no precedent page.");
