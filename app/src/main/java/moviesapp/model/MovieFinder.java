@@ -45,35 +45,7 @@ public abstract class MovieFinder {
     }
 
     /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the title provided in parameter.
-     * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param title the title of the movie researched
-     */
-    public void findMoviesByName(Movies movies, String title){
-        findMoviesByCriteria(movies, title, null, null, null, null);
-    }
-
-    /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the release releaseYear provided in parameter.
-     * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param releaseYear the releaseYear of the movie researched
-     */
-    public void findMoviesByYear(Movies movies , String releaseYear){
-        findMoviesByCriteria(movies, null, releaseYear, null, null, null);
-    }
-
-    /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided in parameter.
-     * @param movies is a list of movies to which we add the new movie(s) to the list
-     * @param year the year of the movie researched
-     * @param name the name of the movie researched
-     */
-    public void findMoviesByNameAndYear(Movies movies, String name, String year){
-        findMoviesByCriteria(movies, name, year, null, null, null);
-    }
-
-    /**
-     * Add to a list of movies the movie(s) from the JSON file selected with the name and year provided or not in parameter.
+     * Add to a list of movies the movie(s) from the JSON file selected with the criteria provided or not in parameter.
      * @param movies is a list of movies to which we add the new movie(s) to the list
      * @param title the name of the movie researched
      * @param releaseYear the year of the movie researched

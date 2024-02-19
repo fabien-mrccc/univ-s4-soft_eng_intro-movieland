@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSONReader extends SearchMovies {
+public class JSONReader extends MovieFinder {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
@@ -59,16 +59,14 @@ public class JSONReader extends SearchMovies {
 
         return genreIds;
     }
-    /**
-     * Return the origin jsonNode from our default jsonFile with exception management
-     * @return the origin jsonNode from our default jsonFile
-     */
 
     @Override
-    public void findMoviesByCriteria(Movies movies, String name, String year) {
+    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage, String page) {
         for (JsonNode movie : jsonMovies) {
-            boolean nameCondition = (name == null) || movie.get("original_title").asText().toLowerCase().contains(name.toLowerCase());
-            boolean yearCondition = (year == null) || movie.get("release_date").asText().toLowerCase().contains(year.toLowerCase());
+            boolean nameCondition = (title == null) ||
+                    movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase());
+            boolean yearCondition = (releaseYear == null) ||
+                    movie.get("release_date").asText().toLowerCase().contains(releaseYear.toLowerCase());
 
             if (nameCondition && yearCondition) {
                 movies.add(jsonNodeToMovie(movie));
