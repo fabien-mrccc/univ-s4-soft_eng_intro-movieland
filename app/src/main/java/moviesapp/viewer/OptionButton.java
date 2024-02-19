@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 public class OptionButton {
     private static final Button goButton = new Button("Go");
     private static final Button favoritesButton = new Button("Favorites");
+    private static final Button addToFavoritesButton = new Button("add");
     public void activateButton(Button button){
         if(button.isPressed()){
             switch(button.getText()){
@@ -15,6 +16,9 @@ public class OptionButton {
                     //TODO: call the methode that prints all the movies from the favorites list;
                     break;
 
+                case "add":
+                    //TODO: call the methode that adds a film the favorites;
+                    break;
             }
         }
     }
@@ -22,7 +26,10 @@ public class OptionButton {
     public static Button getGoButton(){
         return goButton;
     }
-    public static Button getFavorites(){
+    public static Button getFavoritesButton(){
         return favoritesButton;
+    }
+    public static Button getAddToFavoritesButton(){
+        return addToFavoritesButton;
     }
 }
