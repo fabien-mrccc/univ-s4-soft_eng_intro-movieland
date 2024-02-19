@@ -5,6 +5,7 @@ public class OptionButton {
     private static final Button goButton = new Button("Go");
     private static final Button favoritesButton = new Button("Favorites");
     private static final Button addToFavoritesButton = new Button("add");
+    private static final Button removeFromFavoritesButton = new Button("remove");
     public void activateButton(Button button){
         if(button.isPressed()){
             switch(button.getText()){
@@ -19,6 +20,10 @@ public class OptionButton {
                 case "add":
                     //TODO: call the methode that adds a film the favorites;
                     break;
+
+                case "remove":
+                    //TODO: call the methode that remove a film from favorites;
+                    break;
             }
         }
     }
@@ -31,5 +36,8 @@ public class OptionButton {
     }
     public static Button getAddToFavoritesButton(){
         return addToFavoritesButton;
+    }
+    public static Button getRemoveFromFavoritesButton(){
+        return removeFromFavoritesButton;
     }
 }
