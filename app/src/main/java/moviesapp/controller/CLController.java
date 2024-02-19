@@ -181,7 +181,7 @@ public final class CLController {
             do{
                 String genreName = askValue("Enter genre name: ").trim().toLowerCase();
                 genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
-                if (TmdbAPI.GENRE_ID_MAP.containsKey(genreName)) {
+                if (TmdbAPI.GENRE_NAME_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
                 else {
@@ -307,7 +307,7 @@ public final class CLController {
     private Movies searchFavoritesToRemove(){
         String title = askValue("Title of the movie to remove: ");
         String releaseYear = askValue("Year of release: ");
-        return Favorites.instance.findMovies(title, releaseYear);
+        return Favorites.instance.findMovies(title, releaseYear, null, null, null);
     }
 
     /**
