@@ -25,7 +25,7 @@ public class TmdbAPI {
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
     private final static String language = "language=en-US";
-    public static final TreeMap<String, String> GENRE_ID_MAP = new TreeMap<>();
+    public static final TreeMap<String, String> GENRE_NAME_ID_MAP = new TreeMap<>();
 
     /**
      * Return a list of every registered genres
@@ -33,7 +33,7 @@ public class TmdbAPI {
      */
     public StringBuilder genreList(){
         StringBuilder list = new StringBuilder();
-        for (String genre : GENRE_ID_MAP.keySet()) {
+        for (String genre : GENRE_NAME_ID_MAP.keySet()) {
             list.append("  •").append(genre).append("\n");
         }
         return list;
@@ -84,7 +84,7 @@ public class TmdbAPI {
      * @param genres a list of genres
      * @return a list of ids
      */
-    private List<String> genresToGenreIds(List<String> genres){
+    public static List<String> genresToGenreIds(List<String> genres){
         if(genres == null){
             return null;
         }
@@ -92,9 +92,29 @@ public class TmdbAPI {
         List<String> genreIds = new ArrayList<>();
 
         for(String genre : genres){
-            genreIds.add(GENRE_ID_MAP.get(genre.toLowerCase(Locale.ROOT).trim()));
+            genreIds.add(GENRE_NAME_ID_MAP.get(genre.toLowerCase(Locale.ROOT).trim()));
         }
         return genreIds;
+    }
+
+    /**
+     * Return a list of genre from a list of genre ids
+     * @param genresIds a list of genre ids
+     * @return genres
+     */
+    public static List<String> genreIdsToGenres(List<String> genresIds){
+        if(genresIds == null){
+            return null;
+        }
+
+        List<String> genres = new ArrayList<>();
+
+        for (Map.Entry<String, String> genreData : GENRE_NAME_ID_MAP.entrySet()) {
+            if(genresIds.contains(genreData.getValue())){
+                genres.add(genreData.getKey());
+            }
+        }
+        return genres;
     }
 
     /**
@@ -241,7 +261,7 @@ public class TmdbAPI {
         updateGenresFile();
         JSONReader jsonGenresReader = new JSONReader(genreFileName);
         for(JsonNode genre : jsonGenresReader.getJsonGenres()){
-            GENRE_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
+            GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
         }
     }
 
@@ -257,6 +277,7 @@ public class TmdbAPI {
             Response response = clientGenres.newCall(request).execute();
 
             if(response.isSuccessful()){
+                assert response.body() != null;
                 String genresResult = response.body().string();
                 requestToGenresFile(genresResult);
             }
