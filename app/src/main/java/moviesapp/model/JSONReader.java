@@ -29,7 +29,7 @@ public class JSONReader extends MovieFinder {
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
                 jsonNode.get("backdrop_path").asText(),
-                getGenreIdsFromJSON(jsonNode),
+                getGenresFromJSON(jsonNode),
                 jsonNode.get("id").asText(),
                 jsonNode.get("original_language").asText(),
                 jsonNode.get("original_title").asText(),
@@ -49,29 +49,51 @@ public class JSONReader extends MovieFinder {
      * @param jsonNode to browse
      * @return the list of genre identifiers
      */
-    private List<Integer> getGenreIdsFromJSON(JsonNode jsonNode){
+    private List<String> getGenresFromJSON(JsonNode jsonNode){
         JsonNode jsonGenreIds = jsonNode.get("genre_ids");
-        List<Integer> genreIds = new ArrayList<>();
+        List<String> genreIds = new ArrayList<>();
 
         for(JsonNode jsonGenreId: jsonGenreIds){
-            genreIds.add(jsonGenreId.asInt());
+            genreIds.add(jsonGenreId.asText());
         }
-
-        return genreIds;
+        return TmdbAPI.genreIdsToGenres(genreIds);
     }
 
     @Override
     public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage, String page) {
         for (JsonNode movie : jsonMovies) {
-            boolean nameCondition = (title == null) ||
+            boolean titleCondition = (title == null) ||
                     movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase());
             boolean yearCondition = (releaseYear == null) ||
-                    movie.get("release_date").asText().toLowerCase().contains(releaseYear.toLowerCase());
+                    movie.get("release_date").asText().startsWith(releaseYear);
+            boolean genreCondition = (genres == null || genres.isEmpty()) ||
+                    movieContainsAnyGenre(movie, genres);
+            boolean voteCondition = (voteAverage == null) ||
+                    Double.parseDouble(voteAverage) <= movie.get("vote_average").asDouble();
+            boolean pageCondition = (page == null) || (Integer.parseInt(page) == 1);
 
-            if (nameCondition && yearCondition) {
+            if (titleCondition && yearCondition && genreCondition && voteCondition && pageCondition) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }
+    }
+
+    /**
+     * Checks if the given movie matches any of the provided genre IDs.
+     * @param movie The JSON node representing the movie.
+     * @param genres The list of genre to match against.
+     * @return {@code true} if the movie matches any of the provided genre IDs, {@code false} otherwise.
+     */
+    private boolean movieContainsAnyGenre(JsonNode movie, List<String> genres) {
+        List<String> genreIds = TmdbAPI.genresToGenreIds(genres);
+
+        for (JsonNode genreIdNode : movie.get("genre_ids")) {
+            String genreId = genreIdNode.asText();
+            if (genreIds.contains(genreId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

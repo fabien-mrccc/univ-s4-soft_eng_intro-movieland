@@ -17,10 +17,10 @@ public class JSONReaderTest {
     @Test
     void testFindMovies(){
 
-        Movies movieList1 = jsonReader.findMovies("Monkeyshines" , "") ;
-        Movies movieList2= jsonReader.findMovies("", "1890") ;
-        Movies movieList3 = jsonReader.findMovies("" , "") ;
-        Movies movieList4 = jsonReader.findMovies("Monkeyshines" , "1890") ;
+        Movies movieList1 = jsonReader.findMovies("Monkeyshines" , "", null, null, null) ;
+        Movies movieList2= jsonReader.findMovies("", "1890", null, null, null) ;
+        Movies movieList3 = jsonReader.findMovies("" , "", null, null, null) ;
+        Movies movieList4 = jsonReader.findMovies("Monkeyshines" , "1890", null, null,null ) ;
 
         for (Movie movie : movieList1){
             assertThat(movie.title().contains("Monkeyshines")).isTrue() ;
@@ -35,9 +35,9 @@ public class JSONReaderTest {
             assertThat(movie.title().contains("Monkeyshines")).isTrue() ;
         }
 
-        Movies movieListNull1 = jsonReader.findMovies("Monkeyshines" , null) ;
-        Movies movieListNull2= jsonReader.findMovies(null , "1890") ;
-        Movies movieListNull3 = jsonReader.findMovies(null , null) ;
+        Movies movieListNull1 = jsonReader.findMovies("Monkeyshines" , null, null, null, null) ;
+        Movies movieListNull2= jsonReader.findMovies(null , "1890", null, null, null) ;
+        Movies movieListNull3 = jsonReader.findMovies(null , null, null, null, null) ;
         assertThat(movieListNull1 == null).isTrue() ;
         assertThat(movieListNull2 == null).isTrue() ;
         assertThat(movieListNull3 == null).isTrue() ;
