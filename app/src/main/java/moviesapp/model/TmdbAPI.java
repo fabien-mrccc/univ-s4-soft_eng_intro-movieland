@@ -257,7 +257,7 @@ public class TmdbAPI {
     /** Update the genres.json then fill the static GENRE_ID_MAP with the genres located in genres.json
      * Update the genres.json then fill the static GENRE_ID_MAP with the genres located in genres.json
      */
-    public static void fillGENRE_ID_MAP(){
+    public static void fillGENRE_NAME_ID_MAP(){
         updateGenresFile();
         JSONReader jsonGenresReader = new JSONReader(genreFileName);
         for(JsonNode genre : jsonGenresReader.getJsonGenres()){
