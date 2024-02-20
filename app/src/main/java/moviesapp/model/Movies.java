@@ -162,4 +162,12 @@ public class Movies implements Iterable<Movie> {
     public boolean contains(Movie movie){
         return movies.contains(movie);
     }
+
+    /**
+     * Add a group of movies to our list of movies
+     * @param movies to add to our list
+     */
+    public void addAll(List<Movie> movies){
+        this.movies.addAll(movies);
+    }
 }
