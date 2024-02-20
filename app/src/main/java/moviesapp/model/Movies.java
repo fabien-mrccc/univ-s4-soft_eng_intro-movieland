@@ -170,4 +170,12 @@ public class Movies implements Iterable<Movie> {
     public void addAll(List<Movie> movies){
         this.movies.addAll(movies);
     }
+
+    /**
+     * Remove a group of movies to our list of movies
+     * @param movies to add to our list
+     */
+    public void removeAll(List<Movie> movies){
+        this.movies.removeAll(movies);
+    }
 }
