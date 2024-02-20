@@ -37,22 +37,6 @@ public class Movies implements Iterable<Movie> {
     }
 
     /**
-     * Return the same default toString() but add id value
-     * @return the same default toString() but add id value
-     */
-    public String toStringWithID(){
-        StringBuilder moviesString = new StringBuilder();
-        if(movies.isEmpty()){
-            moviesString = new StringBuilder("Your list of movies is empty.");
-            return moviesString.toString();
-        }
-        for(Movie movie: movies){
-            moviesString.append(movie.toStringWithID()).append("\n");
-        }
-        return moviesString.toString();
-    }
-
-    /**
      * Add a movie to the list
      * @param movie the movie that we want to add
      */
