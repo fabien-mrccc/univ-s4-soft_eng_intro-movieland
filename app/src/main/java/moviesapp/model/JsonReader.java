@@ -1,7 +1,6 @@
 package moviesapp.model;
 import com.fasterxml.jackson.databind.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class JsonReader extends MovieFinder {
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
                 jsonNode.get("backdrop_path").asText(),
-                getGenresFromJSON(jsonNode),
+                getGenresFromJson(jsonNode),
                 jsonNode.get("id").asText(),
                 jsonNode.get("original_language").asText(),
                 jsonNode.get("original_title").asText(),
@@ -51,7 +50,7 @@ public class JsonReader extends MovieFinder {
      * @param jsonNode to browse
      * @return the list of genre identifiers
      */
-    private List<String> getGenresFromJSON(JsonNode jsonNode){
+    private List<String> getGenresFromJson(JsonNode jsonNode){
         JsonNode jsonGenreIds = jsonNode.get("genre_ids");
         List<String> genreIds = new ArrayList<>();
 
@@ -188,17 +187,6 @@ public class JsonReader extends MovieFinder {
 
     public JsonNode getJsonGenres(){
         return jsonGenres;
-    }
-
-    /**
-     * clean the json by emptying it
-     */
-    public void jsonCleaner(){
-        try (FileWriter writer = new FileWriter(jsonFile)) {
-            writer.write("");
-        } catch (IOException e) {
-            System.err.println("Error truncating file: " + e.getMessage());
-        }
     }
 
     /**
