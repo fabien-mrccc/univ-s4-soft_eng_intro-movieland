@@ -1,7 +1,7 @@
 package moviesapp.controller;
 
 import moviesapp.model.Favorites;
-import moviesapp.model.JSONReader;
+import moviesapp.model.JsonReader;
 import moviesapp.model.Movies;
 import moviesapp.model.TmdbAPI;
 
@@ -10,7 +10,7 @@ import java.util.*;
 public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
-    private JSONReader jsonReader;
+    private JsonReader jsonReader;
     private final static String filePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
 
     public CLController() {
@@ -24,7 +24,7 @@ public final class CLController {
      * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
-        jsonReader = new JSONReader(filePath);
+        jsonReader = new JsonReader(filePath);
     }
 
     /**
@@ -307,7 +307,7 @@ public final class CLController {
     private Movies searchFavoritesToRemove(){
         String title = askValue("Title of the movie to remove: ");
         String releaseYear = askValue("Year of release: ");
-        return Favorites.instance.findMovies(title, releaseYear, null, null, null);
+        return Favorites.instance.findMovies(title, releaseYear, null, null);
     }
 
     /**
