@@ -16,7 +16,7 @@ public class JsonReaderTest {
 
     @BeforeAll
     static void setupBeforeAll(){
-        jsonReader = new JsonReader(System.getProperty("user.dir") + "/src/test/java/moviesapp/model/data-example.json");
+        jsonReader = new JsonReader(System.getProperty("user.dir") + "/src/test/java/moviesapp/model/json/data-example.json");
         emptyGenres = new ArrayList<>();
         actionAdventureGenres = new ArrayList<>();
         actionAdventureGenres.add("action");
