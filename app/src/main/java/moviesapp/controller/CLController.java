@@ -9,6 +9,7 @@ public final class CLController {
     private final Scanner scanner;
     private JsonReader jsonReader;
     private final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/api-results.json";
+    private final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/favorites.json";
     private final TmdbAPI apiObject;
 
     public CLController() {
@@ -291,6 +292,7 @@ public final class CLController {
                 else{
                     Favorites.instance.add(movies);
                 }
+                new JsonWriter(favoritesFilePath).saveFavorites(Favorites.instance.getFavorites());
             }
         }
         while(askToConfirm("Do you want to add another movie?"));
