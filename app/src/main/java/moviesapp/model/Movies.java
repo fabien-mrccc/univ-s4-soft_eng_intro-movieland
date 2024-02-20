@@ -137,7 +137,7 @@ public class Movies implements Iterable<Movie> {
         jsonBuilder.append("  \"results\" : [\n");
 
         for (Movie movie : movies) {
-            jsonBuilder.append("    ").append(movie.toJsonFormat());
+            jsonBuilder.append(movie.toJsonFormat());
             if (movies.indexOf(movie) < movies.size() - 1) {
                 jsonBuilder.append(",");
             }
