@@ -17,8 +17,8 @@ import java.util.*;
 
 public class TmdbAPI {
 
-    private final static String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/api-results.json";
-    private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/genres.json";
+    private final static String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/api-results.json";
+    private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
     private final OkHttpClient client = new OkHttpClient();
     static OkHttpClient clientGenres = new OkHttpClient();
 

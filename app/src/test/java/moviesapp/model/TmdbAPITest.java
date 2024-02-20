@@ -21,7 +21,7 @@ public class TmdbAPITest {
     @BeforeAll
     static void setupBeforeAll() {
         api = new TmdbAPI();
-        apiJsonPath = "/src/main/java/moviesapp/model/api-results.json";
+        apiJsonPath = "/src/main/java/moviesapp/model/json/api-results.json";
         apiJsonReader = new JsonReader(apiJsonPath);
     }
 

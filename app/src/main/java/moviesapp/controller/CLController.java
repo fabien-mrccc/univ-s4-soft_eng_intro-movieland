@@ -8,7 +8,7 @@ public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JsonReader jsonReader;
-    private final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
+    private final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/api-results.json";
     private final TmdbAPI apiObject;
 
     public CLController() {
