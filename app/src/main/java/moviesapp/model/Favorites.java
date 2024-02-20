@@ -1,6 +1,7 @@
 package moviesapp.model;
 import java.util.ArrayList;
 import java.util.List;
+
 public class Favorites extends MovieFinder {
 
     public static final Favorites instance = new Favorites();
