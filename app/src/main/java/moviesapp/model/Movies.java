@@ -146,4 +146,11 @@ public class Movies implements Iterable<Movie> {
         jsonBuilder.append("  ]");
         return jsonBuilder.toString();
     }
+
+    /**
+     * Remove all the movies registered in movies list.
+     */
+    public void clear(){
+        movies.clear();
+    }
 }
