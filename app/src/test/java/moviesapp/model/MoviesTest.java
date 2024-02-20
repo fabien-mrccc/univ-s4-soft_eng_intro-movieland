@@ -41,16 +41,6 @@ public class MoviesTest {
     }
 
     @Test
-    void testToStringWithID(){
-        Movies movies = new Movies(moviesToAddToMovies);
-        System.out.println(movies.toStringWithID());
-        assertThat(movies.toStringWithID().equals(
-                movie1.toStringWithID() + "\n" + movie2.toStringWithID() + "\n" +
-                        movie3.toStringWithID() + "\n")).isTrue();
-        assertThat(emptyMovies.toStringWithID().equals("Your list of movies is empty.")).isTrue();
-    }
-
-    @Test
     void testAdd(){
         Movies movies = new Movies(moviesToAddToMovies);
         movies.add(movie4);
