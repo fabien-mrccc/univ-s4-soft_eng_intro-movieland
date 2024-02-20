@@ -133,8 +133,7 @@ public class MoviesTest {
         final Movies movies = getMovies();
 
         String expectedJson = """
-                {
-                  "results" : [
+                \s "results" : [
                     {
                       "adult" : false,
                       "backdrop_path" : "/635qI5pWhQSUaTnOkMo4GLCe8sV.jpg",
@@ -167,8 +166,7 @@ public class MoviesTest {
                       "vote_average" : 6.4,
                       "vote_count" : 7
                     }
-                  ]
-                }""";
+                  ]""";
 
         assertEquals(expectedJson, movies.toJsonFormat());
     }
