@@ -65,22 +65,22 @@ public class MovieTest {
         );
 
         String expectedJson = """
-                {
-                  "adult" : false,
-                  "backdrop_path" : "/635qI5pWhQSUaTnOkMo4GLCe8sV.jpg",
-                  "genre_ids" : [28, 16, 12, 35, 14],
-                  "id" : 19576,
-                  "original_language" : "ja",
-                  "original_title" : "ワンピース",
-                  "overview" : "Overview of the movie",
-                  "popularity" : 34.461,
-                  "poster_path" : "/aRqQNSuXpcE3dkJC43aEg9f2HXd.jpg",
-                  "release_date" : "2000-03-04",
-                  "title" : "One Piece: The Movie",
-                  "video" : false,
-                  "vote_average" : 7.061,
-                  "vote_count" : 309
-                }""";
+                \s   {
+                      "adult" : false,
+                      "backdrop_path" : "/635qI5pWhQSUaTnOkMo4GLCe8sV.jpg",
+                      "genre_ids" : [28, 16, 12, 35, 14],
+                      "id" : 19576,
+                      "original_language" : "ja",
+                      "original_title" : "ワンピース",
+                      "overview" : "Overview of the movie",
+                      "popularity" : 34.461,
+                      "poster_path" : "/aRqQNSuXpcE3dkJC43aEg9f2HXd.jpg",
+                      "release_date" : "2000-03-04",
+                      "title" : "One Piece: The Movie",
+                      "video" : false,
+                      "vote_average" : 7.061,
+                      "vote_count" : 309
+                    }""";
 
         assertEquals(expectedJson, movie.toJsonFormat());
     }
