@@ -5,14 +5,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-public class JSONReader extends MovieFinder {
+public class JsonReader extends MovieFinder {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
     private final JsonNode jsonGenres;
 
-    public JSONReader(String path){
+    public JsonReader(String path){
         jsonFile = new File(path);
         objectMapper = new ObjectMapper();
         jsonMovies = getJsonMoviesNode() ;
@@ -60,19 +62,24 @@ public class JSONReader extends MovieFinder {
     }
 
     @Override
-    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage, String page) {
+    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage) {
         for (JsonNode movie : jsonMovies) {
-            boolean titleCondition = (title == null) ||
+            boolean titleCondition = title == null ||
+                    title.isEmpty() ||
                     movie.get("original_title").asText().toLowerCase().contains(title.toLowerCase());
-            boolean yearCondition = (releaseYear == null) ||
+            boolean yearCondition = releaseYear == null ||
+                    releaseYear.isEmpty() ||
                     movie.get("release_date").asText().startsWith(releaseYear);
-            boolean genreCondition = (genres == null || genres.isEmpty()) ||
+            boolean genreCondition =
+                    genres == null ||
+                    genres.isEmpty() ||
                     movieContainsAnyGenre(movie, genres);
-            boolean voteCondition = (voteAverage == null) ||
+            boolean voteCondition =
+                    voteAverage == null ||
+                    voteAverage.isEmpty() ||
                     Double.parseDouble(voteAverage) <= movie.get("vote_average").asDouble();
-            boolean pageCondition = (page == null) || (Integer.parseInt(page) == 1);
 
-            if (titleCondition && yearCondition && genreCondition && voteCondition && pageCondition) {
+            if (titleCondition && yearCondition && genreCondition && voteCondition) {
                 movies.add(jsonNodeToMovie(movie));
             }
         }
@@ -144,7 +151,7 @@ public class JSONReader extends MovieFinder {
             return pageNode.asInt();
         }
 
-        return 0;
+        return -1;
     }
 
     /**
@@ -191,6 +198,20 @@ public class JSONReader extends MovieFinder {
             writer.write("");
         } catch (IOException e) {
             System.err.println("Error truncating file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if the specified file is empty.
+     * @param filePath The path to the file to check.
+     * @return {@code true} if the file is empty or does not exist, {@code false} otherwise.
+     */
+    public static boolean isFileEmpty(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            return reader.readLine() == null;
+        } catch (IOException e) {
+            System.err.println("IOException from public static boolean isFileEmpty(String filePath) in JsonReader.java");
+            return true;
         }
     }
 
