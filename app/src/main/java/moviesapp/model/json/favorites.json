@@ -1,0 +1,38 @@
+{
+  "results" : [
+    {
+      "adult" : false,
+      "backdrop_path" : "/s0XaJEApAfgMgKUBy6UfOnNTtwR.jpg",
+      "genre_ids" : [28, 16, 878],
+      "id" : 39101,
+      "original_language" : "ja",
+      "original_title" : "ドラゴンボールZ 地球まるごと超決戦",
+      "overview" : "Goku and friends must stop a band of space pirates from consuming fruit from the Tree of Might before it's destructive powers drain Earth's energy.",
+      "popularity" : 39.744,
+      "poster_path" : "/fDX4Dp8IKvjBAaEb5MOJrGkxWX0.jpg",
+      "release_date" : "1990-06-07",
+      "title" : "Dragon Ball Z: The Tree of Might",
+      "video" : false,
+      "vote_average" : 6.487,
+      "vote_count" : 515
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/dc6xuA5QeMdxjCbpZTJnlxv6Hn5.jpg",
+      "genre_ids" : [28, 16, 35],
+      "id" : 270413,
+      "original_language" : "ja",
+      "original_title" : "ワンピース ストロングワールド Episode 0",
+      "overview" : "The introductory chapter to the movie, Strong World, which depicts the events surrounding Gold Roger's execution.",
+      "popularity" : 21.973,
+      "poster_path" : "/5m0FhjQdWhBS3nkRFKIfkwFt1Zc.jpg",
+      "release_date" : "2010-04-24",
+      "title" : "One Piece: Strong World Episode 0",
+      "video" : false,
+      "vote_average" : 7.3,
+      "vote_count" : 80
+    }
+  ],
+  "total_pages" : 1,
+  "total_results" : 2
+}

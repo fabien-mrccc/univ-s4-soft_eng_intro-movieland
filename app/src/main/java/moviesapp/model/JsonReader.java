@@ -57,7 +57,7 @@ public class JsonReader extends MovieFinder {
         for(JsonNode jsonGenreId: jsonGenreIds){
             genreIds.add(jsonGenreId.asText());
         }
-        return TmdbAPI.genreIdsToGenres(genreIds);
+        return genreIds;
     }
 
     @Override
