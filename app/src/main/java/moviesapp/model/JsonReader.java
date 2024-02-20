@@ -26,19 +26,18 @@ public class JsonReader extends MovieFinder {
      * @return the jsonNode converted to a movie
      */
     private Movie jsonNodeToMovie(JsonNode jsonNode) {
-
         return new Movie(
                 jsonNode.get("adult").asBoolean(),
-                jsonNode.get("backdrop_path").asText(),
+                escapeQuotes(jsonNode.get("backdrop_path").asText()),
                 getGenresFromJson(jsonNode),
-                jsonNode.get("id").asText(),
-                jsonNode.get("original_language").asText(),
-                jsonNode.get("original_title").asText(),
-                jsonNode.get("overview").asText(),
+                escapeQuotes(jsonNode.get("id").asText()),
+                escapeQuotes(jsonNode.get("original_language").asText()),
+                escapeQuotes(jsonNode.get("original_title").asText()),
+                escapeQuotes(jsonNode.get("overview").asText()),
                 jsonNode.get("popularity").asDouble(),
-                jsonNode.get("poster_path").asText(),
-                jsonNode.get("release_date").asText(),
-                jsonNode.get("title").asText(),
+                escapeQuotes(jsonNode.get("poster_path").asText()),
+                escapeQuotes(jsonNode.get("release_date").asText()),
+                escapeQuotes(jsonNode.get("title").asText()),
                 jsonNode.get("video").asBoolean(),
                 jsonNode.get("vote_average").asDouble(),
                 jsonNode.get("vote_count").asInt()
