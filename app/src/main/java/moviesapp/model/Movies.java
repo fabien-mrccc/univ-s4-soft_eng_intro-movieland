@@ -133,7 +133,6 @@ public class Movies implements Iterable<Movie> {
      */
     public String toJsonFormat() {
         StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("{\n");
         jsonBuilder.append("  \"results\" : [\n");
 
         for (Movie movie : movies) {
@@ -144,8 +143,7 @@ public class Movies implements Iterable<Movie> {
             jsonBuilder.append("\n");
         }
 
-        jsonBuilder.append("  ]\n");
-        jsonBuilder.append("}");
+        jsonBuilder.append("  ]");
         return jsonBuilder.toString();
     }
 }
