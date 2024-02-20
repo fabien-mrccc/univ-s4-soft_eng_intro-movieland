@@ -259,7 +259,7 @@ public class TmdbAPI {
      */
     public static void fillGENRE_NAME_ID_MAP(){
         updateGenresFile();
-        JSONReader jsonGenresReader = new JSONReader(genreFileName);
+        JsonReader jsonGenresReader = new JsonReader(genreFileName);
         for(JsonNode genre : jsonGenresReader.getJsonGenres()){
             GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
         }
