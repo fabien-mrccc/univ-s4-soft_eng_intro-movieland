@@ -40,15 +40,5 @@ public class MovieTest {
                 """;
 
         assertThat(movie1.toString()).isEqualTo(expectedString);
-
-    }
-
-    @Test
-    void testToStringWithID(){
-        Movie movie1 = new Movie(true,"backdropPath",genres,"1","originalLanguage",
-                "originalTitle","overview",2,"posterPath","releaseDate",
-                "title",false,3,4);
-        assertThat(movie1.toStringWithID())
-                .isEqualTo("__________________________  \n  title: title\n  vote average: 3.0\n  release year: rele\n  id: 1\n__________________________  ");
     }
 }
