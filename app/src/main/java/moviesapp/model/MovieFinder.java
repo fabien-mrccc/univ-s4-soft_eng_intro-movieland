@@ -10,22 +10,21 @@ public abstract class MovieFinder {
      * @param releaseYear the releaseYear of the movie
      * @param genres the list of genres of the movie
      * @param voteAverage the vote average of the movie
-     * @param page the page result of the search
      * @return return a list of movies, null if no information in parameters
      */
-    public Movies findMovies(String title , String releaseYear, List<String> genres, String voteAverage, String page){
-        if(title == null || releaseYear == null || genres == null || voteAverage == null || page == null){
+    public Movies findMovies(String title , String releaseYear, List<String> genres, String voteAverage){
+        if(title == null || releaseYear == null || genres == null || voteAverage == null){
             return null;
         }
 
-        boolean[] parametersEmptyStatus = {title.isEmpty(), releaseYear.isEmpty(), genres.isEmpty(), voteAverage.isEmpty(), page.isEmpty()};
+        boolean[] parametersEmptyStatus = {title.isEmpty(), releaseYear.isEmpty(), genres.isEmpty(), voteAverage.isEmpty()};
 
         if(allParametersAreEmpty(parametersEmptyStatus)){
             return null;
         }
 
         Movies movies = new Movies();
-        findMoviesByCriteria(movies, title, releaseYear, genres, voteAverage, page);
+        findMoviesByCriteria(movies, title, releaseYear, genres, voteAverage);
 
         return movies;
     }
@@ -51,7 +50,6 @@ public abstract class MovieFinder {
      * @param releaseYear the year of the movie researched
      * @param genres the genres that the movie checked
      * @param voteAverage the minimum vote average that the movie checked
-     * @param page the page of the search result where the movie is
      */
-    public abstract void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage, String page);
+    public abstract void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage);
 }
