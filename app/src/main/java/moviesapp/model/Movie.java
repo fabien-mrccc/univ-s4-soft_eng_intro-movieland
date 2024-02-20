@@ -42,21 +42,21 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
      * @return a string that represents json code corresponding to the movie.
      */
     public String toJsonFormat() {
-        return "{\n" +
-                "  \"adult\" : " + adult() + ",\n" +
-                "  \"backdrop_path\" : \"" + backdropPath() + "\",\n" +
-                "  \"genre_ids\" : " + genres() + ",\n" +
-                "  \"id\" : " + id() + ",\n" +
-                "  \"original_language\" : \"" + originalLanguage() + "\",\n" +
-                "  \"original_title\" : \"" + originalTitle() + "\",\n" +
-                "  \"overview\" : \"" + overview() + "\",\n" +
-                "  \"popularity\" : " + popularity() + ",\n" +
-                "  \"poster_path\" : \"" + posterPath() + "\",\n" +
-                "  \"release_date\" : \"" + releaseDate() + "\",\n" +
-                "  \"title\" : \"" + title() + "\",\n" +
-                "  \"video\" : " + video() + ",\n" +
-                "  \"vote_average\" : " + voteAverage() + ",\n" +
-                "  \"vote_count\" : " + voteCount() + "\n" +
-                "}";
+        return "    {\n" +
+                "      \"adult\" : " + adult() + ",\n" +
+                "      \"backdrop_path\" : \"" + backdropPath() + "\",\n" +
+                "      \"genre_ids\" : " + genres() + ",\n" +
+                "      \"id\" : " + id() + ",\n" +
+                "      \"original_language\" : \"" + originalLanguage() + "\",\n" +
+                "      \"original_title\" : \"" + originalTitle() + "\",\n" +
+                "      \"overview\" : \"" + overview() + "\",\n" +
+                "      \"popularity\" : " + popularity() + ",\n" +
+                "      \"poster_path\" : \"" + posterPath() + "\",\n" +
+                "      \"release_date\" : \"" + releaseDate() + "\",\n" +
+                "      \"title\" : \"" + title() + "\",\n" +
+                "      \"video\" : " + video() + ",\n" +
+                "      \"vote_average\" : " + voteAverage() + ",\n" +
+                "      \"vote_count\" : " + voteCount() + "\n" +
+                "    }";
     }
 }
