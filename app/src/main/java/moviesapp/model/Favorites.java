@@ -1,7 +1,7 @@
 package moviesapp.model;
 import java.util.ArrayList;
 import java.util.List;
-public class Favorites extends SearchMovies{
+public class Favorites extends MovieFinder {
 
     public static final Favorites instance = new Favorites();
     private final List<Movie> favorites;
@@ -102,14 +102,35 @@ public class Favorites extends SearchMovies{
     }
 
     @Override
-    public void findMoviesByCriteria(Movies movies, String name, String year) {
+    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage) {
         for (Movie movie : favorites) {
-            boolean nameCondition = (name == null) || movie.originalTitle().toLowerCase().contains(name.toLowerCase());
-            boolean yearCondition = (year == null) || movie.releaseDate().toLowerCase().contains(year.toLowerCase());
+            boolean titleCondition = (title == null) ||
+                    movie.originalTitle().toLowerCase().contains(title.toLowerCase());
+            boolean yearCondition = (releaseYear == null) ||
+                    movie.releaseDate().toLowerCase().startsWith(releaseYear.toLowerCase());
+            boolean genreCondition = (genres == null || genres.isEmpty()) ||
+                    movieContainsAnyGenre(movie, genres);
+            boolean voteCondition = (voteAverage == null) ||
+                    Double.parseDouble(voteAverage) <= movie.voteAverage();
 
-            if (nameCondition && yearCondition) {
+            if (titleCondition && yearCondition && genreCondition && voteCondition) {
                 movies.add(movie);
             }
         }
+    }
+
+    /**
+     * Checks if the movie contains at least one genre from the specified list.
+     * @param movie The movie to check.
+     * @param genres The list of genres to search for in the movie.
+     * @return {@code true} if the movie contains at least one of the specified genres, {@code false} otherwise.
+     */
+    private boolean movieContainsAnyGenre(Movie movie, List<String> genres) {
+        for (String genre : genres) {
+            if (movie.genres().contains(genre)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
