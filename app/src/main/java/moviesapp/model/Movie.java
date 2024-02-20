@@ -26,7 +26,7 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
     }
 
     /**
-     * return the details of the movie
+     * Return the details of the movie
      * @return the details of the movie
      */
     public String details(){
@@ -35,10 +35,5 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                 "\n  genreIds: "+genres+"\n  popularity: " +popularity+"\n  adult: "+adult+
                 "\n  vote average: "+voteAverage+"\n  vote count: " +voteCount+"\n  overview: "
                 +overview+ "\n__________________________  ";
-    }
-
-    public String toStringWithID(){
-        return "__________________________  \n"+"  title: "+title+"\n  vote average: " +voteAverage+"\n  release year: "
-                +releaseDate.substring(0,4)+"\n  id: "+id+"\n__________________________  ";
     }
 }
