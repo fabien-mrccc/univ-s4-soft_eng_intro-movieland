@@ -340,7 +340,6 @@ public final class CLController {
     private void printFavoritesUpdate(){
         System.out.println("\nYour favorites list updated: ");
         displayFavorites();
-        System.out.println("End of your favorite list.");
     }
 
     /**
