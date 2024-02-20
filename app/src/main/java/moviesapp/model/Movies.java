@@ -153,4 +153,13 @@ public class Movies implements Iterable<Movie> {
     public void clear(){
         movies.clear();
     }
+
+    /**
+     * Indicate if movies contains a specific movie
+     * @param movie the movie to check in
+     * @return {@code true} if the movie is in movies list, otherwise false
+     */
+    public boolean contains(Movie movie){
+        return movies.contains(movie);
+    }
 }
