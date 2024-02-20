@@ -1,17 +1,14 @@
 package moviesapp.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class JsonWriter {
     private final File jsonFile;
-    private final ObjectMapper objectMapper;
 
     public JsonWriter(String path){
         jsonFile = new File(path);
-        objectMapper = new ObjectMapper();
     }
 
     /**
@@ -22,6 +19,27 @@ public class JsonWriter {
             writer.write("");
         } catch (IOException e) {
             System.err.println("Error truncating file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Saves the favorite movies to a JSON file.
+     * @param favorites the list of favorite movies
+     */
+    public void saveFavorites(Movies favorites) {
+        try (FileWriter writer = new FileWriter(jsonFile)) {
+            writer.write("{\n");
+            writer.write("  \"page\" : 1,\n");
+            writer.write("  \"results\" : [\n");
+
+            writer.write(favorites.toJsonFormat());
+
+            writer.write("  ],\n");
+            writer.write("  \"total_pages\" : 1,\n");
+            writer.write("  \"total_results\" : " + favorites.size() + "\n");
+            writer.write("}\n");
+        } catch (IOException e) {
+            System.err.println("Error writing JSON file: " + e.getMessage());
         }
     }
 }
