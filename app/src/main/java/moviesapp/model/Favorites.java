@@ -1,11 +1,13 @@
 package moviesapp.model;
+import moviesapp.controller.CLController;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Favorites extends MovieFinder {
-
     public static final Favorites instance = new Favorites();
-    private final Movies favorites = new Movies();
+    private final JsonReader jsonReader = new JsonReader(CLController.favoritesFilePath);
+    private final Movies favorites = jsonReader.findAllMovies();
 
     /** Return true if the list of favorites is empty, if not return false
      *  @return boolean
