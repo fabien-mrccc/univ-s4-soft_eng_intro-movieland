@@ -55,6 +55,7 @@ public final class CLController {
      * Display only the title, the year of release and the average note of every film in the catalog
      */
     private void displayCatalog(){
+        System.out.println("The most popular movies at the moment are listed below: ");
         TmdbAPI api = new TmdbAPI();
         int page = 1;
         boolean printedCatalog = false;
