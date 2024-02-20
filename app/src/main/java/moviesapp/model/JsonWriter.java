@@ -29,12 +29,9 @@ public class JsonWriter {
     public void saveFavorites(Movies favorites) {
         try (FileWriter writer = new FileWriter(jsonFile)) {
             writer.write("{\n");
-            writer.write("  \"page\" : 1,\n");
-            writer.write("  \"results\" : [\n");
-
             writer.write(favorites.toJsonFormat());
 
-            writer.write("  ],\n");
+            writer.write(",\n");
             writer.write("  \"total_pages\" : 1,\n");
             writer.write("  \"total_results\" : " + favorites.size() + "\n");
             writer.write("}\n");
