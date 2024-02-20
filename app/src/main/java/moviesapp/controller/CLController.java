@@ -1,9 +1,6 @@
 package moviesapp.controller;
 
-import moviesapp.model.Favorites;
-import moviesapp.model.JsonReader;
-import moviesapp.model.Movies;
-import moviesapp.model.TmdbAPI;
+import moviesapp.model.*;
 
 import java.util.*;
 
@@ -11,7 +8,7 @@ public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JsonReader jsonReader;
-    private final static String filePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
+    private final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/api-results.json";
     private final TmdbAPI apiObject;
 
     public CLController() {
@@ -26,7 +23,7 @@ public final class CLController {
      * Update the file read by the jsonReader
      */
     private void jsonReaderUpdate(){
-        jsonReader = new JsonReader(filePath);
+        jsonReader = new JsonReader(apiFilePath);
     }
 
     /**
@@ -230,7 +227,7 @@ public final class CLController {
      * Command that print all movies stored in user favorite list
      */
     private void displayFavorites(){
-        System.out.printf(Favorites.instance+"\n");
+        System.out.printf(Favorites.instance+"");
     }
 
     /**
@@ -360,7 +357,8 @@ public final class CLController {
      * Select a method to execute based on user input and execute it
      */
     public void select(){
-        jsonReader.jsonCleaner();
+        new JsonWriter(apiFilePath).clean();
+
         for (;;) {
             help();
             System.out.println("\nInput your command: ");
