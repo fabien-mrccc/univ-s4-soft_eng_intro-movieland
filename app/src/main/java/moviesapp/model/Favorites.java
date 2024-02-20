@@ -5,17 +5,21 @@ import java.util.List;
 public class Favorites extends MovieFinder {
 
     public static final Favorites instance = new Favorites();
-    private final List<Movie> favorites;
-
-    private Favorites(){
-        favorites = new ArrayList<>();
-    }
+    private final Movies favorites = new Movies();
 
     /** Return true if the list of favorites is empty, if not return false
      *  @return boolean
      **/
     public boolean isEmpty(){
         return favorites.isEmpty();
+    }
+
+    /**
+     * Return the Movies composing user favorites
+     * @return the Movies composing user favorites
+     */
+    public Movies getFavorites(){
+        return favorites;
     }
 
     @Override
