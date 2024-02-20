@@ -8,8 +8,8 @@ public final class CLController {
     private final List<String> commands;
     private final Scanner scanner;
     private JsonReader jsonReader;
-    private final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/api-results.json";
-    private final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/favorites.json";
+    public final static String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/api-results.json";
+    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/favorites.json";
     private final TmdbAPI apiObject;
 
     public CLController() {
