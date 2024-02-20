@@ -55,10 +55,6 @@ public class TmdbAPITest {
          */
     }
 
-    private String readContentFromAPIResultsJSON(){
-        return readContentFrom(apiJsonPath);
-    }
-
     private String readContentFrom(String path){
         String fileContent = null;
         StringBuilder stringBuilder = new StringBuilder();
