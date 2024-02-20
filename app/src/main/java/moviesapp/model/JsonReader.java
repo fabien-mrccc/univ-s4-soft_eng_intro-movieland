@@ -46,6 +46,15 @@ public class JsonReader extends MovieFinder {
     }
 
     /**
+     * Escapes double quotes in a string by adding backslashes (\).
+     * @param input the string in which to escape double quotes
+     * @return the string with escaped double quotes
+     */
+    private String escapeQuotes(String input) {
+        return input.replaceAll("\"", "\\\\\"");
+    }
+
+    /**
      * Browse genre_ids jsonNode to collect values to store in a list
      * @param jsonNode to browse
      * @return the list of genre identifiers
