@@ -26,15 +26,7 @@ public class Favorites extends MovieFinder {
 
     @Override
     public String toString(){
-        StringBuilder favoritesString = new StringBuilder();
-        if(favorites.isEmpty()){
-            favoritesString = new StringBuilder("Your list of favorites is empty.");
-            return favoritesString.toString();
-        }
-        for(Movie movie: favorites){
-            favoritesString.append(movie).append("\n");
-        }
-        return favoritesString.toString();
+        return favorites.toString();
     }
 
     /**

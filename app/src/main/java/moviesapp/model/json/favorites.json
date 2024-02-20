@@ -31,8 +31,40 @@
       "video" : false,
       "vote_average" : 7.3,
       "vote_count" : 80
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/eWY2232C8iID47J6Xfsg4DkFAum.jpg",
+      "genre_ids" : [16, 10402, 10770],
+      "id" : 136215,
+      "original_language" : "en",
+      "original_title" : "Barbie and the Rockers: Out of This World",
+      "overview" : "Rock sensation Barbie and her band The Rockers, beloved by everyone all around the world, decide to do something no band has ever done before - preform a charity rock concert in outer space.",
+      "popularity" : 3.796,
+      "poster_path" : "/6wa032DhQ5xjfUleh4ZKsnU52O2.jpg",
+      "release_date" : "1987-09-27",
+      "title" : "Barbie and the Rockers: Out of This World",
+      "video" : false,
+      "vote_average" : 7.4,
+      "vote_count" : 37
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/tfhRCZQiU7EusiQBIXSW7r9pSwY.jpg",
+      "genre_ids" : [16, 35],
+      "id" : 236635,
+      "original_language" : "en",
+      "original_title" : "Hold the Lion, Please",
+      "overview" : "A lion wants to prove he's still "King of the Jungle" and, to prove it, he hunts rabbit.",
+      "popularity" : 1.481,
+      "poster_path" : "/yH5NK8auETxoPQ5Q1WG1bVm7TNr.jpg",
+      "release_date" : "1942-06-06",
+      "title" : "Hold the Lion, Please",
+      "video" : false,
+      "vote_average" : 6.2,
+      "vote_count" : 9
     }
   ],
   "total_pages" : 1,
-  "total_results" : 2
+  "total_results" : 4
 }
