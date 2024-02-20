@@ -1,12 +1,15 @@
 package moviesapp.model;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoviesTest {
     private final Movie movie1 = new Movie(true,null,null,"1",null,
@@ -123,5 +126,89 @@ public class MoviesTest {
 
     private String indexOfMovie(int index){
         return "| n°0" + index;
+    }
+
+    @Test
+    void testToJsonFormat() {
+        final Movies movies = getMovies();
+
+        String expectedJson = """
+                {
+                  "results" : [
+                    {
+                      "adult" : false,
+                      "backdrop_path" : "/635qI5pWhQSUaTnOkMo4GLCe8sV.jpg",
+                      "genre_ids" : [28, 16, 12, 35, 14],
+                      "id" : 19576,
+                      "original_language" : "ja",
+                      "original_title" : "ワンピース",
+                      "overview" : "Overview of the movie",
+                      "popularity" : 34.461,
+                      "poster_path" : "/aRqQNSuXpcE3dkJC43aEg9f2HXd.jpg",
+                      "release_date" : "2000-03-04",
+                      "title" : "One Piece: The Movie",
+                      "video" : false,
+                      "vote_average" : 7.061,
+                      "vote_count" : 309
+                    },
+                    {
+                      "adult" : false,
+                      "backdrop_path" : "/xTRnDuNqZKVAvXWa5tNq7k6Xuyb.jpg",
+                      "genre_ids" : [16, 28, 12, 10770],
+                      "id" : 1051942,
+                      "original_language" : "ja",
+                      "original_title" : "ルフィ落下! 秘境・海のヘソの大冒険",
+                      "overview" : "",
+                      "popularity" : 3.95,
+                      "poster_path" : "/obptcr88HJ14tD2FFgg1zcWCmjs.jpg",
+                      "release_date" : "2000-12-20",
+                      "title" : "Luffy's Fall! The Unexplored Region - Grand Adventure in the Ocean's Navel",
+                      "video" : false,
+                      "vote_average" : 6.4,
+                      "vote_count" : 7
+                    }
+                  ]
+                }""";
+
+        assertEquals(expectedJson, movies.toJsonFormat());
+    }
+
+    @NotNull
+    private static Movies getMovies() {
+        List<Movie> movieList = new ArrayList<>();
+        movieList.add(new Movie(
+                false,
+                "/635qI5pWhQSUaTnOkMo4GLCe8sV.jpg",
+                Arrays.asList("28", "16", "12", "35", "14"),
+                "19576",
+                "ja",
+                "ワンピース",
+                "Overview of the movie",
+                34.461,
+                "/aRqQNSuXpcE3dkJC43aEg9f2HXd.jpg",
+                "2000-03-04",
+                "One Piece: The Movie",
+                false,
+                7.061,
+                309
+        ));
+        movieList.add(new Movie(
+                false,
+                "/xTRnDuNqZKVAvXWa5tNq7k6Xuyb.jpg",
+                Arrays.asList("16", "28", "12", "10770"),
+                "1051942",
+                "ja",
+                "ルフィ落下! 秘境・海のヘソの大冒険",
+                "",
+                3.95,
+                "/obptcr88HJ14tD2FFgg1zcWCmjs.jpg",
+                "2000-12-20",
+                "Luffy's Fall! The Unexplored Region - Grand Adventure in the Ocean's Navel",
+                false,
+                6.4,
+                7
+        ));
+
+        return new Movies(movieList);
     }
 }
