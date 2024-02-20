@@ -126,4 +126,26 @@ public class Movies implements Iterable<Movie> {
     public Movie get(int index){
         return movies.get(index);
     }
+
+    /**
+     * Converts the list of movies to JSON format by returning the string corresponding.
+     * @return a JSON formatted string representing the list of movies
+     */
+    public String toJsonFormat() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{\n");
+        jsonBuilder.append("  \"results\" : [\n");
+
+        for (Movie movie : movies) {
+            jsonBuilder.append("    ").append(movie.toJsonFormat());
+            if (movies.indexOf(movie) < movies.size() - 1) {
+                jsonBuilder.append(",");
+            }
+            jsonBuilder.append("\n");
+        }
+
+        jsonBuilder.append("  ]\n");
+        jsonBuilder.append("}");
+        return jsonBuilder.toString();
+    }
 }
