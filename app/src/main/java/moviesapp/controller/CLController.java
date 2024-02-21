@@ -273,7 +273,7 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void addMovieByIndex(Movies movies){
-        Favorites.instance.add(selectMovieByIndex(movies));
+        Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
     }
 
     /**
@@ -281,7 +281,7 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void removeMovieByIndex(Movies movies){
-        Favorites.instance.remove(selectMovieByIndex(movies));
+        Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
     }
 
     /**
@@ -289,9 +289,8 @@ public final class CLController {
      * @param movies to browse
      * @return movie selected in a Movies object
      */
-    private Movies selectMovieByIndex(Movies movies){
-        System.out.println("\nYour list of movies with indexes: \n" + movies.toString() + "\nSelect the index of the movies that correspond to your search, displayed above.");
-        int index = Integer.parseInt(askValue("Index of the movie to add to your favorites: "));
+    private Movies selectMovieByIndex(Movies movies, String message){
+        int index = Integer.parseInt(askValue(message));
         Movies movieSelected = new Movies();
         movieSelected.add(movies.findMovieByIndex(index - 1));
         return movieSelected ;
