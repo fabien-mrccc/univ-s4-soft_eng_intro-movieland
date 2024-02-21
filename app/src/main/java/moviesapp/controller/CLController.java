@@ -33,9 +33,9 @@ public final class CLController {
     private void setupCommands(){
         commands.add("[1] catalog: see popular movies at the moment");
         commands.add("[2] search: show specific movies based on your criteria");
-        commands.add("[3] details: see detailed information about one movie of your precedent research");
+        commands.add("[3] details: view detailed information about a movie in your precedent search");
         commands.add("[4] add: add one movie to your favorite list");
-        commands.add("[5] remove: remove one movie to your favorite list");
+        commands.add("[5] remove: remove one movie from your favorite list");
         commands.add("[6] favorites: see movies in your favorite list");
         commands.add("[7] clear: remove all the movies from your favorite list");
         commands.add("[8] exit: leave the application");
