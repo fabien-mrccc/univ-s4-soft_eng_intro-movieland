@@ -75,7 +75,7 @@ public class TmdbAPI {
             urlString = urlBuilderDiscover(minYear, maxYear, genresToGenreIds(genres), voteAverage , page);
         }
         else{
-            urlString = urlBuilderSearch(title, minYear, maxYear, page);
+            urlString = urlBuilderSearch(title, minYear, page);
         }
         //updatePage
         return new Request.Builder().url(urlString).build();
@@ -130,7 +130,7 @@ public class TmdbAPI {
     private String urlBuilderDiscover(String minYear, String maxYear, List<String> genreIds, String voteAverage, String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
-        buildUrlWithReleaseYear(urlBuilder, minYear, maxYear, minYear == null || minYear.isEmpty(), maxYear == null || maxYear.isEmpty());
+        buildUrlWithYearSpan(urlBuilder, minYear, maxYear, minYear == null || minYear.isEmpty(), maxYear == null || maxYear.isEmpty());
         buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
         buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
         buildUrlWithPage(urlBuilder, page);
@@ -145,12 +145,18 @@ public class TmdbAPI {
      * @param isMaxYearEmpty flag to append to urlBuilder
      * @param isMinYearEmpty flag to append to urlBuilder
      */
-    private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String minYear, String maxYear, boolean isMinYearEmpty, boolean isMaxYearEmpty){
+    private void buildUrlWithYearSpan(StringBuilder urlBuilder, String minYear, String maxYear, boolean isMinYearEmpty, boolean isMaxYearEmpty){
         if(!isMinYearEmpty){
-            urlBuilder.append("primary_release_date.gte").append(minYear).append("-01-01");
+            urlBuilder.append("&primary_release_date.gte=").append(minYear).append("-01-01");
         }
         if(!isMaxYearEmpty){
-            urlBuilder.append("primary_release_date.lte").append(maxYear).append("-01-01");
+            urlBuilder.append("&primary_release_date.lte=").append(maxYear).append("-12-31");
+        }
+    }
+
+    private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String releaseYear, boolean isReleaseYearEmpty){
+        if(!isReleaseYearEmpty){
+            urlBuilder.append("&primary_release_year=").append(releaseYear);
         }
     }
 
@@ -194,13 +200,12 @@ public class TmdbAPI {
     /**
      * Return an url using API search command from the given parameters
      * @param title title or part of a title of a movie
-     * @param minYear min release year of a movie
-     * @param maxYear max release year of a movie
+     * @param releaseYear release year of a movie
      * @return the desired url based on given parameters
      */
-    private String urlBuilderSearch(String title, String minYear, String maxYear , String page){
+    private String urlBuilderSearch(String title, String releaseYear , String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/search/movie?" + language + "&query=" + title);
-        buildUrlWithReleaseYear(urlBuilder, minYear, maxYear, minYear == null || minYear.isEmpty(), maxYear == null || maxYear.isEmpty());
+        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
         buildUrlWithPage(urlBuilder, page);
         return urlBuilder + apiKey;
     }

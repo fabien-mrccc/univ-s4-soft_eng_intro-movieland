@@ -162,21 +162,30 @@ public final class CLController {
      * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
      */
     private void searchMovies(){
-        String title = askValue("Title of the movie: ");
-        String minyear = askValue("Min Year of release: ");
-        String maxYear = askValue("Max year of release: ");
-        String voteAverage = askValue("Movie's minimum rate: ");
-        List<String> genres = specifiedGenres(apiObject);
-
-        if(title.isEmpty() && minyear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+        String title = "";
+        String minYear = "";
+        String maxYear = "";
+        String voteAverage = "";
+        List<String> genres = new ArrayList<>();
+        if(askToConfirm("Do you know the title?")){
+            title = askValue("Title of the movie: ");
+            minYear = askValue("Year of release: ");
+        }
+        else{
+            minYear = askValue("Min year of release: ");
+            maxYear = askValue("Max year of release: ");
+            voteAverage = askValue("Movie's minimum rate: ");
+            genres = specifiedGenres(apiObject);
+        }
+        if(title.isEmpty() && minYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("No information sent. \nPlease give me more details for your next search.");
         }
         else{
-            apiObject.searchMovies(title, minyear, maxYear, genres, voteAverage , "1");
+            apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage , "1");
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askPreviousOrNextPage(title,minyear, maxYear,genres,voteAverage, messageOfAskPreviousOrNextPage()));
+            } while(askPreviousOrNextPage(title,minYear, maxYear,genres,voteAverage, messageOfAskPreviousOrNextPage()));
         }
     }
 
