@@ -108,13 +108,14 @@ public final class CLController {
     /**
      * Ask the user to select an interaction with page management system (previous, next, stop)
      * @param title from the precedent search
-     * @param releaseYear from the precedent search
+     * @param minYear from the precedent search
+     * @param maxYear from the precedent search
      * @param genres from the precedent search
      * @param voteAverage from the precedent search
      * @param message the message to print to the user to interact with page management system
      * @return the user's answer
      */
-    private boolean askPreviousOrNextPage(String title, String releaseYear, List<String> genres, String voteAverage , String message){
+    private boolean askPreviousOrNextPage(String title, String minYear, String maxYear, List<String> genres, String voteAverage , String message){
         String response = askValue(message);
 
         switch (response) {
@@ -128,14 +129,14 @@ public final class CLController {
             }
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
                 }
                 System.out.println("\nThere is no next page.");
             }
             case "1" -> {
                 if(jsonReader.getPageInJson() > 1){
-                    apiObject.searchMovies(title, releaseYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
                 }
                 System.out.println("\nThere is no precedent page.");
@@ -146,7 +147,7 @@ public final class CLController {
             default -> System.out.println("Please enter a valid option.");
         }
 
-        return askPreviousOrNextPage(title, releaseYear, genres, voteAverage , message);
+        return askPreviousOrNextPage(title, minYear, maxYear, genres, voteAverage , message);
     }
 
     /**
@@ -171,23 +172,33 @@ public final class CLController {
     }
 
     /**
-     * Ask title, release year, vote average and genres information to the user to select a specific group of movies
+     * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
      */
     private void searchMovies(){
-        String title = askValue("Title of the movie: ");
-        String releaseYear = askValue("Year of release: ");
-        String voteAverage = askValue("Movie's minimum rate: ");
-        List<String> genres = specifiedGenres(apiObject);
-
-        if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+        String title = "";
+        String minYear = "";
+        String maxYear = "";
+        String voteAverage = "";
+        List<String> genres = new ArrayList<>();
+        if(askToConfirm("Do you know the title?")){
+            title = askValue("Title of the movie: ");
+            minYear = askValue("Year of release: ");
+        }
+        else{
+            minYear = askValue("Min year of release: ");
+            maxYear = askValue("Max year of release: ");
+            voteAverage = askValue("Movie's minimum rate: ");
+            genres = specifiedGenres(apiObject);
+        }
+        if(title.isEmpty() && minYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("\nNo information sent. \nPlease give me more details for your next search.\n");
         }
         else{
-            apiObject.searchMovies(title, releaseYear, genres, voteAverage , "1");
+            apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage , "1");
             do{
                 jsonReaderUpdate();
                 System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askPreviousOrNextPage(title,releaseYear,genres,voteAverage, messageOfAskPreviousOrNextPage()));
+            } while(askPreviousOrNextPage(title,minYear, maxYear,genres,voteAverage, messageOfAskPreviousOrNextPage()));
         }
     }
 

@@ -42,12 +42,13 @@ public class TmdbAPI {
     /**
      * Call every necessary methods to create the appropriate url from the given parameters
      * @param title part of or complete title of a movie
-     * @param releaseYear year of release of movie
+     * @param minYear min year of release of movie
+     * @param maxYear max year of release of movie
      * @param genres a list of genres
      * @param voteAverage the min vote average
      */
-    public void searchMovies(String title, String releaseYear, List<String> genres, String voteAverage , String page){
-        Request request = buildRequest(title, releaseYear, genres, voteAverage , page );
+    public void searchMovies(String title, String minYear, String maxYear, List<String> genres, String voteAverage , String page){
+        Request request = buildRequest(title, minYear, maxYear, genres, voteAverage , page );
 
         try {
             Response response = client.newCall(request).execute();
@@ -61,19 +62,20 @@ public class TmdbAPI {
     /**
      * According to title value (null or not), choose to build API request from url with API search command or API discover command
      * @param title part of or complete title of a movie
-     * @param releaseYear year of release of movie
+     * @param minYear min year of release of movie
+     * @param maxYear max year of release of movie
      * @param genres a list of genres
      * @param voteAverage the min vote average
      * @return the request built
      */
-    private Request buildRequest(String title, String releaseYear, List<String> genres, String voteAverage, String page){
+    private Request buildRequest(String title, String minYear, String maxYear, List<String> genres, String voteAverage, String page){
         String urlString;
 
         if(title.isEmpty()){
-            urlString = urlBuilderDiscover(releaseYear, genresToGenreIds(genres), voteAverage , page);
+            urlString = urlBuilderDiscover(minYear, maxYear, genresToGenreIds(genres), voteAverage , page);
         }
         else{
-            urlString = urlBuilderSearch(title, releaseYear, page);
+            urlString = urlBuilderSearch(title, minYear, page);
         }
         //updatePage
         return new Request.Builder().url(urlString).build();
@@ -119,15 +121,16 @@ public class TmdbAPI {
 
     /**
      * Return an url using API discover command from the given parameters
-     * @param releaseYear release year of a film
+     * @param minYear min release year of a film
+     * @param maxYear max release year of a film
      * @param genreIds list of genres of a film
      * @param voteAverage minimum vote average of a film
      * @return the desired url based on given parameters
      */
-    private String urlBuilderDiscover(String releaseYear, List<String> genreIds, String voteAverage, String page){
+    private String urlBuilderDiscover(String minYear, String maxYear, List<String> genreIds, String voteAverage, String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
-        buildUrlWithReleaseYear(urlBuilder, releaseYear, releaseYear == null || releaseYear.isEmpty());
+        buildUrlWithYearSpan(urlBuilder, minYear, maxYear, minYear == null || minYear.isEmpty(), maxYear == null || maxYear.isEmpty());
         buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
         buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
         buildUrlWithPage(urlBuilder, page);
@@ -135,11 +138,22 @@ public class TmdbAPI {
     }
 
     /**
-     * Append to urlBuilder string corresponding to releaseYear argument if it is not empty
+     * Append to urlBuilder string corresponding to the given year span argument if it is not empty
      * @param urlBuilder StringBuilder to modify
-     * @param releaseYear of the movies to search with API with discover command
-     * @param isReleaseYearEmpty flag to append to urlBuilder
+     * @param minYear of the movies to search with API with discover command
+     * @param maxYear of the movies to search with API with discover command
+     * @param isMaxYearEmpty flag to append to urlBuilder
+     * @param isMinYearEmpty flag to append to urlBuilder
      */
+    private void buildUrlWithYearSpan(StringBuilder urlBuilder, String minYear, String maxYear, boolean isMinYearEmpty, boolean isMaxYearEmpty){
+        if(!isMinYearEmpty){
+            urlBuilder.append("&primary_release_date.gte=").append(minYear).append("-01-01");
+        }
+        if(!isMaxYearEmpty){
+            urlBuilder.append("&primary_release_date.lte=").append(maxYear).append("-12-31");
+        }
+    }
+
     private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String releaseYear, boolean isReleaseYearEmpty){
         if(!isReleaseYearEmpty){
             urlBuilder.append("&primary_release_year=").append(releaseYear);
