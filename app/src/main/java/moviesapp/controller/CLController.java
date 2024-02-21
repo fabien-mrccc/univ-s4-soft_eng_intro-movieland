@@ -45,7 +45,7 @@ public final class CLController {
      * Print the list of commands available
      */
     private void help(){
-        System.out.println("\nCommands available: ");
+        System.out.println("\n\nCommands available: ");
         for (String command : commands){
             System.out.println("•" + command);
         }
@@ -156,12 +156,8 @@ public final class CLController {
         jsonReaderUpdate();
         Movies movieList= jsonReader.findAllMovies();
         System.out.println("Below the movies from your precedent search: \n" + movieList);
-        if(movieList != null) {
-            int index = Integer.parseInt(askValue("Enter the index of the movie: ")) - 1;
-            System.out.println(movieList.get(index).details());
-        }
-        else {
-            System.out.println("There was no movie.");
+        if(!movieList.isEmpty()) {
+            System.out.println(selectMovieByIndex(movieList, "Enter the index of the movie to see its details: "));
         }
     }
 
@@ -184,7 +180,7 @@ public final class CLController {
         List<String> genres = specifiedGenres(apiObject);
 
         if(title.isEmpty() && releaseYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("No information sent. \nPlease give me more details for your next search.");
+            System.out.println("\nNo information sent. \nPlease give me more details for your next search.\n");
         }
         else{
             apiObject.searchMovies(title, releaseYear, genres, voteAverage , "1");
@@ -245,7 +241,7 @@ public final class CLController {
      * Command that print all movies stored in user favorite list
      */
     private void displayFavorites(){
-        System.out.println(Favorites.instance);
+        System.out.print("Your favorite list:\n" + Favorites.instance);
     }
 
     /**
@@ -290,10 +286,13 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieByIndex(Movies movies, String message){
-        int index = Integer.parseInt(askValue(message));
-        Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByIndex(index - 1));
-        return movieSelected ;
+        if(movies != null && !movies.isEmpty()){
+            int index = Integer.parseInt(askValue(message));
+            Movies movieSelected = new Movies();
+            movieSelected.add(movies.findMovieByIndex(index - 1));
+            return movieSelected ;
+        }
+        return movies;
     }
 
     /**
