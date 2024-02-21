@@ -31,7 +31,7 @@ public class Movies implements Iterable<Movie> {
             else{
                 moviesString.append(i + 1);
             }
-            moviesString.append(movies.get(i)).append("\n");
+            moviesString.append(movies.get(i));
         }
         return moviesString.toString();
     }
@@ -59,11 +59,7 @@ public class Movies implements Iterable<Movie> {
      * @return true if the list is without movies inside, otherwise false
      */
     public static boolean noMovieFound(Movies movies){
-        if(movies == null || movies.isEmpty()){
-            System.out.println("No movie found.");
-            return true;
-        }
-        return false;
+        return movies == null || movies.isEmpty();
     }
 
     /**
