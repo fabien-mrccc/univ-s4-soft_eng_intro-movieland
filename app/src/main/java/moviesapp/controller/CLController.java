@@ -71,6 +71,13 @@ public final class CLController {
         String response = askValue(message);
 
         switch (response) {
+            case "3" -> {
+                int pageNumber = Integer.parseInt(askValue("Enter page number: "));
+                if (pageNumber >= 1 && pageNumber <= jsonReader.numberOfPagesOfMoviesInJson()){
+                    apiObject.displayCatalog(pageNumber);
+                }
+                System.out.println("\nPage number unavailable.");
+            }
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
                     apiObject.displayCatalog(jsonReader.getPageInJson() + 1);
