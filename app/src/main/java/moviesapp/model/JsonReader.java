@@ -122,7 +122,7 @@ public class JsonReader extends MovieFinder {
             }
             return movieList;
         }
-        return null;
+        return new Movies();
     }
 
     /**
@@ -183,12 +183,14 @@ public class JsonReader extends MovieFinder {
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonGenresNode() {
-        try {
-            return objectMapper.readTree(jsonFile).get("genres");
-        } catch (IOException e) {
-            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
-        } catch (NullPointerException e) {
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"genres\") exception");
+        if(!isFileEmpty(jsonFile)){
+            try {
+                return objectMapper.readTree(jsonFile).get("genres");
+            } catch (IOException e) {
+                System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+            } catch (NullPointerException e) {
+                System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"genres\") exception");
+            }
         }
         return null;
     }
@@ -199,11 +201,11 @@ public class JsonReader extends MovieFinder {
 
     /**
      * Checks if the specified file is empty.
-     * @param filePath The path to the file to check.
+     * @param file The file to check.
      * @return {@code true} if the file is empty or does not exist, {@code false} otherwise.
      */
-    public static boolean isFileEmpty(String filePath) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+    public static boolean isFileEmpty(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file.getAbsoluteFile()))) {
             return reader.readLine() == null;
         } catch (IOException e) {
             System.err.println("IOException from public static boolean isFileEmpty(String filePath) in JsonReader.java");
