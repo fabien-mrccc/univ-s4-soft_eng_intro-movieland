@@ -183,7 +183,7 @@ public final class CLController {
      * @return the message corresponding to the page management user interactive
      */
     private String messageOfAskPreviousOrNextPage(){
-        return "Choose your action: [0] Continue/Leave command, [1] Previous Page, [2] Next Page | page ("
+        return "Choose your action: [0] Continue/Leave command, [1] Previous Page, [2] Next Page, [3] Specify Page | page ("
                 + jsonReader.getPageInJson()
                 + "/"
                 + jsonReader.numberOfPagesOfMoviesInJson() +")";
