@@ -14,8 +14,8 @@ import java.util.ResourceBundle;
 public class OptionButton {
     @FXML
     private Button clearButton;
-    @FXML private Scene clearConfirmationScene;
-    @FXML private Stage clearConfirmationStage;
+    @FXML private Scene globalScene;
+    @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
 
@@ -26,7 +26,7 @@ public class OptionButton {
      */
     @FXML
     public void openClearConfirmationWindow() {
-        clearConfirmationStage = new Stage();
+        globalStage = new Stage();
         AnchorPane clearConfirmationAnchorPane = new AnchorPane();
         clearConfirmationAnchorPane.prefHeight(100);
         clearConfirmationAnchorPane.prefWidth(230);
@@ -35,26 +35,35 @@ public class OptionButton {
         confirmation.setLayoutX(45);
         confirmation.setLayoutY(10);
 
-        continueButton = new Button("continue");
-        continueButton.setLayoutX(20);
-        continueButton.setLayoutY(60);
-        continueButton.setPrefWidth(70);
-        continueButton.setOnAction(event -> continueButtonClicked());
-
-        cancelButton = new Button("cancel");
-        cancelButton.setLayoutX(140);
-        cancelButton.setLayoutY(60);
-        cancelButton.setPrefWidth(70);
-        cancelButton.setOnAction(event -> closeClearConfirmationWindow());
+        initContinueButton();
+        initCancelButton();
 
         clearConfirmationAnchorPane.getChildren().add(confirmation);
         clearConfirmationAnchorPane.getChildren().add(continueButton);
         clearConfirmationAnchorPane.getChildren().add(cancelButton);
         clearConfirmationAnchorPane.setVisible(true);
-        clearConfirmationScene = new Scene(clearConfirmationAnchorPane, 230, 100);
-        clearConfirmationStage.setTitle("Confirmation Request");
-        clearConfirmationStage.setScene(clearConfirmationScene);
-        clearConfirmationStage.show();
+        globalScene = new Scene(clearConfirmationAnchorPane, 230, 100);
+        globalStage.setTitle("Confirmation Request");
+        globalStage.setScene(globalScene);
+        globalStage.show();
+    }
+
+    @FXML
+    private void initContinueButton(){
+        continueButton = new Button("continue");
+        continueButton.setLayoutX(20);
+        continueButton.setLayoutY(60);
+        continueButton.setPrefWidth(70);
+        continueButton.setOnAction(event -> continueButtonClicked());
+    }
+
+    @FXML
+    private void initCancelButton(){
+        cancelButton = new Button("cancel");
+        cancelButton.setLayoutX(140);
+        cancelButton.setLayoutY(60);
+        cancelButton.setPrefWidth(70);
+        cancelButton.setOnAction(event -> closeClearConfirmationWindow());
     }
 
     /**
@@ -62,7 +71,7 @@ public class OptionButton {
      */
     @FXML
     public void closeClearConfirmationWindow(){
-        clearConfirmationStage.close();
+        globalStage.close();
     }
 
     @FXML
