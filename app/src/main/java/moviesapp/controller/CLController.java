@@ -280,7 +280,9 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void addMovieByIndex(Movies movies){
-        Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
+        if(movies != null && !movies.isEmpty()) {
+            Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
+        }
     }
 
     /**
@@ -288,7 +290,9 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void removeMovieByIndex(Movies movies){
-        Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
+        if(movies != null && !movies.isEmpty()){
+            Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
+        }
     }
 
     /**
@@ -297,13 +301,10 @@ public final class CLController {
      * @return movie selected in a Movies object
      */
     private Movies selectMovieByIndex(Movies movies, String message){
-        if(movies != null && !movies.isEmpty()){
-            int index = Integer.parseInt(askValue(message));
-            Movies movieSelected = new Movies();
-            movieSelected.add(movies.findMovieByIndex(index - 1));
-            return movieSelected ;
-        }
-        return movies;
+        int index = Integer.parseInt(askValue(message));
+        Movies movieSelected = new Movies();
+        movieSelected.add(movies.findMovieByIndex(index - 1));
+        return movieSelected ;
     }
 
     /**
