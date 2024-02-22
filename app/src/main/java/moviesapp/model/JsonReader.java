@@ -134,17 +134,23 @@ public class JsonReader extends MovieFinder {
     }
 
     /**
-     * Return the number of total pages of movies available in the json file of the class
+     * Return the number of total pages of movies available in the json file of the class (give the number 500 if it
+     * is more than 500 pages)
      * @return the number of total pages of movies available in the json file of the class
      */
     public int numberOfPagesOfMoviesInJson(){
         JsonNode totalPagesNode = getSpecificJsonNode("total_pages");
+        int numberOfPages = 0;
 
         if(totalPagesNode != null){
-            return totalPagesNode.asInt();
+            numberOfPages = totalPagesNode.asInt();
+
+            if(numberOfPages > 500){
+                numberOfPages = 500;
+            }
         }
 
-        return 0;
+        return numberOfPages;
     }
 
     /**
