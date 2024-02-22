@@ -5,21 +5,18 @@ import moviesapp.model.MovieFinder;
 import moviesapp.model.Movies;
 import moviesapp.model.api.TheMovieDbAPI;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 public class JsonReader extends MovieFinder {
-    private final File jsonFile;
+    private final InputStream inputStream;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
     private final JsonNode jsonGenres;
 
-    public JsonReader(String path){
-        jsonFile = new File(path);
+    public JsonReader(InputStream inputStream){
+        this.inputStream = inputStream;
         objectMapper = new ObjectMapper();
         jsonMovies = getJsonMoviesNode() ;
         jsonGenres = getJsonGenresNode();
@@ -178,7 +175,7 @@ public class JsonReader extends MovieFinder {
      */
     private JsonNode getSpecificJsonNode(String jsonNodeName){
         try{
-            return objectMapper.readTree(jsonFile).get(jsonNodeName);
+            return objectMapper.readTree(inputStream).get(jsonNodeName);
         }
         catch (IOException e) {
             System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
@@ -194,9 +191,9 @@ public class JsonReader extends MovieFinder {
      * @return the origin jsonNode from our default jsonFile
      */
     private JsonNode getJsonGenresNode() {
-        if(!isFileEmpty(jsonFile)){
+        if(!isStreamEmpty(inputStream)){
             try {
-                return objectMapper.readTree(jsonFile).get("genres");
+                return objectMapper.readTree(inputStream).get("genres");
             } catch (IOException e) {
                 System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
             } catch (NullPointerException e) {
@@ -211,15 +208,15 @@ public class JsonReader extends MovieFinder {
     }
 
     /**
-     * Checks if the specified file is empty.
-     * @param file The file to check.
-     * @return {@code true} if the file is empty or does not exist, {@code false} otherwise.
+     * Checks if the specified stream is empty.
+     * @param inputStream The stream to check.
+     * @return {@code true} if the stream is empty or does not exist, {@code false} otherwise.
      */
-    public static boolean isFileEmpty(File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file.getAbsoluteFile()))) {
+    public static boolean isStreamEmpty(InputStream inputStream) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             return reader.readLine() == null;
         } catch (IOException e) {
-            System.err.println("IOException from public static boolean isFileEmpty(String filePath) in JsonReader.java");
+            System.err.println("IOException from public static boolean isStreamEmpty(InputStream inputStream) in JsonReader.java");
             return true;
         }
     }
