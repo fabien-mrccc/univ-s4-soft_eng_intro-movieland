@@ -36,10 +36,10 @@ public class MoviesTest {
     @Test
     void testToString(){
         Movies movies = new Movies(moviesToAddToMovies);
-        assertThat(movies.toString().equals(
-                indexOfMovie(1) + movie1 + "\n" +
-                        indexOfMovie(2) + movie2 + "\n" +
-                        indexOfMovie(3) + movie3 + "\n")).isTrue();
+        assertEquals(movies.toString(),
+                indexOfMovie(1) + movie1 +
+                        indexOfMovie(2) + movie2 +
+                        indexOfMovie(3) + movie3);
         assertThat(emptyMovies.toString().equals("Your list of movies is empty.")).isTrue();
     }
 
@@ -47,11 +47,11 @@ public class MoviesTest {
     void testAdd(){
         Movies movies = new Movies(moviesToAddToMovies);
         movies.add(movie4);
-        assertThat(movies.toString().equals(
-                indexOfMovie(1) + movie1 + "\n" +
-                        indexOfMovie(2) + movie2 + "\n" +
-                        indexOfMovie(3) + movie3 + "\n" +
-                        indexOfMovie(4) + movie4 +"\n")).isTrue();
+        assertEquals(movies.toString(),
+                indexOfMovie(1) + movie1 +
+                        indexOfMovie(2) + movie2 +
+                        indexOfMovie(3) + movie3 +
+                        indexOfMovie(4) + movie4);
     }
 
     @Test
@@ -109,11 +109,12 @@ public class MoviesTest {
     void testRemove(){
         Movies movies = new Movies(moviesToAddToMovies);
         movies.remove(movie1);
-        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
+        assertEquals(movies.toString(),
+                indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
         movies.remove(null);
-        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
+        assertEquals(movies.toString(), indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
         movies.remove(movie1);
-        assertThat(movies.toString().equals(indexOfMovie(1) + movie2 + "\n" + indexOfMovie(2) + movie3 + "\n")).isTrue();
+        assertEquals(movies.toString(), indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
     }
 
     @Test

@@ -32,7 +32,7 @@ public class TmdbAPITest {
         String voteAverage = "3";
         String page = "1";
 
-        api.searchMovies(title, releaseYear, genres, voteAverage , page);
+        //api.searchMovies(title, releaseYear, genres, voteAverage , page);
 
         /*
         JsonReader apiResultJsonReader = new JsonReader(apiJsonPath);
