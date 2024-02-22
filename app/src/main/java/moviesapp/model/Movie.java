@@ -61,14 +61,4 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                 "      \"vote_count\" : " + voteCount() + "\n" +
                 "    }";
     }
-
-    /**
-     * Determines whether two movies have the same ID.
-     * @param movie1 The first movie to compare.
-     * @param movie2 The second movie to compare.
-     * @return True if the movies have the same ID, false otherwise.
-     */
-    public static boolean sameMovies(Movie movie1, Movie movie2) {
-        return movie1.id().equals(movie2.id());
-    }
 }
