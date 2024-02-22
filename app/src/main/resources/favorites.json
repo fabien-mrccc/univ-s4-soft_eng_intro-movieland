@@ -415,8 +415,40 @@
       "video" : false,
       "vote_average" : 6.6,
       "vote_count" : 5
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/s0XaJEApAfgMgKUBy6UfOnNTtwR.jpg",
+      "genre_ids" : [28, 16, 878],
+      "id" : 39101,
+      "original_language" : "ja",
+      "original_title" : "ドラゴンボールZ 地球まるごと超決戦",
+      "overview" : "Goku and friends must stop a band of space pirates from consuming fruit from the Tree of Might before it's destructive powers drain Earth's energy.",
+      "popularity" : 40.144,
+      "poster_path" : "/fDX4Dp8IKvjBAaEb5MOJrGkxWX0.jpg",
+      "release_date" : "1990-06-07",
+      "title" : "Dragon Ball Z: The Tree of Might",
+      "video" : false,
+      "vote_average" : 6.487,
+      "vote_count" : 515
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/pWsD91G2R1Da3AKM3ymr3UoIfRb.jpg",
+      "genre_ids" : [878, 28, 18],
+      "id" : 933131,
+      "original_language" : "ko",
+      "original_title" : "황야",
+      "overview" : "After a deadly earthquake turns Seoul into a lawless badland, a fearless huntsman springs into action to rescue a teenager abducted by a mad doctor.",
+      "popularity" : 1038.292,
+      "poster_path" : "/zVMyvNowgbsBAL6O6esWfRpAcOb.jpg",
+      "release_date" : "2024-01-26",
+      "title" : "Badland Hunters",
+      "video" : false,
+      "vote_average" : 6.753,
+      "vote_count" : 456
     }
   ],
   "total_pages" : 1,
-  "total_results" : 26
+  "total_results" : 28
 }

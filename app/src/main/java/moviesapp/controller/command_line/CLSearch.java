@@ -1,6 +1,7 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.TheMovieDbAPI;
+import moviesapp.model.Movies;
+import moviesapp.model.api.TheMovieDbAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,30 +16,38 @@ public class CLSearch extends CLMethods {
      * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
      */
     void searchCommand(){
-        String title = "";
-        String minYear;
+
+        String title = askValue("Title of the movie: ");
+        String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
+        String singleYearOrMinYear = "";
         String maxYear = "";
-        String voteAverage = "";
-        List<String> genres = new ArrayList<>();
-        if(askToConfirm("Do you know the title?")){
-            title = askValue("Title of the movie: ");
-            minYear = askValue("Year of release: ");
+
+        switch (yearOfReleaseOption){
+            case "1" -> singleYearOrMinYear = askValue("Release year: ");
+            case "2" -> {
+                singleYearOrMinYear = askValue("Min release year: ");
+                maxYear = askValue("Max release year: ");
+            }
+            default -> {
+            }
         }
-        else{
-            minYear = askValue("Min year of release: ");
-            maxYear = askValue("Max year of release: ");
-            voteAverage = askValue("Movie's minimum rate: ");
-            genres = specifiedGenres(apiObject);
-        }
-        if(title.isEmpty() && minYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+
+        String voteAverage = askValue("Movie's minimum rate: ");
+        List<String> genres = specifiedGenres(apiObject);
+
+        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
         }
         else{
-            apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage , "1");
+            apiObject.searchMovies(title, singleYearOrMinYear, maxYear, genres, voteAverage , "1");
             do{
                 jsonReaderUpdate();
-                System.out.println("\nYour list of movies found in your search: \n" + jsonReader.findAllMovies());
-            } while(askPreviousOrNextPage(title,minYear, maxYear,genres,voteAverage, messageOfAskPreviousOrNextPage()));
+                Movies moviesFromSearch = jsonReader.findAllMovies();
+                System.out.println("\nYour list of movies found in your search: \n" + moviesFromSearch);
+                if(Movies.noMovieFound(moviesFromSearch)){
+                    break;
+                }
+            } while(askPreviousOrNextPage(title, singleYearOrMinYear, maxYear, genres, voteAverage, messageOfAskPreviousOrNextPage()));
         }
     }
 
@@ -51,19 +60,18 @@ public class CLSearch extends CLMethods {
         List<String> genres = new ArrayList<>();
 
         if(askToConfirm("Do you want to specify one or more genres?")){
-            System.out.println("\nList of genres: \n" + apiObject.genreList());
+            System.out.print("\nList of genres: \n" + apiObject.genreList());
 
             do{
+                System.out.println("\nGenres already selected: " + genres);
                 List<String> genreNames = new ArrayList<>(TheMovieDbAPI.GENRE_NAME_ID_MAP.keySet());
+                String genreSelected = selectGenreByIndex(genreNames);
 
-                String genreName = askValue("Enter genre index: ").trim().toLowerCase();
-
-                genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
-                if (TheMovieDbAPI.GENRE_NAME_ID_MAP.containsKey(genreName)) {
-                    genres.add(genreName);
+                if (TheMovieDbAPI.GENRE_NAME_ID_MAP.containsKey(genreSelected) && !genres.contains(genreSelected)) {
+                    genres.add(genreSelected);
                 }
                 else {
-                    System.out.println("\n| Genre not found. Please enter a valid genre.");
+                    System.out.println("\n| No genre added. Please enter a valid genre that is not already selected.");
                 }
             } while(askToConfirm("Do you want to add more genres?"));
         }
@@ -73,13 +81,12 @@ public class CLSearch extends CLMethods {
     /**
      * Selects a genre from the list based on the provided index.
      * @param genres The list of genres to select from.
-     * @param message The message to display prompting the user for input.
      * @return The selected movie.
      */
-    private String selectGenreByIndex(List<String> genres, String message) {
+    private String selectGenreByIndex(List<String> genres) {
         for (;;) {
             try {
-                int index = Integer.parseInt(askValue(message));
+                int index = Integer.parseInt(askValue("Enter genre index: ")) - 1;
                 if (isValidIndex(index, genres.size())) {
                     return genres.get(index);
                 } else {

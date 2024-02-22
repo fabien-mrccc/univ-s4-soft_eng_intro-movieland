@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import moviesapp.model.json.JsonWriter;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;

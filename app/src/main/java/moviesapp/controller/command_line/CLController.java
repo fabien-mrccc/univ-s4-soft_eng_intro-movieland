@@ -1,14 +1,16 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.*;
+import moviesapp.model.json.JsonReader;
+import moviesapp.model.json.JsonWriter;
 
 import java.util.*;
 
 public final class CLController {
 
     static JsonReader jsonReader;
-    private static final String apiFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/api-results.json";
+    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/api-results.json";
     public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/favorites.json";
+    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
     private CLMethods commandMethods;
     private CLHelp help;
     private CLCatalog catalog;

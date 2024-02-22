@@ -1,7 +1,7 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.Favorites;
-import moviesapp.model.JsonWriter;
+import moviesapp.model.favorites.Favorites;
+import moviesapp.model.json.JsonWriter;
 import moviesapp.model.Movies;
 
 import static moviesapp.controller.command_line.CLController.*;

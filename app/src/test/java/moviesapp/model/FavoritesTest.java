@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import moviesapp.model.favorites.Favorites;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

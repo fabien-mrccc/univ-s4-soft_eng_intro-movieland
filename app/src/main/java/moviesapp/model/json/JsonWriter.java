@@ -1,4 +1,6 @@
-package moviesapp.model;
+package moviesapp.model.json;
+
+import moviesapp.model.Movies;
 
 import java.io.File;
 import java.io.FileWriter;

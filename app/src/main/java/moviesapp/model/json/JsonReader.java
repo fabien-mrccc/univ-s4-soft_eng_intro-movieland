@@ -1,5 +1,10 @@
-package moviesapp.model;
+package moviesapp.model.json;
 import com.fasterxml.jackson.databind.*;
+import moviesapp.model.Movie;
+import moviesapp.model.MovieFinder;
+import moviesapp.model.Movies;
+import moviesapp.model.api.TheMovieDbAPI;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

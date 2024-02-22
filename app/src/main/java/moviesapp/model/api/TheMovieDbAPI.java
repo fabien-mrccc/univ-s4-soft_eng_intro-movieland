@@ -1,4 +1,4 @@
-package moviesapp.model;
+package moviesapp.model.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import moviesapp.controller.command_line.CLController;
+import moviesapp.model.json.JsonReader;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,10 +19,7 @@ import java.util.*;
 
 public class TheMovieDbAPI {
 
-    private final static String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/api-results.json";
-    private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
-    private final OkHttpClient client = new OkHttpClient();
-    static OkHttpClient clientGenres = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient();
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
     private final static String language = "language=en-US";
@@ -78,7 +77,6 @@ public class TheMovieDbAPI {
         else{
             urlString = urlBuilderSearch(title, minYear, page);
         }
-        //updatePage
         return new Request.Builder().url(urlString).build();
     }
 
@@ -239,7 +237,7 @@ public class TheMovieDbAPI {
         try {
             ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);
 
-            try (FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8)) {
+            try (FileWriter fileWriter = new FileWriter(CLController.apiFilePath, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
             } catch (IOException e) {
@@ -274,7 +272,7 @@ public class TheMovieDbAPI {
      */
     public static void fillGENRE_NAME_ID_MAP(){
         updateGenresFile();
-        JsonReader jsonGenresReader = new JsonReader(genreFileName);
+        JsonReader jsonGenresReader = new JsonReader(CLController.genresFilePath);
         for(JsonNode genre : jsonGenresReader.getJsonGenres()){
             GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
         }
@@ -289,7 +287,7 @@ public class TheMovieDbAPI {
         Request request = new Request.Builder().url(url).build();
 
         try {
-            Response response = clientGenres.newCall(request).execute();
+            Response response = client.newCall(request).execute();
 
             if(response.isSuccessful()){
                 assert response.body() != null;
@@ -312,7 +310,7 @@ public class TheMovieDbAPI {
         try {
             ObjectMapper mapper = JsonMapper.builder().build();
             ObjectNode node = mapper.readValue(result, ObjectNode.class);
-            try (FileWriter fileWriter = new FileWriter(genreFileName, StandardCharsets.UTF_8)) {
+            try (FileWriter fileWriter = new FileWriter(CLController.genresFilePath, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
             }

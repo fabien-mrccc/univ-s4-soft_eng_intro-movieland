@@ -1,5 +1,9 @@
-package moviesapp.model;
+package moviesapp.model.favorites;
 import moviesapp.controller.command_line.CLController;
+import moviesapp.model.Movie;
+import moviesapp.model.MovieFinder;
+import moviesapp.model.Movies;
+import moviesapp.model.json.JsonReader;
 
 import java.util.ArrayList;
 import java.util.List;
