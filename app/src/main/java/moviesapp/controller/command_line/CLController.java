@@ -8,9 +8,9 @@ import java.util.*;
 public final class CLController {
 
     static JsonReader jsonReader;
-    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/api-results.json";
-    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/java/moviesapp/model/json/favorites.json";
-    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
+    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/resources/api-results.json";
+    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/resources/favorites.json";
+    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/resources/genres.json";
     private CLMethods commandMethods;
     private CLHelp help;
     private CLCatalog catalog;
