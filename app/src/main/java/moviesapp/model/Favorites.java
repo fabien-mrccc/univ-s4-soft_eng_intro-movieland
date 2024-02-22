@@ -50,8 +50,20 @@ public class Favorites extends MovieFinder {
         if(movies == null){
             return;
         }
-        try{favorites.addAll(moviesToAddToFavorites(movies));}
-        catch (Exception e){System.out.println("The list you're searching does not respect the basic rules of a list of  movies!");}
+        favorites.addAll(moviesToAddToFavorites(movies));
+    }
+
+    /**
+     * Retrieves the IDs of favorite movies.
+     * @return A list of IDs representing favorite movies.
+     */
+    private List<String> favoritesIds(){
+        List<String> favoritesIds = new ArrayList<>();
+
+        for (Movie favorite : favorites){
+            favoritesIds.add(favorite.id());
+        }
+        return favoritesIds;
     }
 
     /**
@@ -62,12 +74,16 @@ public class Favorites extends MovieFinder {
      *               in the favorites and those which are not)
      */
     private List<Movie> moviesToAddToFavorites(Movies movies){
+
         List<Movie> moviesNotInFavoriteList = new ArrayList<>();
+        List<String> favoritesIds = favoritesIds();
+
         for(Movie movie : movies){
-            if(!favorites.contains(movie)){
+            if (!favoritesIds.contains(movie.id())) {
                 moviesNotInFavoriteList.add(movie);
             }
         }
+
         return moviesNotInFavoriteList;
     }
 
@@ -91,12 +107,16 @@ public class Favorites extends MovieFinder {
      *             and those which are not)
      */
     private List<Movie> moviesToRemoveFromFavorites(Movies movies){
+
         List<Movie> moviesInFavoriteList = new ArrayList<>();
+        List<String> favoritesIds = favoritesIds();
+
         for(Movie movie : movies){
-            if(favorites.contains(movie)){
+            if (favoritesIds.contains(movie.id())) {
                 moviesInFavoriteList.add(movie);
             }
         }
+
         return moviesInFavoriteList;
     }
 
