@@ -99,26 +99,6 @@ public class TheMovieDbAPI {
     }
 
     /**
-     * Return a list of genre from a list of genre ids
-     * @param genresIds a list of genre ids
-     * @return genres
-     */
-    public static List<String> genreIdsToGenres(List<String> genresIds){
-        if(genresIds == null){
-            return null;
-        }
-
-        List<String> genres = new ArrayList<>();
-
-        for (Map.Entry<String, String> genreData : GENRE_NAME_ID_MAP.entrySet()) {
-            if(genresIds.contains(genreData.getValue())){
-                genres.add(genreData.getKey());
-            }
-        }
-        return genres;
-    }
-
-    /**
      * Return an url using API discover command from the given parameters
      * @param minYear min release year of a film
      * @param maxYear max release year of a film
@@ -153,6 +133,12 @@ public class TheMovieDbAPI {
         }
     }
 
+    /**
+     * Appends the release year parameter to the URL if it is not empty.
+     * @param urlBuilder The StringBuilder to which the release year parameter will be appended.
+     * @param releaseYear The release year parameter to append to the URL.
+     * @param isReleaseYearEmpty A boolean indicating whether the release year is empty.
+     */
     private void buildUrlWithReleaseYear(StringBuilder urlBuilder, String releaseYear, boolean isReleaseYearEmpty){
         if(!isReleaseYearEmpty){
             urlBuilder.append("&primary_release_year=").append(releaseYear);
