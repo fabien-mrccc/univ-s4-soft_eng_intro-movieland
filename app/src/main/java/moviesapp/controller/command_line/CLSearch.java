@@ -1,6 +1,6 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.TmdbAPI;
+import moviesapp.model.TheMovieDbAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import static moviesapp.controller.command_line.CLController.*;
 
 public class CLSearch extends CLMethods {
 
-    protected final TmdbAPI apiObject = new TmdbAPI();
+    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
     /**
      * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
@@ -48,17 +48,17 @@ public class CLSearch extends CLMethods {
      * @return the user's specified genres
      */
     //TODO
-    private List<String> specifiedGenres(TmdbAPI apiObject){
+    private List<String> specifiedGenres(TheMovieDbAPI apiObject){
         List<String> genres = new ArrayList<>();
 
         if(askToConfirm("Do you want to specify one or more genres?")){
             System.out.println("\nList of genres: \n" + apiObject.genreList());
 
             do{
-                List<String> genreNames = new ArrayList<>(TmdbAPI.GENRE_NAME_ID_MAP.keySet());
+                List<String> genreNames = new ArrayList<>(TheMovieDbAPI.GENRE_NAME_ID_MAP.keySet());
                 String genreName = askValue("Enter genre name: ").trim().toLowerCase();
                 genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
-                if (TmdbAPI.GENRE_NAME_ID_MAP.containsKey(genreName)) {
+                if (TheMovieDbAPI.GENRE_NAME_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
                 }
                 else {

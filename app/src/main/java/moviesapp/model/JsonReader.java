@@ -99,7 +99,7 @@ public class JsonReader extends MovieFinder {
      * @return {@code true} if the movie matches any of the provided genre IDs, {@code false} otherwise.
      */
     private boolean movieContainsAnyGenre(JsonNode movie, List<String> genres) {
-        List<String> genreIds = TmdbAPI.genresToGenreIds(genres);
+        List<String> genreIds = TheMovieDbAPI.genresToGenreIds(genres);
 
         for (JsonNode genreIdNode : movie.get("genre_ids")) {
             String genreId = genreIdNode.asText();

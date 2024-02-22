@@ -1,7 +1,7 @@
 package moviesapp;
 
 import moviesapp.controller.command_line.CLController;
-import static moviesapp.model.TmdbAPI.*;
+import static moviesapp.model.TheMovieDbAPI.*;
 
 
 public class AppCLI {

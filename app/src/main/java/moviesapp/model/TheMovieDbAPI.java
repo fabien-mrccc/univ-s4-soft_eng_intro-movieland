@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class TmdbAPI {
+public class TheMovieDbAPI {
 
     private final static String fileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/api-results.json";
     private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
@@ -33,8 +33,10 @@ public class TmdbAPI {
      */
     public StringBuilder genreList(){
         StringBuilder list = new StringBuilder();
+        int i = 1;
         for (String genre : GENRE_NAME_ID_MAP.keySet()) {
-            list.append("  •").append(genre).append("\n");
+            list.append("  • [").append(i).append("] ").append(genre).append("\n");
+            i++;
         }
         return list;
     }
