@@ -40,7 +40,7 @@ public class CLMethods {
     protected Movies selectMovieByIndex(Movies movies, String message) {
         for (;;) {
             try {
-                int index = Integer.parseInt(askValue(message));
+                int index = Integer.parseInt(askValue(message)) - 1;
                 if (isValidIndex(index, movies.size())) {
                     return getSelectedMovie(movies, index);
                 } else {
@@ -59,7 +59,7 @@ public class CLMethods {
      * @return True if the index is valid, false otherwise.
      */
     protected boolean isValidIndex(int index, int size) {
-        return index >= 1 && index <= size;
+        return index >= 0 && index < size;
     }
 
     /**
@@ -70,7 +70,7 @@ public class CLMethods {
      */
     private Movies getSelectedMovie(Movies movies, int index) {
         Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByIndex(index - 1));
+        movieSelected.add(movies.findMovieByIndex(index));
         return movieSelected;
     }
 
