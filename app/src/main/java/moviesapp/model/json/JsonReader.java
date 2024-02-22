@@ -181,10 +181,10 @@ public class JsonReader extends MovieFinder {
             return objectMapper.readTree(jsonFile).get(jsonNodeName);
         }
         catch (IOException e) {
-            System.err.println("IOException: objectMapper.readTree(jsonFile) exception");
+            System.err.println("IOException: objectMapper.readTree(jsonFile) exception" + e.getMessage());
         }
         catch (NullPointerException e){
-            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception");
+            System.err.println("NullPointerException: objectMapper.readTree(jsonFile).get(\"results\") exception" + e.getMessage());
         }
         return null;
     }
