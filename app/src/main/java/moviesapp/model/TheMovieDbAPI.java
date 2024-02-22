@@ -21,7 +21,6 @@ public class TheMovieDbAPI {
     private final static String genreFileName = System.getProperty("user.dir") + "/src/main/java/moviesapp/model/json/genres.json";
     private final OkHttpClient client = new OkHttpClient();
     static OkHttpClient clientGenres = new OkHttpClient();
-
     private final static String baseUrl = "https://api.themoviedb.org/3";
     private final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
     private final static String language = "language=en-US";

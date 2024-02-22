@@ -27,7 +27,7 @@ public class CLHelp {
     void helpCommand(){
         System.out.println("\n\nCommands available: ");
         for (String command : commands){
-            System.out.println("•" + command);
+            System.out.println("  • " + command);
         }
     }
 }
