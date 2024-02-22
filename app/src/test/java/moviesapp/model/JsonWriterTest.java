@@ -17,7 +17,7 @@ public class JsonWriterTest {
     private final String favoritesTestPath = System.getProperty("user.dir") + "/src/test/java/moviesapp/model/json/favorites-example.json";
 
     @Test
-    public void testMovieListJsonWriter() {
+    public void testSaveFavorites() {
         List<Movie> movieList = new ArrayList<>();
         movieList.add(new Movie(
                 false,
@@ -49,7 +49,7 @@ public class JsonWriterTest {
                 "Luffy's Fall! The Unexplored Region - Grand Adventure in the Ocean's Navel",
                 false,
                 6.4,
-                7
+                6
         ));
 
         Movies movies = new Movies(movieList);
@@ -90,7 +90,7 @@ public class JsonWriterTest {
                       "title" : "Luffy's Fall! The Unexplored Region - Grand Adventure in the Ocean's Navel",
                       "video" : false,
                       "vote_average" : 6.4,
-                      "vote_count" : 7
+                      "vote_count" : 6
                     }
                   ],
                   "total_pages" : 1,
