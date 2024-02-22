@@ -1,4 +1,6 @@
 package moviesapp.model;
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.Movies;
 import moviesapp.model.json.JsonReader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

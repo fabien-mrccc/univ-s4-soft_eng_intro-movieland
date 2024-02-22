@@ -1,6 +1,6 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.favorites.Favorites;
+import moviesapp.model.movies.Favorites;
 
 public class CLFavorites extends CLMethods {
 

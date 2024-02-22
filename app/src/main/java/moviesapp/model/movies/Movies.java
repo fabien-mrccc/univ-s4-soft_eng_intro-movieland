@@ -1,4 +1,4 @@
-package moviesapp.model;
+package moviesapp.model.movies;
 
 import org.jetbrains.annotations.NotNull;
 

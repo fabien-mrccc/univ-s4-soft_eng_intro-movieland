@@ -1,6 +1,6 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.Movies;
+import moviesapp.model.movies.Movies;
 
 import java.util.Scanner;
 

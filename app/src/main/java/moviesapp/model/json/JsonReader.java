@@ -1,8 +1,8 @@
 package moviesapp.model.json;
 import com.fasterxml.jackson.databind.*;
-import moviesapp.model.Movie;
-import moviesapp.model.MovieFinder;
-import moviesapp.model.Movies;
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.MovieFinder;
+import moviesapp.model.movies.Movies;
 import moviesapp.model.api.TheMovieDbAPI;
 
 import java.io.File;

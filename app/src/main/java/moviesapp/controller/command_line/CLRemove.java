@@ -1,7 +1,7 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.favorites.Favorites;
-import moviesapp.model.Movies;
+import moviesapp.model.movies.Favorites;
+import moviesapp.model.movies.Movies;
 
 public class CLRemove extends CLFavorites {
 

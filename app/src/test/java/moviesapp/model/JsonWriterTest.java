@@ -1,5 +1,7 @@
 package moviesapp.model;
 
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.Movies;
 import moviesapp.model.json.JsonWriter;
 import org.junit.jupiter.api.Test;
 

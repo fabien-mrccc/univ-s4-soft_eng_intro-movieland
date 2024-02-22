@@ -1,5 +1,7 @@
 package moviesapp.model;
 
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.Movies;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
