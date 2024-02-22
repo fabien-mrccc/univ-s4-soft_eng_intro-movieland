@@ -1,7 +1,5 @@
 package moviesapp.model;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public record Movie(boolean adult, String backdropPath, List<String> genres, String id, String originalLanguage,

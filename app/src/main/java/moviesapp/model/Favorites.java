@@ -1,5 +1,5 @@
 package moviesapp.model;
-import moviesapp.controller.CLController;
+import moviesapp.controller.command_line.CLController;
 
 import java.util.ArrayList;
 import java.util.List;

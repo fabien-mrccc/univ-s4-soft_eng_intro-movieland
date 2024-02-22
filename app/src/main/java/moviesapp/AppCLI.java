@@ -1,6 +1,6 @@
 package moviesapp;
 
-import moviesapp.controller.CLController;
+import moviesapp.controller.command_line.CLController;
 import static moviesapp.model.TmdbAPI.*;
 
 
