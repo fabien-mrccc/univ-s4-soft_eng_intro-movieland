@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import moviesapp.model.Favorites;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +39,7 @@ public class OptionButton {
         continueButton.setLayoutX(20);
         continueButton.setLayoutY(60);
         continueButton.setPrefWidth(70);
+        continueButton.setOnAction(event -> continueButtonClicked());
 
         cancelButton = new Button("cancel");
         cancelButton.setLayoutX(140);
@@ -61,5 +63,12 @@ public class OptionButton {
     @FXML
     public void closeClearConfirmationWindow(){
         clearConfirmationStage.close();
+    }
+
+    @FXML
+    public void continueButtonClicked(){
+        Favorites.instance.clear();
+        // TODO: add Numa's methode to update the user interface
+        closeClearConfirmationWindow();
     }
 }
