@@ -122,7 +122,7 @@ public final class CLController {
             case "3" -> {
                 int pageNumber = Integer.parseInt(askValue("Enter page number: "));
                 if (pageNumber >= 1 && pageNumber <= jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, releaseYear, genres, voteAverage, String.valueOf(pageNumber));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(pageNumber));
                     return true;
                 }
                 System.out.println("\nPage number unavailable.");
@@ -176,7 +176,7 @@ public final class CLController {
      */
     private void searchMovies(){
         String title = "";
-        String minYear = "";
+        String minYear;
         String maxYear = "";
         String voteAverage = "";
         List<String> genres = new ArrayList<>();
