@@ -78,7 +78,7 @@ public final class CLController {
                     System.out.println();
                     return true;
                 }
-                System.out.println("Page number unavailable.");
+                System.out.println("\n| Page number unavailable.");
             }
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
@@ -86,7 +86,7 @@ public final class CLController {
                     System.out.println();
                     return true;
                 }
-                System.out.println("\nThere is no next page.");
+                System.out.println("\n| There is no next page.");
             }
             case "1" -> {
                 if(jsonReader.getPageInJson() > 1){
@@ -94,12 +94,12 @@ public final class CLController {
                     System.out.println();
                     return true;
                 }
-                System.out.println("\nThere is no precedent page.");
+                System.out.println("\n| There is no precedent page.");
             }
             case "0" -> {
                 return false;
             }
-            default -> System.out.println("Please enter a valid option.");
+            default -> System.out.println("\n| Please enter a valid option.");
         }
 
         return askPreviousOrNextPage(message);
@@ -125,26 +125,26 @@ public final class CLController {
                     apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(pageNumber));
                     return true;
                 }
-                System.out.println("\nPage number unavailable.");
+                System.out.println("\n| Page number unavailable.");
             }
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
                     apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
                 }
-                System.out.println("\nThere is no next page.");
+                System.out.println("\n| There is no next page.");
             }
             case "1" -> {
                 if(jsonReader.getPageInJson() > 1){
                     apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
                 }
-                System.out.println("\nThere is no precedent page.");
+                System.out.println("\n| There is no precedent page.");
             }
             case "0" -> {
                 return false;
             }
-            default -> System.out.println("Please enter a valid option.");
+            default -> System.out.println("\n| Please enter a valid option.");
         }
 
         return askPreviousOrNextPage(title, minYear, maxYear, genres, voteAverage , message);
@@ -191,7 +191,7 @@ public final class CLController {
             genres = specifiedGenres(apiObject);
         }
         if(title.isEmpty() && minYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("\nNo information sent. \nPlease give me more details for your next search.\n");
+            System.out.println("\n| No information sent. \n| Please give me more details for your next search.\n");
         }
         else{
             apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage , "1");
@@ -231,7 +231,7 @@ public final class CLController {
                     genres.add(genreName);
                 }
                 else {
-                    System.out.println("Genre not found. Please enter a valid genre.");
+                    System.out.println("\n| Genre not found. Please enter a valid genre.");
                 }
             } while(askToConfirm("Do you want to add more genres?"));
         }
@@ -280,9 +280,10 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void addMovieByIndex(Movies movies){
-        if(movies != null && !movies.isEmpty()) {
+        if(!Movies.noMovieFound(movies)) {
             Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
         }
+
     }
 
     /**
@@ -290,7 +291,7 @@ public final class CLController {
      * @param movies chosen to browse
      */
     private void removeMovieByIndex(Movies movies){
-        if(movies != null && !movies.isEmpty()){
+        if(!Movies.noMovieFound(movies)){
             Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
         }
     }
@@ -302,9 +303,15 @@ public final class CLController {
      */
     private Movies selectMovieByIndex(Movies movies, String message){
         int index = Integer.parseInt(askValue(message));
-        Movies movieSelected = new Movies();
-        movieSelected.add(movies.findMovieByIndex(index - 1));
-        return movieSelected ;
+        if (index >= 1 && index <= movies.size()){
+            Movies movieSelected = new Movies();
+            movieSelected.add(movies.findMovieByIndex(index - 1));
+            return movieSelected ;
+        }
+        else {
+            System.out.println("\n| Please enter a valid index to select a movie.");
+            return selectMovieByIndex(movies, message);
+        }
     }
 
     /**
