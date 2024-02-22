@@ -191,7 +191,7 @@ public final class CLController {
             genres = specifiedGenres(apiObject);
         }
         if(title.isEmpty() && minYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("\n| No information sent. \n| Please give me more details for your next search.\n");
+            System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
         }
         else{
             apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage , "1");
@@ -297,25 +297,57 @@ public final class CLController {
     }
 
     /**
-     * Ask the user the index of the movie that he wants to select in a Movies object
-     * @param movies to browse
-     * @return movie selected in a Movies object
+     * Selects a movie from the list based on the provided index.
+     * @param movies The list of movies to select from.
+     * @param message The message to display prompting the user for input.
+     * @return The selected movie.
      */
-    private Movies selectMovieByIndex(Movies movies, String message){
-        int index = Integer.parseInt(askValue(message));
-        if (index >= 1 && index <= movies.size()){
-            Movies movieSelected = new Movies();
-            movieSelected.add(movies.findMovieByIndex(index - 1));
-            return movieSelected ;
-        }
-        else {
-            System.out.println("\n| Please enter a valid index to select a movie.");
-            return selectMovieByIndex(movies, message);
+    private Movies selectMovieByIndex(Movies movies, String message) {
+        for (;;) {
+            try {
+                int index = Integer.parseInt(askValue(message));
+                if (isValidIndex(index, movies.size())) {
+                    return getSelectedMovie(movies, index);
+                } else {
+                    printIndexErrorMessage();
+                }
+            } catch (NumberFormatException e) {
+                printIndexErrorMessage();
+            }
         }
     }
 
     /**
-     * add to the favorites one or several movies
+     * Checks if the provided index is valid for the given size.
+     * @param index The index to check.
+     * @param size The size of the collection.
+     * @return True if the index is valid, false otherwise.
+     */
+    private boolean isValidIndex(int index, int size) {
+        return index >= 1 && index <= size;
+    }
+
+    /**
+     * Retrieves the selected movie from the list based on the index.
+     * @param movies The list of movies.
+     * @param index The index of the selected movie.
+     * @return A Movies object containing the selected movie.
+     */
+    private Movies getSelectedMovie(Movies movies, int index) {
+        Movies movieSelected = new Movies();
+        movieSelected.add(movies.findMovieByIndex(index - 1));
+        return movieSelected;
+    }
+
+    /**
+     * Prints an error message indicating that the entered index is invalid.
+     */
+    private void printIndexErrorMessage() {
+        System.out.println("\n| Please enter a valid index to select a movie.");
+    }
+
+    /**
+     * Add to the favorites one or several movies.
      */
     private void add(){
         do{
