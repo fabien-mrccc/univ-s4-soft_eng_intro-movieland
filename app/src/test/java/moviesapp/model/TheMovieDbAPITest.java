@@ -1,5 +1,6 @@
 package moviesapp.model;
 
+import moviesapp.controller.command_line.CLController;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.json.JsonReader;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,14 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheMovieDbAPITest {
     private static TheMovieDbAPI api;
-    private static String apiJsonPath;
     private static JsonReader apiJsonReader;
 
     @BeforeAll
     static void setupBeforeAll() {
         api = new TheMovieDbAPI();
-        apiJsonPath = "/src/main/java/moviesapp/model/json/api-results.json";
-        apiJsonReader = new JsonReader(apiJsonPath);
+        apiJsonReader = new JsonReader(CLController.apiFilePath);
     }
 
     @Test

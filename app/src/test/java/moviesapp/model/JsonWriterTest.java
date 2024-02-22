@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonWriterTest {
 
-    private final String favoritesTestPath = System.getProperty("user.dir") + "/src/test/java/moviesapp/model/json/favorites-example.json";
+    private final String favoritesTestPath = System.getProperty("user.dir") + "/src/test/resources/favorites-example.json";
 
     @Test
     public void testSaveFavorites() {
