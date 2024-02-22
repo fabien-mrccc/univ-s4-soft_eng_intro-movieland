@@ -47,7 +47,6 @@ public class CLSearch extends CLMethods {
      * @param apiObject the api that contains all the genres available
      * @return the user's specified genres
      */
-    //TODO
     private List<String> specifiedGenres(TheMovieDbAPI apiObject){
         List<String> genres = new ArrayList<>();
 
@@ -56,7 +55,9 @@ public class CLSearch extends CLMethods {
 
             do{
                 List<String> genreNames = new ArrayList<>(TheMovieDbAPI.GENRE_NAME_ID_MAP.keySet());
-                String genreName = askValue("Enter genre name: ").trim().toLowerCase();
+
+                String genreName = askValue("Enter genre index: ").trim().toLowerCase();
+
                 genreName = genreName.substring(0,1).toUpperCase() + genreName.substring(1);
                 if (TheMovieDbAPI.GENRE_NAME_ID_MAP.containsKey(genreName)) {
                     genres.add(genreName);
@@ -69,20 +70,18 @@ public class CLSearch extends CLMethods {
         return genres;
     }
 
-    /*
     /**
-     * Selects a movie from the list based on the provided index.
-     * @param movies The list of movies to select from.
+     * Selects a genre from the list based on the provided index.
+     * @param genres The list of genres to select from.
      * @param message The message to display prompting the user for input.
      * @return The selected movie.
      */
-    /*
-    private Movies selectGenreByIndex(List<String> genres, String message) {
+    private String selectGenreByIndex(List<String> genres, String message) {
         for (;;) {
             try {
                 int index = Integer.parseInt(askValue(message));
                 if (isValidIndex(index, genres.size())) {
-                    return getSelectedMovie(movies, index);
+                    return genres.get(index);
                 } else {
                     printIndexErrorMessage();
                 }
@@ -91,7 +90,6 @@ public class CLSearch extends CLMethods {
             }
         }
     }
-    */
 
     /**
      * Ask the user to select an interaction with page management system (previous, next, stop)

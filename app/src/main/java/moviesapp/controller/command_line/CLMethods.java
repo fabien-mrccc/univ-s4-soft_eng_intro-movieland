@@ -58,7 +58,7 @@ public class CLMethods {
      * @param size The size of the collection.
      * @return True if the index is valid, false otherwise.
      */
-    private boolean isValidIndex(int index, int size) {
+    protected boolean isValidIndex(int index, int size) {
         return index >= 1 && index <= size;
     }
 
@@ -77,7 +77,7 @@ public class CLMethods {
     /**
      * Prints an error message indicating that the entered index is invalid.
      */
-    private void printIndexErrorMessage() {
+    protected void printIndexErrorMessage() {
         System.out.println("\n| Please enter a valid index to select your element.");
     }
 
