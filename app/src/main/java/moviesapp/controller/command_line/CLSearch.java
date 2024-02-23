@@ -3,6 +3,7 @@ package moviesapp.controller.command_line;
 import moviesapp.model.movies.Movies;
 import moviesapp.model.api.TheMovieDbAPI;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,25 +52,27 @@ public class CLSearch extends CLMethods {
         String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
         String singleYearOrMinYear;
         String maxYear;
+        int minAcceptableValue = 1874;
+        int maxAcceptableValue = LocalDate.now().getYear();
 
         switch (yearOfReleaseOption){
             case "0" -> {
                 return null;
             }
             case "1" -> {
-                singleYearOrMinYear = askValue("Release year: ");
+                singleYearOrMinYear = askValue("Release year (" + minAcceptableValue + "-" + maxAcceptableValue + "): ");
                 maxYear = "single_mode";
             }
             case "2" -> {
-                singleYearOrMinYear = askValue("Min release year: ");
-                maxYear = askValue("Max release year: ");
+                singleYearOrMinYear = askValue("Min release year (≧" + minAcceptableValue + "): ");
+                maxYear = askValue("Max release year (≦" + maxAcceptableValue + "): ");
             }
             default -> {
                 return getYears();
             }
         }
 
-        if (!validateYears(singleYearOrMinYear, maxYear)) {
+        if (!validateYears(singleYearOrMinYear, maxYear, minAcceptableValue, maxAcceptableValue)) {
             return getYears();
         }
 
@@ -80,21 +83,40 @@ public class CLSearch extends CLMethods {
      * Validates the provided years.
      * @param singleYearOrMinYear The year value for a single year or the minimum year in a range.
      * @param maxYear The maximum year in a range or a flag indicating single year mode.
+     * @param minAcceptableValue The minimum year acceptable.
+     * @param maxAcceptableValue The maximum year acceptable.
      * @return {@code true} if the years are valid (greater than zero), {@code false} otherwise.
      */
-    private boolean validateYears(String singleYearOrMinYear, String maxYear) {
-        try {
-            int minYear = Integer.parseInt(singleYearOrMinYear);
-            int maxYearValue;
-            if (maxYear.equals("single_mode")) {
-                maxYearValue = minYear;
-            } else {
-                maxYearValue = Integer.parseInt(maxYear);
+    private boolean validateYears(String singleYearOrMinYear, String maxYear, int minAcceptableValue, int maxAcceptableValue) {
+        boolean isSingleMode = maxYear.equals("single_mode");
+
+        if(isSingleMode){
+            try {
+                int minYearValue = Integer.parseInt(singleYearOrMinYear);
+                boolean validNumber = minYearValue >= minAcceptableValue && minYearValue <= maxAcceptableValue;
+                if (!validNumber){
+                    printIndexErrorMessage();
+                }
+                return validNumber;
+            } catch (NumberFormatException e) {
+                printIndexErrorMessage();
+                return false;
             }
-            return minYear > 0 && maxYearValue > 0;
-        } catch (NumberFormatException e) {
-            CLMethods.printIndexErrorMessage();
-            return false;
+        }
+        else{
+            try {
+                int minYearValue = singleYearOrMinYear.isEmpty() ? minAcceptableValue : Integer.parseInt(singleYearOrMinYear);
+                int maxYearValue = maxYear.isEmpty() ? maxAcceptableValue : Integer.parseInt(maxYear);
+                boolean validNumbers = minYearValue >= minAcceptableValue && maxYearValue >= minAcceptableValue && maxYearValue <= maxAcceptableValue
+                        && minYearValue <= maxYearValue;
+                if (!validNumbers){
+                    printIndexErrorMessage();
+                }
+                return validNumbers;
+            } catch (NumberFormatException e) {
+                printIndexErrorMessage();
+                return false;
+            }
         }
     }
 
