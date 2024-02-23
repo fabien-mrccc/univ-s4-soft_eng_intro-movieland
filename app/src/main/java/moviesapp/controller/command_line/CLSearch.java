@@ -50,13 +50,16 @@ public class CLSearch extends CLMethods {
     private String[] getYears(){
         String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
         String singleYearOrMinYear;
-        String maxYear = "";
+        String maxYear;
 
         switch (yearOfReleaseOption){
             case "0" -> {
                 return null;
             }
-            case "1" -> singleYearOrMinYear = askValue("Release year: ");
+            case "1" -> {
+                singleYearOrMinYear = askValue("Release year: ");
+                maxYear = "single_mode";
+            }
             case "2" -> {
                 singleYearOrMinYear = askValue("Min release year: ");
                 maxYear = askValue("Max release year: ");
@@ -65,7 +68,34 @@ public class CLSearch extends CLMethods {
                 return getYears();
             }
         }
+
+        if (!validateYears(singleYearOrMinYear, maxYear)) {
+            return getYears();
+        }
+
         return new String[]{singleYearOrMinYear, maxYear};
+    }
+
+    /**
+     * Validates the provided years.
+     * @param singleYearOrMinYear The year value for a single year or the minimum year in a range.
+     * @param maxYear The maximum year in a range or a flag indicating single year mode.
+     * @return {@code true} if the years are valid (greater than zero), {@code false} otherwise.
+     */
+    private boolean validateYears(String singleYearOrMinYear, String maxYear) {
+        try {
+            int minYear = Integer.parseInt(singleYearOrMinYear);
+            int maxYearValue;
+            if (maxYear.equals("single_mode")) {
+                maxYearValue = minYear;
+            } else {
+                maxYearValue = Integer.parseInt(maxYear);
+            }
+            return minYear > 0 && maxYearValue > 0;
+        } catch (NumberFormatException e) {
+            CLMethods.printIndexErrorMessage();
+            return false;
+        }
     }
 
     /**
