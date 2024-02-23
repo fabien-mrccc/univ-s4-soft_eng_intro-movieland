@@ -1,16 +1,19 @@
 package moviesapp.controller.command_line;
 
 import moviesapp.model.api.Genres;
+import moviesapp.model.api.UrlRequestBuilder;
 import moviesapp.model.movies.Movies;
 import moviesapp.model.api.TheMovieDbAPI;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static moviesapp.controller.command_line.CLController.*;
 import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.genresToGenreIds;
+import static moviesapp.model.api.UrlRequestBuilder.*;
 
 public class CLSearch extends CLMethods {
 
@@ -20,24 +23,44 @@ public class CLSearch extends CLMethods {
      * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
      */
     void searchCommand(){
-
-        String title = askValue("Title of the movie: ");
+        String title = "";
         String singleYearOrMinYear = "";
         String maxYear = "";
+        String minVoteAverage = "";
+        List <String> genres = new ArrayList<>();
 
-        String[] years = getYears();
-        if (years != null && (!years[0].isEmpty() || !years[1].isEmpty())){
-            singleYearOrMinYear = years[0];
-            maxYear = years[1];
+        UrlRequestBuilder.searchMode = selectMode("Search mode: ["+ searchModeSearch +"] With Title, ["+ searchModeDiscover +"] Without Title",
+                Arrays.asList(searchModeSearch,searchModeDiscover));
+
+        switch(UrlRequestBuilder.searchMode){
+            case "1" -> {
+                while(title.isEmpty()){
+                    title = askValue("Title of the movie (required): ");
+                }
+                singleYearOrMinYear = getYear();
+                if(informationSent(title, singleYearOrMinYear, maxYear, minVoteAverage, genres)){
+                    maxYear = UrlRequestBuilder.singleMode;
+                }
+                else{
+                    return;
+                }
+            }
+            case "2" -> {
+                String[] years = getYears();
+                if (years != null && (!years[0].isEmpty() || !years[1].isEmpty())){
+                    singleYearOrMinYear = years[0];
+                    maxYear = years[1];
+                }
+                minVoteAverage = getMinVoteAverage();
+                genres = genresToGenreIds(specifiedGenresByUser());
+            }
+            default -> {
+                printSelectModeError();
+                return;
+            }
         }
 
-        String minVoteAverage = getMinVoteAverage();
-        List<String> genres = genresToGenreIds(specifiedGenresByUser());
-
-        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && minVoteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
-        }
-        else{
+        if(informationSent(title, singleYearOrMinYear, maxYear, minVoteAverage, genres)){
             apiObject.searchMovies(title, singleYearOrMinYear, maxYear, genres, minVoteAverage, "1");
             do{
                 jsonReaderUpdate();
@@ -51,11 +74,59 @@ public class CLSearch extends CLMethods {
     }
 
     /**
+     * Retrieves the release year based on user input.
+     * @return An array containing the selected release year.
+     */
+    private String getYear(){
+        String yearOfReleaseOption = selectMode("Select release year option: [0] Skip, [1] Specify", Arrays.asList("0","1"));
+        String releaseYear;
+        int minAcceptableValue = 1874;
+        int maxAcceptableValue = LocalDate.now().getYear();
+
+        switch (yearOfReleaseOption){
+            case "0" -> {
+                return "";
+            }
+            case "1" -> {
+                releaseYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
+            }
+            default -> {
+                printIndexErrorMessage();
+                return getYear();
+            }
+        }
+
+        if (!validateValueInterval(releaseYear, minAcceptableValue, maxAcceptableValue)) {
+            return getYear();
+        }
+
+        return releaseYear;
+    }
+
+    /**
+     * Checks if no search information is provided.
+     *
+     * @param title             The title of the movie.
+     * @param singleYearOrMinYear   The single year or minimum year in the range.
+     * @param maxYear           The maximum year in the range.
+     * @param minVoteAverage    The minimum vote average.
+     * @param genres            The list of genres.
+     * @return True if no information is sent for the search, false otherwise.
+     */
+    private boolean informationSent(String title, String singleYearOrMinYear, String maxYear, String minVoteAverage, List<String> genres){
+        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && minVoteAverage.isEmpty() && genres.isEmpty()){
+            System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Retrieves the release years based on user input.
      * @return An array containing the selected release years. Null if skipped.
      */
     private String[] getYears(){
-        String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
+        String yearOfReleaseOption = selectMode("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)", Arrays.asList("0","1","2"));
         String singleYearOrMinYear;
         String maxYear;
         int minAcceptableValue = 1874;
@@ -66,14 +137,15 @@ public class CLSearch extends CLMethods {
                 return null;
             }
             case "1" -> {
-                singleYearOrMinYear = askValue("Release year (" + minAcceptableValue + "-" + maxAcceptableValue + "): ");
-                maxYear = "single_mode";
+                singleYearOrMinYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
+                maxYear = UrlRequestBuilder.singleMode;
             }
             case "2" -> {
-                singleYearOrMinYear = askValue("Min release year (≧" + minAcceptableValue + "): ");
-                maxYear = askValue("Max release year (≦" + maxAcceptableValue + "): ");
+                singleYearOrMinYear = askValue("Min release year [ ≧ " + minAcceptableValue + "]: ");
+                maxYear = askValue("Max release year [ ≦ " + maxAcceptableValue + "]: ");
             }
             default -> {
+                printSelectModeError();
                 return getYears();
             }
         }
@@ -94,7 +166,7 @@ public class CLSearch extends CLMethods {
      * @return {@code true} if the years are valid (greater than zero), {@code false} otherwise.
      */
     private boolean validateYears(String singleYearOrMinYear, String maxYear, int minAcceptableValue, int maxAcceptableValue) {
-        boolean isSingleMode = maxYear.equals("single_mode");
+        boolean isSingleMode = maxYear.equals(UrlRequestBuilder.singleMode);
 
         if(isSingleMode){
             return validateValueInterval(singleYearOrMinYear, minAcceptableValue, maxAcceptableValue);
@@ -144,7 +216,7 @@ public class CLSearch extends CLMethods {
     private String getMinVoteAverage(){
         int minAcceptableValue = 0;
         int maxAcceptableValue = 10;
-        String minVoteAverage = askValue("Movie's minimum rate (" + minAcceptableValue + "-" + maxAcceptableValue + "): ");
+        String minVoteAverage = askValue("Movie's minimum rate [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
 
         if(!minVoteAverage.isEmpty()){
             if (!validateValueInterval(minVoteAverage, minAcceptableValue, maxAcceptableValue)){
