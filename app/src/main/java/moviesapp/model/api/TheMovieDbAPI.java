@@ -71,7 +71,7 @@ public class TheMovieDbAPI {
     private Request buildRequest(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String voteAverage, String page){
         String urlString;
 
-        if(!title.isEmpty() || !singleYearOrMinYear.isEmpty() && maxYear.isEmpty()){
+        if(!title.isEmpty() && maxYear.isEmpty()){
             urlString = urlBuilderSearch(title, singleYearOrMinYear, page);
         }
         else{
@@ -111,7 +111,7 @@ public class TheMovieDbAPI {
     private String urlBuilderDiscover(String singleYearOrMinYear, String maxYear, List<String> genreIds, String voteAverage, String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
-        buildUrlWithYearSpan(urlBuilder, singleYearOrMinYear, maxYear, singleYearOrMinYear == null || singleYearOrMinYear.isEmpty(), maxYear == null || maxYear.isEmpty());
+        buildUrlWithYear(urlBuilder, singleYearOrMinYear, maxYear, singleYearOrMinYear == null || singleYearOrMinYear.isEmpty(), maxYear.isEmpty());
         buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
         buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
         buildUrlWithPage(urlBuilder, page);
@@ -126,11 +126,20 @@ public class TheMovieDbAPI {
      * @param isMaxYearEmpty flag to append to urlBuilder
      * @param isMinYearEmpty flag to append to urlBuilder
      */
-    private void buildUrlWithYearSpan(StringBuilder urlBuilder, String singleYearOrMinYear, String maxYear, boolean isMinYearEmpty, boolean isMaxYearEmpty){
-        if(!isMinYearEmpty){
+    private void buildUrlWithYear(StringBuilder urlBuilder, String singleYearOrMinYear, String maxYear, boolean isMinYearEmpty, boolean isMaxYearEmpty){
+        boolean isSingleMode = maxYear.equals("single_mode");
+
+        if(!isMinYearEmpty && isSingleMode){
+            urlBuilder.append("&primary_release_year=").append(singleYearOrMinYear);
+        }
+        else if (!isMinYearEmpty && !isMaxYearEmpty){
+            urlBuilder.append("&primary_release_date.gte=").append(singleYearOrMinYear).append("-01-01");
+            urlBuilder.append("&primary_release_date.lte=").append(maxYear).append("-12-31");
+        }
+        else if (!isMinYearEmpty){
             urlBuilder.append("&primary_release_date.gte=").append(singleYearOrMinYear).append("-01-01");
         }
-        if(!isMaxYearEmpty){
+        else if (!isMaxYearEmpty && !isSingleMode){
             urlBuilder.append("&primary_release_date.lte=").append(maxYear).append("-12-31");
         }
     }
