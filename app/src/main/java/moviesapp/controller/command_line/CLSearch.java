@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static moviesapp.controller.command_line.CLController.*;
+import static moviesapp.model.api.TheMovieDbAPI.genresToGenreIds;
 
 public class CLSearch extends CLMethods {
 
@@ -18,22 +19,17 @@ public class CLSearch extends CLMethods {
     void searchCommand(){
 
         String title = askValue("Title of the movie: ");
-        String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
         String singleYearOrMinYear = "";
         String maxYear = "";
 
-        switch (yearOfReleaseOption){
-            case "1" -> singleYearOrMinYear = askValue("Release year: ");
-            case "2" -> {
-                singleYearOrMinYear = askValue("Min release year: ");
-                maxYear = askValue("Max release year: ");
-            }
-            default -> {
-            }
+        String[] years = getYears();
+        if (years != null && (!years[0].isEmpty() || !years[1].isEmpty())){
+            singleYearOrMinYear = years[0];
+            maxYear = years[1];
         }
 
         String voteAverage = askValue("Movie's minimum rate: ");
-        List<String> genres = specifiedGenres(apiObject);
+        List<String> genres = genresToGenreIds(specifiedGenres(apiObject));
 
         if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
@@ -49,6 +45,27 @@ public class CLSearch extends CLMethods {
                 }
             } while(askPreviousOrNextPage(title, singleYearOrMinYear, maxYear, genres, voteAverage, messageOfAskPreviousOrNextPage()));
         }
+    }
+
+    private String[] getYears(){
+        String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
+        String singleYearOrMinYear;
+        String maxYear = "";
+
+        switch (yearOfReleaseOption){
+            case "0" -> {
+                return null;
+            }
+            case "1" -> singleYearOrMinYear = askValue("Release year: ");
+            case "2" -> {
+                singleYearOrMinYear = askValue("Min release year: ");
+                maxYear = askValue("Max release year: ");
+            }
+            default -> {
+                return getYears();
+            }
+        }
+        return new String[]{singleYearOrMinYear, maxYear};
     }
 
     /**
