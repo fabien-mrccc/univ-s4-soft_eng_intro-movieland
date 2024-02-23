@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import moviesapp.controller.command_line.CLController;
 import moviesapp.model.json.JsonReader;
-import moviesapp.model.movies.Favorites;
 import okhttp3.Request;
 import okhttp3.Response;
 

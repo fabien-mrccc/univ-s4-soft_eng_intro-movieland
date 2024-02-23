@@ -1,5 +1,6 @@
 package moviesapp.controller.command_line;
 
+import moviesapp.model.api.Genres;
 import moviesapp.model.movies.Movies;
 import moviesapp.model.api.TheMovieDbAPI;
 
@@ -8,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static moviesapp.controller.command_line.CLController.*;
-import static moviesapp.model.api.TheMovieDbAPI.genresToGenreIds;
+import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
+import static moviesapp.model.api.Genres.genresToGenreIds;
 
 public class CLSearch extends CLMethods {
 
@@ -30,7 +32,7 @@ public class CLSearch extends CLMethods {
         }
 
         String voteAverage = askValue("Movie's minimum rate: ");
-        List<String> genres = genresToGenreIds(specifiedGenres(apiObject));
+        List<String> genres = genresToGenreIds(specifiedGenresByUser());
 
         if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
@@ -122,21 +124,20 @@ public class CLSearch extends CLMethods {
 
     /**
      * Return the user's specified genres
-     * @param apiObject the api that contains all the genres available
      * @return the user's specified genres
      */
-    private List<String> specifiedGenres(TheMovieDbAPI apiObject){
+    private List<String> specifiedGenresByUser(){
         List<String> genres = new ArrayList<>();
 
         if(askToConfirm("Do you want to specify one or more genres?")){
-            System.out.print("\nList of genres: \n" + apiObject.genreList());
+            System.out.print("\nList of genres: \n" + Genres.instance.getGenres());
 
             do{
                 System.out.println("\nGenres already selected: " + genres);
-                List<String> genreNames = new ArrayList<>(TheMovieDbAPI.GENRE_NAME_ID_MAP.keySet());
+                List<String> genreNames = new ArrayList<>(GENRE_NAME_ID_MAP.keySet());
                 String genreSelected = selectGenreByIndex(genreNames);
 
-                if (TheMovieDbAPI.GENRE_NAME_ID_MAP.containsKey(genreSelected) && !genres.contains(genreSelected)) {
+                if (GENRE_NAME_ID_MAP.containsKey(genreSelected) && !genres.contains(genreSelected)) {
                     genres.add(genreSelected);
                 }
                 else {
