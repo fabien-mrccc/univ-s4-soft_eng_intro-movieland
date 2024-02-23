@@ -31,7 +31,7 @@ public class CLSearch extends CLMethods {
             maxYear = years[1];
         }
 
-        String minVoteAverage = askValue("Movie's minimum rate: ");
+        String minVoteAverage = getMinVoteAverage();
         List<String> genres = genresToGenreIds(specifiedGenresByUser());
 
         if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && minVoteAverage.isEmpty() && genres.isEmpty()){
@@ -50,6 +50,10 @@ public class CLSearch extends CLMethods {
         }
     }
 
+    /**
+     * Retrieves the release years based on user input.
+     * @return An array containing the selected release years. Null if skipped.
+     */
     private String[] getYears(){
         String yearOfReleaseOption = askValue("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)");
         String singleYearOrMinYear;
@@ -93,17 +97,7 @@ public class CLSearch extends CLMethods {
         boolean isSingleMode = maxYear.equals("single_mode");
 
         if(isSingleMode){
-            try {
-                int minYearValue = Integer.parseInt(singleYearOrMinYear);
-                boolean validNumber = minYearValue >= minAcceptableValue && minYearValue <= maxAcceptableValue;
-                if (!validNumber){
-                    printIndexErrorMessage();
-                }
-                return validNumber;
-            } catch (NumberFormatException e) {
-                printIndexErrorMessage();
-                return false;
-            }
+            return validateValueInterval(singleYearOrMinYear, minAcceptableValue, maxAcceptableValue);
         }
         else{
             try {
@@ -120,6 +114,44 @@ public class CLSearch extends CLMethods {
                 return false;
             }
         }
+    }
+
+    /**
+     * Validates if a given value falls within a specified interval.
+     * @param value                The value to be validated.
+     * @param minAcceptableValue   The minimum acceptable value.
+     * @param maxAcceptableValue   The maximum acceptable value.
+     * @return True if the value is within the specified interval, false otherwise.
+     */
+    private boolean validateValueInterval(String value, int minAcceptableValue, int maxAcceptableValue) {
+        try {
+            int minVoteAverageValue = Integer.parseInt(value);
+            boolean validNumber = minVoteAverageValue >= minAcceptableValue && minVoteAverageValue <= maxAcceptableValue;
+            if (!validNumber){
+                printValueIntervalError();
+            }
+            return validNumber;
+        } catch (NumberFormatException e) {
+            printValueIntervalError();
+            return false;
+        }
+    }
+
+    /**
+     * Retrieves the minimum vote average for a movie.
+     * @return The minimum vote average provided by the user.
+     */
+    private String getMinVoteAverage(){
+        int minAcceptableValue = 0;
+        int maxAcceptableValue = 10;
+        String minVoteAverage = askValue("Movie's minimum rate (" + minAcceptableValue + "-" + maxAcceptableValue + "): ");
+
+        if(!minVoteAverage.isEmpty()){
+            if (!validateValueInterval(minVoteAverage, minAcceptableValue, maxAcceptableValue)){
+                return getMinVoteAverage();
+            }
+        }
+        return minVoteAverage;
     }
 
     /**
