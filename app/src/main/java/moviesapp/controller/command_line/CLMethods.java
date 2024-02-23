@@ -77,7 +77,7 @@ public class CLMethods {
     /**
      * Prints an error message indicating that the entered index is invalid.
      */
-    public static void printIndexErrorMessage() {
+    protected void printIndexErrorMessage() {
         System.out.println("\n| Please enter a valid index to select your element.");
     }
 
@@ -85,6 +85,13 @@ public class CLMethods {
      * Prints a message indicating that no movie was found.
      */
     protected void printNoMovieFoundMessage() {
-        System.out.println("No movie found.");
+        System.out.println("\n| No movie found.");
+    }
+
+    /**
+     * Prints a message that ask to enter a valid value.
+     */
+    protected void printValueIntervalError() {
+        System.out.println("\n| Please enter a valid value between the interval.");
     }
 }
