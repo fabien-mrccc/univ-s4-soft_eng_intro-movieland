@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static moviesapp.model.api.TheMovieDbAPI.GENRE_NAME_ID_MAP;
-import static moviesapp.model.api.TheMovieDbAPI.fillGENRE_NAME_ID_MAP;
+import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
+import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheMovieDbAPITest {

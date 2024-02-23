@@ -1,9 +1,9 @@
 package moviesapp.model.json;
 import com.fasterxml.jackson.databind.*;
+import moviesapp.model.api.Genres;
 import moviesapp.model.movies.Movie;
 import moviesapp.model.movies.MovieFinder;
 import moviesapp.model.movies.Movies;
-import moviesapp.model.api.TheMovieDbAPI;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,7 +104,7 @@ public class JsonReader extends MovieFinder {
      * @return {@code true} if the movie matches any of the provided genre IDs, {@code false} otherwise.
      */
     private boolean movieContainsAnyGenre(JsonNode movie, List<String> genres) {
-        List<String> genreIds = TheMovieDbAPI.genresToGenreIds(genres);
+        List<String> genreIds = Genres.genresToGenreIds(genres);
 
         for (JsonNode genreIdNode : movie.get("genre_ids")) {
             String genreId = genreIdNode.asText();

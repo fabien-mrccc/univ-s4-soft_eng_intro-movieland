@@ -1,8 +1,8 @@
 package moviesapp;
 
 import moviesapp.controller.command_line.CLController;
-import static moviesapp.model.api.TheMovieDbAPI.*;
 
+import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
 
 public class AppCLI {
     public static void main(String[] args) {
