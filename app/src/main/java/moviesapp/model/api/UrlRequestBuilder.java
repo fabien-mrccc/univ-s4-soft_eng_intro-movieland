@@ -1,5 +1,6 @@
 package moviesapp.model.api;
 
+import moviesapp.controller.command_line.CLSearch;
 import okhttp3.Request;
 
 import java.util.List;
@@ -14,6 +15,11 @@ public class UrlRequestBuilder {
     private final List<String> genres;
     private final String minVoteAverage;
     private final String page;
+    public static final String singleMode = "single_mode";
+    public static String searchMode;
+    public static String searchModeSearch = "1";
+    public static String searchModeDiscover = "2";
+
 
     public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
         this.title = title;
@@ -29,14 +35,13 @@ public class UrlRequestBuilder {
      * @return the request built
      */
     Request build(){
-        String urlString;
+        String urlString = "";
 
-        if(!title.isEmpty() && maxYear.isEmpty()){
+        if(searchMode.equals(searchModeSearch)){
             urlString = searchBuilder(title, singleYearOrMinYear, page);
         }
-        else{
+        else if (searchMode.equals(searchModeDiscover)){
             urlString = discoverBuilder(singleYearOrMinYear, maxYear, genres, minVoteAverage , page);
-
         }
         return new Request.Builder().url(urlString).build();
     }
@@ -80,9 +85,9 @@ public class UrlRequestBuilder {
      */
     private void buildUrlWithYears(StringBuilder urlBuilder, String singleYearOrMinYear, String maxYear){
         if(maxYear == null){
-            maxYear = "single_mode";
+            maxYear = singleMode;
         }
-        boolean isSingleMode = maxYear.equals("single_mode");
+        boolean isSingleMode = maxYear.equals(singleMode);
         boolean isMinYearEmpty = singleYearOrMinYear == null || singleYearOrMinYear.isEmpty();
         boolean isMaxYearEmpty = maxYear.isEmpty();
 
@@ -138,7 +143,7 @@ public class UrlRequestBuilder {
         }
     }
 
-    String popularMoviesBuilder(int page){
+    String popularMoviesBuilder(String page){
         return baseUrl + "/movie/popular?" + language + "&page=" + page + apiKey;
     }
 }
