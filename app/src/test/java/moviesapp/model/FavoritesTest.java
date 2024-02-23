@@ -2,7 +2,6 @@ package moviesapp.model;
 
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
-import moviesapp.model.movies.Movies;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +20,6 @@ public class FavoritesTest {
     private final Movie movie3 = new Movie(true,null,null,"3",null,
             null, null,0,null,null,null,true,
             0, 0);
-
-    private final Movies movies = new Movies();
 
     @BeforeAll
     static void setupBeforeAll(){

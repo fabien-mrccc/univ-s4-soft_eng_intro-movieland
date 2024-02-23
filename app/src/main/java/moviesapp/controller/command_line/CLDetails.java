@@ -16,9 +16,7 @@ public class CLDetails extends CLMethods {
         Movies movieList;
 
         switch(detailsMode){
-            case "1" -> {
-                movieList = moviesFromPreviousSearch();
-            }
+            case "1" -> movieList = moviesFromPreviousSearch();
             case "2" -> {
                 movieList = Favorites.instance.getFavorites();
                 System.out.println("\nBelow the movies from your favorites: \n" + movieList);

@@ -87,9 +87,7 @@ public class CLSearch extends CLMethods {
             case "0" -> {
                 return "";
             }
-            case "1" -> {
-                releaseYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
-            }
+            case "1" -> releaseYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
             default -> {
                 printIndexErrorMessage();
                 return getYear();
