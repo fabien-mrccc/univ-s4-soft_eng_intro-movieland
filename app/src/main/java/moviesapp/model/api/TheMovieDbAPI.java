@@ -81,7 +81,8 @@ public class TheMovieDbAPI {
         }
     }
 
-    public void popularMovies(int page){
+    public void popularMovies(String page){
+        urlRequestBuilder = new UrlRequestBuilder(null, null,null,null,null, page);
         String url = urlRequestBuilder.popularMoviesBuilder(page);
         Request request = new Request.Builder().url(url).build();
         try {
