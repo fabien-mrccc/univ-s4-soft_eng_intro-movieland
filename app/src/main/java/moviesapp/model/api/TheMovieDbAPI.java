@@ -25,10 +25,10 @@ public class TheMovieDbAPI {
      * @param singleYearOrMinYear min year of release of movie
      * @param maxYear max year of release of movie
      * @param genres a list of genres
-     * @param voteAverage the min vote average
+     * @param minVoteAverage the min vote average
      */
-    public void searchMovies(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String voteAverage , String page){
-        urlRequestBuilder = new UrlRequestBuilder(title, singleYearOrMinYear, maxYear, genres, voteAverage , page);
+    public void searchMovies(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage , String page){
+        urlRequestBuilder = new UrlRequestBuilder(title, singleYearOrMinYear, maxYear, genres, minVoteAverage , page);
 
         Request request = urlRequestBuilder.build();
 

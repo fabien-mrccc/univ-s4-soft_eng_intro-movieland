@@ -122,7 +122,7 @@ public class Favorites extends MovieFinder {
     }
 
     @Override
-    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage) {
+    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String minVoteAverage) {
         for (Movie movie : favorites) {
             boolean titleCondition = (title == null) ||
                     movie.originalTitle().toLowerCase().contains(title.toLowerCase());
@@ -130,8 +130,8 @@ public class Favorites extends MovieFinder {
                     movie.releaseDate().toLowerCase().startsWith(releaseYear.toLowerCase());
             boolean genreCondition = (genres == null || genres.isEmpty()) ||
                     movieContainsAnyGenre(movie, genres);
-            boolean voteCondition = (voteAverage == null) ||
-                    Double.parseDouble(voteAverage) <= movie.voteAverage();
+            boolean voteCondition = (minVoteAverage == null) ||
+                    Double.parseDouble(minVoteAverage) <= movie.minVoteAverage();
 
             if (titleCondition && yearCondition && genreCondition && voteCondition) {
                 movies.add(movie);

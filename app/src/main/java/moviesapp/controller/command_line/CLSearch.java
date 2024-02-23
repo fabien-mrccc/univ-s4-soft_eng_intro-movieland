@@ -31,14 +31,14 @@ public class CLSearch extends CLMethods {
             maxYear = years[1];
         }
 
-        String voteAverage = askValue("Movie's minimum rate: ");
+        String minVoteAverage = askValue("Movie's minimum rate: ");
         List<String> genres = genresToGenreIds(specifiedGenresByUser());
 
-        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && voteAverage.isEmpty() && genres.isEmpty()){
+        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && minVoteAverage.isEmpty() && genres.isEmpty()){
             System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
         }
         else{
-            apiObject.searchMovies(title, singleYearOrMinYear, maxYear, genres, voteAverage , "1");
+            apiObject.searchMovies(title, singleYearOrMinYear, maxYear, genres, minVoteAverage, "1");
             do{
                 jsonReaderUpdate();
                 Movies moviesFromSearch = jsonReader.findAllMovies();
@@ -46,7 +46,7 @@ public class CLSearch extends CLMethods {
                 if(Movies.noMovieFound(moviesFromSearch)){
                     break;
                 }
-            } while(askPreviousOrNextPage(title, singleYearOrMinYear, maxYear, genres, voteAverage, messageOfAskPreviousOrNextPage()));
+            } while(askPreviousOrNextPage(title, singleYearOrMinYear, maxYear, genres, minVoteAverage, messageOfAskPreviousOrNextPage()));
         }
     }
 
@@ -174,32 +174,32 @@ public class CLSearch extends CLMethods {
      * @param minYear from the precedent search
      * @param maxYear from the precedent search
      * @param genres from the precedent search
-     * @param voteAverage from the precedent search
+     * @param minVoteAverage from the precedent search
      * @param message the message to print to the user to interact with page management system
      * @return the user's answer
      */
-    protected boolean askPreviousOrNextPage(String title, String minYear, String maxYear, List<String> genres, String voteAverage , String message){
+    protected boolean askPreviousOrNextPage(String title, String minYear, String maxYear, List<String> genres, String minVoteAverage , String message){
         String response = askValue(message);
 
         switch (response) {
             case "3" -> {
                 int pageNumber = Integer.parseInt(askValue("Enter page number: "));
                 if (pageNumber >= 1 && pageNumber <= jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(pageNumber));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(pageNumber));
                     return true;
                 }
                 System.out.println("\n| Page number unavailable.");
             }
             case "2" -> {
                 if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
                     return true;
                 }
                 System.out.println("\n| There is no next page.");
             }
             case "1" -> {
                 if(jsonReader.getPageInJson() > 1){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, voteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
+                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
                     return true;
                 }
                 System.out.println("\n| There is no precedent page.");
@@ -210,7 +210,7 @@ public class CLSearch extends CLMethods {
             default -> System.out.println("\n| Please enter a valid option.");
         }
 
-        return askPreviousOrNextPage(title, minYear, maxYear, genres, voteAverage , message);
+        return askPreviousOrNextPage(title, minYear, maxYear, genres, minVoteAverage, message);
     }
 
     /**

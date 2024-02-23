@@ -12,15 +12,15 @@ public class UrlRequestBuilder {
     private final String singleYearOrMinYear;
     private final String maxYear;
     private final List<String> genres;
-    private final String voteAverage;
+    private final String minVoteAverage;
     private final String page;
 
-    public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String voteAverage, String page){
+    public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
         this.title = title;
         this.singleYearOrMinYear = singleYearOrMinYear;
         this.maxYear = maxYear;
         this.genres = genres;
-        this.voteAverage = voteAverage;
+        this.minVoteAverage = minVoteAverage;
         this.page = page;
     }
 
@@ -35,7 +35,7 @@ public class UrlRequestBuilder {
             urlString = searchBuilder(title, singleYearOrMinYear, page);
         }
         else{
-            urlString = discoverBuilder(singleYearOrMinYear, maxYear, genres, voteAverage , page);
+            urlString = discoverBuilder(singleYearOrMinYear, maxYear, genres, minVoteAverage , page);
 
         }
         return new Request.Builder().url(urlString).build();
@@ -59,15 +59,15 @@ public class UrlRequestBuilder {
      * @param singleYearOrMinYear min release year of a film
      * @param maxYear max release year of a film
      * @param genreIds list of genres of a film
-     * @param voteAverage minimum vote average of a film
+     * @param minVoteAverage minimum vote average of a film
      * @return the desired url based on given parameters
      */
-    private String discoverBuilder(String singleYearOrMinYear, String maxYear, List<String> genreIds, String voteAverage, String page){
+    private String discoverBuilder(String singleYearOrMinYear, String maxYear, List<String> genreIds, String minVoteAverage, String page){
         StringBuilder urlBuilder = new StringBuilder(baseUrl + "/discover/movie?" + language);
 
         buildUrlWithYears(urlBuilder, singleYearOrMinYear, maxYear);
         buildUrlWithGenres(urlBuilder, genreIds, genreIds == null || genreIds.isEmpty());
-        buildUrlWithVoteAverage(urlBuilder, voteAverage, voteAverage == null || voteAverage.isEmpty());
+        buildUrlWithVoteAverage(urlBuilder, minVoteAverage, minVoteAverage == null || minVoteAverage.isEmpty());
         buildUrlWithPage(urlBuilder, page);
         return urlBuilder + apiKey;
     }
@@ -129,12 +129,12 @@ public class UrlRequestBuilder {
     /**
      * Append to urlBuilder string corresponding to voteAverage argument if it is not empty
      * @param urlBuilder StringBuilder to modify
-     * @param voteAverage of the movies to search with API with discover command
-     * @param isVoteAverageEmpty flag to append to urlBuilder
+     * @param minVoteAverage of the movies to search with API with discover command
+     * @param isMinVoteAverageEmpty flag to append to urlBuilder
      */
-    private void buildUrlWithVoteAverage(StringBuilder urlBuilder, String voteAverage, boolean isVoteAverageEmpty){
-        if(!isVoteAverageEmpty){
-            urlBuilder.append("&vote_average.gte=").append(voteAverage);
+    private void buildUrlWithVoteAverage(StringBuilder urlBuilder, String minVoteAverage, boolean isMinVoteAverageEmpty){
+        if(!isMinVoteAverageEmpty){
+            urlBuilder.append("&vote_average.gte=").append(minVoteAverage);
         }
     }
 

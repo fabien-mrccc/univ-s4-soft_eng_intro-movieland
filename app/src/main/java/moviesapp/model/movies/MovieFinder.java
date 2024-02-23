@@ -9,22 +9,22 @@ public abstract class MovieFinder {
      * @param title the title of the movie
      * @param releaseYear the releaseYear of the movie
      * @param genres the list of genres of the movie
-     * @param voteAverage the vote average of the movie
+     * @param minVoteAverage the vote average of the movie
      * @return return a list of movies, null if no information in parameters
      */
-    public Movies findMovies(String title , String releaseYear, List<String> genres, String voteAverage){
-        if(title == null || releaseYear == null || genres == null || voteAverage == null){
+    public Movies findMovies(String title , String releaseYear, List<String> genres, String minVoteAverage){
+        if(title == null || releaseYear == null || genres == null || minVoteAverage == null){
             return null;
         }
 
-        boolean[] parametersEmptyStatus = {title.isEmpty(), releaseYear.isEmpty(), genres.isEmpty(), voteAverage.isEmpty()};
+        boolean[] parametersEmptyStatus = {title.isEmpty(), releaseYear.isEmpty(), genres.isEmpty(), minVoteAverage.isEmpty()};
 
         if(allParametersAreEmpty(parametersEmptyStatus)){
             return null;
         }
 
         Movies movies = new Movies();
-        findMoviesByCriteria(movies, title, releaseYear, genres, voteAverage);
+        findMoviesByCriteria(movies, title, releaseYear, genres, minVoteAverage);
 
         return movies;
     }
@@ -49,7 +49,7 @@ public abstract class MovieFinder {
      * @param title the name of the movie researched
      * @param releaseYear the year of the movie researched
      * @param genres the genres that the movie checked
-     * @param voteAverage the minimum vote average that the movie checked
+     * @param minVoteAverage the minimum vote average that the movie checked
      */
-    public abstract void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage);
+    public abstract void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String minVoteAverage);
 }

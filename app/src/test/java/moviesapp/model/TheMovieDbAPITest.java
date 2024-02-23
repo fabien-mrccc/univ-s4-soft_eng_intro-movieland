@@ -30,10 +30,10 @@ public class TheMovieDbAPITest {
         List<String> genres = new ArrayList<>();
         genres.add("action");
         genres.add("adventure");
-        String voteAverage = "3";
+        String minVoteAverage = "3";
         String page = "1";
 
-        //api.searchMovies(title, releaseYear, genres, voteAverage , page);
+        //api.searchMovies(title, releaseYear, genres, minVoteAverage , page);
 
         /*
         JsonReader apiResultJsonReader = new JsonReader(apiJsonPath);
@@ -47,7 +47,7 @@ public class TheMovieDbAPITest {
             assertThat(movie.title().equals(title)).isTrue();
             assertThat(movie.releaseDate().contains(releaseYear)).isTrue();
             assertThat(movie.genres().equals(genres)).isTrue();
-            assertThat(movie.voteAverage() == Double.parseDouble(voteAverage)).isTrue();
+            assertThat(movie.minVoteAverage() == Double.parseDouble(minVoteAverage)).isTrue();
         }
 
          */

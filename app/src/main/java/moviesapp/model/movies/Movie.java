@@ -4,7 +4,7 @@ import java.util.List;
 
 public record Movie(boolean adult, String backdropPath, List<String> genres, String id, String originalLanguage,
                     String originalTitle, String overview, double popularity, String posterPath, String releaseDate,
-                    String title, boolean video, double voteAverage, int voteCount) {
+                    String title, boolean video, double minVoteAverage, int voteCount) {
     @Override
     public String toString(){
         String print =
@@ -12,7 +12,7 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                         "\n  title: " +
                         title +
                         "\n  vote average: " +
-                        voteAverage;
+                        minVoteAverage;
 
         if(releaseDate != null && releaseDate.length() >= 4){
             print += "\n  release year: " + releaseDate.substring(0,4);
@@ -33,7 +33,7 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
         return "__________________________  \n"+"movie n°"+ id +":\n  title: "+title+"\n  original title: "+originalTitle+
                 "\n  release date: "+releaseDate+ "\n  original language: "+originalLanguage+
                 "\n  genreIds: "+genres+"\n  popularity: " +popularity+"\n  adult: "+adult+
-                "\n  vote average: "+voteAverage+"\n  vote count: " +voteCount+"\n  overview: "
+                "\n  vote average: "+minVoteAverage+"\n  vote count: " +voteCount+"\n  overview: "
                 +overview+ "\n__________________________  ";
     }
 
@@ -55,7 +55,7 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                 "      \"release_date\" : \"" + releaseDate() + "\",\n" +
                 "      \"title\" : \"" + title() + "\",\n" +
                 "      \"video\" : " + video() + ",\n" +
-                "      \"vote_average\" : " + voteAverage() + ",\n" +
+                "      \"vote_average\" : " + minVoteAverage() + ",\n" +
                 "      \"vote_count\" : " + voteCount() + "\n" +
                 "    }";
     }

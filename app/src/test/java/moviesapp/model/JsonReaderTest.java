@@ -45,7 +45,7 @@ public class JsonReaderTest {
             assertThat(movie.genres().contains("action") && movie.genres().contains("adventure")).isTrue();
         }
         for (Movie movie : movieList4){
-            assertThat(movie.voteAverage() >= 4).isTrue() ;
+            assertThat(movie.minVoteAverage() >= 4).isTrue() ;
         }
         assertThat(movieList5 == null).isTrue();
 

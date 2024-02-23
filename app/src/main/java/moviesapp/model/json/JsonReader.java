@@ -74,7 +74,7 @@ public class JsonReader extends MovieFinder {
     }
 
     @Override
-    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String voteAverage) {
+    public void findMoviesByCriteria(Movies movies, String title, String releaseYear, List<String> genres, String minVoteAverage) {
         for (JsonNode movie : jsonMovies) {
             boolean titleCondition = title == null ||
                     title.isEmpty() ||
@@ -87,9 +87,9 @@ public class JsonReader extends MovieFinder {
                             genres.isEmpty() ||
                             movieContainsAnyGenre(movie, genres);
             boolean voteCondition =
-                    voteAverage == null ||
-                            voteAverage.isEmpty() ||
-                            Double.parseDouble(voteAverage) <= movie.get("vote_average").asDouble();
+                    minVoteAverage == null ||
+                            minVoteAverage.isEmpty() ||
+                            Double.parseDouble(minVoteAverage) <= movie.get("vote_average").asDouble();
 
             if (titleCondition && yearCondition && genreCondition && voteCondition) {
                 movies.add(jsonNodeToMovie(movie));
