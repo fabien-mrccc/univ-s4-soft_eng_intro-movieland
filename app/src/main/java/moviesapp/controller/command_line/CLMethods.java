@@ -77,7 +77,7 @@ public class CLMethods {
     /**
      * Prints an error message indicating that the entered index is invalid.
      */
-    protected void printIndexErrorMessage() {
+    public static void printIndexErrorMessage() {
         System.out.println("\n| Please enter a valid index to select your element.");
     }
 
