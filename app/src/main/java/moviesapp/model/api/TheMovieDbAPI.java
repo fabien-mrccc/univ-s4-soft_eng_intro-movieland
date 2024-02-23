@@ -75,7 +75,7 @@ public class TheMovieDbAPI {
             urlString = urlBuilderSearch(title, singleYearOrMinYear, page);
         }
         else{
-            urlString = urlBuilderDiscover(singleYearOrMinYear, maxYear, genresToGenreIds(genres), voteAverage , page);
+            urlString = urlBuilderDiscover(singleYearOrMinYear, maxYear, genres, voteAverage , page);
 
         }
         return new Request.Builder().url(urlString).build();
@@ -94,7 +94,8 @@ public class TheMovieDbAPI {
         List<String> genreIds = new ArrayList<>();
 
         for(String genre : genres){
-            genreIds.add(GENRE_NAME_ID_MAP.get(genre.toLowerCase(Locale.ROOT).trim()));
+            genre = genre.substring(0,1).toUpperCase() + genre.substring(1);
+            genreIds.add(GENRE_NAME_ID_MAP.get(genre));
         }
         return genreIds;
     }
