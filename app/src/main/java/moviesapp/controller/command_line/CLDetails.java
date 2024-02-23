@@ -1,8 +1,9 @@
 package moviesapp.controller.command_line;
 
+import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 
-import static moviesapp.controller.command_line.CLController.*;
+import java.util.Arrays;
 
 public class CLDetails extends CLMethods {
 
@@ -10,11 +11,28 @@ public class CLDetails extends CLMethods {
      * Search a specific group of movies and print their detailed information
      */
     void detailsCommand(){
-        jsonReaderUpdate();
-        Movies movieList= jsonReader.findAllMovies();
-        System.out.println("Below the movies from your precedent search: \n" + movieList);
-        if(!movieList.isEmpty()) {
-            System.out.println(selectMovieByIndex(movieList, "Enter the index of the movie to see its details: "));
+        String detailsMode = selectMode("Choose details command mode: [1] From Search, [2] From Favorites", Arrays.asList("1","2"));
+
+        Movies movieList;
+
+        switch(detailsMode){
+            case "1" -> {
+                movieList = moviesFromPreviousSearch();
+            }
+            case "2" -> {
+                movieList = Favorites.instance.getFavorites();
+                System.out.println("\nBelow the movies from your favorites: \n" + movieList);
+            }
+            default -> {
+                printSelectModeError();
+                return;
+            }
+        }
+
+        try{
+            System.out.print(selectMovieByIndex(movieList, "Enter the index of the movie to see its details: ").details());
+        } catch(IllegalArgumentException e){
+            System.out.println("| Impossible to access movie details.");
         }
     }
 }
