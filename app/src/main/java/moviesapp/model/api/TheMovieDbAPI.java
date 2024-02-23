@@ -71,11 +71,12 @@ public class TheMovieDbAPI {
     private Request buildRequest(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String voteAverage, String page){
         String urlString;
 
-        if(title.isEmpty()){
-            urlString = urlBuilderDiscover(singleYearOrMinYear, maxYear, genresToGenreIds(genres), voteAverage , page);
+        if(!title.isEmpty() || !singleYearOrMinYear.isEmpty() && maxYear.isEmpty()){
+            urlString = urlBuilderSearch(title, singleYearOrMinYear, page);
         }
         else{
-            urlString = urlBuilderSearch(title, singleYearOrMinYear, page);
+            urlString = urlBuilderDiscover(singleYearOrMinYear, maxYear, genresToGenreIds(genres), voteAverage , page);
+
         }
         return new Request.Builder().url(urlString).build();
     }
