@@ -20,7 +20,7 @@ public class Movies implements Iterable<Movie> {
     @Override
     public String toString(){
         StringBuilder moviesString = new StringBuilder();
-        if(movies.isEmpty()){
+        if(movies == null || movies.isEmpty()){
             return "Your list of movies is empty.";
         }
         for(int i = 0; i < movies.size(); i++){
@@ -148,30 +148,5 @@ public class Movies implements Iterable<Movie> {
      */
     public void clear(){
         movies.clear();
-    }
-
-    /**
-     * Indicate if movies contains a specific movie
-     * @param movie the movie to check in
-     * @return {@code true} if the movie is in movies list, otherwise false
-     */
-    public boolean contains(Movie movie){
-        return movies.contains(movie);
-    }
-
-    /**
-     * Add a group of movies to our list of movies
-     * @param movies to add to our list
-     */
-    public void addAll(List<Movie> movies){
-        this.movies.addAll(movies);
-    }
-
-    /**
-     * Remove a group of movies to our list of movies
-     * @param movies to add to our list
-     */
-    public void removeAll(List<Movie> movies){
-        this.movies.removeAll(movies);
     }
 }
