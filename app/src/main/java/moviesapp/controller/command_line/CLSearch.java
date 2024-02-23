@@ -29,10 +29,13 @@ public class CLSearch extends CLMethods {
         String minVoteAverage = "";
         List <String> genres = new ArrayList<>();
 
-        UrlRequestBuilder.searchMode = selectMode("Search mode: ["+ searchModeSearch +"] With Title, ["+ searchModeDiscover +"] Without Title",
-                Arrays.asList(searchModeSearch,searchModeDiscover));
+        UrlRequestBuilder.searchMode = selectMode("Search mode: [0] Exit Search, ["+ searchModeSearch +"] With Title, ["+ searchModeDiscover +"] Without Title",
+                Arrays.asList("0", searchModeSearch,searchModeDiscover));
 
         switch(UrlRequestBuilder.searchMode){
+            case "0" -> {
+                return;
+            }
             case "1" -> {
                 while(title.isEmpty()){
                     title = askValue("Title of the movie (required): ");

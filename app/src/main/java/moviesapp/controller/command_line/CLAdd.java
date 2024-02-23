@@ -9,26 +9,30 @@ import static moviesapp.controller.command_line.CLController.*;
 public class CLAdd extends CLFavorites {
 
     /**
-     * Add to the favorites one or several movies.
+     * Add to the favorites one movie.
      */
     void addCommand(){
+        System.out.println("Add command has been started.");
+        Movies movies = moviesFromPreviousSearch();
         do{
-            Movies movies = jsonReader.findAllMovies();
             if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     addMovieByIndex(movies);
                 }
                 else{
-                    Favorites.instance.add(movies);
+                    Favorites.instance.add(movies.get(0));
                 }
                 new JsonWriter(favoritesFilePath).saveFavorites(Favorites.instance.getFavorites());
             }
             else {
                 printNoMovieFoundMessage();
+                System.out.println("| Make sure to use search command before add command.");
+                return;
             }
         }
         while(askToConfirm("Do you want to add another movie?"));
-        printFavoritesUpdate() ;
+        System.out.println();
+        favoritesCommand();
     }
 
     /**
@@ -36,8 +40,6 @@ public class CLAdd extends CLFavorites {
      * @param movies chosen to browse
      */
     private void addMovieByIndex(Movies movies){
-        if(!Movies.noMovieFound(movies)) {
-            Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
-        }
+        Favorites.instance.add(selectMovieByIndex(movies, "Index of the movie to add to your favorites: "));
     }
 }

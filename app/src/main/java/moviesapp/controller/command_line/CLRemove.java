@@ -1,7 +1,10 @@
 package moviesapp.controller.command_line;
 
+import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
+
+import static moviesapp.controller.command_line.CLController.favoritesFilePath;
 
 public class CLRemove extends CLFavorites {
 
@@ -9,36 +12,32 @@ public class CLRemove extends CLFavorites {
      * Remove to the favorites the movie chosen by the user
      */
     void removeCommand(){
+        System.out.println("Remove command has been started.\n");
         do{
-            if(Favorites.instance.isEmpty()){
+            favoritesCommand() ;
+            System.out.println();
+            Movies movies = Favorites.instance.getFavorites() ;
+
+            if(movies.isEmpty()){
                 break;
             }
-            favoritesCommand() ;
-            Movies movies = searchFavoritesToRemove() ;
-            if (!Movies.noMovieFound(movies)) {
+            else if (!Movies.noMovieFound(movies)) {
                 if (movies.size() > 1){
                     removeMovieByIndex(movies);
                 }
                 else{
-                    Favorites.instance.remove(movies);
+                    Favorites.instance.remove(movies.get(0));
                 }
+                new JsonWriter(favoritesFilePath).saveFavorites(Favorites.instance.getFavorites());
             }
             else{
                 printNoMovieFoundMessage();
+                return;
             }
         }
         while(askToConfirm("Do you want to remove another movie?"));
-        printFavoritesUpdate() ;
-    }
-
-    /**
-     * Ask title and release year information to the user to select a specific group of favorite movies
-     * @return the group of movies found
-     */
-    private Movies searchFavoritesToRemove(){
-        String title = askValue("Title of the movie to remove: ");
-        String releaseYear = askValue("Year of release: ");
-        return Favorites.instance.findMovies(title, releaseYear, null, null);
+        System.out.println();
+        favoritesCommand();
     }
 
     /**
@@ -46,8 +45,6 @@ public class CLRemove extends CLFavorites {
      * @param movies chosen to browse
      */
     private void removeMovieByIndex(Movies movies){
-        if(!Movies.noMovieFound(movies)){
-            Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
-        }
+        Favorites.instance.remove(selectMovieByIndex(movies, "Index of the movie to remove from your favorites: "));
     }
 }

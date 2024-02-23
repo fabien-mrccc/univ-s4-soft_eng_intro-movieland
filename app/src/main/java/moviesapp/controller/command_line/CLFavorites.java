@@ -10,12 +10,4 @@ public class CLFavorites extends CLMethods {
     protected void favoritesCommand(){
         System.out.print("Your favorite list:\n" + Favorites.instance);
     }
-
-    /**
-     * Print the favorites list modified
-     */
-    protected void printFavoritesUpdate(){
-        System.out.println("\nYour favorites list updated: ");
-        favoritesCommand();
-    }
 }
