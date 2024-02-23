@@ -43,15 +43,32 @@ public class Favorites extends MovieFinder {
     }
 
     /**
-     * Add one or a group of movies to the user's favorite list by selecting only those
-     * which are not already in it
-     * @param movies: the movies that we want to add to the user favorite list
+     * Adds a movie to the favorites list if it's not already present and if it's not null.
+     * @param movie The movie to add to favorites.
      */
-    public void add(Movies movies){
-        if(movies == null){
-            return;
+    public void add(Movie movie){
+        if(movie != null && !movieInFavorites(movie)){
+            favorites.add(movie);
         }
-        favorites.addAll(moviesToAddToFavorites(movies));
+    }
+
+    /**
+     * Removes a movie to the favorites list if it's already present and if it's not null.
+     * @param movie The movie to remove to favorites.
+     */
+    public void remove(Movie movie){
+        if(movie != null && movieInFavorites(movie)){
+            favorites.remove(movie);
+        }
+    }
+
+    /**
+     * Checks if a movie is already in the favorites list.
+     * @param movie The movie to check.
+     * @return True if the movie is already in favorites, false otherwise.
+     */
+    private boolean movieInFavorites(Movie movie){
+        return favoritesIds().contains(movie.id());
     }
 
     /**
@@ -65,60 +82,6 @@ public class Favorites extends MovieFinder {
             favoritesIds.add(favorite.id());
         }
         return favoritesIds;
-    }
-
-    /**
-     * Filter the list of movies given on parameters by removing from the list
-     * the movies already in the favorites
-     * @return the list of movies to add to favorites (those which are not already in the favorites)
-     * @param movies: the list of movies to add to favorites (those which are already
-     *               in the favorites and those which are not)
-     */
-    private List<Movie> moviesToAddToFavorites(Movies movies){
-
-        List<Movie> moviesNotInFavoriteList = new ArrayList<>();
-        List<String> favoritesIds = favoritesIds();
-
-        for(Movie movie : movies){
-            if (!favoritesIds.contains(movie.id())) {
-                moviesNotInFavoriteList.add(movie);
-            }
-        }
-
-        return moviesNotInFavoriteList;
-    }
-
-    /**
-     * Remove one or a group of movies from the user's favorite list by selecting only those
-     * which are already in it
-     * @param movies: the movies that we want to remove from the favorites
-     */
-    public void remove(Movies movies){
-        if(movies == null){
-            return;
-        }
-        favorites.removeAll(moviesToRemoveFromFavorites(movies));
-    }
-
-    /**
-     * Filter the list of movies given on parameters by removing from the list
-     * the movies not in the favorites
-     * @return the list of movies to remove from favorites (only those which are in the favorites)
-     * @param movies: the list of movies to remove from favorites (those which are in the favorites
-     *             and those which are not)
-     */
-    private List<Movie> moviesToRemoveFromFavorites(Movies movies){
-
-        List<Movie> moviesInFavoriteList = new ArrayList<>();
-        List<String> favoritesIds = favoritesIds();
-
-        for(Movie movie : movies){
-            if (favoritesIds.contains(movie.id())) {
-                moviesInFavoriteList.add(movie);
-            }
-        }
-
-        return moviesInFavoriteList;
     }
 
     @Override
