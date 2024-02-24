@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore api-results.json
+app/src/main/resources/api-results.json

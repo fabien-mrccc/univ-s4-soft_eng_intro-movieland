@@ -1,4 +1,4 @@
-package moviesapp.model;
+package moviesapp.model.movies;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ public class Movies implements Iterable<Movie> {
     @Override
     public String toString(){
         StringBuilder moviesString = new StringBuilder();
-        if(movies.isEmpty()){
+        if(movies == null || movies.isEmpty()){
             return "Your list of movies is empty.";
         }
         for(int i = 0; i < movies.size(); i++){
@@ -31,23 +31,7 @@ public class Movies implements Iterable<Movie> {
             else{
                 moviesString.append(i + 1);
             }
-            moviesString.append(movies.get(i)).append("\n");
-        }
-        return moviesString.toString();
-    }
-
-    /**
-     * Return the same default toString() but add id value
-     * @return the same default toString() but add id value
-     */
-    public String toStringWithID(){
-        StringBuilder moviesString = new StringBuilder();
-        if(movies.isEmpty()){
-            moviesString = new StringBuilder("Your list of movies is empty.");
-            return moviesString.toString();
-        }
-        for(Movie movie: movies){
-            moviesString.append(movie.toStringWithID()).append("\n");
+            moviesString.append(movies.get(i));
         }
         return moviesString.toString();
     }
@@ -75,11 +59,7 @@ public class Movies implements Iterable<Movie> {
      * @return true if the list is without movies inside, otherwise false
      */
     public static boolean noMovieFound(Movies movies){
-        if(movies == null || movies.isEmpty()){
-            System.out.println("No movie found.");
-            return true;
-        }
-        return false;
+        return movies == null || movies.isEmpty();
     }
 
     /**
@@ -141,5 +121,32 @@ public class Movies implements Iterable<Movie> {
      */
     public Movie get(int index){
         return movies.get(index);
+    }
+
+    /**
+     * Converts the list of movies to JSON format by returning the string corresponding.
+     * @return a JSON formatted string representing the list of movies
+     */
+    public String toJsonFormat() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("  \"results\" : [\n");
+
+        for (Movie movie : movies) {
+            jsonBuilder.append(movie.toJsonFormat());
+            if (movies.indexOf(movie) < movies.size() - 1) {
+                jsonBuilder.append(",");
+            }
+            jsonBuilder.append("\n");
+        }
+
+        jsonBuilder.append("  ]");
+        return jsonBuilder.toString();
+    }
+
+    /**
+     * Remove all the movies registered in movies list.
+     */
+    public void clear(){
+        movies.clear();
     }
 }
