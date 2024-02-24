@@ -7,16 +7,22 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       // Parent root = FXMLLoader.load(getClass().getResource("/app/lyricsapp/view/lyricsapp.fxml"));
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/Watched.ttf"), 20);
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/GROBOLD.ttf"), 20);
 
-        Parent root = FXMLLoader.load(getClass().getResource("/moviesapp.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/viewer/moviesapp.fxml")));
+
         primaryStage.setTitle("MoviesApp");
+
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
