@@ -9,16 +9,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class App extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
        // Parent root = FXMLLoader.load(getClass().getResource("/app/lyricsapp/view/lyricsapp.fxml"));
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/moviesapp.fxml")));
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("MoviesApp");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        Parent root = FXMLLoader.load(getClass().getResource("/moviesapp.fxml"));
-        primaryStage.setTitle("MoviesApp");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
     }
 
     public static void main(String[] args) { launch(args); }
