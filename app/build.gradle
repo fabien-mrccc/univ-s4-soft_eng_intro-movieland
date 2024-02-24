@@ -31,6 +31,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
 
+    //themoviedbapi
+    implementation group: 'uk.co.conoregan', name: 'themoviedbapi', version: '1.15.1'
+
     //okhttp3
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
@@ -43,7 +46,7 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainModule = 'moviesapp'
+    //mainModule = 'moviesapp'
     mainClass = 'moviesapp.App'
 }
 
@@ -58,5 +61,13 @@ tasks.register('runCLI', JavaExec) {
     main = 'moviesapp.AppCLI'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/java', 'src/main/resources', 'src/main/viewer']
+        }
+    }
 }
 
