@@ -18,6 +18,7 @@ public class OptionButton {
     @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
+    @FXML private Label confirmation;
     @FXML private AnchorPane clearConfirmationAnchorPane;
 
     public void initialize(URL location, ResourceBundle resourceBundle) {}
@@ -32,12 +33,7 @@ public class OptionButton {
         clearConfirmationAnchorPane.prefHeight(100);
         clearConfirmationAnchorPane.prefWidth(230);
 
-        Label confirmation = new Label("Do you want to continue?");
-        confirmation.setLayoutX(20);
-        confirmation.setLayoutY(15);
-        confirmation.setTextFill(Paint.valueOf("white"));
-        confirmation.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 17px;");
-
+        initConfirmation();
         initContinueButton();
         initCancelButton();
 
@@ -72,6 +68,15 @@ public class OptionButton {
         cancelButton.setTextFill(Paint.valueOf("white"));
         cancelButton.setStyle("-fx-background-color: #E50914;");
         cancelButton.setOnAction(event -> closeClearConfirmationWindow());
+    }
+
+    @FXML
+    private void initConfirmation(){
+        confirmation = new Label("Do you want to continue?");
+        confirmation.setLayoutX(20);
+        confirmation.setLayoutY(15);
+        confirmation.setTextFill(Paint.valueOf("white"));
+        confirmation.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 17px;");
     }
 
     /**
