@@ -1,0 +1,71 @@
+.debug {
+    /*-fx-border-color: yellow;*/
+}
+
+.root {
+    -fx-background-color: #141414;
+    -fx-background-image: url('images/background-pattern.png');
+    -fx-background-size: cover;
+}
+
+.leftPane {
+    -fx-border-color: #9d36f7;
+    -fx-border-width: 0 1 0 0;
+    -fx-background-color: #141414;
+    -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0);
+}
+
+.appTitle {
+    -fx-font-family: 'Watched';
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E50914;
+    -fx-text-alignment: CENTER;
+}
+
+.left-pane-label {
+    -fx-font-family: 'GROBOLD';
+    -fx-font-size: 20px;
+    -fx-text-fill: #e5e5e5;
+}
+
+.black-field {
+    -fx-background-color: #141414;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+}
+
+.searchIcon {
+    -fx-background-image: url('./images/search-icon.png');
+    -fx-background-size: 20;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center;
+    -fx-padding: 0.333333em 0.333333em 0.333333em 2em;
+}
+
+.button {
+    -fx-font-family: 'GROBOLD';
+    -fx-font-size: 20px;
+    -fx-text-fill: #e5e5e5;
+}
+
+.goButton {
+    -fx-background-color: #E50914;
+}
+
+.goButton:hover {
+    -fx-background-color: #e5e5e5;
+    -fx-text-fill: #E50914;
+    -fx-cursor: hand;
+}
+
+.favoriteButton {
+    -fx-background-color: #9d36f7;
+}
+
+.favoriteButton:hover{
+    -fx-background-color: #e5e5e5;
+    -fx-text-fill: #9d36f7;
+    -fx-cursor: hand;
+}
