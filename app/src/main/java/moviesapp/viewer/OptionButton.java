@@ -12,12 +12,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OptionButton {
-    @FXML
-    private Button clearButton;
+    @FXML private Button clearButton;
     @FXML private Scene globalScene;
     @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
+    @FXML private AnchorPane clearConfirmationAnchorPane;
 
     public void initialize(URL location, ResourceBundle resourceBundle) {}
 
@@ -27,7 +27,7 @@ public class OptionButton {
     @FXML
     public void openClearConfirmationWindow() {
         globalStage = new Stage();
-        AnchorPane clearConfirmationAnchorPane = new AnchorPane();
+        clearConfirmationAnchorPane = new AnchorPane();
         clearConfirmationAnchorPane.prefHeight(100);
         clearConfirmationAnchorPane.prefWidth(230);
 
@@ -79,5 +79,10 @@ public class OptionButton {
         Favorites.instance.clear();
         // TODO: add Numa's methode to update the user interface
         closeClearConfirmationWindow();
+    }
+
+    @FXML
+    public Button getContinueButton(){
+        return continueButton;
     }
 }
