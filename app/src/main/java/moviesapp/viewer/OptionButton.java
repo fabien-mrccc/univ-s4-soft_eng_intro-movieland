@@ -9,19 +9,11 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import moviesapp.model.movies.Favorites;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class OptionButton {
-    @FXML private Button clearButton;
-    @FXML private Scene globalScene;
     @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
     @FXML private Label confirmation;
-    @FXML private AnchorPane clearConfirmationAnchorPane;
-
-    public void initialize(URL location, ResourceBundle resourceBundle) {}
 
     /**
      * Create a new window in which a confirmation is required to clear the list of favorites
@@ -29,7 +21,7 @@ public class OptionButton {
     @FXML
     public void openClearConfirmationWindow() {
         globalStage = new Stage();
-        clearConfirmationAnchorPane = new AnchorPane();
+        AnchorPane clearConfirmationAnchorPane = new AnchorPane();
         clearConfirmationAnchorPane.prefHeight(100);
         clearConfirmationAnchorPane.prefWidth(230);
 
@@ -42,12 +34,15 @@ public class OptionButton {
         clearConfirmationAnchorPane.getChildren().add(continueButton);
         clearConfirmationAnchorPane.getChildren().add(cancelButton);
         clearConfirmationAnchorPane.setVisible(true);
-        globalScene = new Scene(clearConfirmationAnchorPane, 230, 100);
+        Scene globalScene = new Scene(clearConfirmationAnchorPane, 230, 100);
         globalStage.setTitle("Confirmation");
         globalStage.setScene(globalScene);
         globalStage.show();
     }
 
+    /**
+     * initialise the button "continue"
+     */
     @FXML
     private void initContinueButton(){
         continueButton = new Button("continue");
@@ -59,6 +54,9 @@ public class OptionButton {
         continueButton.setOnAction(event -> continueButtonClicked());
     }
 
+    /**
+     * initialise the button "cancel"
+     */
     @FXML
     private void initCancelButton(){
         cancelButton = new Button("cancel");
@@ -70,6 +68,9 @@ public class OptionButton {
         cancelButton.setOnAction(event -> closeClearConfirmationWindow());
     }
 
+    /**
+     * initialise the confirmation label
+     */
     @FXML
     private void initConfirmation(){
         confirmation = new Label("Do you want to continue?");
