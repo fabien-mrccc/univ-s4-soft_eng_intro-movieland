@@ -5,8 +5,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import moviesapp.model.Favorites;
+import moviesapp.model.movies.Favorites;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,18 +33,21 @@ public class OptionButton {
         clearConfirmationAnchorPane.prefWidth(230);
 
         Label confirmation = new Label("Do you want to continue?");
-        confirmation.setLayoutX(45);
-        confirmation.setLayoutY(10);
+        confirmation.setLayoutX(20);
+        confirmation.setLayoutY(15);
+        confirmation.setTextFill(Paint.valueOf("white"));
+        confirmation.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 17px;");
 
         initContinueButton();
         initCancelButton();
 
         clearConfirmationAnchorPane.getChildren().add(confirmation);
+        clearConfirmationAnchorPane.setStyle("-fx-background-color: #3D3D3D");
         clearConfirmationAnchorPane.getChildren().add(continueButton);
         clearConfirmationAnchorPane.getChildren().add(cancelButton);
         clearConfirmationAnchorPane.setVisible(true);
         globalScene = new Scene(clearConfirmationAnchorPane, 230, 100);
-        globalStage.setTitle("Confirmation Request");
+        globalStage.setTitle("Confirmation");
         globalStage.setScene(globalScene);
         globalStage.show();
     }
@@ -54,6 +58,8 @@ public class OptionButton {
         continueButton.setLayoutX(20);
         continueButton.setLayoutY(60);
         continueButton.setPrefWidth(70);
+        continueButton.setTextFill(Paint.valueOf("white"));
+        continueButton.setStyle("-fx-background-color: #E50914;");
         continueButton.setOnAction(event -> continueButtonClicked());
     }
 
@@ -63,6 +69,8 @@ public class OptionButton {
         cancelButton.setLayoutX(140);
         cancelButton.setLayoutY(60);
         cancelButton.setPrefWidth(70);
+        cancelButton.setTextFill(Paint.valueOf("white"));
+        cancelButton.setStyle("-fx-background-color: #E50914;");
         cancelButton.setOnAction(event -> closeClearConfirmationWindow());
     }
 
