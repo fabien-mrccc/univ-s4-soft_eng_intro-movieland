@@ -43,15 +43,18 @@ javafx {
 
 application {
     // Define the main class for the application.
+    mainModule = 'moviesapp'
     mainClass = 'moviesapp.App'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+    outputs.upToDateWhen { false }
 }
 
-task(runCLI, dependsOn: 'classes', type: JavaExec) {
+tasks.register('runCLI', JavaExec) {
+    dependsOn 'classes'
     main = 'moviesapp.AppCLI'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
