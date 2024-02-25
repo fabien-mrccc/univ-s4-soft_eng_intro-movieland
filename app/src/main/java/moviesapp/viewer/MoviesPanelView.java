@@ -33,6 +33,15 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise imageView
+     */
+    private void initImageView(){
+        imageView = new ImageView();
+        imageView.setLayoutX(20);
+        imageView.setLayoutY(20);
+    }
+
+    /**
      * initialise the title and the release year of the movie
      * @param movie the movie of which we want the details
      */
