@@ -33,6 +33,17 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise the title and the release year of the movie
+     * @param movie the movie of which we want the details
+     */
+    private void initTitleLabelAndYear(Movie movie){
+        titleLabelAndYear = new Label(movie.title() + "(" + movie.getReleaseYear() + ")");
+        titleLabelAndYear.setLayoutX(250);
+        titleLabelAndYear.setLayoutY(0);
+        titleLabelAndYear.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size: 70px; -fx-font-weight: 15;");
+    }
+
+    /**
      * initialise usefulInformationLabel
      * @param movie the movie of which we want the details
      */
