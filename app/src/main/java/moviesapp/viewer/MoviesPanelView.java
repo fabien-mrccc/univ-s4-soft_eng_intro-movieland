@@ -33,6 +33,17 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise voteAverageLabel
+     * @param movie the movie of which we want the details
+     */
+    private void initVoteAverageLabel(Movie movie){
+        voteAverageLabel = new Label("Vote Average: "+ movie.minVoteAverage());
+        voteAverageLabel.setLayoutX(250);
+        voteAverageLabel.setLayoutY(160);
+        voteAverageLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
+    }
+
+    /**
      * initialise overviewLabel
      */
     private void initOverviewLabel(){
