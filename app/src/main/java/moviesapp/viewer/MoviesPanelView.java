@@ -32,6 +32,54 @@ public class MoviesPanelView {
     @FXML public Label overviewLabel;
     @FXML public TextFlow textFlow;
 
+    public void showDetails(Movie movie){
+        globalStage = new Stage();
+        globalStage.setMinHeight(500);
+        globalStage.setMinWidth(900);
+        initMovieDetailsAnchorPane();
+
+        initImageView();
+        Image movieImage = new Image(UrlRequestBuilder.imageBaseURL + UrlRequestBuilder.imageSize + movie.posterPath());
+        imageView.setImage(movieImage);
+
+        initTitleLabelAndYear(movie);
+        initUsefulInformationLabel(movie);
+        initPopularityLabel(movie);
+        initVoteAverageLabel(movie);
+        initOverviewLabel();
+        initTextFlow(movie);
+
+        if(Favorites.instance.contains(movie)){
+            initRemoveButton(movie);
+            movieDetailsAnchorPane.getChildren().add(removeButton);
+        }
+        else{
+            initAddButton(movie);
+            movieDetailsAnchorPane.getChildren().add(addButton);
+        }
+
+        movieDetailsAnchorPane.getChildren().addAll(imageView,titleLabelAndYear,usefulInformationLabel,popularityLabel,voteAverageLabel,overviewLabel,textFlow);
+
+        movieDetailsAnchorPane.setVisible(true);
+        Scene globalScene = new Scene(movieDetailsAnchorPane, 900, 500);
+        globalStage.setTitle("details");
+        globalStage.setScene(globalScene);
+        globalStage.show();
+    }
+
+
+    /**
+     * when the details button is clicked, it shows the details of the movie
+     */
+    public void detailsButtonClicked(){
+        List<String> genres = new ArrayList<>();
+        genres.add("action");
+        Movie movie = new Movie(false, "",genres, "609681", "en",
+                "The Marvels", "Carol Danvers, aka Captain Marvel, has reclaimed her identity from the tyrannical Kree and taken revenge on the Supreme Intelligence. But unintended consequences see Carol shouldering the burden of a destabilized universe. When her duties send her to an anomalous wormhole linked to a Kree revolutionary, her powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol’s estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.", 4.0, "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+                "2023-11-28", "Marvels", false, 4.0, 2000);
+        showDetails(movie);
+    }
+
     /**
      * initialise movieDetailsAnchorPane
      */
