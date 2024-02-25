@@ -33,6 +33,15 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * remove the movie from favorites when the remove button is clicked
+     * @param movie
+     */
+    private void removeButtonClicked(Movie movie){
+        Favorites.instance.remove(movie);
+        //TODO: update favorites
+    }
+
+    /**
      * initialise the add button
      * @param movie
      */
