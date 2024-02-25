@@ -3,6 +3,7 @@ package moviesapp.controller;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -36,7 +37,7 @@ public class AppController implements Initializable {
     public Pane buttonsPane;
     public Button go;
     public Button favorites;
-    public Pane rightPane;
+    public ScrollPane rightPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {

@@ -47,11 +47,11 @@
 
 
     <!--
-    <Pane fx:id="rightPane">
+    <ScrollPane fx:id="rightPane">
         <ImageView>
             <Image url="https://media.themoviedb.org/t/p/w220_and_h330_face/ldfCF9RhR40mppkzmftxapaHeTo.jpg"/>
         </ImageView>
-    </Pane>
+    </ScrollPane>
     -->
 
 </AnchorPane>
