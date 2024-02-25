@@ -32,6 +32,23 @@ public class MoviesPanelView {
     @FXML public Label overviewLabel;
     @FXML public TextFlow textFlow;
 
+    /**
+     * initialise the add button
+     * @param movie
+     */
+    private void initAddButton(Movie movie){
+        addButton = new Button("add");
+        addButton.setLayoutX(20);
+        addButton.setLayoutY(390);
+        addButton.setPrefWidth(220);
+        addButton.setPrefHeight(40);
+        addButton.setOnAction(event -> addButtonClicked(movie) );
+    }
+
+    /**
+     * add the movie to favorites when the add button is clicked
+     * @param movie
+     */
     private void addButtonClicked(Movie movie){
         Favorites.instance.add(movie);
         //TODO: update favorites
