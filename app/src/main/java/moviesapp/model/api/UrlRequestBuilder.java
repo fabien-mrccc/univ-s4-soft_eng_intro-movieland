@@ -19,6 +19,8 @@ public class UrlRequestBuilder {
     public static String searchMode;
     public static String searchModeSearch = "1";
     public static String searchModeDiscover = "2";
+    public static String imageSize = "/w220_and_h330_face";
+    public static String imageBaseURL = "https://image.tmdb.org/t/p";
 
 
     public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
