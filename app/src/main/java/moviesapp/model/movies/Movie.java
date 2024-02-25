@@ -66,6 +66,10 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
 
     public String genresToString(){
         String genresToString = "";
+        if(genres.isEmpty()){
+            return genresToString();
+        }
+        genresToString = " •";
         for(String genre: genres){
             if (genre == null || genre.isEmpty()) {
                 return genre;
@@ -73,5 +77,30 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
             genresToString= genresToString + genre.substring(0, 1).toUpperCase() + genre.substring(1)+',';
         }
         return genresToString.substring(0,genresToString.length()-1);
+    }
+
+    public String overviewToString(int maxWidth){
+        String[] words = overview.split(" ");
+        StringBuilder formattedText = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+
+        for (String word : words) {
+            if (line.length() + word.length() + 1 > maxWidth) {
+                if (!line.isEmpty()) {
+                    formattedText.append(line).append("\n");
+                    line = new StringBuilder();
+                }
+            }
+            if (!line.isEmpty()) {
+                line.append(" ");
+            }
+            line.append(word);
+        }
+
+        if (!line.isEmpty()) {
+            formattedText.append(line);
+        }
+
+        return formattedText.toString();
     }
 }
