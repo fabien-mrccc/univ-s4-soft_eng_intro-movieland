@@ -33,6 +33,19 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise the remove button
+     * @param movie
+     */
+    private void initRemoveButton(Movie movie){
+        removeButton = new Button("remove");
+        removeButton.setLayoutX(20);
+        removeButton.setLayoutY(390);
+        removeButton.setPrefWidth(220);
+        removeButton.setPrefHeight(40);
+        removeButton.setOnAction(event -> removeButtonClicked(movie));
+    }
+
+    /**
      * remove the movie from favorites when the remove button is clicked
      * @param movie
      */
