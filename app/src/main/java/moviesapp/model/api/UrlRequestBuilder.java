@@ -24,7 +24,6 @@ public class UrlRequestBuilder {
     public static String imageSize = "/w220_and_h330_face";
     public static String imageBaseURL = "https://image.tmdb.org/t/p";
 
-
     public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
         this.title = title;
         this.singleYearOrMinYear = singleYearOrMinYear;

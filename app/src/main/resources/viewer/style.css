@@ -2,17 +2,29 @@
     /*-fx-border-color: yellow;*/
 }
 
-.root {
-    -fx-background-color: #0f0d13;
-    -fx-background-image: url('images/background-pattern.png');
-    -fx-background-size: cover;
-}
-
 .leftPane {
     -fx-border-color: #9d36f7;
     -fx-border-width: 0 1 0 0;
     -fx-background-color: #0f0d13;
     -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0);
+}
+
+.rightStackPane {
+    -fx-effect: innershadow(gaussian, black, 30, 0.1 ,0, 0);
+}
+
+.rightScrollPane {
+    -fx-background-image: url('images/background-pattern.png');
+    -fx-background-size: cover;
+    -fx-background: transparent;
+}
+
+.imagePane {
+    -fx-background-color: green;
+}
+
+.vBox {
+    -fx-margin: 20px;
 }
 
 .appTitle {
