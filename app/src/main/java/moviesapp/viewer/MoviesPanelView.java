@@ -33,6 +33,17 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise popularityLabel
+     * @param movie the movie of which we want the details
+     */
+    private void initPopularityLabel(Movie movie){
+        popularityLabel = new Label("Popularity: "+ movie.popularity());
+        popularityLabel.setLayoutX(250);
+        popularityLabel.setLayoutY(120);
+        popularityLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
+    }
+
+    /**
      * initialise voteAverageLabel
      * @param movie the movie of which we want the details
      */
