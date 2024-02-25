@@ -33,6 +33,16 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise movieDetailsAnchorPane
+     */
+    private void initMovieDetailsAnchorPane(){
+        movieDetailsAnchorPane = new AnchorPane();
+        movieDetailsAnchorPane.prefHeight(500);
+        movieDetailsAnchorPane.prefWidth(900);
+        movieDetailsAnchorPane.setId("movieDetailsAnchorPane");
+    }
+
+    /**
      * initialise imageView
      */
     private void initImageView(){
