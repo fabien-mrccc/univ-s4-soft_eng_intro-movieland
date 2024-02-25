@@ -33,6 +33,16 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise overviewLabel
+     */
+    private void initOverviewLabel(){
+        overviewLabel = new Label("Overview:");
+        overviewLabel.setLayoutX(250);
+        overviewLabel.setLayoutY(210);
+        overviewLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:35px; -fx-font-weight: 25;");
+    }
+
+    /**
      * initialise textFlow
      * @param movie the movie of which we want the details
      */
