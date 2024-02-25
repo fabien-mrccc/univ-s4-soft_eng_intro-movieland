@@ -33,6 +33,21 @@ public class MoviesPanelView {
     @FXML public TextFlow textFlow;
 
     /**
+     * initialise textFlow
+     * @param movie the movie of which we want the details
+     */
+    private void initTextFlow(Movie movie){
+        textFlow = new TextFlow();
+        Text overviewContentText = new Text(movie.overviewToString(72));
+        textFlow.setLayoutX(250);
+        textFlow.setLayoutY(250);
+        textFlow.prefWidth(60);
+        textFlow.prefHeight(20);
+        overviewContentText.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:20px; -fx-font-weight: 10;");
+        textFlow.getChildren().add(overviewContentText);
+    }
+
+    /**
      * initialise the remove button
      * @param movie
      */
