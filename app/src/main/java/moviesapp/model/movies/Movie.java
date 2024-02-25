@@ -59,4 +59,8 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                 "      \"vote_count\" : " + voteCount() + "\n" +
                 "    }";
     }
+
+    public String getReleaseYear(){
+        return releaseDate.substring(0,3);
+    }
 }
