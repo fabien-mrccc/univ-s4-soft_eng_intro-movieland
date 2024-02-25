@@ -1,8 +1,8 @@
 package moviesapp.model.api;
 
-import moviesapp.controller.command_line.CLSearch;
 import okhttp3.Request;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class UrlRequestBuilder {
@@ -19,6 +19,8 @@ public class UrlRequestBuilder {
     public static String searchMode;
     public static String searchModeSearch = "1";
     public static String searchModeDiscover = "2";
+    public static int minAcceptableYearValue = 1874;
+    public static int maxAcceptableYearValue = LocalDate.now().getYear();
     public static String imageSize = "/w220_and_h330_face";
     public static String imageBaseURL = "https://image.tmdb.org/t/p";
 

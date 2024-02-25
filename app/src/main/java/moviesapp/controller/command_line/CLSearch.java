@@ -130,8 +130,8 @@ public class CLSearch extends CLMethods {
         String yearOfReleaseOption = selectMode("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)", Arrays.asList("0","1","2"));
         String singleYearOrMinYear;
         String maxYear;
-        int minAcceptableValue = 1874;
-        int maxAcceptableValue = LocalDate.now().getYear();
+        int minAcceptableValue = minAcceptableYearValue;
+        int maxAcceptableValue = maxAcceptableYearValue;
 
         switch (yearOfReleaseOption){
             case "0" -> {
