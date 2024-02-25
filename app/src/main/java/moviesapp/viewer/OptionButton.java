@@ -24,6 +24,7 @@ public class OptionButton {
         AnchorPane clearConfirmationAnchorPane = new AnchorPane();
         clearConfirmationAnchorPane.prefHeight(100);
         clearConfirmationAnchorPane.prefWidth(230);
+        clearConfirmationAnchorPane.setId("clearConfirmationAnchorPane");
 
         initConfirmation();
         initContinueButton();
@@ -49,6 +50,7 @@ public class OptionButton {
         continueButton.setLayoutX(20);
         continueButton.setLayoutY(60);
         continueButton.setPrefWidth(70);
+        continueButton.setId("continueButton");
         continueButton.setTextFill(Paint.valueOf("white"));
         continueButton.setStyle("-fx-background-color: #E50914;");
         continueButton.setOnAction(event -> continueButtonClicked());
@@ -63,6 +65,7 @@ public class OptionButton {
         cancelButton.setLayoutX(140);
         cancelButton.setLayoutY(60);
         cancelButton.setPrefWidth(70);
+        cancelButton.setId("cancelButton");
         cancelButton.setTextFill(Paint.valueOf("white"));
         cancelButton.setStyle("-fx-background-color: #E50914;");
         cancelButton.setOnAction(event -> closeClearConfirmationWindow());
@@ -76,6 +79,7 @@ public class OptionButton {
         confirmation = new Label("Do you want to continue?");
         confirmation.setLayoutX(20);
         confirmation.setLayoutY(15);
+        confirmation.setStyle("confirmation");
         confirmation.setTextFill(Paint.valueOf("white"));
         confirmation.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 17px;");
     }
