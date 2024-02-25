@@ -22,7 +22,6 @@ public class UrlRequestBuilder {
     public static int minAcceptableYearValue = 1874;
     public static int maxAcceptableYearValue = LocalDate.now().getYear();
 
-
     public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
         this.title = title;
         this.singleYearOrMinYear = singleYearOrMinYear;

@@ -2,56 +2,60 @@
 
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="540" prefWidth="960" styleClass="root" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moviesapp.controller.AppController">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="540" prefWidth="960"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="moviesapp.controller.GUI.AppController">
 
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@style.css"/>
     </stylesheets>
 
-    <!--Left Panel-->
+    <!--Left Pane-->
     <Pane fx:id="leftPane" styleClass="leftPane">
-        <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES" />
+        <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES"/>
 
         <Pane fx:id="titleAndSearchPane" styleClass="debug">
-            <Label fx:id="title" styleClass="left-pane-label" text="Title:" />
-            <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon" />
+            <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
+            <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
         </Pane>
 
         <Pane fx:id="yearsPane" styleClass="debug">
-            <Label fx:id="years" styleClass="left-pane-label" text="Years:" />
-            <Label fx:id="from" styleClass="left-pane-label" text="from" />
-            <TextField fx:id="singleOrMinYearField" styleClass="black-field" />
-            <Label fx:id="to" styleClass="left-pane-label" text="to" />
-            <TextField fx:id="maxYearField" styleClass="black-field" />
+            <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
+            <Label fx:id="from" styleClass="left-pane-label" text="from"/>
+            <TextField fx:id="singleOrMinYearField" styleClass="black-field"/>
+            <Label fx:id="to" styleClass="left-pane-label" text="to"/>
+            <TextField fx:id="maxYearField" styleClass="black-field"/>
         </Pane>
 
         <!--TODO: code genres list and manage prefHeight in AppController-->
         <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
-            <Label fx:id="genres" text="Genres:" styleClass="left-pane-label" />
+            <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
         </Pane>
 
         <Pane fx:id="ratingPane" styleClass="debug" prefHeight="60">
-            <Label fx:id="rating" text="Rating:" styleClass="left-pane-label" />
-            <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label" />
-            <TextField fx:id="ratingField" styleClass="black-field" />
+            <Label fx:id="rating" text="Rating:" styleClass="left-pane-label"/>
+            <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label"/>
+            <TextField fx:id="ratingField" styleClass="black-field"/>
         </Pane>
 
         <Pane fx:id="buttonsPane" styleClass="debug">
-            <Button fx:id="favorites" styleClass="button, favoriteButton"  text="Favorites" />
-            <Button fx:id="go" styleClass="button, goButton" text="GO" />
+            <Button fx:id="favorites" styleClass="button, favoriteButton" text="Favorites"/>
+            <Button fx:id="go" styleClass="button, goButton" text="GO"/>
         </Pane>
     </Pane>
 
+    <!--Right Pane-->
+    <StackPane fx:id="rightStackPane" styleClass="rightStackPane">
+        <ScrollPane fx:id="rightScrollPane" styleClass="rightScrollPane">
 
-    <!--
-    <ScrollPane fx:id="rightPane">
-        <ImageView>
-            <Image url="https://media.themoviedb.org/t/p/w220_and_h330_face/ldfCF9RhR40mppkzmftxapaHeTo.jpg"/>
-        </ImageView>
-    </ScrollPane>
-    -->
+            <AnchorPane fx:id="imagePane" styleClass="imagePane">
+
+                <VBox fx:id="vBox">
+                </VBox>
+            </AnchorPane>
+        </ScrollPane>
+    </StackPane>
 
 </AnchorPane>
