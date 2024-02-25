@@ -61,6 +61,17 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
     }
 
     public String getReleaseYear(){
-        return releaseDate.substring(0,3);
+        return releaseDate.substring(0,4);
+    }
+
+    public String genresToString(){
+        String genresToString = "";
+        for(String genre: genres){
+            if (genre == null || genre.isEmpty()) {
+                return genre;
+            }
+            genresToString= genresToString + genre.substring(0, 1).toUpperCase() + genre.substring(1)+',';
+        }
+        return genresToString.substring(0,genresToString.length()-1);
     }
 }
