@@ -170,7 +170,7 @@ public class MoviesPanelView {
 
     /**
      * initialise the remove button
-     * @param movie
+     * @param movie the movie of which we want the details
      */
     private void initRemoveButton(Movie movie){
         removeButton = new Button("remove");
@@ -183,7 +183,7 @@ public class MoviesPanelView {
 
     /**
      * remove the movie from favorites when the remove button is clicked
-     * @param movie
+     * @param movie the movie of which we want the details
      */
     private void removeButtonClicked(Movie movie){
         Favorites.instance.remove(movie);
@@ -192,7 +192,7 @@ public class MoviesPanelView {
 
     /**
      * initialise the add button
-     * @param movie
+     * @param movie the movie of which we want the details
      */
     private void initAddButton(Movie movie){
         addButton = new Button("add");
@@ -205,7 +205,7 @@ public class MoviesPanelView {
 
     /**
      * add the movie to favorites when the add button is clicked
-     * @param movie
+     * @param movie the movie of which we want the details
      */
     private void addButtonClicked(Movie movie){
         Favorites.instance.add(movie);
