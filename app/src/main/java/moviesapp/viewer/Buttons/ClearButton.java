@@ -1,4 +1,4 @@
-package moviesapp.viewer;
+package moviesapp.viewer.Buttons;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -9,7 +9,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import moviesapp.model.movies.Favorites;
 
-public class OptionButton {
+public class ClearButton {
     @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
