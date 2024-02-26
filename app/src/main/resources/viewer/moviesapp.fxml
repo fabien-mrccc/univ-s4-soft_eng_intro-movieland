@@ -58,8 +58,8 @@
             </Pane>
 
             <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
-                <Button fx:id="favoritesButtonWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
-                <Button fx:id="goButtonWithoutTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO"/>
             </Pane>
         </Pane>
 

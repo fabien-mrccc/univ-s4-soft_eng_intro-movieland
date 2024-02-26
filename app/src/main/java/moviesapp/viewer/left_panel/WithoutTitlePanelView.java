@@ -25,14 +25,11 @@ public class WithoutTitlePanelView {
     private final Label atLeast;
     private final TextField ratingField;
     private final TextField searchBar;
-    private final Pane buttonsPane;
-    private final Button favoritesButton;
-    private final Button goButton;
     private final ListView<String> genreListView;
 
     public WithoutTitlePanelView(Pane leftPane, Label appTitle, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
-                                 TextField ratingField, TextField searchBar, Pane buttonsPane, Button favoritesButton, Button goButton, ListView<String> genreListView) {
+                                 TextField ratingField, TextField searchBar, ListView<String> genreListView) {
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.yearsPane = yearsPane;
@@ -48,9 +45,6 @@ public class WithoutTitlePanelView {
         this.atLeast = atLeast;
         this.ratingField = ratingField;
         this.searchBar = searchBar;
-        this.buttonsPane = buttonsPane;
-        this.favoritesButton = favoritesButton;
-        this.goButton = goButton;
         this.genreListView = genreListView;
 
         setupView();
@@ -64,9 +58,6 @@ public class WithoutTitlePanelView {
         setGenreListView();
         setRatingPane();
         setRating();
-        setButtonsPane();
-        setFavoritesButton();
-        setGoButton();
     }
 
     private void setYearsPane(){
@@ -125,21 +116,5 @@ public class WithoutTitlePanelView {
         ratingField.layoutYProperty().bind(atLeast.layoutYProperty().subtract(7));
         ratingField.setPrefWidth(75);
         ratingField.setPromptText("0 to 5");
-    }
-
-    private void setButtonsPane(){
-        buttonsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(buttonsPane.widthProperty().divide(2)));
-        buttonsPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(110));
-    }
-
-    private void setFavoritesButton(){
-        favoritesButton.setPrefHeight(26);
-        favoritesButton.setPrefWidth(140);
-    }
-
-    private void setGoButton(){
-        goButton.layoutXProperty().bind(favoritesButton.layoutXProperty().add(160));
-        goButton.setPrefHeight(26);
-        goButton.setPrefWidth(80);
     }
 }

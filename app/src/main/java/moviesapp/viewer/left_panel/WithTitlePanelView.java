@@ -1,6 +1,5 @@
 package moviesapp.viewer.left_panel;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -8,7 +7,7 @@ import javafx.scene.layout.Pane;
 import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
-public class WithTitlePanelVIew {
+public class WithTitlePanelView {
     private final Pane leftPane;
     private final Label appTitle;
     private final Pane titleAndSearchPane;
@@ -17,14 +16,9 @@ public class WithTitlePanelVIew {
     private final Pane yearPane;
     private final Label year;
     private final TextField yearField;
-    private final Pane favoritesPane;
-    private final Button favoritesButton;
-    private final Pane goPane;
-    private final Button goButton;
 
-    public WithTitlePanelVIew(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
-                              TextField searchBar, Pane yearPane, Label year, TextField yearField,
-                              Pane favoritesPane, Button favoritesButton, Pane goPane, Button goButton) {
+    public WithTitlePanelView(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
+                              TextField searchBar, Pane yearPane, Label year, TextField yearField) {
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.titleAndSearchPane = titleAndSearchPane;
@@ -33,10 +27,6 @@ public class WithTitlePanelVIew {
         this.yearPane = yearPane;
         this.year = year;
         this.yearField = yearField;
-        this.favoritesPane = favoritesPane;
-        this.favoritesButton = favoritesButton;
-        this.goPane = goPane;
-        this.goButton = goButton;
 
         setupView();
     }
@@ -47,10 +37,6 @@ public class WithTitlePanelVIew {
         setSearchBar();
         setYearPane();
         setYear();
-        setFavoritesPane();
-        setFavoritesButton();
-        setGoPane();
-        setGoButton();
     }
 
     private void setTitleAndSearchPane(){
@@ -82,26 +68,6 @@ public class WithTitlePanelVIew {
         yearField.layoutXProperty().bind(searchBar.layoutXProperty());
         yearField.layoutYProperty().bind(year.layoutYProperty().subtract(7));
         yearField.setPromptText("from " + minAcceptableYearValue + " to " + maxAcceptableYearValue);
-    }
-
-    private void setFavoritesPane(){
-        favoritesPane.layoutXProperty().bind(yearPane.layoutXProperty().add(280));
-        favoritesPane.layoutYProperty().bind(yearPane.layoutYProperty().add(60));
-    }
-
-    private void setFavoritesButton(){
-        favoritesButton.setPrefHeight(26);
-        favoritesButton.setPrefWidth(140);
-    }
-
-    private void setGoPane(){
-        goPane.layoutXProperty().bind(yearPane.layoutXProperty().add(280));
-        goPane.layoutYProperty().bind(yearPane.layoutYProperty().add(6));
-    }
-
-    private void setGoButton(){
-        goButton.setPrefHeight(26);
-        goButton.setPrefWidth(80);
     }
 
 }
