@@ -16,7 +16,7 @@
     <Pane fx:id="leftPane" styleClass="leftPane">
         <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES"/>
 
-        <Pane fx:id="withTitlePane" styleClass="debug">
+        <Pane fx:id="withTitlePane" styleClass="debug-blue">
             <Pane fx:id="titleAndSearchPane" styleClass="debug">
                 <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
                 <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
@@ -32,7 +32,10 @@
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
-                <Button fx:id="favoritesButtonWithTitle" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="favoritesButtonWithTitle" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithTitleButtonClicked"/>
+            </Pane>
+            <Pane fx:id="clearWithTitlePane" styleClass="debug">
+                <Button fx:id="clearWithTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
             </Pane>
         </Pane>
 
@@ -46,7 +49,7 @@
             </Pane>
 
             <!--TODO: code genres list and manage prefHeight in AppController-->
-            <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
+            <Pane fx:id="genresPane" styleClass="debug">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
                 <ListView fx:id="genreListView"/>
             </Pane>
@@ -57,15 +60,22 @@
                 <TextField fx:id="ratingField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
-                <Button fx:id="favoritesButtonWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
-                <Button fx:id="goButtonWithoutTitle" styleClass="button, red-button" text="GO"/>
+            <Pane fx:id="goWithoutTitlePane" styleClass="debug">
+                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO"/>
+            </Pane>
+
+            <Pane fx:id="favoritesWithoutTitlePane" styleClass="debug">
+                <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithoutTitleButtonClicked"/>
             </Pane>
         </Pane>
 
         <Pane fx:id="selectModePane" styleClass="debug">
             <Button fx:id="withTitleButton" styleClass="button, red-button" text="With Title" onAction="#turnOnSearchWithTitleMode"/>
             <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
+        </Pane>
+
+        <Pane fx:id="clearWithoutTitlePane" styleClass="debug">
+            <Button fx:id="clearWithoutTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
         </Pane>
 
     </Pane>
