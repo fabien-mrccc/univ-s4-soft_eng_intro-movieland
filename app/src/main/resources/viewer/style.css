@@ -3,24 +3,25 @@
 }
 
 .leftPane {
-    -fx-border-color: #9d36f7;
-    -fx-border-width: 0 1 0 0;
-    -fx-background-color: #0f0d13;
-    -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0);
+    -fx-background-image: url('images/left-corner-pattern.png');
 }
 
 .rightStackPane {
-    -fx-effect: innershadow(gaussian, black, 30, 0.1 ,0, 0);
+    -fx-border-width: 0 0 0 1;
+    -fx-border-color: #9d36f7;
+    -fx-background-color: #0f0d13;
+    -fx-effect: dropshadow(gaussian, #9d36f7, 5, 0.1, 0, 0);
 }
 
 .rightScrollPane {
+    -fx-effect: innershadow(gaussian, black, 30, 0.1 ,0, 0);
     -fx-background-image: url('images/background-pattern.png');
     -fx-background-size: cover;
     -fx-background: transparent;
 }
 
 .imagePane {
-    -fx-background-color: green;
+    /*-fx-background-color: green;*/
 }
 
 .vBox {
@@ -46,11 +47,14 @@
     -fx-text-fill: white;
     -fx-border-color: white;
     -fx-border-width: 1;
+    -fx-font-family: 'Source Sans Pro';
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
 }
 
 .searchIcon {
     -fx-background-image: url('./images/search-icon.png');
-    -fx-background-size: 20;
+    -fx-background-size: 30;
     -fx-background-repeat: no-repeat;
     -fx-background-position: left center;
     -fx-padding: 0.333333em 0.333333em 0.333333em 2em;
@@ -62,22 +66,47 @@
     -fx-text-fill: #e5e5e5;
 }
 
-.goButton {
+.red-button {
     -fx-background-color: #E50914;
 }
 
-.goButton:hover {
+.red-button:hover {
     -fx-background-color: #e5e5e5;
     -fx-text-fill: #E50914;
     -fx-cursor: hand;
 }
 
-.favoriteButton {
+.purple-button {
     -fx-background-color: #9d36f7;
 }
 
-.favoriteButton:hover{
+.purple-button:hover{
     -fx-background-color: #e5e5e5;
     -fx-text-fill: #9d36f7;
     -fx-cursor: hand;
+}
+
+.scroll-bar {
+    -fx-background-color: #0f0d13;
+    -fx-border-color: #cccccc;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #9d36f7;
+    -fx-background-insets: 2;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #9d36f7;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #0f0d13;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: #9d36f7;
 }

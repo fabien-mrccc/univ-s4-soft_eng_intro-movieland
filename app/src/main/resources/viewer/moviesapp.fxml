@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="540" prefWidth="960"
+<AnchorPane fx:id="mainAnchorPane"
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="moviesapp.controller.GUI.AppController">
 
@@ -16,34 +16,57 @@
     <Pane fx:id="leftPane" styleClass="leftPane">
         <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES"/>
 
-        <Pane fx:id="titleAndSearchPane" styleClass="debug">
-            <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
-            <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
+        <Pane fx:id="withTitle" styleClass="debug">
+            <Pane fx:id="titleAndSearchPane" styleClass="debug">
+                <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
+                <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
+            </Pane>
+
+            <Pane fx:id="yearPane" styleClass="debug">
+                <Label fx:id="year" styleClass="left-pane-label" text="Year:"/>
+                <TextField fx:id="yearField" styleClass="black-field"/>
+            </Pane>
+
+            <Pane fx:id="goWithTitlePane" styleClass="debug">
+                <Button fx:id="goWithTitle" styleClass="button, red-button" text="GO"/>
+            </Pane>
+
+            <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
+                <Button fx:id="favoritesWithTitle" styleClass="button, purple-button" text="Favorites"/>
+            </Pane>
         </Pane>
 
-        <Pane fx:id="yearsPane" styleClass="debug">
-            <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
-            <Label fx:id="from" styleClass="left-pane-label" text="from"/>
-            <TextField fx:id="singleOrMinYearField" styleClass="black-field"/>
-            <Label fx:id="to" styleClass="left-pane-label" text="to"/>
-            <TextField fx:id="maxYearField" styleClass="black-field"/>
+        <Pane fx:id="withoutTitle" styleClass="debug">
+            <Pane fx:id="yearsPane" styleClass="debug">
+                <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
+                <Label fx:id="from" styleClass="left-pane-label" text="from"/>
+                <TextField fx:id="singleOrMinYearField" styleClass="black-field"/>
+                <Label fx:id="to" styleClass="left-pane-label" text="to"/>
+                <TextField fx:id="maxYearField" styleClass="black-field"/>
+            </Pane>
+
+            <!--TODO: code genres list and manage prefHeight in AppController-->
+            <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
+                <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
+            </Pane>
+
+            <Pane fx:id="ratingPane" styleClass="debug" prefHeight="60">
+                <Label fx:id="rating" text="Rating:" styleClass="left-pane-label"/>
+                <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label"/>
+                <TextField fx:id="ratingField" styleClass="black-field"/>
+            </Pane>
+
+            <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
+                <Button fx:id="favoritesWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="goWithoutTitle" styleClass="button, red-button" text="GO"/>
+            </Pane>
         </Pane>
 
-        <!--TODO: code genres list and manage prefHeight in AppController-->
-        <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
-            <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
+        <Pane fx:id="selectModePane" styleClass="debug">
+            <Button fx:id="withTile" styleClass="button, red-button" text="With Title" onAction="#turnOnWithTitleMode"/>
+            <Button fx:id="withoutTile" styleClass="button, purple-button" text="Without Title" onAction="#turnOnWithoutTitleMode"/>
         </Pane>
 
-        <Pane fx:id="ratingPane" styleClass="debug" prefHeight="60">
-            <Label fx:id="rating" text="Rating:" styleClass="left-pane-label"/>
-            <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label"/>
-            <TextField fx:id="ratingField" styleClass="black-field"/>
-        </Pane>
-
-        <Pane fx:id="buttonsPane" styleClass="debug">
-            <Button fx:id="favorites" styleClass="button, favoriteButton" text="Favorites"/>
-            <Button fx:id="go" styleClass="button, goButton" text="GO"/>
-        </Pane>
     </Pane>
 
     <!--Right Pane-->

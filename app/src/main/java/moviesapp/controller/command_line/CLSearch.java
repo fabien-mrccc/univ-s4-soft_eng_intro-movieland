@@ -54,7 +54,7 @@ public class CLSearch extends CLMethods {
                     singleYearOrMinYear = years[0];
                     maxYear = years[1];
                 }
-                minVoteAverage = getMinVoteAverage();
+                minVoteAverage = getMinVoteAverage(0,10);
                 genres = genresToGenreIds(specifiedGenresByUser());
             }
             default -> {
@@ -214,14 +214,12 @@ public class CLSearch extends CLMethods {
      * Retrieves the minimum vote average for a movie.
      * @return The minimum vote average provided by the user.
      */
-    private String getMinVoteAverage(){
-        int minAcceptableValue = 0;
-        int maxAcceptableValue = 10;
+    private String getMinVoteAverage(int minAcceptableValue, int maxAcceptableValue){
         String minVoteAverage = askValue("Movie's minimum rate [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
 
         if(!minVoteAverage.isEmpty()){
             if (!validateValueInterval(minVoteAverage, minAcceptableValue, maxAcceptableValue)){
-                return getMinVoteAverage();
+                return getMinVoteAverage(minAcceptableValue,maxAcceptableValue);
             }
         }
         return minVoteAverage;

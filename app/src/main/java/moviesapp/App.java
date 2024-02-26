@@ -14,14 +14,24 @@ import java.util.Objects;
 
 public class App extends Application {
 
+    public static int minWidth = 1600;
+    public static int minHeight = 800;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/Watched.ttf"), 20);
         Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/GROBOLD.ttf"), 20);
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/SourceSansPro-Bold.otf"), 20);
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/SourceSansPro-Light.otf"), 20);
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/SourceSansPro-Regular.otf"), 20);
+        Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/SourceSansPro-Semibold.otf"), 20);
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/viewer/moviesapp.fxml")));
 
         primaryStage.setTitle("MoviesApp");
+        primaryStage.setMinWidth(minWidth);
+        primaryStage.setMinHeight(minHeight);
+        primaryStage.centerOnScreen();
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
