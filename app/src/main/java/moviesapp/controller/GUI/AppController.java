@@ -4,7 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import moviesapp.controller.command_line.CLController;
+import moviesapp.model.json.JsonReader;
 import moviesapp.model.movies.Favorites;
+import moviesapp.model.movies.Movies;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
@@ -35,9 +38,8 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(gridPane, rightScrollPane, Favorites.instance.getFavorites());
+        new ImagePanelView(gridPane, rightScrollPane, new JsonReader(CLController.apiFilePath).findAllMovies());
     }
-
     @FXML
     private void turnOnSearchWithTitleMode(){
         withTitlePane.setVisible(true);
@@ -54,6 +56,10 @@ public class AppController implements Initializable {
         withoutTitlePane.setDisable(false);
     }
 
+    @FXML
+    public void favoritesButtonClicked(){
+        new ImagePanelView(gridPane, rightScrollPane, Favorites.instance.getFavorites());
+    }
     /////////////////////////////////////////////////////////// Begin FXML Identifiers
     public AnchorPane mainAnchorPane;
     public Pane leftPane;
