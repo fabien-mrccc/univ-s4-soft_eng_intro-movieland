@@ -1,5 +1,6 @@
 package moviesapp.controller.GUI;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -20,36 +21,7 @@ import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
 public class AppController implements Initializable {
 
-    /////////////////////////////////////////////////////////// FXML Identifiers
-    public AnchorPane mainAnchorPane;
-    public Pane leftPane;
-    public Label appTitle;
-    public Pane titleAndSearchPane;
-    public Label title;
-    public TextField searchBar;
-    public Label years;
-    public Label from;
-    public Label to;
-    public TextField singleOrMinYearField;
-    public TextField maxYearField;
-    public Pane yearsPane;
-    public Pane genresPane;
-    public Pane ratingPane;
-    public Label genres;
-    public Label rating;
-    public Label atLeast;
-    public TextField ratingField;
-    public Pane buttonsPane;
-    public Button go;
-    public Button favorites;
-    public ScrollPane rightScrollPane;
-    public AnchorPane imagePane;
-    public StackPane rightStackPane;
-    public VBox vBox;
-    /////////////////////////////////////////////////////////// End FXML Identifiers
-
-
-    /////////////////////////////////////////////////////////// Responsive Manager attributes
+    /////////////////////////////////////////////////////////// Begin Responsive Manager attributes
     private final int rightScrollPanePadding = 50;
     private double totalImageWidth = 0;
     private int numberOfImagesPerRow = 0;
@@ -64,17 +36,32 @@ public class AppController implements Initializable {
         responsiveManager();
     }
 
-    /////////////////////////////////////////////////////////// Responsive Manager Section
+
+    /////////////////////////////////////////////////////////// Begin Responsive Manager Section
 
     private void responsiveManager(){
+        turnOnWithTitleMode();
+
         setMainAnchorPane();
 
         setLeftPane();
         setAppTitle();
 
+        setSelectModePane();
+        setWithTile();
+        setWithoutTile();
+
         setTitleAndSearchPane();
         setTitle();
         setSearchBar();
+
+        setYearPane();
+        setYear();
+
+        setGoWithTitlePane();
+        setFavoritesWithTitlePane();
+        setFavoritesWithTitle();
+        setGoWithTitle();
 
         setYearsPane();
         setYears();
@@ -85,9 +72,9 @@ public class AppController implements Initializable {
         setRatingPane();
         setRating();
 
-        setButtonsPane();
-        setFavoritesButton();
-        setGo();
+        setButtonsWithoutTitlePane();
+        setFavoritesWithoutTitle();
+        setGoWithoutTitle();
 
         setRightStackPane();
         setRightScrollPane();
@@ -97,6 +84,22 @@ public class AppController implements Initializable {
         setVBox();
 
         setHBoxes();
+    }
+
+    @FXML
+    private void turnOnWithTitleMode(){
+        withTitle.setVisible(true);
+        withTitle.setDisable(false);
+        withoutTitle.setVisible(false);
+        withoutTitle.setDisable(true);
+    }
+
+    @FXML
+    private void turnOnWithoutTitleMode(){
+        withTitle.setVisible(false);
+        withTitle.setDisable(true);
+        withoutTitle.setVisible(true);
+        withoutTitle.setDisable(false);
     }
 
     private void setMainAnchorPane(){
@@ -115,9 +118,25 @@ public class AppController implements Initializable {
         appTitle.layoutYProperty().bind(leftPane.layoutYProperty().add(10));
     }
 
+    private void setSelectModePane(){
+        selectModePane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(selectModePane.widthProperty().divide(2)));
+        selectModePane.layoutYProperty().bind(appTitle.layoutYProperty().add(95));
+    }
+
+    private void setWithTile(){
+        withTile.setPrefHeight(26);
+        withTile.setPrefWidth(140);
+    }
+
+    private void setWithoutTile(){
+        withoutTile.layoutXProperty().bind(withTile.layoutXProperty().add(160));
+        withoutTile.setPrefHeight(26);
+        withoutTile.setPrefWidth(170);
+    }
+
     private void setTitleAndSearchPane(){
         titleAndSearchPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(titleAndSearchPane.widthProperty().divide(2)));
-        titleAndSearchPane.layoutYProperty().bind(appTitle.layoutYProperty().add(90));
+        titleAndSearchPane.layoutYProperty().bind(appTitle.layoutYProperty().add(170));
         titleAndSearchPane.prefWidthProperty().bind(leftPane.widthProperty().multiply(0.9));
     }
 
@@ -127,14 +146,29 @@ public class AppController implements Initializable {
 
     private void setSearchBar(){
         searchBar.layoutXProperty().bind(title.layoutXProperty().add(60));
-        searchBar.layoutYProperty().bind(title.layoutYProperty().subtract(8));
+        searchBar.layoutYProperty().bind(title.layoutYProperty().subtract(7));
         searchBar.prefWidthProperty().bind(titleAndSearchPane.widthProperty().subtract(70));
     }
 
+    private void setYearPane(){
+        yearPane.layoutXProperty().bind(titleAndSearchPane.layoutXProperty());
+        yearPane.layoutYProperty().bind(titleAndSearchPane.layoutYProperty().add(80));
+        yearPane.prefWidthProperty().bind(titleAndSearchPane.prefWidthProperty());
+    }
+
+    private void setYear(){
+        year.layoutYProperty().bind(yearPane.heightProperty().divide(2).subtract(year.heightProperty().divide(2)));
+
+        yearField.setPrefWidth(190);
+        yearField.layoutXProperty().bind(searchBar.layoutXProperty());
+        yearField.layoutYProperty().bind(year.layoutYProperty().subtract(7));
+        yearField.setPromptText("from " + minAcceptableYearValue + " to " + maxAcceptableYearValue);
+    }
+
     private void setYearsPane(){
-        yearsPane.layoutXProperty().bind(titleAndSearchPane.layoutXProperty());
-        yearsPane.layoutYProperty().bind(titleAndSearchPane.layoutYProperty().add(70));
-        yearsPane.prefWidthProperty().bind(titleAndSearchPane.prefWidthProperty());
+        yearsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(yearsPane.widthProperty().divide(2)));
+        yearsPane.layoutYProperty().bind(appTitle.layoutYProperty().add(170));
+        yearsPane.prefWidthProperty().bind(leftPane.widthProperty().multiply(0.9));
     }
 
     private void setYears(){
@@ -181,20 +215,40 @@ public class AppController implements Initializable {
         ratingField.setPromptText("0 to 5");
     }
 
-    private void setButtonsPane(){
-        buttonsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(buttonsPane.widthProperty().divide(2)));
-        buttonsPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(110));
+    private void setFavoritesWithTitlePane(){
+        favoritesWithTitlePane.layoutXProperty().bind(yearPane.layoutXProperty().add(280));
+        favoritesWithTitlePane.layoutYProperty().bind(yearPane.layoutYProperty().add(60));
     }
 
-    private void setFavoritesButton(){
-        favorites.setPrefHeight(26);
-        favorites.setPrefWidth(140);
+    private void setFavoritesWithTitle(){
+        favoritesWithTitle.setPrefHeight(26);
+        favoritesWithTitle.setPrefWidth(140);
     }
 
-    private void setGo(){
-        go.layoutXProperty().bind(favorites.layoutXProperty().add(160));
-        go.setPrefHeight(26);
-        go.setPrefWidth(80);
+    private void setGoWithTitlePane(){
+        goWithTitlePane.layoutXProperty().bind(yearPane.layoutXProperty().add(280));
+        goWithTitlePane.layoutYProperty().bind(yearPane.layoutYProperty().add(6));
+    }
+
+    private void setGoWithTitle(){
+        goWithTitle.setPrefHeight(26);
+        goWithTitle.setPrefWidth(80);
+    }
+
+    private void setButtonsWithoutTitlePane(){
+        buttonsWithoutTitlePane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(buttonsWithoutTitlePane.widthProperty().divide(2)));
+        buttonsWithoutTitlePane.layoutYProperty().bind(ratingPane.layoutYProperty().add(110));
+    }
+
+    private void setFavoritesWithoutTitle(){
+        favoritesWithoutTitle.setPrefHeight(26);
+        favoritesWithoutTitle.setPrefWidth(140);
+    }
+
+    private void setGoWithoutTitle(){
+        goWithoutTitle.layoutXProperty().bind(favoritesWithoutTitle.layoutXProperty().add(160));
+        goWithoutTitle.setPrefHeight(26);
+        goWithoutTitle.setPrefWidth(80);
     }
 
     private void setRightStackPane(){
@@ -206,7 +260,7 @@ public class AppController implements Initializable {
 
     private void setRightScrollPane(){
         double sidePaddingMul = 1;
-        rightScrollPane.setPadding(new Insets(rightScrollPanePadding, rightScrollPanePadding * sidePaddingMul, rightScrollPanePadding, rightScrollPanePadding * sidePaddingMul));
+        rightScrollPane.setPadding(new Insets(rightScrollPanePadding, rightScrollPanePadding * sidePaddingMul, 0, rightScrollPanePadding * sidePaddingMul));
         rightScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
@@ -218,6 +272,7 @@ public class AppController implements Initializable {
     private void setVBox() {
         double vBoxSpacing = 50;
         vBox.setSpacing(vBoxSpacing);
+        vBox.setPadding(new Insets(0,0,rightScrollPanePadding,0));
         vBox.prefWidthProperty().bind(imagePane.prefWidthProperty());
         vBox.prefHeightProperty().bind(imagePane.prefHeightProperty());
     }
@@ -280,6 +335,45 @@ public class AppController implements Initializable {
     }
 
     /////////////////////////////////////////////////////////// End Responsive Manager Section
+
+    /////////////////////////////////////////////////////////// Begin FXML Identifiers
+    public AnchorPane mainAnchorPane;
+    public Pane leftPane;
+    public Label appTitle;
+    public Pane titleAndSearchPane;
+    public Label title;
+    public TextField searchBar;
+    public Label years;
+    public Label from;
+    public Label to;
+    public TextField singleOrMinYearField;
+    public TextField maxYearField;
+    public Pane yearsPane;
+    public Pane genresPane;
+    public Pane ratingPane;
+    public Label genres;
+    public Label rating;
+    public Label atLeast;
+    public TextField ratingField;
+    public Pane buttonsWithoutTitlePane;
+    public Button goWithoutTitle;
+    public Button favoritesWithoutTitle;
+    public ScrollPane rightScrollPane;
+    public AnchorPane imagePane;
+    public StackPane rightStackPane;
+    public VBox vBox;
+    public Pane yearPane;
+    public Label year;
+    public TextField yearField;
+    public Pane selectModePane;
+    public Button withTile;
+    public Button withoutTile;
+    public Pane favoritesWithTitlePane;
+    public Pane goWithTitlePane;
+    public Button favoritesWithTitle;
+    public Button goWithTitle;
+    public Pane withTitle;
+    public Pane withoutTitle;
+
+    /////////////////////////////////////////////////////////// End FXML Identifiers
 }
-
-
