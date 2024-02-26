@@ -19,7 +19,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @ExtendWith(ApplicationExtension.class)
-public class OptionButtonTest {
+public class ClearButtonTest {
 
     private volatile boolean uiInitialized = false;
 
