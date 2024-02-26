@@ -48,6 +48,7 @@
             <!--TODO: code genres list and manage prefHeight in AppController-->
             <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
+                <ListView fx:id="genreListView"/>
             </Pane>
 
             <Pane fx:id="ratingPane" styleClass="debug" prefHeight="60">
@@ -72,12 +73,9 @@
     <!--Right Pane-->
     <StackPane fx:id="rightStackPane" styleClass="rightStackPane">
         <ScrollPane fx:id="rightScrollPane" styleClass="rightScrollPane">
+            <GridPane fx:id="gridPane" styleClass="debug">
 
-            <AnchorPane fx:id="imagePane" styleClass="imagePane">
-
-                <VBox fx:id="vBox">
-                </VBox>
-            </AnchorPane>
+            </GridPane>
         </ScrollPane>
     </StackPane>
 

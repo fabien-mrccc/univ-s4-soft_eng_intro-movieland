@@ -2,13 +2,9 @@ package moviesapp.controller.GUI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import moviesapp.controller.command_line.CLController;
-import moviesapp.model.json.JsonReader;
+import moviesapp.model.movies.Favorites;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
@@ -27,8 +23,6 @@ public class AppController implements Initializable {
         setGUIComponents();
     }
 
-    /////////////////////////////////////////////////////////// Begin Responsive Manager Section
-
     private void setGUIComponents(){
         new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
 
@@ -37,11 +31,11 @@ public class AppController implements Initializable {
 
         new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
                 to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
-                ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle);
+                ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle, genreListView);
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(imagePane, rightScrollPane, vBox, Favorites.instance.getFavorites());
+        new ImagePanelView(gridPane, rightScrollPane, Favorites.instance.getFavorites());
     }
 
     @FXML
@@ -83,9 +77,7 @@ public class AppController implements Initializable {
     public Button goButtonWithoutTitle;
     public Button favoritesButtonWithoutTitle;
     public ScrollPane rightScrollPane;
-    public AnchorPane imagePane;
     public StackPane rightStackPane;
-    public VBox vBox;
     public Pane yearPane;
     public Label yearLabel;
     public TextField yearField;
@@ -98,6 +90,8 @@ public class AppController implements Initializable {
     public Button goButtonWithTitle;
     public Pane withTitlePane;
     public Pane withoutTitlePane;
+    public ListView<String> genreListView;
+    public GridPane gridPane;
 
     /////////////////////////////////////////////////////////// End FXML Identifiers
 }

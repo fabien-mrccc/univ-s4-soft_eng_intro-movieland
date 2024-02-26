@@ -1,6 +1,7 @@
 package moviesapp.viewer.right_panel;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,108 +9,78 @@ import javafx.scene.layout.*;
 import moviesapp.model.movies.Movie;
 import moviesapp.model.movies.Movies;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+
+import static moviesapp.model.api.UrlRequestBuilder.imageBaseURL;
+import static moviesapp.model.api.UrlRequestBuilder.imageSize;
+import static moviesapp.viewer.right_panel.RightPanelView.rightScrollPanePadding;
 
 public class ImagePanelView {
-    private final Pane imagePane;
     private final ScrollPane rightScrollPane;
-    private final VBox vBox;
-    private int numberOfImagesPerRow = 0;
-    private double totalImageWidth = 0;
-    private int numberOfImages;
-    private int numberOfUnprintedImages;
-    static final int rightScrollPanePadding = 50;
+    private final GridPane gridPane;
+    private final int imageWidth = 258;
+    private final int numberOfImagesPerRow = 3;
+    private double horizontalGap = 15;
+    private final Movies movies;
 
-    public ImagePanelView(Pane imagePane, ScrollPane rightScrollPane, VBox vBox, Movies movies) {
-        this.numberOfImages = movies.size();
-        this.numberOfUnprintedImages = numberOfImages;
-        this.imagePane = imagePane;
+    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, Movies movies) {
+        this.gridPane = gridPane;
         this.rightScrollPane = rightScrollPane;
-        this.vBox = vBox;
+        this.movies = movies;
 
-        setupView(movies);
+        setupView();
     }
 
-    public void setupView(Movies movies) {
-        setImagePane();
-        setVBox();
-        setHBoxes(movies);
-    }
-    private void setImagePane() {
-        imagePane.prefWidthProperty().bind(rightScrollPane.widthProperty().subtract(rightScrollPanePadding * 2));
-        imagePane.prefHeightProperty().bind(rightScrollPane.heightProperty().subtract(rightScrollPanePadding * 2));
+    public void setupView() {
+        setGridPane();
+        distributeImages();
     }
 
-    private void setVBox() {
-        double vBoxSpacing = 50;
-        vBox.setSpacing(vBoxSpacing);
-        vBox.setPadding(new Insets(0,0,rightScrollPanePadding,0));
-        vBox.prefWidthProperty().bind(imagePane.prefWidthProperty());
-        vBox.prefHeightProperty().bind(imagePane.prefHeightProperty());
+    private void setGridPane() {
+        gridPane.prefWidthProperty().bind(rightScrollPane.widthProperty());
+        gridPane.prefHeightProperty().bind(rightScrollPane.heightProperty());
+        gridPane.setPadding(new Insets(0, 0, rightScrollPanePadding, 0));
+        gridPane.setAlignment(Pos.BASELINE_CENTER);
+        adjustHorizontalGap();
+
+        int verticalGap = 50;
+        gridPane.setVgap(verticalGap);
     }
 
-    private void setHBoxes(Movies movies) {
-        Movies remainingMovies = movies;
-
-        imagePane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            initHBoxCriteria(newValue.doubleValue());
-            List<Integer> indexes = new ArrayList<>();
-            for(int i=0; i<numberOfImagesPerRow;i++){
-                indexes.add(i);
-            }
-            while(numberOfUnprintedImages != 0){
-                Movies moviesToPlaceHorizontally = remainingMovies.get(indexes);
-                setHBox(moviesToPlaceHorizontally);
-                remainingMovies.remove(moviesToPlaceHorizontally);
-            }
+    private void adjustHorizontalGap() {
+        rightScrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double containerWidth = newVal.doubleValue() - (rightScrollPanePadding * 2);
+            double totalGapWidth = containerWidth - (imageWidth * numberOfImagesPerRow);
+            int numberOfGaps = numberOfImagesPerRow - 1 + 2;
+            horizontalGap = totalGapWidth / numberOfGaps;
+            gridPane.setHgap(horizontalGap);
         });
     }
 
-    private void initHBoxCriteria(double imagePaneWidth){
+    private void distributeImages() {
+        int row = 0, col = 0;
 
-        int imageViewWidth = 200;
-        int minHBoxSpacing = 15;
-        double imageViewWidthWithMinHBoxSpacing = imageViewWidth + minHBoxSpacing;
-
-        while(totalImageWidth < imagePaneWidth){
-            numberOfImagesPerRow++;
-            totalImageWidth = numberOfImagesPerRow * imageViewWidthWithMinHBoxSpacing;
-        }
-        numberOfImagesPerRow--;
-        totalImageWidth -= imageViewWidth;
-    }
-
-    private void setHBox(Movies movies){
-        HBox hBox = new HBox();
-
-        for(Movie movie : movies){
-            Image image = new Image("https://image.tmdb.org/t/p/w300"+movie.posterPath());
-            int imageWidth = 230;
-
-            if(numberOfUnprintedImages > 0){
-                ImageView imageView = new ImageView();
-                imageView.setImage(image);
-                imageView.setPreserveRatio(true);
-                imageView.setFitWidth(imageWidth);
-                hBox.getChildren().add(imageView);
-                numberOfUnprintedImages--;
-            } else {
-                ImageView placeholder = new ImageView();
-                placeholder.setImage(image);
-                placeholder.setVisible(false);
-                placeholder.setPreserveRatio(true);
-                placeholder.setFitWidth(imageWidth);
-                hBox.getChildren().add(placeholder);
+        for(Movie movie : movies) {
+            String moviePosterPath = movie.posterPath();
+            Image image;
+            if(moviePosterPath.equals("null")) {
+                image = new Image(Objects.requireNonNull(getClass().getResource("/viewer/images/poster-unavailable.jpg")).toExternalForm());
             }
+            else {
+                image = new Image(imageBaseURL + imageSize + moviePosterPath);
+            }
+            ImageView imageView = new ImageView();
+            imageView.setImage(image);
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(imageWidth);
 
-            if (movies.get(movies.size()-1).equals(movie)) {
-                Region spacer = new Region();
-                HBox.setHgrow(spacer, Priority.ALWAYS);
-                hBox.getChildren().add(spacer);
+            gridPane.add(imageView, col, row);
+
+            col++;
+            if(col >= numberOfImagesPerRow) {
+                col = 0;
+                row++;
             }
         }
-
-        vBox.getChildren().add(hBox);
     }
 }

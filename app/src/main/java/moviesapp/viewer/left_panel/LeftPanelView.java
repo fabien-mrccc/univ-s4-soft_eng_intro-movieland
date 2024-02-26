@@ -5,6 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import static moviesapp.App.minHeight;
+import static moviesapp.App.minWidth;
+
 public class LeftPanelView {
 
     private final AnchorPane mainAnchorPane;
@@ -26,11 +29,17 @@ public class LeftPanelView {
     }
 
     private void setupView() {
+        setMainAnchorPane();
         setLeftPane();
         setAppTitle();
         setSelectModePane();
         setWithTile();
         setWithoutTile();
+    }
+
+    private void setMainAnchorPane(){
+        mainAnchorPane.setMinWidth(minWidth);
+        mainAnchorPane.setMinHeight(minHeight);
     }
 
     private void setLeftPane(){
