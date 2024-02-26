@@ -1,5 +1,7 @@
 package moviesapp.viewer;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,8 +39,10 @@ public class MoviesPanelView {
 
     public void showDetails(Movie movie){
         globalStage = new Stage();
-        globalStage.setMinHeight(500);
         globalStage.setMinWidth(900);
+        globalStage.setMinHeight(500);
+        initTextFlow(movie);
+
         initMovieDetailsAnchorPane();
 
         initImageView();
@@ -50,7 +54,6 @@ public class MoviesPanelView {
         initPopularityLabel(movie);
         initVoteAverageLabel(movie);
         initOverviewLabel();
-        initTextFlow(movie);
 
         if(Favorites.instance.contains(movie)){
             initRemoveButton(movie);
@@ -78,7 +81,8 @@ public class MoviesPanelView {
         List<String> genres = new ArrayList<>();
         genres.add("action");
         Movie movie = new Movie(false, "",genres, "609681", "en",
-                "The Marvels", "Carol Danvers, aka Captain Marvel, has reclaimed her identity from the tyrannical Kree and taken revenge on the Supreme Intelligence. But unintended consequences see Carol shouldering the burden of a destabilized universe. When her duties send her to an anomalous wormhole linked to a Kree revolutionary, her powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol’s estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.", 4.0, "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+                "The Marvels",     "A young alcoholic ambient musician locks himself in his apartment on a dangerous seven day bender as he attempts to finish his upcoming album.",
+                4.0, "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
                 "2023-11-28", "Marvels", false, 4.0, 2000);
         showDetails(movie);
     }
@@ -91,7 +95,7 @@ public class MoviesPanelView {
         movieDetailsAnchorPane.prefHeight(500);
         movieDetailsAnchorPane.prefWidth(900);
         movieDetailsAnchorPane.setId("movieDetailsAnchorPane");
-        movieDetailsAnchorPane.setStyle("-fx-background-image: url('/viewer/images/background-pattern.png'); -fx-background-size: cover; -fx-border-color: #9d36f7; -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0)");
+        movieDetailsAnchorPane.setStyle("-fx-background-image: url('/viewer/images/background-pattern.png'); -fx-background-size: cover; -fx-border-color: #e5e5e5; -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0)");
     }
 
     /**
@@ -110,10 +114,10 @@ public class MoviesPanelView {
      */
     private void initTitleLabelAndYear(Movie movie){
         titleLabelAndYear = new Label(movie.title() + "(" + movie.getReleaseYear() + ")");
-        titleLabelAndYear.setLayoutX(250);
-        titleLabelAndYear.setLayoutY(0);
+        titleLabelAndYear.setLayoutX(255);
+        titleLabelAndYear.setLayoutY(-3);
         titleLabelAndYear.setTextFill(Paint.valueOf("white"));
-        titleLabelAndYear.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size: 70px; -fx-font-weight: 15;");
+        titleLabelAndYear.setStyle("-fx-font-family: 'Source Sans Pro Bold'; -fx-font-size: 70px; -fx-font-weight: 15;");
     }
 
     /**
@@ -122,10 +126,10 @@ public class MoviesPanelView {
      */
     private void initUsefulInformationLabel(Movie movie){
         usefulInformationLabel = new Label(movie.releaseDate() + " (" + movie.originalLanguage() + ") " + movie.genresToString());
-        usefulInformationLabel.setLayoutX(250);
+        usefulInformationLabel.setLayoutX(258);
         usefulInformationLabel.setLayoutY(80);
         usefulInformationLabel.setTextFill(Paint.valueOf("white"));
-        usefulInformationLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size: 20;");
+        usefulInformationLabel.setStyle("-fx-font-family: 'Source Sans Pro Light'; -fx-font-size: 20;");
     }
 
     /**
@@ -134,10 +138,10 @@ public class MoviesPanelView {
      */
     private void initPopularityLabel(Movie movie){
         popularityLabel = new Label("Popularity: "+ movie.popularity());
-        popularityLabel.setLayoutX(250);
+        popularityLabel.setLayoutX(258);
         popularityLabel.setLayoutY(120);
         popularityLabel.setTextFill(Paint.valueOf("white"));
-        popularityLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
+        popularityLabel.setStyle("-fx-font-family: 'Source Sans Pro Regular'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
     /**
@@ -146,10 +150,10 @@ public class MoviesPanelView {
      */
     private void initVoteAverageLabel(Movie movie){
         voteAverageLabel = new Label("Vote Average: "+ movie.minVoteAverage());
-        voteAverageLabel.setLayoutX(250);
+        voteAverageLabel.setLayoutX(258);
         voteAverageLabel.setLayoutY(160);
         voteAverageLabel.setTextFill(Paint.valueOf("white"));
-        voteAverageLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
+        voteAverageLabel.setStyle("-fx-font-family: 'Soure Sans Pro Regular'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
     /**
@@ -157,10 +161,10 @@ public class MoviesPanelView {
      */
     private void initOverviewLabel(){
         overviewLabel = new Label("Overview:");
-        overviewLabel.setLayoutX(250);
+        overviewLabel.setLayoutX(258);
         overviewLabel.setLayoutY(210);
         overviewLabel.setTextFill(Paint.valueOf("white"));
-        overviewLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:35px; -fx-font-weight: 25;");
+        overviewLabel.setStyle("-fx-font-family: 'Source Sans Pro Bold'; -fx-font-size:35px; -fx-font-weight: 25;");
     }
 
     /**
@@ -170,13 +174,19 @@ public class MoviesPanelView {
     private void initTextFlow(Movie movie){
         textFlow = new TextFlow();
         Text overviewContentText = new Text(movie.overviewToString(72));
-        textFlow.setLayoutX(250);
+        textFlow.setLayoutX(258);
         textFlow.setLayoutY(250);
         textFlow.prefWidth(60);
         textFlow.prefHeight(20);
+        textFlow.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                globalStage.setHeight(250 + newValue.doubleValue() + 100);
+            }
+        });
         overviewContentText.setTextAlignment(TextAlignment.JUSTIFY);
         overviewContentText.setFill(Paint.valueOf("white"));
-        overviewContentText.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:20px; -fx-font-weight: 10;");
+        overviewContentText.setStyle("-fx-font-family: 'Source Sans Pro Light'; -fx-font-size:20px; -fx-font-weight: 10;");
         textFlow.getChildren().add(overviewContentText);
     }
 
@@ -190,6 +200,9 @@ public class MoviesPanelView {
         removeButton.setLayoutY(390);
         removeButton.setPrefWidth(220);
         removeButton.setPrefHeight(40);
+        removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;");
+        removeButton.setOnMouseExited(event -> removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;"));
+        removeButton.setOnMouseEntered(event -> removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-background-color: #e5e5e5; -fx-text-fill: #E50914; -fx-cursor: hand;"));
         removeButton.setOnAction(event -> removeButtonClicked(movie));
     }
 
@@ -212,6 +225,9 @@ public class MoviesPanelView {
         addButton.setLayoutY(390);
         addButton.setPrefWidth(220);
         addButton.setPrefHeight(40);
+        addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;");
+        addButton.setOnMouseExited(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;"));
+        addButton.setOnMouseEntered(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-background-color: #e5e5e5; -fx-text-fill: #E50914; -fx-cursor: hand;"));
         addButton.setOnAction(event -> addButtonClicked(movie) );
     }
 
