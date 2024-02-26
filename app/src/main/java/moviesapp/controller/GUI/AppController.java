@@ -4,10 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
+import moviesapp.viewer.buttons.*;
 import moviesapp.viewer.left_panel.LeftPanelView;
-import moviesapp.viewer.left_panel.WithTitlePanelVIew;
+import moviesapp.viewer.left_panel.WithTitlePanelView;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
 import moviesapp.viewer.right_panel.ImagePanelView;
 import moviesapp.viewer.right_panel.RightPanelView;
@@ -25,18 +25,19 @@ public class AppController implements Initializable {
     }
 
     private void setGUIComponents(){
-        new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
+        leftPanelViewGUI = new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
 
-        new WithTitlePanelVIew(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel, yearField,
-                favoritesWithTitlePane, favoritesButtonWithTitle, goWithTitlePane, goButtonWithTitle);
+        withTitlePanelViewGUI = new WithTitlePanelView(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel, yearField,
+                favoritesWithTitlePane, favoritesWithTitleButton, goWithTitlePane, goWithTitleButton );
 
-        new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
-                to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
-                ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle, genreListView);
+        withoutTitlePanelViewGUI = new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
+                to, maxYearField, genresPane, genres, ratingPane, rating, atLeast, ratingField, searchBar, genreListView);
 
-        new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
+        withoutTitleButtonsGUI = new WithoutTitleButtons(buttonsWithoutTitlePane, leftPane, ratingPane, favoritesWithoutTitleButton, goWithoutTitleButton);
 
-        new ImagePanelView(gridPane, rightScrollPane, Favorites.instance.getFavorites());
+        rightPanelViewGUI = new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
+
+        imagePanelViewGUI = new ImagePanelView(gridPane, rightScrollPane);
     }
 
     @FXML
@@ -55,8 +56,29 @@ public class AppController implements Initializable {
         withoutTitlePane.setDisable(false);
     }
 
-    public static void handleClickOnImage(Movie movie) {
+    @FXML
+    public void favoritesButtonClicked(){
+        //imagePanelView.distributeImages(Favorites.instance.getFavorites());
     }
+
+    public static void handleClickOnImage(Movie movie) {
+        new DetailsButton(movie);
+    }
+
+
+    /////////////////////////////////////////////////////////// Begin GUI Components
+
+    private LeftPanelView leftPanelViewGUI;
+    private WithTitlePanelView withTitlePanelViewGUI;
+    private FavoritesWithTitleButton favoritesWithTitleButtonGUI;
+    private GoWithTitleButton goWithTitleButtonGUI;
+    private WithoutTitlePanelView withoutTitlePanelViewGUI;
+    private WithoutTitleButtons withoutTitleButtonsGUI;
+    private RightPanelView rightPanelViewGUI;
+    private ImagePanelView imagePanelViewGUI;
+
+    /////////////////////////////////////////////////////////// End GUI Components
+
 
     /////////////////////////////////////////////////////////// Begin FXML Identifiers
     public AnchorPane mainAnchorPane;
@@ -78,8 +100,8 @@ public class AppController implements Initializable {
     public Label atLeast;
     public TextField ratingField;
     public Pane buttonsWithoutTitlePane;
-    public Button goButtonWithoutTitle;
-    public Button favoritesButtonWithoutTitle;
+    public Button goWithoutTitleButton;
+    public Button favoritesWithoutTitleButton;
     public ScrollPane rightScrollPane;
     public StackPane rightStackPane;
     public Pane yearPane;
@@ -90,8 +112,8 @@ public class AppController implements Initializable {
     public Button withoutTitleButton;
     public Pane favoritesWithTitlePane;
     public Pane goWithTitlePane;
-    public Button favoritesButtonWithTitle;
-    public Button goButtonWithTitle;
+    public Button favoritesWithTitleButton;
+    public Button goWithTitleButton;
     public Pane withTitlePane;
     public Pane withoutTitlePane;
     public ListView<String> genreListView;
