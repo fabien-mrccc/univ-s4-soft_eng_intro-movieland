@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.model.movies.Favorites;
+import moviesapp.model.movies.Movie;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
@@ -52,6 +53,9 @@ public class AppController implements Initializable {
         withTitlePane.setDisable(true);
         withoutTitlePane.setVisible(true);
         withoutTitlePane.setDisable(false);
+    }
+
+    public static void handleClickOnImage(Movie movie) {
     }
 
     /////////////////////////////////////////////////////////// Begin FXML Identifiers

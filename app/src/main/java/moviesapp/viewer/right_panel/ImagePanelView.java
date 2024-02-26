@@ -11,6 +11,7 @@ import moviesapp.model.movies.Movies;
 
 import java.util.Objects;
 
+import static moviesapp.controller.GUI.AppController.handleClickOnImage;
 import static moviesapp.model.api.UrlRequestBuilder.imageBaseURL;
 import static moviesapp.model.api.UrlRequestBuilder.imageSize;
 import static moviesapp.viewer.right_panel.RightPanelView.rightScrollPanePadding;
@@ -73,6 +74,8 @@ public class ImagePanelView {
             imageView.setImage(image);
             imageView.setPreserveRatio(true);
             imageView.setFitWidth(imageWidth);
+
+            imageView.setOnMouseClicked(event -> handleClickOnImage(movie));
 
             gridPane.add(imageView, col, row);
 
