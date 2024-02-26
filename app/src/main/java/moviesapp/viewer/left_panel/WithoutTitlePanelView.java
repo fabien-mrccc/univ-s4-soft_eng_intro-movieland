@@ -25,14 +25,16 @@ public class WithoutTitlePanelView {
     private final Label atLeast;
     private final TextField ratingField;
     private final TextField searchBar;
-    private final Pane buttonsPane;
+    private final Pane favoritesPane;
+    private final Pane goPane;
     private final Button favoritesButton;
     private final Button goButton;
     private final ListView<String> genreListView;
+    private final Button clearButton;
 
     public WithoutTitlePanelView(Pane leftPane, Label appTitle, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
-                                 TextField ratingField, TextField searchBar, Pane buttonsPane, Button favoritesButton, Button goButton, ListView<String> genreListView) {
+                                 TextField ratingField, TextField searchBar, Pane favoritesPane, Button favoritesButton, Pane goPane, Button goButton, ListView<String> genreListView, Button clearButton) {
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.yearsPane = yearsPane;
@@ -48,11 +50,12 @@ public class WithoutTitlePanelView {
         this.atLeast = atLeast;
         this.ratingField = ratingField;
         this.searchBar = searchBar;
-        this.buttonsPane = buttonsPane;
         this.favoritesButton = favoritesButton;
         this.goButton = goButton;
         this.genreListView = genreListView;
-
+        this.goPane = goPane;
+        this.favoritesPane = favoritesPane;
+        this.clearButton = clearButton;
         setupView();
     }
 
@@ -64,7 +67,8 @@ public class WithoutTitlePanelView {
         setGenreListView();
         setRatingPane();
         setRating();
-        setButtonsPane();
+        setGoPane();
+        setFavoritesPane();
         setFavoritesButton();
         setGoButton();
     }
@@ -96,7 +100,7 @@ public class WithoutTitlePanelView {
     private void setGenresPane(){
         genresPane.layoutXProperty().bind(yearsPane.layoutXProperty());
         genresPane.layoutYProperty().bind(yearsPane.layoutYProperty().add(100));
-        genresPane.prefWidthProperty().bind(yearsPane.prefWidthProperty());
+        genresPane.prefWidthProperty().bind(yearsPane.prefWidthProperty().divide(2).subtract(10));
     }
 
     private void setGenres(){
@@ -104,17 +108,17 @@ public class WithoutTitlePanelView {
     }
 
     private void setGenreListView(){
-        genreListView.layoutYProperty().bind(genres.layoutYProperty().add(30));
-        genreListView.layoutXProperty().bind(genres.layoutXProperty().add(100));
-        genreListView.setPrefWidth(100);
-        genreListView.prefHeightProperty().bind(leftPane.heightProperty().multiply(0.35));
+        genreListView.layoutXProperty().bind(genres.layoutXProperty());
+        genreListView.layoutYProperty().bind(genres.layoutYProperty().add(35));
+        genreListView.prefWidthProperty().bind(genresPane.widthProperty());
+        genreListView.setPrefHeight(178);
         genreListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
     }
 
     private void setRatingPane(){
-        ratingPane.layoutXProperty().bind(genresPane.layoutXProperty());
-        ratingPane.layoutYProperty().bind(genresPane.layoutYProperty().add(leftPane.heightProperty().multiply(0.43)));
-        ratingPane.prefWidthProperty().bind(yearsPane.prefWidthProperty());
+        ratingPane.layoutXProperty().bind(genresPane.layoutXProperty().add(genresPane.widthProperty().add(20)));
+        ratingPane.layoutYProperty().bind(genresPane.layoutYProperty());
+        ratingPane.prefWidthProperty().bind(genresPane.prefWidthProperty());
     }
 
     private void setRating(){
@@ -127,9 +131,9 @@ public class WithoutTitlePanelView {
         ratingField.setPromptText("0 to 5");
     }
 
-    private void setButtonsPane(){
-        buttonsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(buttonsPane.widthProperty().divide(2)));
-        buttonsPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(110));
+    private void setFavoritesPane(){
+        favoritesPane.layoutXProperty().bind(goPane.layoutXProperty());
+        favoritesPane.layoutYProperty().bind(goPane.layoutYProperty().add(54));
     }
 
     private void setFavoritesButton(){
@@ -137,8 +141,12 @@ public class WithoutTitlePanelView {
         favoritesButton.setPrefWidth(140);
     }
 
+    private void setGoPane(){
+        goPane.layoutXProperty().bind(ratingPane.layoutXProperty());
+        goPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(120));
+    }
+
     private void setGoButton(){
-        goButton.layoutXProperty().bind(favoritesButton.layoutXProperty().add(160));
         goButton.setPrefHeight(26);
         goButton.setPrefWidth(80);
     }
