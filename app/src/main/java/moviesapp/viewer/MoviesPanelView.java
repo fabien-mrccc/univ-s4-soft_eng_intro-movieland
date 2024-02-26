@@ -81,7 +81,7 @@ public class MoviesPanelView {
         List<String> genres = new ArrayList<>();
         genres.add("action");
         Movie movie = new Movie(false, "",genres, "609681", "en",
-                "The Marvels",     "A young alcoholic ambient musician locks himself in his apartment on a dangerous seven day bender as he attempts to finish his upcoming album.",
+                "The Marvels",     "Roughly chronological, from 3/96 to 11/96, with a coda in spring of 1997: inside compounds of Aum Shinrikyo, a Buddhist sect led by Shoko Asahara. (Members confessed to a murderous sarin attack in the Tokyo subway in 1995.) We see what they eat, where they sleep, and how they respond to media scrutiny, on-going trials, the shrinking of their fortunes, and the criticism of society. Central focus is placed on Hiroshi Araki, a young man who finds himself elevated to chief spokesman for Aum after its leaders are arrested. Araki faces extreme hostility from the Japanese public, who find it hard to believe that most followers of the cult had no idea of the attacks and even harder to understand why these followers remain devoted to the religion, if not the violence.",
                 4.0, "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
                 "2023-11-28", "Marvels", false, 4.0, 2000);
         showDetails(movie);
@@ -195,11 +195,12 @@ public class MoviesPanelView {
      * @param movie the movie of which we want the details
      */
     private void initRemoveButton(Movie movie){
-        removeButton = new Button("remove");
+        removeButton = new Button("Remove From\nFavorites");
         removeButton.setLayoutX(20);
         removeButton.setLayoutY(390);
         removeButton.setPrefWidth(220);
-        removeButton.setPrefHeight(40);
+        removeButton.setPrefHeight(60);
+        removeButton.setTextAlignment(TextAlignment.CENTER);
         removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;");
         removeButton.setOnMouseExited(event -> removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;"));
         removeButton.setOnMouseEntered(event -> removeButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-background-color: #e5e5e5; -fx-text-fill: #E50914; -fx-cursor: hand;"));
@@ -220,11 +221,12 @@ public class MoviesPanelView {
      * @param movie the movie of which we want the details
      */
     private void initAddButton(Movie movie){
-        addButton = new Button("add");
+        addButton = new Button("Add To Favorites");
         addButton.setLayoutX(20);
         addButton.setLayoutY(390);
         addButton.setPrefWidth(220);
-        addButton.setPrefHeight(40);
+        addButton.setPrefHeight(60);
+        addButton.setTextAlignment(TextAlignment.CENTER);
         addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;");
         addButton.setOnMouseExited(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;"));
         addButton.setOnMouseEntered(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-background-color: #e5e5e5; -fx-text-fill: #E50914; -fx-cursor: hand;"));
