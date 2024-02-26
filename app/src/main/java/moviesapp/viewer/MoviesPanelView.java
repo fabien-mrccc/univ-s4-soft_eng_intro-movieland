@@ -6,8 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import moviesapp.model.api.UrlRequestBuilder;
@@ -88,6 +91,7 @@ public class MoviesPanelView {
         movieDetailsAnchorPane.prefHeight(500);
         movieDetailsAnchorPane.prefWidth(900);
         movieDetailsAnchorPane.setId("movieDetailsAnchorPane");
+        movieDetailsAnchorPane.setStyle("-fx-background-image: url('/viewer/images/background-pattern.png'); -fx-background-size: cover; -fx-border-color: #9d36f7; -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0)");
     }
 
     /**
@@ -97,6 +101,7 @@ public class MoviesPanelView {
         imageView = new ImageView();
         imageView.setLayoutX(20);
         imageView.setLayoutY(20);
+        imageView.setStyle("-fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0)");
     }
 
     /**
@@ -107,6 +112,7 @@ public class MoviesPanelView {
         titleLabelAndYear = new Label(movie.title() + "(" + movie.getReleaseYear() + ")");
         titleLabelAndYear.setLayoutX(250);
         titleLabelAndYear.setLayoutY(0);
+        titleLabelAndYear.setTextFill(Paint.valueOf("white"));
         titleLabelAndYear.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size: 70px; -fx-font-weight: 15;");
     }
 
@@ -118,6 +124,7 @@ public class MoviesPanelView {
         usefulInformationLabel = new Label(movie.releaseDate() + " (" + movie.originalLanguage() + ") " + movie.genresToString());
         usefulInformationLabel.setLayoutX(250);
         usefulInformationLabel.setLayoutY(80);
+        usefulInformationLabel.setTextFill(Paint.valueOf("white"));
         usefulInformationLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size: 20;");
     }
 
@@ -129,6 +136,7 @@ public class MoviesPanelView {
         popularityLabel = new Label("Popularity: "+ movie.popularity());
         popularityLabel.setLayoutX(250);
         popularityLabel.setLayoutY(120);
+        popularityLabel.setTextFill(Paint.valueOf("white"));
         popularityLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
@@ -140,6 +148,7 @@ public class MoviesPanelView {
         voteAverageLabel = new Label("Vote Average: "+ movie.minVoteAverage());
         voteAverageLabel.setLayoutX(250);
         voteAverageLabel.setLayoutY(160);
+        voteAverageLabel.setTextFill(Paint.valueOf("white"));
         voteAverageLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
@@ -150,6 +159,7 @@ public class MoviesPanelView {
         overviewLabel = new Label("Overview:");
         overviewLabel.setLayoutX(250);
         overviewLabel.setLayoutY(210);
+        overviewLabel.setTextFill(Paint.valueOf("white"));
         overviewLabel.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:35px; -fx-font-weight: 25;");
     }
 
@@ -164,6 +174,8 @@ public class MoviesPanelView {
         textFlow.setLayoutY(250);
         textFlow.prefWidth(60);
         textFlow.prefHeight(20);
+        overviewContentText.setTextAlignment(TextAlignment.JUSTIFY);
+        overviewContentText.setFill(Paint.valueOf("white"));
         overviewContentText.setStyle("-fx-font-family: 'Arial Dark'; -fx-font-size:20px; -fx-font-weight: 10;");
         textFlow.getChildren().add(overviewContentText);
     }
