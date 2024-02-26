@@ -1,101 +1,73 @@
 package moviesapp.viewer.right_panel;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
-public class ImagePanelView {
-    private final Pane imagePane;
-    private final ScrollPane rightScrollPane;
-    private final VBox vBox;
-    private int numberOfImagesPerRow = 0;
-    private double totalImageWidth = 0;
-    private final int numberOfImages = 19; //TODO: update with real number of images;
-    private int numberOfUnprintedImages = numberOfImages;
-    static final int rightScrollPanePadding = 50;
+import static moviesapp.viewer.right_panel.RightPanelView.rightScrollPanePadding;
 
-    public ImagePanelView(Pane imagePane, ScrollPane rightScrollPane, VBox vBox) {
-        this.imagePane = imagePane;
+public class ImagePanelView {
+    private final ScrollPane rightScrollPane;
+    private final GridPane gridPane;
+    private final int numberOfImages;
+    private final int imageWidth = 258;
+    private int numberOfImagesPerRow = 3;
+    private double horizontalGap = 15;
+    private final int verticalGap = 50;
+
+    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, int numberOfImages) {
+        this.gridPane = gridPane;
         this.rightScrollPane = rightScrollPane;
-        this.vBox = vBox;
+        this.numberOfImages = numberOfImages;
 
         setupView();
     }
 
     public void setupView() {
-        setImagePane();
-        setVBox();
-        setHBoxes();
-    }
-    private void setImagePane() {
-        imagePane.prefWidthProperty().bind(rightScrollPane.widthProperty().subtract(rightScrollPanePadding * 2));
-        imagePane.prefHeightProperty().bind(rightScrollPane.heightProperty().subtract(rightScrollPanePadding * 2));
+        setGridPane();
+        distributeImages();
     }
 
-    private void setVBox() {
-        double vBoxSpacing = 50;
-        vBox.setSpacing(vBoxSpacing);
-        vBox.setPadding(new Insets(0,0,rightScrollPanePadding,0));
-        vBox.prefWidthProperty().bind(imagePane.prefWidthProperty());
-        vBox.prefHeightProperty().bind(imagePane.prefHeightProperty());
+    private void setGridPane() {
+        gridPane.prefWidthProperty().bind(rightScrollPane.widthProperty());
+        gridPane.prefHeightProperty().bind(rightScrollPane.heightProperty());
+        gridPane.setPadding(new Insets(0, 0, rightScrollPanePadding, 0));
+        gridPane.setAlignment(Pos.BASELINE_CENTER);
+        adjustHorizontalGap();
+        gridPane.setVgap(verticalGap);
     }
 
-    private void setHBoxes() {
-
-        imagePane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            initHBoxCriteria(newValue.doubleValue());
-
-            while (numberOfUnprintedImages > 0){
-                setHBox();
-            }
+    private void adjustHorizontalGap() {
+        rightScrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double containerWidth = newVal.doubleValue() - (rightScrollPanePadding * 2);
+            double totalGapWidth = containerWidth - (imageWidth * numberOfImagesPerRow);
+            int numberOfGaps = numberOfImagesPerRow - 1 + 2;
+            horizontalGap = totalGapWidth / numberOfGaps;
+            gridPane.setHgap(horizontalGap);
         });
     }
 
-    private void initHBoxCriteria(double imagePaneWidth){
 
-        int imageViewWidth = 200;
-        int minHBoxSpacing = 15;
-        double imageViewWidthWithMinHBoxSpacing = imageViewWidth + minHBoxSpacing;
-
-        while(totalImageWidth < imagePaneWidth){
-            numberOfImagesPerRow++;
-            totalImageWidth = numberOfImagesPerRow * imageViewWidthWithMinHBoxSpacing;
-        }
-        numberOfImagesPerRow--;
-        totalImageWidth -= imageViewWidth;
-    }
-
-    private void setHBox(){
-        HBox hBox = new HBox();
+    private void distributeImages() {
         Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
-        int imageWidth = 230;
+        int row = 0, col = 0;
 
-        for(int i = 0; i < numberOfImagesPerRow; i++){
-            if(numberOfUnprintedImages > 0){
-                ImageView imageView = new ImageView();
-                imageView.setImage(image);
-                imageView.setPreserveRatio(true);
-                imageView.setFitWidth(imageWidth);
-                hBox.getChildren().add(imageView);
-                numberOfUnprintedImages--;
-            } else {
-                ImageView placeholder = new ImageView();
-                placeholder.setImage(image);
-                placeholder.setVisible(false);
-                placeholder.setPreserveRatio(true);
-                placeholder.setFitWidth(imageWidth);
-                hBox.getChildren().add(placeholder);
-            }
+        for(int i = 0; i < numberOfImages; i++) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(image);
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(imageWidth);
 
-            if (i < numberOfImagesPerRow - 1) {
-                Region spacer = new Region();
-                HBox.setHgrow(spacer, Priority.ALWAYS);
-                hBox.getChildren().add(spacer);
+            gridPane.add(imageView, col, row);
+
+            col++;
+            if(col >= numberOfImagesPerRow) {
+                col = 0;
+                row++;
             }
         }
-
-        vBox.getChildren().add(hBox);
     }
 }

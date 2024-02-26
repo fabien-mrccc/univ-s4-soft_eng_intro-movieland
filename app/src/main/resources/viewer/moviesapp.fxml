@@ -72,12 +72,9 @@
     <!--Right Pane-->
     <StackPane fx:id="rightStackPane" styleClass="rightStackPane">
         <ScrollPane fx:id="rightScrollPane" styleClass="rightScrollPane">
+            <GridPane fx:id="gridPane" styleClass="debug">
 
-            <AnchorPane fx:id="imagePane" styleClass="imagePane">
-
-                <VBox fx:id="vBox">
-                </VBox>
-            </AnchorPane>
+            </GridPane>
         </ScrollPane>
     </StackPane>
 

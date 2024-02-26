@@ -25,8 +25,6 @@ public class AppController implements Initializable {
         setGUIComponents();
     }
 
-    /////////////////////////////////////////////////////////// Begin Responsive Manager Section
-
     private void setGUIComponents(){
         new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
 
@@ -39,7 +37,7 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(imagePane, rightScrollPane, vBox);
+        new ImagePanelView(gridPane, rightScrollPane, 19);
     }
 
     @FXML
@@ -81,9 +79,7 @@ public class AppController implements Initializable {
     public Button goButtonWithoutTitle;
     public Button favoritesButtonWithoutTitle;
     public ScrollPane rightScrollPane;
-    public AnchorPane imagePane;
     public StackPane rightStackPane;
-    public VBox vBox;
     public Pane yearPane;
     public Label yearLabel;
     public TextField yearField;
@@ -96,6 +92,7 @@ public class AppController implements Initializable {
     public Button goButtonWithTitle;
     public Pane withTitlePane;
     public Pane withoutTitlePane;
+    public GridPane gridPane;
 
     /////////////////////////////////////////////////////////// End FXML Identifiers
 }
