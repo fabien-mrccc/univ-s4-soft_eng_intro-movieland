@@ -1,7 +1,5 @@
 package moviesapp.viewer.Buttons;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,9 +15,6 @@ import javafx.stage.Stage;
 import moviesapp.model.api.UrlRequestBuilder;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DetailsButton {
 
@@ -110,6 +105,7 @@ public class DetailsButton {
         titleLabelAndYear.setLayoutX(255);
         titleLabelAndYear.setLayoutY(-3);
         titleLabelAndYear.setTextFill(Paint.valueOf("white"));
+        setGlobalStageWidth(titleLabelAndYear);
         titleLabelAndYear.setStyle("-fx-font-family: 'Source Sans Pro Bold'; -fx-font-size: 70px; -fx-font-weight: 15;");
     }
 
@@ -122,6 +118,7 @@ public class DetailsButton {
         usefulInformationLabel.setLayoutX(258);
         usefulInformationLabel.setLayoutY(80);
         usefulInformationLabel.setTextFill(Paint.valueOf("white"));
+        setGlobalStageWidth(usefulInformationLabel);
         usefulInformationLabel.setStyle("-fx-font-family: 'Source Sans Pro Light'; -fx-font-size: 20;");
     }
 
@@ -134,6 +131,7 @@ public class DetailsButton {
         popularityLabel.setLayoutX(258);
         popularityLabel.setLayoutY(120);
         popularityLabel.setTextFill(Paint.valueOf("white"));
+        setGlobalStageWidth(popularityLabel);
         popularityLabel.setStyle("-fx-font-family: 'Source Sans Pro Regular'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
@@ -146,6 +144,7 @@ public class DetailsButton {
         voteAverageLabel.setLayoutX(258);
         voteAverageLabel.setLayoutY(160);
         voteAverageLabel.setTextFill(Paint.valueOf("white"));
+        setGlobalStageWidth(voteAverageLabel);
         voteAverageLabel.setStyle("-fx-font-family: 'Soure Sans Pro Regular'; -fx-font-size:30px; -fx-font-weight: 25;");
     }
 
@@ -157,6 +156,7 @@ public class DetailsButton {
         overviewLabel.setLayoutX(258);
         overviewLabel.setLayoutY(210);
         overviewLabel.setTextFill(Paint.valueOf("white"));
+        setGlobalStageWidth(overviewLabel);
         overviewLabel.setStyle("-fx-font-family: 'Source Sans Pro Bold'; -fx-font-size:35px; -fx-font-weight: 25;");
     }
 
@@ -171,12 +171,7 @@ public class DetailsButton {
         textFlow.setLayoutY(250);
         textFlow.prefWidth(60);
         textFlow.prefHeight(20);
-        textFlow.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                globalStage.setHeight(250 + newValue.doubleValue() + 100);
-            }
-        });
+        textFlow.heightProperty().addListener((observable, oldValue, newValue) -> globalStage.setHeight(250 + newValue.doubleValue() + 100));
         overviewContentText.setTextAlignment(TextAlignment.JUSTIFY);
         overviewContentText.setFill(Paint.valueOf("white"));
         overviewContentText.setStyle("-fx-font-family: 'Source Sans Pro Light'; -fx-font-size:20px; -fx-font-weight: 10;");
@@ -235,4 +230,7 @@ public class DetailsButton {
         //TODO: update favorites
     }
 
+    private void setGlobalStageWidth(Label label){
+        label.widthProperty().addListener((observable, oldValue, newValue) -> globalStage.setHeight(250 + newValue.doubleValue() + 100));
+    }
 }
