@@ -28,11 +28,11 @@
             </Pane>
 
             <Pane fx:id="goWithTitlePane" styleClass="debug">
-                <Button fx:id="goButtonWithTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goWithTitleButton" styleClass="button, red-button" text="GO"/>
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
-                <Button fx:id="favoritesButtonWithTitle" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="favoritesWithTitleButton" styleClass="button, purple-button" text="Favorites"/>
             </Pane>
         </Pane>
 

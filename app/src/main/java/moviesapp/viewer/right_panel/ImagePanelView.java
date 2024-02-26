@@ -22,19 +22,16 @@ public class ImagePanelView {
     private final int imageWidth = 258;
     private final int numberOfImagesPerRow = 3;
     private double horizontalGap = 15;
-    private final Movies movies;
 
-    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, Movies movies) {
+    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane) {
         this.gridPane = gridPane;
         this.rightScrollPane = rightScrollPane;
-        this.movies = movies;
 
         setupView();
     }
 
     public void setupView() {
         setGridPane();
-        distributeImages();
     }
 
     private void setGridPane() {
@@ -58,7 +55,7 @@ public class ImagePanelView {
         });
     }
 
-    private void distributeImages() {
+    public void distributeImages(Movies movies) {
         int row = 0, col = 0;
 
         for(Movie movie : movies) {
