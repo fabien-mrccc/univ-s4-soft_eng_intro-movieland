@@ -5,6 +5,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.Movies;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImagePanelView {
     private final Pane imagePane;
@@ -12,22 +17,24 @@ public class ImagePanelView {
     private final VBox vBox;
     private int numberOfImagesPerRow = 0;
     private double totalImageWidth = 0;
-    private final int numberOfImages = 19; //TODO: update with real number of images;
-    private int numberOfUnprintedImages = numberOfImages;
+    private int numberOfImages;
+    private int numberOfUnprintedImages;
     static final int rightScrollPanePadding = 50;
 
-    public ImagePanelView(Pane imagePane, ScrollPane rightScrollPane, VBox vBox) {
+    public ImagePanelView(Pane imagePane, ScrollPane rightScrollPane, VBox vBox, Movies movies) {
+        this.numberOfImages = movies.size();
+        this.numberOfUnprintedImages = numberOfImages;
         this.imagePane = imagePane;
         this.rightScrollPane = rightScrollPane;
         this.vBox = vBox;
 
-        setupView();
+        setupView(movies);
     }
 
-    public void setupView() {
+    public void setupView(Movies movies) {
         setImagePane();
         setVBox();
-        setHBoxes();
+        setHBoxes(movies);
     }
     private void setImagePane() {
         imagePane.prefWidthProperty().bind(rightScrollPane.widthProperty().subtract(rightScrollPanePadding * 2));
@@ -42,13 +49,19 @@ public class ImagePanelView {
         vBox.prefHeightProperty().bind(imagePane.prefHeightProperty());
     }
 
-    private void setHBoxes() {
+    private void setHBoxes(Movies movies) {
+        Movies remainingMovies = movies;
 
         imagePane.widthProperty().addListener((observable, oldValue, newValue) -> {
             initHBoxCriteria(newValue.doubleValue());
-
-            while (numberOfUnprintedImages > 0){
-                setHBox();
+            List<Integer> indexes = new ArrayList<>();
+            for(int i=0; i<numberOfImagesPerRow;i++){
+                indexes.add(i);
+            }
+            while(numberOfUnprintedImages != 0){
+                Movies moviesToPlaceHorizontally = remainingMovies.get(indexes);
+                setHBox(moviesToPlaceHorizontally);
+                remainingMovies.remove(moviesToPlaceHorizontally);
             }
         });
     }
@@ -67,12 +80,13 @@ public class ImagePanelView {
         totalImageWidth -= imageViewWidth;
     }
 
-    private void setHBox(){
+    private void setHBox(Movies movies){
         HBox hBox = new HBox();
-        Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
-        int imageWidth = 230;
 
-        for(int i = 0; i < numberOfImagesPerRow; i++){
+        for(Movie movie : movies){
+            Image image = new Image("https://image.tmdb.org/t/p/w300"+movie.posterPath());
+            int imageWidth = 230;
+
             if(numberOfUnprintedImages > 0){
                 ImageView imageView = new ImageView();
                 imageView.setImage(image);
@@ -89,7 +103,7 @@ public class ImagePanelView {
                 hBox.getChildren().add(placeholder);
             }
 
-            if (i < numberOfImagesPerRow - 1) {
+            if (movies.get(movies.size()-1).equals(movie)) {
                 Region spacer = new Region();
                 HBox.setHgrow(spacer, Priority.ALWAYS);
                 hBox.getChildren().add(spacer);
