@@ -1,4 +1,4 @@
-package moviesapp.viewer.Buttons;
+package moviesapp.viewer.buttons;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
