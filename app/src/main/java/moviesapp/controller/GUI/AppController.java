@@ -2,7 +2,6 @@ package moviesapp.controller.GUI;
 
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -10,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,13 +48,11 @@ public class AppController implements Initializable {
 
 
     /////////////////////////////////////////////////////////// Responsive Manager attributes
-    private final int rightScrollPanePadding = 40;
-    private final double vBoxSpacing = 40;
-    private double hBoxSpacing = 0;
-    private final int imageViewWidth = 200;
+    private final int rightScrollPanePadding = 50;
     private double totalImageWidth = 0;
     private int numberOfImagesPerRow = 0;
-    private int numberOfImageNotPrinted = 10; //TODO: update with real number of images;
+    private final int numberOfImages = 19; //TODO: update with real number of images;
+    private int numberOfUnprintedImages = numberOfImages;
 
     /////////////////////////////////////////////////////////// End Responsive Manager attributes
 
@@ -69,6 +65,8 @@ public class AppController implements Initializable {
     /////////////////////////////////////////////////////////// Responsive Manager Section
 
     private void responsiveManager(){
+        setMainAnchorPane();
+
         setLeftPane();
         setAppTitle();
 
@@ -97,6 +95,11 @@ public class AppController implements Initializable {
         setVBox();
 
         setHBoxes();
+    }
+
+    private void setMainAnchorPane(){
+        mainAnchorPane.setMinWidth(1400);
+        mainAnchorPane.setMinHeight(800);
     }
 
     private void setLeftPane(){
@@ -193,16 +196,16 @@ public class AppController implements Initializable {
     }
 
     private void setRightStackPane(){
-        leftPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            rightStackPane.layoutXProperty().setValue(newValue);
-        });
+        leftPane.widthProperty().addListener((observable, oldValue, newValue) -> rightStackPane.layoutXProperty().setValue(newValue));
 
         rightStackPane.prefWidthProperty().bind(mainAnchorPane.widthProperty().subtract(leftPane.widthProperty()));
         rightStackPane.prefHeightProperty().bind(mainAnchorPane.heightProperty());
     }
 
     private void setRightScrollPane(){
-        rightScrollPane.setPadding(new Insets(rightScrollPanePadding, rightScrollPanePadding, 0, rightScrollPanePadding));
+        double sidePaddingMul = 1;
+        rightScrollPane.setPadding(new Insets(rightScrollPanePadding, rightScrollPanePadding * sidePaddingMul, rightScrollPanePadding, rightScrollPanePadding * sidePaddingMul));
+        rightScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
     private void setImagePane() {
@@ -211,36 +214,32 @@ public class AppController implements Initializable {
     }
 
     private void setVBox() {
+        double vBoxSpacing = 50;
         vBox.setSpacing(vBoxSpacing);
         vBox.prefWidthProperty().bind(imagePane.prefWidthProperty());
         vBox.prefHeightProperty().bind(imagePane.prefHeightProperty());
-
-        ///////////////////////////////////////////////////////////
-        Color backgroundColor = Color.ORANGE; // Couleur de fond que vous souhaitez utiliser
-        BackgroundFill backgroundFill = new BackgroundFill(backgroundColor, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        vBox.setBackground(background);
-        ///////////////////////////////////////////////////////////
     }
 
     private void setHBoxes() {
 
-        initHBoxCriteria();
-
         imagePane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            initHBoxCriteria(newValue.doubleValue());
 
-            updateHBoxCriteria(newValue.doubleValue());
-
-            while (numberOfImageNotPrinted > 0){
+            while (numberOfUnprintedImages > 0){
                 setHBox();
             }
         });
     }
 
-    private void initHBoxCriteria(){
-        while(totalImageWidth < imagePane.getWidth()){
+    private void initHBoxCriteria(double imagePaneWidth){
+
+        int imageViewWidth = 200;
+        int minHBoxSpacing = 15;
+        double imageViewWidthWithMinHBoxSpacing = imageViewWidth + minHBoxSpacing;
+
+        while(totalImageWidth < imagePaneWidth){
             numberOfImagesPerRow++;
-            totalImageWidth = numberOfImagesPerRow * imageViewWidth;
+            totalImageWidth = numberOfImagesPerRow * imageViewWidthWithMinHBoxSpacing;
         }
         numberOfImagesPerRow--;
         totalImageWidth -= imageViewWidth;
@@ -248,52 +247,30 @@ public class AppController implements Initializable {
 
     private void setHBox(){
         HBox hBox = new HBox();
-        hBox.setSpacing(hBoxSpacing);
-        hBox.setAlignment(Pos.CENTER);
-
-        ///////////////////////////////////////////////////////////
-        Color backgroundColor = Color.LIGHTBLUE; // Couleur de fond que vous souhaitez utiliser
-        BackgroundFill backgroundFill = new BackgroundFill(backgroundColor, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        hBox.setBackground(background);
-        ///////////////////////////////////////////////////////////
 
         Image image = new Image("https://image.tmdb.org/t/p/w200/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
 
-        for( int i = 0 ; i < numberOfImagesPerRow ; i++){
-            if(numberOfImageNotPrinted <= 0){
-                break;
+        for(int i = 0; i < numberOfImagesPerRow; i++){
+            if(numberOfUnprintedImages > 0){
+                ImageView imageView = new ImageView();
+                imageView.setImage(image);
+                hBox.getChildren().add(imageView);
+                numberOfUnprintedImages--;
+            } else {
+                ImageView placeholder = new ImageView();
+                placeholder.setImage(image);
+                placeholder.setVisible(false);
+                hBox.getChildren().add(placeholder);
             }
-            ImageView imageView = new ImageView();
-            imageView.setImage(image);
-            hBox.getChildren().add(imageView);
-            numberOfImageNotPrinted--;
+
+            if (i < numberOfImagesPerRow - 1) {
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+                hBox.getChildren().add(spacer);
+            }
         }
 
         vBox.getChildren().add(hBox);
-    }
-
-    private void updateHBoxCriteria(double paneWidth){
-
-        if(hBoxSpacing <= 15){
-            vBox.getChildren().clear();
-            numberOfImageNotPrinted = 10;
-        }
-
-        double paneWidthWithoutPadding = paneWidth - vBoxSpacing * 2;
-
-        double availableSpacing = paneWidthWithoutPadding - totalImageWidth;
-
-        hBoxSpacing = availableSpacing / numberOfImagesPerRow * 0.25;
-
-        ///////////////////////////////////////////////////////////
-        System.out.println("paneWidth: " + paneWidth);
-        System.out.println("totalImageWidth: " + totalImageWidth);
-        System.out.println("imageViewWidth: " + imageViewWidth);
-        System.out.println("availableSpacing: " + availableSpacing);
-        System.out.println("numberOfImagesPerRow: " + numberOfImagesPerRow);
-        System.out.println("hBoxSpacing: " + hBoxSpacing);
-        ///////////////////////////////////////////////////////////
     }
 
     /////////////////////////////////////////////////////////// End Responsive Manager Section
