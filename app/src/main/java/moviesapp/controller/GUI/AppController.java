@@ -13,6 +13,8 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static moviesapp.App.minHeight;
+import static moviesapp.App.minWidth;
 import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
@@ -98,8 +100,8 @@ public class AppController implements Initializable {
     }
 
     private void setMainAnchorPane(){
-        mainAnchorPane.setMinWidth(1400);
-        mainAnchorPane.setMinHeight(800);
+        mainAnchorPane.setMinWidth(minWidth);
+        mainAnchorPane.setMinHeight(minHeight);
     }
 
     private void setLeftPane(){
@@ -248,18 +250,22 @@ public class AppController implements Initializable {
     private void setHBox(){
         HBox hBox = new HBox();
 
-        Image image = new Image("https://image.tmdb.org/t/p/w200/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
+        Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
 
         for(int i = 0; i < numberOfImagesPerRow; i++){
             if(numberOfUnprintedImages > 0){
                 ImageView imageView = new ImageView();
                 imageView.setImage(image);
+                imageView.setPreserveRatio(true);
+                imageView.setFitWidth(250);
                 hBox.getChildren().add(imageView);
                 numberOfUnprintedImages--;
             } else {
                 ImageView placeholder = new ImageView();
                 placeholder.setImage(image);
                 placeholder.setVisible(false);
+                placeholder.setPreserveRatio(true);
+                placeholder.setFitWidth(250);
                 hBox.getChildren().add(placeholder);
             }
 

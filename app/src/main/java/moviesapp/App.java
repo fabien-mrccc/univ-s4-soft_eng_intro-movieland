@@ -14,6 +14,9 @@ import java.util.Objects;
 
 public class App extends Application {
 
+    public static int minWidth = 1600;
+    public static int minHeight = 800;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/Watched.ttf"), 20);
@@ -22,8 +25,8 @@ public class App extends Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/viewer/moviesapp.fxml")));
 
         primaryStage.setTitle("MoviesApp");
-        primaryStage.setMinWidth(1400);
-        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(minWidth);
+        primaryStage.setMinHeight(minHeight);
         primaryStage.centerOnScreen();
 
         primaryStage.setScene(new Scene(root));
