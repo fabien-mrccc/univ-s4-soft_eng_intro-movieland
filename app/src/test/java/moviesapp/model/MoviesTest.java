@@ -113,7 +113,7 @@ public class MoviesTest {
         movies.remove(movie1);
         assertEquals(movies.toString(),
                 indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
-        movies.remove(null);
+        movies.remove((Movie) null);
         assertEquals(movies.toString(), indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
         movies.remove(movie1);
         assertEquals(movies.toString(), indexOfMovie(1) + movie2 + indexOfMovie(2) + movie3);
