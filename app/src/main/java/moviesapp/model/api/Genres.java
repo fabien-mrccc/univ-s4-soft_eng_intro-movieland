@@ -111,4 +111,16 @@ public class Genres {
         }
         return genreIds;
     }
+
+    /**
+     * return a list of genres in String format
+     * @return a list of genres
+     */
+    public List<String> genreList(){
+        List<String> genreList = new ArrayList<>();
+        for (String genre : GENRE_NAME_ID_MAP.keySet()) {
+            genreList.add(genre);
+        }
+        return genreList;
+    }
 }

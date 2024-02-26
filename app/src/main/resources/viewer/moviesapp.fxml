@@ -28,7 +28,7 @@
             </Pane>
 
             <Pane fx:id="goWithTitlePane" styleClass="debug">
-                <Button fx:id="goButtonWithTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goButtonWithTitle" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithTitle"/>
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
@@ -59,7 +59,7 @@
 
             <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
                 <Button fx:id="favoritesButtonWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
-                <Button fx:id="goButtonWithoutTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goButtonWithoutTitle" styleClass="button, red-button" text="GO" onAction="#searchCatcherNoTitle"/>
             </Pane>
         </Pane>
 

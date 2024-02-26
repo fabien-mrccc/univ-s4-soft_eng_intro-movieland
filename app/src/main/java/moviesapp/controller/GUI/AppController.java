@@ -1,9 +1,13 @@
 package moviesapp.controller.GUI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import moviesapp.model.api.Genres;
+import moviesapp.model.json.JsonReader;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
 import moviesapp.viewer.left_panel.LeftPanelView;
@@ -17,9 +21,15 @@ import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
 
+    WithoutTitlePanelView searchNoTitle;
+    static JsonReader jsonReader;
+    WithTitlePanelVIew searchTitle;
+    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/resources/json/api-results.json";
+
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
 
+        genreSelectorSetUp();
         turnOnSearchWithTitleMode();
         setGUIComponents();
     }
@@ -27,10 +37,10 @@ public class AppController implements Initializable {
     private void setGUIComponents(){
         new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
 
-        new WithTitlePanelVIew(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel, yearField,
+        searchTitle = new WithTitlePanelVIew(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel, yearField,
                 favoritesWithTitlePane, favoritesButtonWithTitle, goWithTitlePane, goButtonWithTitle);
 
-        new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
+        searchNoTitle = new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
                 to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
                 ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle, genreListView);
 
@@ -53,6 +63,34 @@ public class AppController implements Initializable {
         withTitlePane.setDisable(true);
         withoutTitlePane.setVisible(true);
         withoutTitlePane.setDisable(false);
+    }
+
+    @FXML
+    private void searchCatcherNoTitle(){
+        searchNoTitle.searchCatcherNoTitle();
+        updateImagePanelView();
+    }
+
+    @FXML
+    private void searchCatcherWithTitle(){
+        searchTitle.searchCatcherWithTitle();
+        updateImagePanelView();
+    }
+
+    private void updateImagePanelView(){
+        jsonReaderUpdate();
+        new ImagePanelView(gridPane, rightScrollPane, jsonReader.findAllMovies());
+    }
+
+    private void genreSelectorSetUp(){
+        Genres.fillGENRE_NAME_ID_MAP();
+        ObservableList<String> genres = FXCollections.observableArrayList(Genres.instance.genreList());
+        genreListView.setItems(genres);
+        genreListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+    }
+
+    private static void jsonReaderUpdate(){
+        jsonReader = new JsonReader(apiFilePath);
     }
 
     public static void handleClickOnImage(Movie movie) {

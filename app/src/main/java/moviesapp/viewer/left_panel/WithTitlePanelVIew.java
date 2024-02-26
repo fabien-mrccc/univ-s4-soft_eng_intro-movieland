@@ -1,9 +1,17 @@
 package moviesapp.viewer.left_panel;
 
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import moviesapp.model.api.Genres;
+import moviesapp.model.api.TheMovieDbAPI;
+import moviesapp.model.api.UrlRequestBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
@@ -21,6 +29,7 @@ public class WithTitlePanelVIew {
     private final Button favoritesButton;
     private final Pane goPane;
     private final Button goButton;
+    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
     public WithTitlePanelVIew(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
                               TextField searchBar, Pane yearPane, Label year, TextField yearField,
@@ -104,4 +113,43 @@ public class WithTitlePanelVIew {
         goButton.setPrefWidth(80);
     }
 
+    public void searchCatcherWithTitle(){
+        yearField.setStyle("");
+        String title = searchBar.getText().trim();
+        String year = yearField.getText().trim();
+        List<String> selectedGenresId = new ArrayList<>();
+
+        if(!isValidYear(year)){
+            yearField.setStyle("-fx-background-color: red;");
+            alertYear();
+            return;
+        }
+
+        searchHandling(title, year);
+    }
+
+    /**
+     * show an alert page if explaining why the years are not valid
+     */
+    private void alertYear(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText("Please enter valid years. Year must be a 4 numbers and the year in the left field should be less than the year in the right field.");
+        alert.showAndWait();
+    }
+
+    /**
+     * test if the years are valid meaning either empty or 4 numbers
+     * @param year tested year
+     * @return true if the year pass false otherwise
+     */
+    private boolean isValidYear(String year) {
+        return year.isEmpty() || year.matches("\\d{4}");
+    }
+
+    private void searchHandling(String title, String year){
+        UrlRequestBuilder.searchMode = "1";
+        apiObject.searchMovies(title, year, "", null, null, "1");
+    }
 }
