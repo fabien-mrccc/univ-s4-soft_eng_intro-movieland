@@ -1,4 +1,4 @@
-package moviesapp.viewer.buttons;
+package moviesapp.viewer.right_panel;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,7 +16,7 @@ import moviesapp.model.api.UrlRequestBuilder;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
 
-public class DetailsButton {
+public class DetailsMode {
 
     @FXML public Stage globalStage;
     @FXML public Button addButton;
@@ -30,7 +30,7 @@ public class DetailsButton {
     @FXML public Label overviewLabel;
     @FXML public TextFlow textFlow;
 
-    public DetailsButton(Movie movie){
+    public DetailsMode(Movie movie){
         showDetails(movie);
     }
 
