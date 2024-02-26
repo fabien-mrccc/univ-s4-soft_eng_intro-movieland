@@ -28,7 +28,7 @@ public class App extends Application {
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/viewer/moviesapp.fxml")));
 
-        primaryStage.setTitle("MoviesApp");
+        primaryStage.setTitle("MovieLand");
         primaryStage.setMinWidth(minWidth);
         primaryStage.setMinHeight(minHeight);
         primaryStage.centerOnScreen();

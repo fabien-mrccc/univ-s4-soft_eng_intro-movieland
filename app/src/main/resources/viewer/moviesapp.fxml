@@ -14,7 +14,7 @@
 
     <!--Left Pane-->
     <Pane fx:id="leftPane" styleClass="leftPane">
-        <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES"/>
+        <Label fx:id="appTitle" styleClass="appTitle" text="MovieLand"/>
 
         <Pane fx:id="withTitlePane" styleClass="debug">
             <Pane fx:id="titleAndSearchPane" styleClass="debug">
@@ -28,7 +28,7 @@
             </Pane>
 
             <Pane fx:id="goWithTitlePane" styleClass="debug">
-                <Button fx:id="goWithTitleButton" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goWithTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithTitle"/>
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
@@ -45,7 +45,6 @@
                 <TextField fx:id="maxYearField" styleClass="black-field"/>
             </Pane>
 
-            <!--TODO: code genres list and manage prefHeight in AppController-->
             <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
                 <ListView fx:id="genreListView"/>
@@ -59,7 +58,7 @@
 
             <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
                 <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites"/>
-                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherNoTitle"/>
             </Pane>
         </Pane>
 
