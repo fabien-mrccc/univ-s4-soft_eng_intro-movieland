@@ -65,11 +65,13 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
     }
 
     public String genresToString(){
-        StringBuilder genresToString;
+
         if(genres.isEmpty()){
-            return genresToString();
+            return "";
         }
-        genresToString = new StringBuilder(" • ");
+
+        StringBuilder genresToString = new StringBuilder(" • ");
+
         for(String genre: genres){
             if (genre == null || genre.isEmpty()) {
                 return genre;
