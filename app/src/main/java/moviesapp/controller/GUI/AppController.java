@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import moviesapp.controller.command_line.CLController;
+import moviesapp.model.json.JsonReader;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
@@ -39,7 +41,7 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(imagePane, rightScrollPane, vBox);
+        new ImagePanelView(imagePane, rightScrollPane, vBox, new JsonReader(CLController.apiFilePath).findAllMovies());
     }
 
     @FXML
