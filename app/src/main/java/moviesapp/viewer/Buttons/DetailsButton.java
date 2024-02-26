@@ -76,13 +76,7 @@ public class DetailsButton {
     /**
      * when the details button is clicked, it shows the details of the movie
      */
-    public void detailsButtonClicked(){
-        List<String> genres = new ArrayList<>();
-        genres.add("action");
-        Movie movie = new Movie(false, "",genres, "609681", "en",
-                "The Marvels",     "Roughly chronological, from 3/96 to 11/96, with a coda in spring of 1997: inside compounds of Aum Shinrikyo, a Buddhist sect led by Shoko Asahara. (Members confessed to a murderous sarin attack in the Tokyo subway in 1995.) We see what they eat, where they sleep, and how they respond to media scrutiny, on-going trials, the shrinking of their fortunes, and the criticism of society. Central focus is placed on Hiroshi Araki, a young man who finds himself elevated to chief spokesman for Aum after its leaders are arrested. Araki faces extreme hostility from the Japanese public, who find it hard to believe that most followers of the cult had no idea of the attacks and even harder to understand why these followers remain devoted to the religion, if not the violence.",
-                4.0, "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
-                "2023-11-28", "Marvels", false, 4.0, 2000);
+    public void detailsButtonClicked(Movie movie){
         showDetails(movie);
     }
 
