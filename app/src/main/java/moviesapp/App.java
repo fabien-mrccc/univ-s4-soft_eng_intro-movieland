@@ -33,7 +33,9 @@ public class App extends Application {
         primaryStage.setMinHeight(minHeight);
         primaryStage.centerOnScreen();
 
-        primaryStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/viewer/style.css")).toExternalForm());
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

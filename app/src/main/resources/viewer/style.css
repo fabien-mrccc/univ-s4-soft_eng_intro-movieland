@@ -110,3 +110,10 @@
 .scroll-bar .decrement-arrow {
     -fx-background-color: #9d36f7;
 }
+
+.detailsPane {
+    -fx-background-image: url('/viewer/images/background-pattern.png');
+    -fx-background-size: cover;
+    -fx-border-color: #e5e5e5;
+    -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0);
+}
