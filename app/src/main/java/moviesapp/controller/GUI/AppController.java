@@ -108,7 +108,7 @@ public class AppController implements Initializable {
     }
 
     private void setLeftPane(){
-        leftPane.prefWidthProperty().bind(mainAnchorPane.widthProperty().multiply(0.3));
+        leftPane.prefWidthProperty().bind(mainAnchorPane.widthProperty().multiply(0.34));
         leftPane.prefHeightProperty().bind(mainAnchorPane.heightProperty().multiply(1));
     }
 
@@ -305,7 +305,7 @@ public class AppController implements Initializable {
     private void setHBox(){
         HBox hBox = new HBox();
         Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
-        int imageWidth = 250;
+        int imageWidth = 230;
 
         for(int i = 0; i < numberOfImagesPerRow; i++){
             if(numberOfUnprintedImages > 0){

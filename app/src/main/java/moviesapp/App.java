@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class App extends Application {
 
-    public static int minWidth = 1600;
+    public static int minWidth = 1400;
     public static int minHeight = 800;
 
     @Override
