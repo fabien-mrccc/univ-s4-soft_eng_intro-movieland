@@ -4,7 +4,7 @@ import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 
-import static moviesapp.controller.command_line.CLController.favoritesFilePath;
+import static moviesapp.model.json.JsonReader.favoritesFilePath;
 
 public class CLRemove extends CLFavorites {
 

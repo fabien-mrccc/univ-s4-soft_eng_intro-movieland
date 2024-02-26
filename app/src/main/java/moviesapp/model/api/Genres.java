@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import static moviesapp.model.api.TheMovieDbAPI.client;
 import static moviesapp.model.api.UrlRequestBuilder.apiKey;
 import static moviesapp.model.api.UrlRequestBuilder.baseUrl;
+import static moviesapp.model.json.JsonReader.genresFilePath;
 
 public class Genres {
 
@@ -32,7 +33,7 @@ public class Genres {
      */
     public static void fillGENRE_NAME_ID_MAP(){
         updateGenresFile();
-        JsonReader jsonGenresReader = new JsonReader(CLController.genresFilePath);
+        JsonReader jsonGenresReader = new JsonReader(genresFilePath);
         for(JsonNode genre : jsonGenresReader.getJsonGenres()){
             GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
         }
@@ -70,7 +71,7 @@ public class Genres {
         try {
             ObjectMapper mapper = JsonMapper.builder().build();
             ObjectNode node = mapper.readValue(result, ObjectNode.class);
-            try (FileWriter fileWriter = new FileWriter(CLController.genresFilePath, StandardCharsets.UTF_8)) {
+            try (FileWriter fileWriter = new FileWriter(genresFilePath, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
             }
@@ -110,5 +111,17 @@ public class Genres {
             genreIds.add(GENRE_NAME_ID_MAP.get(genre));
         }
         return genreIds;
+    }
+
+    /**
+     * return a list of genres in String format
+     * @return a list of genres
+     */
+    public List<String> genreList(){
+        List<String> genreList = new ArrayList<>();
+        for (String genre : GENRE_NAME_ID_MAP.keySet()) {
+            genreList.add(genre);
+        }
+        return genreList;
     }
 }

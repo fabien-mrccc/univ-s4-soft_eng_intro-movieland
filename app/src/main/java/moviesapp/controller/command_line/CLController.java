@@ -5,12 +5,11 @@ import moviesapp.model.json.JsonWriter;
 
 import java.util.*;
 
+import static moviesapp.model.json.JsonReader.apiFilePath;
+
 public final class CLController {
 
     static JsonReader jsonReader;
-    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/resources/json/api-results.json";
-    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/resources/json/favorites.json";
-    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/resources/json/genres.json";
     private CLMethods commandMethods;
     private CLHelp help;
     private CLCatalog catalog;

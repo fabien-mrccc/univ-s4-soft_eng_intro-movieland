@@ -5,9 +5,11 @@ import moviesapp.model.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static moviesapp.model.json.JsonReader.favoritesFilePath;
+
 public class Favorites extends MovieFinder {
     public static final Favorites instance = new Favorites();
-    private final JsonReader jsonReader = new JsonReader(CLController.favoritesFilePath);
+    private final JsonReader jsonReader = new JsonReader(favoritesFilePath);
     private final Movies favorites = jsonReader.findAllMovies();
 
     /** Return true if the list of favorites is empty, if not return false
