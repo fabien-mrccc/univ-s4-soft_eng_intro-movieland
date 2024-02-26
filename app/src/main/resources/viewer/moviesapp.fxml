@@ -16,27 +16,27 @@
     <Pane fx:id="leftPane" styleClass="leftPane">
         <Label fx:id="appTitle" styleClass="appTitle" text="MOVIES"/>
 
-        <Pane fx:id="withTitle" styleClass="debug">
+        <Pane fx:id="withTitlePane" styleClass="debug">
             <Pane fx:id="titleAndSearchPane" styleClass="debug">
                 <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
                 <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
             </Pane>
 
             <Pane fx:id="yearPane" styleClass="debug">
-                <Label fx:id="year" styleClass="left-pane-label" text="Year:"/>
+                <Label fx:id="yearLabel" styleClass="left-pane-label" text="Year:"/>
                 <TextField fx:id="yearField" styleClass="black-field"/>
             </Pane>
 
             <Pane fx:id="goWithTitlePane" styleClass="debug">
-                <Button fx:id="goWithTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="goButtonWithTitle" styleClass="button, red-button" text="GO"/>
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
-                <Button fx:id="favoritesWithTitle" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="favoritesButtonWithTitle" styleClass="button, purple-button" text="Favorites"/>
             </Pane>
         </Pane>
 
-        <Pane fx:id="withoutTitle" styleClass="debug">
+        <Pane fx:id="withoutTitlePane" styleClass="debug">
             <Pane fx:id="yearsPane" styleClass="debug">
                 <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
                 <Label fx:id="from" styleClass="left-pane-label" text="from"/>
@@ -57,14 +57,14 @@
             </Pane>
 
             <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
-                <Button fx:id="favoritesWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
-                <Button fx:id="goWithoutTitle" styleClass="button, red-button" text="GO"/>
+                <Button fx:id="favoritesButtonWithoutTitle" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="goButtonWithoutTitle" styleClass="button, red-button" text="GO"/>
             </Pane>
         </Pane>
 
         <Pane fx:id="selectModePane" styleClass="debug">
-            <Button fx:id="withTile" styleClass="button, red-button" text="With Title" onAction="#turnOnWithTitleMode"/>
-            <Button fx:id="withoutTile" styleClass="button, purple-button" text="Without Title" onAction="#turnOnWithoutTitleMode"/>
+            <Button fx:id="withTitleButton" styleClass="button, red-button" text="With Title" onAction="#turnOnSearchWithTitleMode"/>
+            <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
         </Pane>
 
     </Pane>
