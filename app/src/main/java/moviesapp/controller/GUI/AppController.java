@@ -41,7 +41,7 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(imagePane, rightScrollPane, vBox, new JsonReader(CLController.apiFilePath).findAllMovies());
+        new ImagePanelView(imagePane, rightScrollPane, vBox, Favorites.instance.getFavorites());
     }
 
     @FXML
