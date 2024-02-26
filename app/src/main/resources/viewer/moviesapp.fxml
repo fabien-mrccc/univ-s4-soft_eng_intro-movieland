@@ -45,7 +45,6 @@
                 <TextField fx:id="maxYearField" styleClass="black-field"/>
             </Pane>
 
-            <!--TODO: code genres list and manage prefHeight in AppController-->
             <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
                 <ListView fx:id="genreListView"/>
