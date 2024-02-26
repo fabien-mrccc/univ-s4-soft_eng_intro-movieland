@@ -6,21 +6,27 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import moviesapp.model.movies.Movie;
+import moviesapp.model.movies.Movies;
 
+import java.util.Objects;
+
+import static moviesapp.model.api.UrlRequestBuilder.imageBaseURL;
+import static moviesapp.model.api.UrlRequestBuilder.imageSize;
 import static moviesapp.viewer.right_panel.RightPanelView.rightScrollPanePadding;
 
 public class ImagePanelView {
     private final ScrollPane rightScrollPane;
     private final GridPane gridPane;
-    private final int numberOfImages;
     private final int imageWidth = 258;
     private final int numberOfImagesPerRow = 3;
     private double horizontalGap = 15;
+    private final Movies movies;
 
-    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, int numberOfImages) {
+    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, Movies movies) {
         this.gridPane = gridPane;
         this.rightScrollPane = rightScrollPane;
-        this.numberOfImages = numberOfImages;
+        this.movies = movies;
 
         setupView();
     }
@@ -51,12 +57,18 @@ public class ImagePanelView {
         });
     }
 
-
     private void distributeImages() {
-        Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
         int row = 0, col = 0;
 
-        for(int i = 0; i < numberOfImages; i++) {
+        for(Movie movie : movies) {
+            String moviePosterPath = movie.posterPath();
+            Image image;
+            if(moviePosterPath.equals("null")) {
+                image = new Image(Objects.requireNonNull(getClass().getResource("/viewer/images/poster-unavailable.jpg")).toExternalForm());
+            }
+            else {
+                image = new Image(imageBaseURL + imageSize + moviePosterPath);
+            }
             ImageView imageView = new ImageView();
             imageView.setImage(image);
             imageView.setPreserveRatio(true);

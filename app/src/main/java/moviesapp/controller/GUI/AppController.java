@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import moviesapp.model.movies.Favorites;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
@@ -34,7 +35,7 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        new ImagePanelView(gridPane, rightScrollPane, 19);
+        new ImagePanelView(gridPane, rightScrollPane, Favorites.instance.getFavorites());
     }
 
     @FXML
