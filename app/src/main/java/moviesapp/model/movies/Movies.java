@@ -114,6 +114,12 @@ public class Movies implements Iterable<Movie> {
         movies.remove(movie);
     }
 
+    public void remove(Movies moviesToDelete) {
+        for(Movie movie : moviesToDelete){
+            movies.remove(movie);
+        }
+    }
+
     /**
      * Return a movie according to an index provided in parameter
      * @param index to find our movie in movies list
@@ -123,6 +129,18 @@ public class Movies implements Iterable<Movie> {
         return movies.get(index);
     }
 
+    /**
+     * Return movies according to the indexes provided in parameter
+     * @param indexes to find our movies in movies list
+     * @return the Movies found with the indexes
+     */
+    public Movies get(List<Integer> indexes){
+        Movies desiredMovies = new Movies();
+        for(int i=0;i<indexes.size();i++){
+            desiredMovies.add(movies.get(indexes.get(i)));
+        }
+        return desiredMovies;
+    }
     /**
      * Converts the list of movies to JSON format by returning the string corresponding.
      * @return a JSON formatted string representing the list of movies
