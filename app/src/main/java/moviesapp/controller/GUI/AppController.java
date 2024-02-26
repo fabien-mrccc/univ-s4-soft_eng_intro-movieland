@@ -249,15 +249,15 @@ public class AppController implements Initializable {
 
     private void setHBox(){
         HBox hBox = new HBox();
-
         Image image = new Image("https://image.tmdb.org/t/p/w300/ldfCF9RhR40mppkzmftxapaHeTo.jpg");
+        int imageWidth = 250;
 
         for(int i = 0; i < numberOfImagesPerRow; i++){
             if(numberOfUnprintedImages > 0){
                 ImageView imageView = new ImageView();
                 imageView.setImage(image);
                 imageView.setPreserveRatio(true);
-                imageView.setFitWidth(250);
+                imageView.setFitWidth(imageWidth);
                 hBox.getChildren().add(imageView);
                 numberOfUnprintedImages--;
             } else {
@@ -265,7 +265,7 @@ public class AppController implements Initializable {
                 placeholder.setImage(image);
                 placeholder.setVisible(false);
                 placeholder.setPreserveRatio(true);
-                placeholder.setFitWidth(250);
+                placeholder.setFitWidth(imageWidth);
                 hBox.getChildren().add(placeholder);
             }
 
