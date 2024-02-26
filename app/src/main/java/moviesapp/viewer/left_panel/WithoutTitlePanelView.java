@@ -2,6 +2,7 @@ package moviesapp.viewer.left_panel;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
@@ -27,10 +28,11 @@ public class WithoutTitlePanelView {
     private final Pane buttonsPane;
     private final Button favoritesButton;
     private final Button goButton;
+    private final ListView<String> genreListView;
 
     public WithoutTitlePanelView(Pane leftPane, Label appTitle, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
-                                 TextField ratingField, TextField searchBar, Pane buttonsPane, Button favoritesButton, Button goButton) {
+                                 TextField ratingField, TextField searchBar, Pane buttonsPane, Button favoritesButton, Button goButton, ListView<String> genreListView) {
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.yearsPane = yearsPane;
@@ -49,6 +51,7 @@ public class WithoutTitlePanelView {
         this.buttonsPane = buttonsPane;
         this.favoritesButton = favoritesButton;
         this.goButton = goButton;
+        this.genreListView = genreListView;
 
         setupView();
     }
@@ -58,6 +61,7 @@ public class WithoutTitlePanelView {
         setYears();
         setGenresPane();
         setGenres();
+        setGenreListView();
         setRatingPane();
         setRating();
         setButtonsPane();
@@ -99,9 +103,17 @@ public class WithoutTitlePanelView {
         genres.layoutXProperty().bind(from.layoutXProperty());
     }
 
+    private void setGenreListView(){
+        genreListView.layoutYProperty().bind(genres.layoutYProperty().add(30));
+        genreListView.layoutXProperty().bind(genres.layoutXProperty().add(100));
+        genreListView.setPrefWidth(100);
+        genreListView.prefHeightProperty().bind(leftPane.heightProperty().multiply(0.35));
+        genreListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+    }
+
     private void setRatingPane(){
         ratingPane.layoutXProperty().bind(genresPane.layoutXProperty());
-        ratingPane.layoutYProperty().bind(genresPane.layoutYProperty().add(150));
+        ratingPane.layoutYProperty().bind(genresPane.layoutYProperty().add(leftPane.heightProperty().multiply(0.43)));
         ratingPane.prefWidthProperty().bind(yearsPane.prefWidthProperty());
     }
 

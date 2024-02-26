@@ -2,10 +2,7 @@ package moviesapp.controller.GUI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelVIew;
@@ -35,7 +32,7 @@ public class AppController implements Initializable {
 
         new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
                 to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
-                ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle);
+                ratingField, searchBar, buttonsWithoutTitlePane, favoritesButtonWithoutTitle, goButtonWithoutTitle, genreListView);
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
@@ -96,6 +93,7 @@ public class AppController implements Initializable {
     public Button goButtonWithTitle;
     public Pane withTitlePane;
     public Pane withoutTitlePane;
+    public ListView<String> genreListView;
 
     /////////////////////////////////////////////////////////// End FXML Identifiers
 }
