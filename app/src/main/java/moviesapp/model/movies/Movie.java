@@ -69,14 +69,14 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
         if(genres.isEmpty()){
             return genresToString();
         }
-        genresToString = " •";
+        genresToString = " • ";
         for(String genre: genres){
             if (genre == null || genre.isEmpty()) {
                 return genre;
             }
-            genresToString= genresToString + genre.substring(0, 1).toUpperCase() + genre.substring(1)+',';
+            genresToString= genresToString + genre.substring(0, 1).toUpperCase() + genre.substring(1)+", ";
         }
-        return genresToString.substring(0,genresToString.length()-1);
+        return genresToString.substring(0,genresToString.length()-2);
     }
 
     public String overviewToString(int maxWidth){
