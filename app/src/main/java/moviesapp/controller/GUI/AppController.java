@@ -127,37 +127,37 @@ public class AppController implements Initializable {
 
     private void setSearchBar(){
         searchBar.layoutXProperty().bind(title.layoutXProperty().add(60));
-        searchBar.layoutYProperty().bind(title.layoutYProperty());
+        searchBar.layoutYProperty().bind(title.layoutYProperty().subtract(8));
         searchBar.prefWidthProperty().bind(titleAndSearchPane.widthProperty().subtract(70));
     }
 
     private void setYearsPane(){
         yearsPane.layoutXProperty().bind(titleAndSearchPane.layoutXProperty());
-        yearsPane.layoutYProperty().bind(titleAndSearchPane.layoutYProperty().add(60));
+        yearsPane.layoutYProperty().bind(titleAndSearchPane.layoutYProperty().add(70));
         yearsPane.prefWidthProperty().bind(titleAndSearchPane.prefWidthProperty());
     }
 
     private void setYears(){
         from.layoutXProperty().bind(years.layoutXProperty());
-        from.layoutYProperty().bind(years.layoutYProperty().add(30));
+        from.layoutYProperty().bind(years.layoutYProperty().add(40));
 
         singleOrMinYearField.layoutXProperty().bind(searchBar.layoutXProperty());
-        singleOrMinYearField.layoutYProperty().bind(from.layoutYProperty());
+        singleOrMinYearField.layoutYProperty().bind(from.layoutYProperty().subtract(7));
         singleOrMinYearField.setPromptText(String.valueOf(minAcceptableYearValue));
-        singleOrMinYearField.setPrefWidth(55);
+        singleOrMinYearField.setPrefWidth(70);
 
-        to.layoutXProperty().bind(singleOrMinYearField.layoutXProperty().add(68));
+        to.layoutXProperty().bind(singleOrMinYearField.layoutXProperty().add(83));
         to.layoutYProperty().bind(from.layoutYProperty());
 
         maxYearField.layoutXProperty().bind(to.layoutXProperty().add(32));
-        maxYearField.layoutYProperty().bind(to.layoutYProperty());
+        maxYearField.layoutYProperty().bind(to.layoutYProperty().subtract(7));
         maxYearField.setPromptText(String.valueOf(maxAcceptableYearValue));
-        maxYearField.setPrefWidth(55);
+        maxYearField.setPrefWidth(70);
     }
 
     private void setGenresPane(){
         genresPane.layoutXProperty().bind(yearsPane.layoutXProperty());
-        genresPane.layoutYProperty().bind(yearsPane.layoutYProperty().add(90));
+        genresPane.layoutYProperty().bind(yearsPane.layoutYProperty().add(100));
         genresPane.prefWidthProperty().bind(yearsPane.prefWidthProperty());
     }
 
@@ -175,15 +175,15 @@ public class AppController implements Initializable {
         atLeast.layoutXProperty().bind(rating.layoutXProperty());
         atLeast.layoutYProperty().bind(rating.layoutYProperty().add(30));
 
-        ratingField.layoutXProperty().bind(atLeast.layoutXProperty().add(90));
-        ratingField.layoutYProperty().bind(atLeast.layoutYProperty());
-        ratingField.setPrefWidth(58);
+        ratingField.layoutXProperty().bind(atLeast.layoutXProperty().add(89));
+        ratingField.layoutYProperty().bind(atLeast.layoutYProperty().subtract(7));
+        ratingField.setPrefWidth(75);
         ratingField.setPromptText("0 to 5");
     }
 
     private void setButtonsPane(){
         buttonsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(buttonsPane.widthProperty().divide(2)));
-        buttonsPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(90));
+        buttonsPane.layoutYProperty().bind(ratingPane.layoutYProperty().add(110));
     }
 
     private void setFavoritesButton(){
