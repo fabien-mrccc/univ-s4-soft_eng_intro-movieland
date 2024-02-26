@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moviesapp.viewer.OptionButton" prefHeight="400.0" prefWidth="600.0">
+<AnchorPane style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moviesapp.viewer.Buttons.ClearButton" prefHeight="400.0" prefWidth="600.0">
     <children>
         <VBox xmlns:fx="http://javafx.com/fxml/1">
             <Button fx:id="clearButton" style="-fx-background-color: #E50914" text="clear" textFill="white" onAction="#openClearConfirmationWindow"/>

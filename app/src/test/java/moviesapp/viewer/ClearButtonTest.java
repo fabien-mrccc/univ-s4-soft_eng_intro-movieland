@@ -25,7 +25,7 @@ public class ClearButtonTest {
 
     @Start
     private void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/OptionButtonGUI.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ClearButtonGUI.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.show();
