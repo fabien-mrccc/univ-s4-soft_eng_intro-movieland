@@ -1,8 +1,11 @@
 package moviesapp.viewer.left_panel;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import moviesapp.viewer.buttons.FavoritesWithTitleButton;
+import moviesapp.viewer.buttons.GoWithTitleButton;
 
 import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
@@ -17,8 +20,13 @@ public class WithTitlePanelView {
     private final Label year;
     private final TextField yearField;
 
-    public WithTitlePanelView(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
-                              TextField searchBar, Pane yearPane, Label year, TextField yearField) {
+    public FavoritesWithTitleButton favoritesButton;
+    public GoWithTitleButton goButton;
+
+    public WithTitlePanelView(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title, TextField searchBar,
+                              Pane yearPane, Label year, TextField yearField, Pane favoritesWithTitlePane, Button favoritesButtonWithTitle,
+                              Pane goWithTitlePane, Button goButtonWithTitle) {
+
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.titleAndSearchPane = titleAndSearchPane;
@@ -27,6 +35,9 @@ public class WithTitlePanelView {
         this.yearPane = yearPane;
         this.year = year;
         this.yearField = yearField;
+
+        favoritesButton = new FavoritesWithTitleButton(favoritesWithTitlePane, yearPane, favoritesButtonWithTitle);
+        goButton = new GoWithTitleButton(goWithTitlePane, yearPane, goButtonWithTitle);
 
         setupView();
     }

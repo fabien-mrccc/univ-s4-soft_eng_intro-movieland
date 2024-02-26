@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import moviesapp.viewer.buttons.SelectSearchModeButtons;
 
 import static moviesapp.App.minHeight;
 import static moviesapp.App.minWidth;
@@ -14,11 +15,15 @@ public class LeftPanelView {
     private final Pane leftPane;
     private final Label appTitle;
 
+    public SelectSearchModeButtons selectSearchModeButtons;
 
-    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Label appTitle) {
+
+    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Label appTitle, Pane selectModePane, Button withTitleButton, Button withoutTitleButton) {
         this.mainAnchorPane = mainAnchorPane;
         this.leftPane = leftPane;
         this.appTitle = appTitle;
+
+        selectSearchModeButtons = new SelectSearchModeButtons(selectModePane, withTitleButton, withoutTitleButton, leftPane, appTitle);
 
         setupView();
     }
