@@ -4,11 +4,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import moviesapp.viewer.buttons.ClearButton;
 
 import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
-public class WithTitlePanelVIew {
+public class WithTitlePanelView {
     private final Pane leftPane;
     private final Label appTitle;
     private final Pane titleAndSearchPane;
@@ -21,10 +22,11 @@ public class WithTitlePanelVIew {
     private final Button favoritesButton;
     private final Pane goPane;
     private final Button goButton;
+    private final Button clearButton;
 
-    public WithTitlePanelVIew(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
+    public WithTitlePanelView(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title,
                               TextField searchBar, Pane yearPane, Label year, TextField yearField,
-                              Pane favoritesPane, Button favoritesButton, Pane goPane, Button goButton) {
+                              Pane favoritesPane, Button favoritesButton, Pane goPane, Button goButton, Button clearButton) {
         this.leftPane = leftPane;
         this.appTitle = appTitle;
         this.titleAndSearchPane = titleAndSearchPane;
@@ -37,6 +39,7 @@ public class WithTitlePanelVIew {
         this.favoritesButton = favoritesButton;
         this.goPane = goPane;
         this.goButton = goButton;
+        this.clearButton = clearButton;
 
         setupView();
     }
@@ -103,5 +106,4 @@ public class WithTitlePanelVIew {
         goButton.setPrefHeight(26);
         goButton.setPrefWidth(80);
     }
-
 }
