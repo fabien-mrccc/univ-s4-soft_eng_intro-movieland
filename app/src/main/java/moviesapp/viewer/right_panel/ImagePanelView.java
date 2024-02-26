@@ -14,9 +14,8 @@ public class ImagePanelView {
     private final GridPane gridPane;
     private final int numberOfImages;
     private final int imageWidth = 258;
-    private int numberOfImagesPerRow = 3;
+    private final int numberOfImagesPerRow = 3;
     private double horizontalGap = 15;
-    private final int verticalGap = 50;
 
     public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, int numberOfImages) {
         this.gridPane = gridPane;
@@ -37,6 +36,8 @@ public class ImagePanelView {
         gridPane.setPadding(new Insets(0, 0, rightScrollPanePadding, 0));
         gridPane.setAlignment(Pos.BASELINE_CENTER);
         adjustHorizontalGap();
+
+        int verticalGap = 50;
         gridPane.setVgap(verticalGap);
     }
 
