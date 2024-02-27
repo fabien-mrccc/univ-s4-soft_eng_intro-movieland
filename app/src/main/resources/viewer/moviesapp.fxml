@@ -14,7 +14,6 @@
 
     <!--Left Pane-->
     <Pane fx:id="leftPane" styleClass="leftPane">
-        <Label fx:id="appTitle" styleClass="appTitle" text="MovieLand"/>
 
         <Pane fx:id="withTitlePane" styleClass="debug">
             <Pane fx:id="titleAndSearchPane" styleClass="debug">
@@ -66,6 +65,10 @@
             <Button fx:id="withTitleButton" styleClass="button, red-button" text="With Title" onAction="#turnOnSearchWithTitleMode"/>
             <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
         </Pane>
+        <Pane styleClass="debug">
+            <Button fx:id="appTitleButton" styleClass="appTitle" text="MovieLand" onAction="#appTitleButtonClicked" />
+        </Pane>
+
 
     </Pane>
 

@@ -10,14 +10,14 @@ public class SelectSearchModeButtons {
     private final Button withTileButton;
     private final Button withoutTitleButton;
     private final Pane leftPane;
-    private final Label appTitle;
+    private final Button appTitleButton;
 
-    public SelectSearchModeButtons(Pane selectModePane, Button withTileButton, Button withoutTitleButton, Pane leftPane, Label appTitle){
+    public SelectSearchModeButtons(Pane selectModePane, Button withTileButton, Button withoutTitleButton, Pane leftPane, Button appTitleButton){
         this.selectModePane = selectModePane;
         this.withTileButton = withTileButton;
         this.withoutTitleButton = withoutTitleButton;
         this.leftPane = leftPane;
-        this.appTitle = appTitle;
+        this.appTitleButton = appTitleButton;
 
         setView();
     }
@@ -30,7 +30,7 @@ public class SelectSearchModeButtons {
 
     private void setSelectModePane(){
         selectModePane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(selectModePane.widthProperty().divide(2)));
-        selectModePane.layoutYProperty().bind(appTitle.layoutYProperty().add(95));
+        selectModePane.layoutYProperty().bind(appTitleButton.layoutYProperty().add(95));
     }
 
     private void setWithTileButton(){

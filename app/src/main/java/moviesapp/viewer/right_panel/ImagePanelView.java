@@ -55,7 +55,13 @@ public class ImagePanelView {
         });
     }
 
+    private void clearImageDisplay(){
+        gridPane.getChildren().clear();
+    }
+
     public void distributeImages(Movies movies) {
+        clearImageDisplay();
+
         int row = 0, col = 0;
 
         for(Movie movie : movies) {
