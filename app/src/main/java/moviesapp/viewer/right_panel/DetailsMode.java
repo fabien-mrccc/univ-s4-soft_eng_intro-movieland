@@ -16,6 +16,9 @@ import moviesapp.model.api.UrlRequestBuilder;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
 
+import static moviesapp.controller.GUI.AppController.addButtonClicked;
+import static moviesapp.controller.GUI.AppController.removeButtonClicked;
+
 public class DetailsMode {
 
     @FXML public Stage globalStage;
@@ -190,14 +193,6 @@ public class DetailsMode {
         removeButton.setOnAction(event -> removeButtonClicked(movie));
     }
 
-    /**
-     * remove the movie from favorites when the remove button is clicked
-     * @param movie the movie of which we want the details
-     */
-    private void removeButtonClicked(Movie movie){
-        Favorites.instance.remove(movie);
-        //TODO: update favorites
-    }
 
     /**
      * initialise the add button
@@ -214,15 +209,6 @@ public class DetailsMode {
         addButton.setOnMouseExited(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-text-fill: #e5e5e5; -fx-background-color: #E50914;"));
         addButton.setOnMouseEntered(event -> addButton.setStyle("-fx-font-family: 'GROBOLD';-fx-font-size: 20px; -fx-background-color: #e5e5e5; -fx-text-fill: #E50914; -fx-cursor: hand;"));
         addButton.setOnAction(event -> addButtonClicked(movie) );
-    }
-
-    /**
-     * add the movie to favorites when the add button is clicked
-     * @param movie the movie of which we want the details
-     */
-    private void addButtonClicked(Movie movie){
-        Favorites.instance.add(movie);
-        //TODO: update favorites
     }
 
     private void setGlobalStageWidth(Label label){
