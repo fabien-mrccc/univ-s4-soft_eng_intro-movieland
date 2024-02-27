@@ -11,6 +11,7 @@ import java.util.List;
 
 import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
+import static moviesapp.model.json.JsonReader.apiFilePath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheMovieDbAPITest {
@@ -20,7 +21,7 @@ public class TheMovieDbAPITest {
     @BeforeAll
     static void setupBeforeAll() {
         api = new TheMovieDbAPI();
-        apiJsonReader = new JsonReader(CLController.apiFilePath);
+        apiJsonReader = new JsonReader(apiFilePath);
     }
 
     @Test

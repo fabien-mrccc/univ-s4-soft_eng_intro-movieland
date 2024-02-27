@@ -5,9 +5,11 @@ import moviesapp.model.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static moviesapp.model.json.JsonReader.favoritesFilePath;
+
 public class Favorites extends MovieFinder {
     public static final Favorites instance = new Favorites();
-    private final JsonReader jsonReader = new JsonReader(CLController.favoritesFilePath);
+    private final JsonReader jsonReader = new JsonReader(favoritesFilePath);
     private final Movies favorites = jsonReader.findAllMovies();
 
     /** Return true if the list of favorites is empty, if not return false
@@ -47,7 +49,7 @@ public class Favorites extends MovieFinder {
      * @param movie The movie to add to favorites.
      */
     public void add(Movie movie){
-        if(movie != null && !movieInFavorites(movie)){
+        if(movie != null && !contains(movie)){
             favorites.add(movie);
         }
     }
@@ -57,7 +59,7 @@ public class Favorites extends MovieFinder {
      * @param movie The movie to remove to favorites.
      */
     public void remove(Movie movie){
-        if(movie != null && movieInFavorites(movie)){
+        if(movie != null && contains(movie)){
             favorites.remove(movie);
         }
     }
@@ -67,7 +69,7 @@ public class Favorites extends MovieFinder {
      * @param movie The movie to check.
      * @return True if the movie is already in favorites, false otherwise.
      */
-    private boolean movieInFavorites(Movie movie){
+    public boolean contains(Movie movie){
         return favoritesIds().contains(movie.id());
     }
 

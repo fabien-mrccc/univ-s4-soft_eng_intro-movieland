@@ -14,6 +14,8 @@ import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static moviesapp.model.json.JsonReader.apiFilePath;
+
 public class TheMovieDbAPI {
 
     static final OkHttpClient client = new OkHttpClient();
@@ -69,7 +71,7 @@ public class TheMovieDbAPI {
         try {
             ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);
 
-            try (FileWriter fileWriter = new FileWriter(CLController.apiFilePath, StandardCharsets.UTF_8)) {
+            try (FileWriter fileWriter = new FileWriter(apiFilePath, StandardCharsets.UTF_8)) {
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
                 mapper.writeValue(fileWriter, node);
             } catch (IOException e) {

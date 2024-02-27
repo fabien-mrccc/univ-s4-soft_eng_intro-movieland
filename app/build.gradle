@@ -36,6 +36,10 @@ dependencies {
 
     //okhttp3
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
+    //TestFX
+    testImplementation 'org.testfx:testfx-core:4.0.16-alpha'
+    testImplementation 'org.testfx:testfx-junit5:4.0.16-alpha'
 }
 
 
@@ -53,7 +57,6 @@ application {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
-    outputs.upToDateWhen { false }
 }
 
 tasks.register('runCLI', JavaExec) {

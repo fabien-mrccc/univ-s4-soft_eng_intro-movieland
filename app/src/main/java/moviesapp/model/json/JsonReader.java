@@ -17,6 +17,9 @@ public class JsonReader extends MovieFinder {
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
     private final JsonNode jsonGenres;
+    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/resources/json/api-results.json";
+    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/resources/json/favorites.json";
+    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/resources/json/genres.json";
 
     public JsonReader(String path){
         jsonFile = new File(path);

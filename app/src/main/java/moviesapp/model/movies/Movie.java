@@ -59,4 +59,50 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
                 "      \"vote_count\" : " + voteCount() + "\n" +
                 "    }";
     }
+
+    public String getReleaseYear(){
+        return releaseDate.substring(0,4);
+    }
+
+    public String genresToString(){
+
+        if(genres.isEmpty()){
+            return "";
+        }
+
+        StringBuilder genresToString = new StringBuilder(" • ");
+
+        for(String genre: genres){
+            if (genre == null || genre.isEmpty()) {
+                return genre;
+            }
+            genresToString.append(genre.substring(0, 1).toUpperCase()).append(genre.substring(1)).append(", ");
+        }
+        return genresToString.substring(0,genresToString.length()-2);
+    }
+
+    public String overviewToString(int maxWidth){
+        String[] words = overview.split(" ");
+        StringBuilder formattedText = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+
+        for (String word : words) {
+            if (line.length() + word.length() + 1 > maxWidth) {
+                if (!line.isEmpty()) {
+                    formattedText.append(line).append("\n");
+                    line = new StringBuilder();
+                }
+            }
+            if (!line.isEmpty()) {
+                line.append(" ");
+            }
+            line.append(word);
+        }
+
+        if (!line.isEmpty()) {
+            formattedText.append(line);
+        }
+
+        return formattedText.toString();
+    }
 }
