@@ -34,9 +34,10 @@
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
                 <Button fx:id="favoritesWithTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithTitleButtonClicked"/>
             </Pane>
-            <Pane fx:id="clearWithTitlePane" styleClass="debug">
-                <Button fx:id="clearWithTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
-            </Pane>
+        </Pane>
+
+        <Pane fx:id="clearWithTitlePane" styleClass="debug">
+            <Button fx:id="clearWithTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
         </Pane>
 
         <Pane fx:id="withoutTitlePane" styleClass="debug">
