@@ -35,22 +35,6 @@
     {
       "adult" : false,
       "backdrop_path" : "null",
-      "genre_ids" : [10749, 18, 10770, 10751],
-      "id" : 308943,
-      "original_language" : "de",
-      "original_title" : "Das Geheimnis des Rosengartens",
-      "overview" : "A successful landscape architect is forced to stay overnight in a remote castle hotel after a car breaks down, where she learns that the castle owners' adopted 20-year-old daughter is actually her own presumed dead daughter.",
-      "popularity" : 1.4,
-      "poster_path" : "/w4actCZiUuMkJ7gEg7sci7XvuIq.jpg",
-      "release_date" : "2000-02-14",
-      "title" : "Das Geheimnis des Rosengartens",
-      "video" : false,
-      "vote_average" : 5.167,
-      "vote_count" : 6
-    },
-    {
-      "adult" : false,
-      "backdrop_path" : "null",
       "genre_ids" : [],
       "id" : 268883,
       "original_language" : "en",
@@ -207,22 +191,6 @@
       "video" : false,
       "vote_average" : 6.499,
       "vote_count" : 449
-    },
-    {
-      "adult" : false,
-      "backdrop_path" : "/jncviKGvFlxdeh6vYWe9g4LmG3j.jpg",
-      "genre_ids" : [27, 53],
-      "id" : 23823,
-      "original_language" : "en",
-      "original_title" : "Wrong Turn 3: Left for Dead",
-      "overview" : "A group of people find themselves trapped in the backwoods of West Virginia, fighting for their lives against a group of vicious and horribly disfigured inbred cannibals.",
-      "popularity" : 45.54,
-      "poster_path" : "/84s4LMWuGbm4xPWW5PSbHyQhh33.jpg",
-      "release_date" : "2009-10-20",
-      "title" : "Wrong Turn 3: Left for Dead",
-      "video" : false,
-      "vote_average" : 5.643,
-      "vote_count" : 1078
     },
     {
       "adult" : false,
@@ -415,8 +383,24 @@
       "video" : false,
       "vote_average" : 6.753,
       "vote_count" : 456
+    },
+    {
+      "adult" : false,
+      "backdrop_path" : "/1TUg5pO1VZ4B0Q1amk3OlXvlpXV.jpg",
+      "genre_ids" : [12, 18, 10751, 16],
+      "id" : 420818,
+      "original_language" : "en",
+      "original_title" : "The Lion King",
+      "overview" : "Simba idolizes his father, King Mufasa, and takes to heart his own royal destiny. But not everyone in the kingdom celebrates the new cub's arrival. Scar, Mufasa's brother—and former heir to the throne—has plans of his own. The battle for Pride Rock is ravaged with betrayal, tragedy and drama, ultimately resulting in Simba's exile. With help from a curious pair of newfound friends, Simba will have to figure out how to grow up and take back what is rightfully his.",
+      "popularity" : 94.463,
+      "poster_path" : "/dzBtMocZuJbjLOXvrl4zGYigDzh.jpg",
+      "release_date" : "2019-07-12",
+      "title" : "The Lion King",
+      "video" : false,
+      "vote_average" : 7.117,
+      "vote_count" : 9558
     }
   ],
   "total_pages" : 1,
-  "total_results" : 26
+  "total_results" : 25
 }
