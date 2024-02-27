@@ -68,24 +68,25 @@ public class DetailsMode {
 
         movieDetailsAnchorPane.setVisible(true);
         Scene globalScene = new Scene(movieDetailsAnchorPane, 900, 500);
-        globalStage.setTitle("details");
+        globalStage.setTitle("Details - MovieLand");
         globalStage.setScene(globalScene);
         globalStage.show();
     }
 
     /**
-     * initialise movieDetailsAnchorPane
+     * Initialise movieDetailsAnchorPane
      */
     private void initMovieDetailsAnchorPane(){
         movieDetailsAnchorPane = new AnchorPane();
         movieDetailsAnchorPane.prefHeight(500);
         movieDetailsAnchorPane.prefWidth(900);
         movieDetailsAnchorPane.setId("movieDetailsAnchorPane");
-        movieDetailsAnchorPane.getStyleClass().add("detailsPane");
+        movieDetailsAnchorPane.setStyle("-fx-background-image: url('/viewer/images/background-pattern.png'); " +
+                "-fx-background-size: cover; -fx-border-color: #e5e5e5; -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0)");
     }
 
     /**
-     * initialise imageView
+     * Initialise imageView
      */
     private void initImageView(){
         imageView = new ImageView();
@@ -95,7 +96,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise the title and the release year of the movie
+     * Initialise the title and the release year of the movie
      * @param movie the movie of which we want the details
      */
     private void initTitleLabelAndYear(Movie movie){
@@ -108,7 +109,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise usefulInformationLabel
+     * Initialise usefulInformationLabel
      * @param movie the movie of which we want the details
      */
     private void initUsefulInformationLabel(Movie movie){
@@ -121,7 +122,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise popularityLabel
+     * Initialise popularityLabel
      * @param movie the movie of which we want the details
      */
     private void initPopularityLabel(Movie movie){
@@ -134,7 +135,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise voteAverageLabel
+     * Initialise voteAverageLabel
      * @param movie the movie of which we want the details
      */
     private void initVoteAverageLabel(Movie movie){
@@ -147,7 +148,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise overviewLabel
+     * Initialise overviewLabel
      */
     private void initOverviewLabel(){
         overviewLabel = new Label("Overview:");
@@ -159,7 +160,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise textFlow
+     * Initialise textFlow
      * @param movie the movie of which we want the details
      */
     private void initTextFlow(Movie movie){
@@ -177,7 +178,7 @@ public class DetailsMode {
     }
 
     /**
-     * initialise the remove button
+     * Initialise the remove button
      * @param movie the movie of which we want the details
      */
     private void initRemoveButton(Movie movie){
@@ -195,7 +196,7 @@ public class DetailsMode {
 
 
     /**
-     * initialise the add button
+     * Initialise the add button
      * @param movie the movie of which we want the details
      */
     private void initAddButton(Movie movie){

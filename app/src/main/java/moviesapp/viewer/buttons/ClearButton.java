@@ -76,7 +76,7 @@ public class ClearButton {
     }
 
     /**
-     * initialise the button "continue"
+     * Initialise the button "continue"
      */
     @FXML
     private void initContinueButton(){
@@ -91,7 +91,7 @@ public class ClearButton {
     }
 
     /**
-     * initialise the button "cancel"
+     * Initialise the button "cancel"
      */
     @FXML
     private void initCancelButton(){
@@ -106,20 +106,19 @@ public class ClearButton {
     }
 
     /**
-     * initialise the confirmation label
+     * Initialise the confirmation label
      */
     @FXML
     private void initConfirmation(){
         confirmation = new Label("Do you want to continue?");
         confirmation.setLayoutX(20);
         confirmation.setLayoutY(15);
-        confirmation.setStyle("confirmation");
         confirmation.setTextFill(Paint.valueOf("white"));
         confirmation.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 17px;");
     }
 
     /**
-     * close the confirmation window when the user click on "cancel"
+     * Close the confirmation window when the user click on "cancel"
      */
     @FXML
     public void closeClearConfirmationWindow(){

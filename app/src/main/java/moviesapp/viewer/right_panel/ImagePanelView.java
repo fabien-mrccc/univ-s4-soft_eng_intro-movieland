@@ -61,6 +61,7 @@ public class ImagePanelView {
 
     public void distributeImages(Movies movies) {
         clearImageDisplay();
+
         int row = 0, col = 0;
 
         if(movies.isEmpty()){ //TODO: update image

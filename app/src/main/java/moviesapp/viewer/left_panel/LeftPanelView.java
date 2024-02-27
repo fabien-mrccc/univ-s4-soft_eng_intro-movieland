@@ -1,7 +1,6 @@
 package moviesapp.viewer.left_panel;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import moviesapp.viewer.buttons.SelectSearchModeButtons;
@@ -13,17 +12,17 @@ public class LeftPanelView {
 
     private final AnchorPane mainAnchorPane;
     private final Pane leftPane;
-    private final Label appTitle;
+    private final Button appTitleButton;
 
     public SelectSearchModeButtons selectSearchModeButtons;
 
 
-    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Label appTitle, Pane selectModePane, Button withTitleButton, Button withoutTitleButton) {
+    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Button appTitleButton, Pane selectModePane, Button withTitleButton, Button withoutTitleButton) {
         this.mainAnchorPane = mainAnchorPane;
         this.leftPane = leftPane;
-        this.appTitle = appTitle;
+        this.appTitleButton = appTitleButton;
 
-        selectSearchModeButtons = new SelectSearchModeButtons(selectModePane, withTitleButton, withoutTitleButton, leftPane, appTitle);
+        selectSearchModeButtons = new SelectSearchModeButtons(selectModePane, withTitleButton, withoutTitleButton, leftPane, appTitleButton);
 
         setupView();
     }
@@ -31,7 +30,7 @@ public class LeftPanelView {
     private void setupView() {
         setMainAnchorPane();
         setLeftPane();
-        setAppTitle();
+        setAppTitleButton();
     }
 
     private void setMainAnchorPane(){
@@ -44,9 +43,10 @@ public class LeftPanelView {
         leftPane.prefHeightProperty().bind(mainAnchorPane.heightProperty());
     }
 
-    private void setAppTitle(){
-        appTitle.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(appTitle.widthProperty().divide(2)));
-        appTitle.layoutYProperty().bind(leftPane.heightProperty().divide(2).subtract(appTitle.heightProperty().divide(2)));
-        appTitle.layoutYProperty().bind(leftPane.layoutYProperty().add(10));
+    private void setAppTitleButton(){
+        appTitleButton.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(appTitleButton.widthProperty().divide(2)));
+        appTitleButton.layoutYProperty().bind(leftPane.heightProperty().divide(2).subtract(appTitleButton.heightProperty().divide(2)));
+        appTitleButton.layoutYProperty().bind(leftPane.layoutYProperty().add(10));
+
     }
 }

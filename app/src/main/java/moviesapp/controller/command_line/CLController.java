@@ -47,7 +47,7 @@ public final class CLController {
     /**
      * Update the file read by the jsonReader
      */
-    static void jsonReaderUpdate(){
+    public static void jsonReaderUpdate(){
         jsonReader = new JsonReader(apiFilePath);
     }
 

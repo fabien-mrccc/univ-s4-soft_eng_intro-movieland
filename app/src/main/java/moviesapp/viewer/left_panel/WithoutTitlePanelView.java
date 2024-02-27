@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.api.UrlRequestBuilder;
-import moviesapp.viewer.buttons.WithoutTitleButtons;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
 public class WithoutTitlePanelView {
     private final Pane leftPane;
-    private final Label appTitle;
+    private final Button appTitleButton;
     private final Pane yearsPane;
     private final Label years;
     private final Label from;
@@ -37,11 +36,11 @@ public class WithoutTitlePanelView {
     protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
 
-    public WithoutTitlePanelView(Pane leftPane, Label appTitle, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
+    public WithoutTitlePanelView(Pane leftPane, Button appTitleButton, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
                                  TextField ratingField, TextField searchBar, Pane favoritesPane, Button favoritesButton, Pane goPane, Button goButton, ListView<String> genreListView) {
         this.leftPane = leftPane;
-        this.appTitle = appTitle;
+        this.appTitleButton = appTitleButton;
         this.yearsPane = yearsPane;
         this.years = years;
         this.from = from;
@@ -84,7 +83,7 @@ public class WithoutTitlePanelView {
 
     private void setYearsPane(){
         yearsPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(yearsPane.widthProperty().divide(2)));
-        yearsPane.layoutYProperty().bind(appTitle.layoutYProperty().add(170));
+        yearsPane.layoutYProperty().bind(appTitleButton.layoutYProperty().add(170));
         yearsPane.prefWidthProperty().bind(leftPane.widthProperty().multiply(0.9));
     }
 

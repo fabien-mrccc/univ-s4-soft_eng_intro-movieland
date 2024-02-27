@@ -34,22 +34,6 @@
     },
     {
       "adult" : false,
-      "backdrop_path" : "null",
-      "genre_ids" : [],
-      "id" : 268883,
-      "original_language" : "en",
-      "original_title" : "A través del silencio",
-      "overview" : "In a town in Veracruz being buffeted by cold northerly winds, seven men and woman start out on paths that will change their lives. A well-intentioned Christian gives in to the temptation of a young widow: a mayor succumbs to his greed: an elderly lady adopts a young burn victim: a doctor breaks away from a past that had hardened her heart: an old priest comes and goes trying to understand and a lost poet rediscovers his capacity to love and write. All these passions come together in a yearning to give meaning to their lives.",
-      "popularity" : 1.022,
-      "poster_path" : "/8VqHiTNb44UCelMysA9GFzUNwyc.jpg",
-      "release_date" : "2010-03-15",
-      "title" : "Through the Silence",
-      "video" : false,
-      "vote_average" : 5.0,
-      "vote_count" : 2
-    },
-    {
-      "adult" : false,
       "backdrop_path" : "/mgtGgxKMsttG83PjrCGF342vqsO.jpg",
       "genre_ids" : [10749, 14],
       "id" : 500217,
@@ -402,5 +386,5 @@
     }
   ],
   "total_pages" : 1,
-  "total_results" : 25
+  "total_results" : 24
 }

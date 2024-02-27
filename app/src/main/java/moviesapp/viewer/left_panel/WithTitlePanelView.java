@@ -8,8 +8,6 @@ import javafx.scene.layout.Pane;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.api.UrlRequestBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 import moviesapp.viewer.buttons.FavoritesWithTitleButton;
 import moviesapp.viewer.buttons.GoWithTitleButton;
 
@@ -18,24 +16,22 @@ import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
 
 public class WithTitlePanelView {
     private final Pane leftPane;
-    private final Label appTitle;
+    private final Button appTitleButton;
     private final Pane titleAndSearchPane;
     private final Label title;
     private final TextField searchBar;
     private final Pane yearPane;
     private final Label year;
     private final TextField yearField;
-    private final FavoritesWithTitleButton favoritesButtonComponent;
-    private final GoWithTitleButton goButtonComponent;
     protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
 
-    public WithTitlePanelView(Pane leftPane, Label appTitle, Pane titleAndSearchPane, Label title, TextField searchBar,
+    public WithTitlePanelView(Pane leftPane, Button appTitleButton, Pane titleAndSearchPane, Label title, TextField searchBar,
                               Pane yearPane, Label year, TextField yearField, Pane favoritesPane, Button favoritesButton,
                               Pane goPane, Button goButton) {
 
         this.leftPane = leftPane;
-        this.appTitle = appTitle;
+        this.appTitleButton = appTitleButton;
         this.titleAndSearchPane = titleAndSearchPane;
         this.title = title;
         this.searchBar = searchBar;
@@ -43,8 +39,8 @@ public class WithTitlePanelView {
         this.year = year;
         this.yearField = yearField;
 
-        favoritesButtonComponent = new FavoritesWithTitleButton(favoritesPane, yearPane, favoritesButton);
-        goButtonComponent = new GoWithTitleButton(goPane, yearPane, goButton);
+        new FavoritesWithTitleButton(favoritesPane, yearPane, favoritesButton);
+        new GoWithTitleButton(goPane, yearPane, goButton);
 
         setupView();
     }
@@ -59,7 +55,7 @@ public class WithTitlePanelView {
 
     private void setTitleAndSearchPane(){
         titleAndSearchPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(titleAndSearchPane.widthProperty().divide(2)));
-        titleAndSearchPane.layoutYProperty().bind(appTitle.layoutYProperty().add(170));
+        titleAndSearchPane.layoutYProperty().bind(appTitleButton.layoutYProperty().add(170));
         titleAndSearchPane.prefWidthProperty().bind(leftPane.widthProperty().multiply(0.9));
     }
 
@@ -92,7 +88,6 @@ public class WithTitlePanelView {
         yearField.setStyle("");
         String title = searchBar.getText().trim();
         String year = yearField.getText().trim();
-        List<String> selectedGenresId = new ArrayList<>();
 
         if(!isValidYear(year)){
             yearField.setStyle("-fx-background-color: red;");
