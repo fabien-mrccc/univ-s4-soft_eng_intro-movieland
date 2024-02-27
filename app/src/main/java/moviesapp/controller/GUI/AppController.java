@@ -52,7 +52,7 @@ public class AppController implements Initializable {
     }
 
     private void setGUIComponents(){
-        new LeftPanelView(mainAnchorPane, leftPane, appTitleButton, selectModePane, withTitleButton, withoutTitleButton);
+        new LeftPanelView(mainAnchorPane, leftPane, appTitlePane, appTitleButton, selectModePane, withTitleButton, withoutTitleButton);
 
         withTitlePanelViewComponent = new WithTitlePanelView(leftPane, appTitleButton, titleAndSearchPane, title, searchBar, yearPane, yearLabel,yearField,
                 favoritesWithTitlePane, favoritesWithTitleButton, goWithTitlePane, goWithTitleButton);
@@ -198,6 +198,7 @@ public class AppController implements Initializable {
     public Pane clearWithoutTitlePane;
     public Button clearWithTitleButton;
     public Button clearWithoutTitleButton;
+    public Pane appTitlePane;
 
     /////////////////////////////////////////////////////////// End FXML Identifiers
 }

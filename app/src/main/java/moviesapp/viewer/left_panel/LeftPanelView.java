@@ -12,15 +12,13 @@ public class LeftPanelView {
 
     private final AnchorPane mainAnchorPane;
     private final Pane leftPane;
-    private final Button appTitleButton;
-
+    private final Pane appTitlePane;
     public SelectSearchModeButtons selectSearchModeButtons;
 
-
-    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Button appTitleButton, Pane selectModePane, Button withTitleButton, Button withoutTitleButton) {
+    public LeftPanelView(AnchorPane mainAnchorPane, Pane leftPane, Pane appTitlePane, Button appTitleButton, Pane selectModePane, Button withTitleButton, Button withoutTitleButton) {
         this.mainAnchorPane = mainAnchorPane;
         this.leftPane = leftPane;
-        this.appTitleButton = appTitleButton;
+        this.appTitlePane = appTitlePane;
 
         selectSearchModeButtons = new SelectSearchModeButtons(selectModePane, withTitleButton, withoutTitleButton, leftPane, appTitleButton);
 
@@ -30,7 +28,7 @@ public class LeftPanelView {
     private void setupView() {
         setMainAnchorPane();
         setLeftPane();
-        setAppTitleButton();
+        setAppTitlePane();
     }
 
     private void setMainAnchorPane(){
@@ -43,10 +41,8 @@ public class LeftPanelView {
         leftPane.prefHeightProperty().bind(mainAnchorPane.heightProperty());
     }
 
-    private void setAppTitleButton(){
-        appTitleButton.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(appTitleButton.widthProperty().divide(2)));
-        appTitleButton.layoutYProperty().bind(leftPane.heightProperty().divide(2).subtract(appTitleButton.heightProperty().divide(2)));
-        appTitleButton.layoutYProperty().bind(leftPane.layoutYProperty().add(10));
-
+    private void setAppTitlePane(){
+        appTitlePane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(appTitlePane.widthProperty().divide(2)));
+        appTitlePane.setLayoutY(10);
     }
 }

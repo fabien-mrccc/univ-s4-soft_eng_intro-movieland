@@ -107,7 +107,7 @@
     -fx-background-color: #9d36f7;
 }
 
-.appTitle {
+.appTitlePane {
     -fx-font-family: 'Watched';
     -fx-font-size: 60px;
     -fx-font-weight: bold;
@@ -115,4 +115,5 @@
     -fx-text-alignment: CENTER;
     -fx-background-color: transparent;
     -fx-cursor: hand;
+    -fx-padding: 0px;
 }
