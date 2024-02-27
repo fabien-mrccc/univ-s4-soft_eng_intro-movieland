@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import moviesapp.controller.GUI.AppController;
+import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
 
 public class ClearButton {
@@ -127,8 +129,9 @@ public class ClearButton {
     @FXML
     public void continueButtonClicked(){
         Favorites.instance.clear();
-        // TODO: add Numa's methode to update the user interface
+        new JsonWriter(System.getProperty("user.dir") + "/src/main/resources/json/favorites.json").clean();
         closeClearConfirmationWindow();
+        AppController.updateImagePanelView(Favorites.instance.getFavorites());
     }
 
     @FXML

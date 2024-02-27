@@ -30,7 +30,7 @@ public class AppController implements Initializable {
 
     private WithTitlePanelView withTitlePanelViewComponent;
     private WithoutTitlePanelView withoutTitlePanelViewComponent;
-    private static ImagePanelView imagePanelViewComponent;
+    public static ImagePanelView imagePanelViewComponent;
     private static DetailsMode currentDetailsWindow;
 
     @Override
@@ -73,6 +73,7 @@ public class AppController implements Initializable {
         withTitlePane.setDisable(false);
         withoutTitlePane.setVisible(false);
         withoutTitlePane.setDisable(true);
+        clearWithoutTitleButton.setVisible(false);
     }
 
     @FXML
@@ -81,6 +82,7 @@ public class AppController implements Initializable {
         withTitlePane.setDisable(true);
         withoutTitlePane.setVisible(true);
         withoutTitlePane.setDisable(false);
+        clearWithTitleButton.setVisible(false);
     }
 
     @FXML
@@ -109,7 +111,7 @@ public class AppController implements Initializable {
         clearWithTitleButton.setVisible(true);
     }
 
-    private static void updateImagePanelView(Movies movies){
+    public static void updateImagePanelView(Movies movies){
         imagePanelViewComponent.distributeImages(movies);
     }
 
