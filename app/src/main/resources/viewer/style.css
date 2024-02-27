@@ -57,13 +57,13 @@
 }
 
 .button {
-    -fx-font-family: 'GROBOLD';
     -fx-font-size: 20px;
-    -fx-text-fill: #e5e5e5;
+    -fx-font-family: 'GROBOLD';
 }
 
 .red-button {
     -fx-background-color: #E50914;
+    -fx-text-fill: #e5e5e5;
 }
 
 .red-button:hover {
@@ -72,8 +72,20 @@
     -fx-cursor: hand;
 }
 
+.white-button {
+    -fx-background-color: #e5e5e5;
+    -fx-text-fill: #9d36f7;
+}
+
+.white-button:hover {
+    -fx-background-color: #e5e5e5;
+    -fx-text-fill: #E50914;
+    -fx-cursor: hand;
+}
+
 .purple-button {
     -fx-background-color: #9d36f7;
+    -fx-text-fill: #e5e5e5;
 }
 
 .purple-button:hover{

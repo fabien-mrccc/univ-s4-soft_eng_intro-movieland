@@ -115,6 +115,14 @@ public class AppController implements Initializable {
         clearWithTitleButton.setVisible(true);
     }
 
+    @FXML
+    public void previousPage(){
+    }
+
+    @FXML
+    public void nextPage(){
+    }
+
     public static void updateImagePanelView(Movies movies){
         imagePanelViewComponent.distributeImages(movies);
     }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane fx:id="mainAnchorPane"
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="moviesapp.controller.GUI.AppController">
@@ -74,13 +75,12 @@
             <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
         </Pane>
 
-        <Pane fx:id="appTitlePane" styleClass="debug-blue">
-            <Button fx:id="appTitleButton" styleClass="appTitlePane" text="MovieLand" onAction="#appTitleButtonClicked" />
-        </Pane>
-
-
         <Pane fx:id="clearWithoutTitlePane" styleClass="debug">
             <Button fx:id="clearWithoutTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
+        </Pane>
+
+        <Pane fx:id="appTitlePane" styleClass="debug-blue">
+            <Button fx:id="appTitleButton" styleClass="appTitlePane" text="MovieLand" onAction="#appTitleButtonClicked" />
         </Pane>
 
     </Pane>
@@ -88,9 +88,20 @@
     <!--Right Pane-->
     <StackPane fx:id="rightStackPane" styleClass="rightStackPane">
         <ScrollPane fx:id="rightScrollPane" styleClass="rightScrollPane">
-            <GridPane fx:id="gridPane" styleClass="debug">
+            <VBox>
+                <GridPane fx:id="gridPane" styleClass="debug">
 
-            </GridPane>
+                </GridPane>
+
+                <HBox alignment="CENTER" spacing="10">
+                    <Button styleClass="button, white-button" text="Previous Page" onAction="#previousPage"/>
+                    <Button styleClass="button, white-button" text="Next Page" onAction="#nextPage"/>
+                </HBox>
+
+                <Pane prefHeight="60">
+                </Pane>
+            </VBox>
+
         </ScrollPane>
     </StackPane>
 

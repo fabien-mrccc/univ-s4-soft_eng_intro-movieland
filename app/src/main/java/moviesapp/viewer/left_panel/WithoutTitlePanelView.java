@@ -33,8 +33,7 @@ public class WithoutTitlePanelView {
     private final Button favoritesButton;
     private final Button goButton;
     private final ListView<String> genreListView;
-    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
-
+    public final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
     public WithoutTitlePanelView(Pane leftPane, Button appTitleButton, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
@@ -166,14 +165,14 @@ public class WithoutTitlePanelView {
         ObservableList<String> selectedGenres = genreListView.getSelectionModel().getSelectedItems();
         String yearFrom = singleOrMinYearField.getText().trim();
         String yearTo = maxYearField.getText().trim();
-        String rating = ratingField.getText().trim();
+        String ratingValue = ratingField.getText().trim();
         List<String> selectedGenresId = Genres.genresToGenreIds(selectedGenres);
 
         if(!yearTest(yearFrom, yearTo)){
             return;
         }
 
-        searchHandling(title, selectedGenresId, yearFrom, yearTo, rating);
+        searchHandling(title, selectedGenresId, yearFrom, yearTo, ratingValue);
     }
 
     private void searchHandling(String title, List<String> selectedGenresId, String yearFrom, String yearTo, String rating) {

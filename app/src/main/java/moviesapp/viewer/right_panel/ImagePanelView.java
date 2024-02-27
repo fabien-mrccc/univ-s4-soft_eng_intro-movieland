@@ -64,7 +64,7 @@ public class ImagePanelView {
 
         int row = 0, col = 0;
 
-        if(movies.isEmpty()){ //TODO: update image
+        if(movies == null || movies.isEmpty()){ //TODO: update image
             Image image = new Image(Objects.requireNonNull(getClass().getResource("/viewer/images/poster-unavailable.jpg")).toExternalForm());
             ImageView imageView = new ImageView();
             imageView.setImage(image);

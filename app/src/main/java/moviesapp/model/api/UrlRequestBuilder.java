@@ -23,6 +23,7 @@ public class UrlRequestBuilder {
     public static int maxAcceptableYearValue = LocalDate.now().getYear();
     public static String imageSize = "/w220_and_h330_face";
     public static String imageBaseURL = "https://image.tmdb.org/t/p";
+    public String urlString = "";
 
     public UrlRequestBuilder(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage, String page){
         this.title = title;
@@ -38,7 +39,6 @@ public class UrlRequestBuilder {
      * @return the request built
      */
     Request build(){
-        String urlString = "";
 
         if(searchMode.equals(searchModeSearch)){
             urlString = searchBuilder(title, singleYearOrMinYear, page);
