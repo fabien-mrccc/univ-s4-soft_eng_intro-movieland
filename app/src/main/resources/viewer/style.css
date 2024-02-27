@@ -28,14 +28,6 @@
     -fx-margin: 20px;
 }
 
-.appTitle {
-    -fx-font-family: 'Watched';
-    -fx-font-size: 60px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #E50914;
-    -fx-text-alignment: CENTER;
-}
-
 .left-pane-label {
     -fx-font-family: 'GROBOLD';
     -fx-font-size: 20px;
@@ -111,9 +103,12 @@
     -fx-background-color: #9d36f7;
 }
 
-.detailsPane {
-    -fx-background-image: url('/viewer/images/background-pattern.png');
-    -fx-background-size: cover;
-    -fx-border-color: #e5e5e5;
-    -fx-effect: dropshadow(gaussian, #9d36f7, 15, 0.1, 0, 0);
+.appTitle {
+    -fx-font-family: 'Watched';
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E50914;
+    -fx-text-alignment: CENTER;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
 }
