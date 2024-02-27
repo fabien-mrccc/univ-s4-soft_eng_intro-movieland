@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.model.api.Genres;
 import moviesapp.model.json.JsonReader;
+import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 import moviesapp.viewer.buttons.ClearButton;
@@ -23,12 +24,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static moviesapp.model.json.JsonReader.apiFilePath;
+import static moviesapp.model.json.JsonReader.favoritesFilePath;
 
 public class AppController implements Initializable {
 
     private WithTitlePanelView withTitlePanelViewComponent;
     private WithoutTitlePanelView withoutTitlePanelViewComponent;
-    private ImagePanelView imagePanelViewComponent;
+    private static ImagePanelView imagePanelViewComponent;
+    private static DetailsMode currentDetailsWindow;
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -94,14 +97,6 @@ public class AppController implements Initializable {
         updateImagePanelView(jsonReader.findAllMovies());
     }
 
-    private void updateImagePanelView(Movies movies){
-        imagePanelViewComponent.distributeImages(movies);
-    }
-
-    public static void handleClickOnImage(Movie movie) {
-        new DetailsMode(movie);
-    }
-
     @FXML
     public void favoritesWithoutTitleButtonClicked(){
         updateImagePanelView(Favorites.instance.getFavorites());
@@ -113,6 +108,39 @@ public class AppController implements Initializable {
         updateImagePanelView(Favorites.instance.getFavorites());
         clearWithTitleButton.setVisible(true);
     }
+
+    private static void updateImagePanelView(Movies movies){
+        imagePanelViewComponent.distributeImages(movies);
+    }
+
+    public static void handleClickOnImage(Movie movie) {
+        currentDetailsWindow = new DetailsMode(movie);
+    }
+
+    /**
+     * remove the movie from favorites when the remove button is clicked
+     * @param movie the movie of which we want the details
+     */
+    public static void removeButtonClicked(Movie movie){
+        Favorites.instance.remove(movie);
+        applyFavoritesModifications(Favorites.instance.getFavorites());
+    }
+
+    /**
+     * add the movie to favorites when the add button is clicked
+     * @param movie the movie of which we want the details
+     */
+    public static void addButtonClicked(Movie movie){
+        Favorites.instance.add(movie);
+        applyFavoritesModifications(Favorites.instance.getFavorites());
+    }
+
+    private static void applyFavoritesModifications(Movies newFavorites){
+        updateImagePanelView(newFavorites);
+        currentDetailsWindow.globalStage.close();
+        new JsonWriter(favoritesFilePath).saveFavorites(newFavorites);
+    }
+
 
     /////////////////////////////////////////////////////////// Begin FXML Identifiers
     public AnchorPane mainAnchorPane;
