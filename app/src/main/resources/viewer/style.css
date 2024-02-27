@@ -2,6 +2,10 @@
     /*-fx-border-color: yellow;*/
 }
 
+.debug-blue {
+    /*-fx-border-color: blue;*/
+}
+
 .leftPane {
     -fx-background-image: url('images/left-corner-pattern.png');
 }

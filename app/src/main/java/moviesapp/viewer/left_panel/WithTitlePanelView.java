@@ -8,8 +8,6 @@ import javafx.scene.layout.Pane;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.api.UrlRequestBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 import moviesapp.viewer.buttons.FavoritesWithTitleButton;
 import moviesapp.viewer.buttons.GoWithTitleButton;
 
@@ -25,14 +23,12 @@ public class WithTitlePanelView {
     private final Pane yearPane;
     private final Label year;
     private final TextField yearField;
-
-    public FavoritesWithTitleButton favoritesButton;
-    public GoWithTitleButton goButton;
     protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
+
     public WithTitlePanelView(Pane leftPane, Button appTitleButton, Pane titleAndSearchPane, Label title, TextField searchBar,
-                              Pane yearPane, Label year, TextField yearField, Pane favoritesWithTitlePane, Button favoritesButtonWithTitle,
-                              Pane goWithTitlePane, Button goButtonWithTitle) {
+                              Pane yearPane, Label year, TextField yearField, Pane favoritesPane, Button favoritesButton,
+                              Pane goPane, Button goButton) {
 
         this.leftPane = leftPane;
         this.appTitleButton = appTitleButton;
@@ -43,8 +39,8 @@ public class WithTitlePanelView {
         this.year = year;
         this.yearField = yearField;
 
-        favoritesButton = new FavoritesWithTitleButton(favoritesWithTitlePane, yearPane, favoritesButtonWithTitle);
-        goButton = new GoWithTitleButton(goWithTitlePane, yearPane, goButtonWithTitle);
+        new FavoritesWithTitleButton(favoritesPane, yearPane, favoritesButton);
+        new GoWithTitleButton(goPane, yearPane, goButton);
 
         setupView();
     }
@@ -92,7 +88,6 @@ public class WithTitlePanelView {
         yearField.setStyle("");
         String title = searchBar.getText().trim();
         String year = yearField.getText().trim();
-        List<String> selectedGenresId = new ArrayList<>();
 
         if(!isValidYear(year)){
             yearField.setStyle("-fx-background-color: red;");
