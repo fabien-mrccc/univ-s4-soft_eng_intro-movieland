@@ -5,15 +5,47 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import moviesapp.model.movies.Favorites;
 
 public class ClearButton {
+    @FXML public Button clearButton;
     @FXML private Stage globalStage;
     @FXML private Button continueButton;
     @FXML private Button cancelButton;
     @FXML private Label confirmation;
+    private final Pane leftPane;
+    private final Pane withTitlePane;
+    private final Pane clearPane;
+
+    public ClearButton(Pane clearPane, Button clearButton, Pane leftPane, Pane withTitlePane){
+        this.clearButton = clearButton;
+        this.leftPane = leftPane;
+        this.withTitlePane = withTitlePane;
+        this.clearPane = clearPane;
+
+        setView();
+    }
+
+    private void setView(){
+        setClearPane();
+        setClearButton();
+    }
+
+    private void setClearPane(){
+        clearPane.layoutXProperty().bind(leftPane.widthProperty().divide(2).subtract(clearButton.widthProperty().divide(2)));
+        clearPane.layoutYProperty().bind(withTitlePane.heightProperty().add(40));
+    }
+
+    private void setClearButton(){
+        clearButton.setOnAction(event -> openClearConfirmationWindow());
+        clearButton.setTextAlignment(TextAlignment.CENTER);
+        clearButton.setPrefWidth(200);
+        clearButton.setPrefHeight(26);
+    }
 
     /**
      * Create a new window in which a confirmation is required to clear the list of favorites

@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.model.api.Genres;
 import moviesapp.model.json.JsonReader;
+import moviesapp.model.movies.Favorites;
+import moviesapp.model.movies.Movies;
+import moviesapp.viewer.buttons.ClearButton;
 import moviesapp.model.movies.Movie;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelView;
@@ -45,18 +48,22 @@ public class AppController implements Initializable {
     private void setGUIComponents(){
         new LeftPanelView(mainAnchorPane, leftPane, appTitle, selectModePane, withTitleButton, withoutTitleButton);
 
-        withTitlePanelViewComponent = new WithTitlePanelView(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel, yearField,
+        withTitlePanelViewComponent = new WithTitlePanelView(leftPane, appTitle, titleAndSearchPane, title, searchBar, yearPane, yearLabel,yearField,
                 favoritesWithTitlePane, favoritesWithTitleButton, goWithTitlePane, goWithTitleButton);
 
         withoutTitlePanelViewComponent = new WithoutTitlePanelView(leftPane, appTitle, yearsPane, years, from, singleOrMinYearField,
-                to, maxYearField, genresPane, genres, ratingPane, rating, atLeast, ratingField, searchBar, genreListView, buttonsWithoutTitlePane,
-                favoritesWithoutTitleButton, goWithoutTitleButton);
+                to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
+                ratingField, searchBar, favoritesWithoutTitlePane, favoritesWithoutTitleButton, goWithoutTitlePane, goWithoutTitleButton, genreListView);
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
         imagePanelViewComponent = new ImagePanelView(gridPane, rightScrollPane);
-    }
 
+        new ClearButton(clearWithTitlePane, clearWithTitleButton, leftPane, withTitlePane);
+        new ClearButton(clearWithoutTitlePane, clearWithoutTitleButton, leftPane, withoutTitlePane);
+        clearWithTitleButton.setVisible(false);
+        clearWithoutTitleButton.setVisible(false);
+    }
     @FXML
     private void turnOnSearchWithTitleMode(){
         withTitlePane.setVisible(true);
@@ -76,31 +83,36 @@ public class AppController implements Initializable {
     @FXML
     private void searchCatcherNoTitle(){
         withoutTitlePanelViewComponent.searchCatcherNoTitle();
-        updateImagePanelView();
+        JsonReader jsonReader = new JsonReader(apiFilePath);
+        updateImagePanelView(jsonReader.findAllMovies());
     }
 
     @FXML
     private void searchCatcherWithTitle(){
         withTitlePanelViewComponent.searchCatcherWithTitle();
-        updateImagePanelView();
+        JsonReader jsonReader = new JsonReader(apiFilePath);
+        updateImagePanelView(jsonReader.findAllMovies());
     }
 
-    private void updateImagePanelView(){
-        JsonReader jsonReader = new JsonReader(apiFilePath);
-        imagePanelViewComponent.distributeImages(jsonReader.findAllMovies());
+    private void updateImagePanelView(Movies movies){
+        imagePanelViewComponent.distributeImages(movies);
     }
 
     public static void handleClickOnImage(Movie movie) {
         new DetailsMode(movie);
     }
 
+    @FXML
+    public void favoritesWithoutTitleButtonClicked(){
+        updateImagePanelView(Favorites.instance.getFavorites());
+        clearWithoutTitleButton.setVisible(true);
+    }
 
-
-
-
-
-
-
+    @FXML
+    public void favoritesWithTitleButtonClicked(){
+        updateImagePanelView(Favorites.instance.getFavorites());
+        clearWithTitleButton.setVisible(true);
+    }
 
     /////////////////////////////////////////////////////////// Begin FXML Identifiers
     public AnchorPane mainAnchorPane;
@@ -140,6 +152,12 @@ public class AppController implements Initializable {
     public Pane withoutTitlePane;
     public ListView<String> genreListView;
     public GridPane gridPane;
+    public Pane goWithoutTitlePane;
+    public Pane favoritesWithoutTitlePane;
+    public Pane clearWithTitlePane;
+    public Pane clearWithoutTitlePane;
+    public Button clearWithTitleButton;
+    public Button clearWithoutTitleButton;
 
     /////////////////////////////////////////////////////////// End FXML Identifiers
 }

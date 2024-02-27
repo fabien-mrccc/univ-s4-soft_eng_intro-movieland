@@ -32,7 +32,10 @@
             </Pane>
 
             <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
-                <Button fx:id="favoritesWithTitleButton" styleClass="button, purple-button" text="Favorites"/>
+                <Button fx:id="favoritesWithTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithTitleButtonClicked"/>
+            </Pane>
+            <Pane fx:id="clearWithTitlePane" styleClass="debug">
+                <Button fx:id="clearWithTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
             </Pane>
         </Pane>
 
@@ -45,7 +48,7 @@
                 <TextField fx:id="maxYearField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="genresPane" styleClass="debug" prefHeight="120">
+            <Pane fx:id="genresPane" styleClass="debug">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
                 <ListView fx:id="genreListView"/>
             </Pane>
@@ -56,15 +59,23 @@
                 <TextField fx:id="ratingField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="buttonsWithoutTitlePane" styleClass="debug">
-                <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites"/>
+
+            <Pane fx:id="goWithoutTitlePane" styleClass="debug">
                 <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherNoTitle"/>
+            </Pane>
+
+            <Pane fx:id="favoritesWithoutTitlePane" styleClass="debug">
+                <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithoutTitleButtonClicked"/>
             </Pane>
         </Pane>
 
         <Pane fx:id="selectModePane" styleClass="debug">
             <Button fx:id="withTitleButton" styleClass="button, red-button" text="With Title" onAction="#turnOnSearchWithTitleMode"/>
             <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
+        </Pane>
+
+        <Pane fx:id="clearWithoutTitlePane" styleClass="debug">
+            <Button fx:id="clearWithoutTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
         </Pane>
 
     </Pane>
