@@ -10,8 +10,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import moviesapp.controller.GUI.AppController;
-import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
+
+import static moviesapp.model.json.JsonWriter.FAVORITES_WRITER;
 
 public class ClearButton {
     @FXML public Button clearButton;
@@ -128,9 +129,9 @@ public class ClearButton {
     @FXML
     public void continueButtonClicked(){
         Favorites.instance.clear();
-        new JsonWriter(System.getProperty("user.dir") + "/src/main/resources/json/favorites.json").clean();
+        FAVORITES_WRITER.clean();
         closeClearConfirmationWindow();
-        AppController.updateImagePanelView(Favorites.instance.getFavorites());
+        AppController.updateImagePanelView(Favorites.instance.asMovies());
     }
 
     @FXML

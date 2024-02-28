@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import moviesapp.controller.command_line.CLController;
 import moviesapp.model.json.JsonReader;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,7 +19,9 @@ import java.util.TreeMap;
 import static moviesapp.model.api.TheMovieDbAPI.client;
 import static moviesapp.model.api.UrlRequestBuilder.apiKey;
 import static moviesapp.model.api.UrlRequestBuilder.baseUrl;
-import static moviesapp.model.json.JsonReader.genresFilePath;
+import static moviesapp.model.json.JsonReader.GENRES_FILE_PATH;
+import static moviesapp.model.json.JsonReader.GENRES_READER;
+import static moviesapp.model.json.JsonWriter.convertJsonToFile;
 
 public class Genres {
 
@@ -33,8 +34,7 @@ public class Genres {
      */
     public static void fillGENRE_NAME_ID_MAP(){
         updateGenresFile();
-        JsonReader jsonGenresReader = new JsonReader(genresFilePath);
-        for(JsonNode genre : jsonGenresReader.getJsonGenres()){
+        for(JsonNode genre : GENRES_READER.getJsonGenres()){
             GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
         }
     }
@@ -53,30 +53,13 @@ public class Genres {
             if(response.isSuccessful()){
                 assert response.body() != null;
                 String genresResult = response.body().string();
-                requestToGenresFile(genresResult);
+                convertJsonToFile(genresResult, GENRES_FILE_PATH);
             }
             else{
                 System.out.println("error :" + response.code());
             }
         }catch(IOException e){
             System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
-        }
-    }
-
-    /**
-     * Turns the response of an api request into a json file filled with genres
-     * @param result response of the api request
-     */
-    private static void requestToGenresFile(String result){
-        try {
-            ObjectMapper mapper = JsonMapper.builder().build();
-            ObjectNode node = mapper.readValue(result, ObjectNode.class);
-            try (FileWriter fileWriter = new FileWriter(genresFilePath, StandardCharsets.UTF_8)) {
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                mapper.writeValue(fileWriter, node);
-            }
-        }catch (IOException e){
-            System.err.println("IOException from 'new FileWriter(...)' or 'mapper.writeValue(fileWriter, node)'");
         }
     }
 

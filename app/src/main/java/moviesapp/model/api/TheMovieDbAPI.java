@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import moviesapp.controller.command_line.CLController;
+import moviesapp.model.movies.Movies;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,7 +14,8 @@ import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static moviesapp.model.json.JsonReader.apiFilePath;
+import static moviesapp.model.json.JsonReader.*;
+import static moviesapp.model.json.JsonWriter.convertJsonToFile;
 
 public class TheMovieDbAPI {
 
@@ -51,35 +52,13 @@ public class TheMovieDbAPI {
         try{
             if(response.isSuccessful() && response.body() != null){
                 String searchResult = response.body().string();
-                searchResultFromRequestToFile(searchResult);
+                convertJsonToFile(searchResult, API_FILE_PATH);
             }
             else{
                 System.err.println("Error API request: " + response.code());
             }
         } catch (IOException e){
             System.err.println("IOException e from 'String searchResult = response.body().string();'");
-        }
-    }
-
-    /**
-     * Turns the response to an API request into a JSON file
-     * @param searchResult response of the api request
-     */
-    public void searchResultFromRequestToFile(String searchResult){
-        ObjectMapper mapper = JsonMapper.builder().build();
-
-        try {
-            ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);
-
-            try (FileWriter fileWriter = new FileWriter(apiFilePath, StandardCharsets.UTF_8)) {
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                mapper.writeValue(fileWriter, node);
-            } catch (IOException e) {
-                System.err.println("IOException from 'new FileWriter(...)' or 'mapper.writeValue(fileWriter, node)'");
-            }
-
-        } catch (JsonProcessingException e){
-            System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
         }
     }
 

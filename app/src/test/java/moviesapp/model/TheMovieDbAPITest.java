@@ -1,6 +1,5 @@
 package moviesapp.model;
 
-import moviesapp.controller.command_line.CLController;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.json.JsonReader;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,17 +10,14 @@ import java.util.List;
 
 import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
-import static moviesapp.model.json.JsonReader.apiFilePath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheMovieDbAPITest {
     private static TheMovieDbAPI api;
-    private static JsonReader apiJsonReader;
 
     @BeforeAll
     static void setupBeforeAll() {
         api = new TheMovieDbAPI();
-        apiJsonReader = new JsonReader(apiFilePath);
     }
 
     @Test

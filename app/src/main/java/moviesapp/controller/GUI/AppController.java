@@ -10,7 +10,6 @@ import moviesapp.controller.command_line.CLController;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.TheMovieDbAPI;
 import moviesapp.model.json.JsonReader;
-import moviesapp.model.json.JsonWriter;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 import moviesapp.viewer.buttons.ClearButton;
@@ -25,8 +24,9 @@ import moviesapp.viewer.right_panel.RightPanelView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static moviesapp.model.json.JsonReader.apiFilePath;
-import static moviesapp.model.json.JsonReader.favoritesFilePath;
+import static moviesapp.model.json.JsonReader.*;
+import static moviesapp.model.json.JsonWriter.FAVORITES_WRITER;
+import static moviesapp.model.movies.Favorites.asMovies;
 
 public class AppController implements Initializable {
 
@@ -92,26 +92,24 @@ public class AppController implements Initializable {
     @FXML
     private void searchCatcherNoTitle(){
         withoutTitlePanelViewComponent.searchCatcherNoTitle();
-        JsonReader jsonReader = new JsonReader(apiFilePath);
-        updateImagePanelView(jsonReader.findAllMovies());
+        updateImagePanelView(SEARCH_READER.findAllMovies());
     }
 
     @FXML
     private void searchCatcherWithTitle(){
         withTitlePanelViewComponent.searchCatcherWithTitle();
-        JsonReader jsonReader = new JsonReader(apiFilePath);
-        updateImagePanelView(jsonReader.findAllMovies());
+        updateImagePanelView(SEARCH_READER.findAllMovies());
     }
 
     @FXML
     public void favoritesWithoutTitleButtonClicked(){
-        updateImagePanelView(Favorites.instance.getFavorites());
+        updateImagePanelView(asMovies());
         clearWithoutTitleButton.setVisible(true);
     }
 
     @FXML
     public void favoritesWithTitleButtonClicked(){
-        updateImagePanelView(Favorites.instance.getFavorites());
+        updateImagePanelView(asMovies());
         clearWithTitleButton.setVisible(true);
     }
 
@@ -133,8 +131,8 @@ public class AppController implements Initializable {
 
     public void appTitleButtonClicked(){
         new TheMovieDbAPI().popularMovies("1");
-        CLController.jsonReaderUpdate();
-        updateImagePanelView(new JsonReader(apiFilePath).findAllMovies());
+        updateSearchReader();
+        updateImagePanelView(SEARCH_READER.findAllMovies());
     }
 
 
@@ -143,8 +141,8 @@ public class AppController implements Initializable {
      * @param movie the movie of which we want the details
      */
     public static void removeButtonClicked(Movie movie){
-        Favorites.instance.remove(movie);
-        applyFavoritesModifications(Favorites.instance.getFavorites());
+        Favorites.remove(movie);
+        applyFavoritesModifications();
     }
 
     /**
@@ -152,14 +150,14 @@ public class AppController implements Initializable {
      * @param movie the movie of which we want the details
      */
     public static void addButtonClicked(Movie movie){
-        Favorites.instance.add(movie);
-        applyFavoritesModifications(Favorites.instance.getFavorites());
+        Favorites.add(movie);
+        applyFavoritesModifications();
     }
 
-    private static void applyFavoritesModifications(Movies newFavorites){
-        updateImagePanelView(newFavorites);
+    private static void applyFavoritesModifications(){
+        updateImagePanelView(asMovies());
         currentDetailsWindow.globalStage.close();
-        new JsonWriter(favoritesFilePath).saveFavorites(newFavorites);
+        FAVORITES_WRITER.saveFavorites(asMovies());
     }
 
 

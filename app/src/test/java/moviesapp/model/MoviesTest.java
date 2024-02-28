@@ -2,6 +2,7 @@ package moviesapp.model;
 
 import moviesapp.model.movies.Movie;
 import moviesapp.model.movies.Movies;
+import moviesapp.model.exceptions.NoMovieFoundException;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MoviesTest {
     private final Movie movie1 = new Movie(true,null,null,"1",null,
@@ -67,10 +69,19 @@ public class MoviesTest {
     @Test
     void testNoMovieFound(){
         Movies movies = new Movies(moviesToAddToMovies);
-        assertThat(Movies.noMovieFound(null)).isTrue();
-        assertThat(Movies.noMovieFound(movies)).isFalse();
 
-        assertThat(Movies.noMovieFound(emptyMovies)).isTrue();
+        assertThrows(NoMovieFoundException.class, () -> {
+            Movies.searchableMovie(null);
+        });
+
+        assertThrows(NoMovieFoundException.class, () -> {
+            Movies.searchableMovie(movies);
+        });
+
+        assertThrows(NoMovieFoundException.class, () -> {
+            Movies.searchableMovie(emptyMovies);
+        });
+
     }
 
     @Test

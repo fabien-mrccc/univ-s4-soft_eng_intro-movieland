@@ -15,8 +15,8 @@ public class UrlRequestBuilder {
     private final List<String> genres;
     private final String minVoteAverage;
     private final String page;
-    public static final String singleMode = "single_mode";
     public static String searchMode;
+    public static final String SINGLE_MODE_KEYWORD = "single_mode";
     public static String searchModeSearch = "1";
     public static String searchModeDiscover = "2";
     public static int minAcceptableYearValue = 1874;
@@ -88,9 +88,9 @@ public class UrlRequestBuilder {
      */
     private void buildUrlWithYears(StringBuilder urlBuilder, String singleYearOrMinYear, String maxYear){
         if(maxYear == null){
-            maxYear = singleMode;
+            maxYear = SINGLE_MODE_KEYWORD;
         }
-        boolean isSingleMode = maxYear.equals(singleMode);
+        boolean isSingleMode = maxYear.equals(SINGLE_MODE_KEYWORD);
         boolean isMinYearEmpty = singleYearOrMinYear == null || singleYearOrMinYear.isEmpty();
         boolean isMaxYearEmpty = maxYear.isEmpty();
 

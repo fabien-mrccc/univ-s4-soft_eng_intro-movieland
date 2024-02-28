@@ -1,10 +1,16 @@
 package moviesapp.model.movies;
 
+import moviesapp.model.exceptions.IndexException;
+import moviesapp.model.exceptions.NoMovieFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static moviesapp.model.json.JsonReader.SEARCH_READER;
+import static moviesapp.model.json.JsonReader.updateSearchReader;
+import static moviesapp.model.exceptions.IndexException.isValidIndex;
 
 public class Movies implements Iterable<Movie> {
     private final List<Movie> movies;
@@ -55,11 +61,18 @@ public class Movies implements Iterable<Movie> {
     }
 
     /**
-     * Check if a list is empty or null and deduct that no movie where found
-     * @return true if the list is without movies inside, otherwise false
+     * Checks if the given list of movies is empty or null.
+     *
+     * @param movies the list of movies to check.
+     * @throws NoMovieFoundException if the list of movies is empty or null.
      */
-    public static boolean noMovieFound(Movies movies){
-        return movies == null || movies.isEmpty();
+    public static void searchableMovie(Movies movies) throws NoMovieFoundException{
+
+        boolean noMovieFound = movies == null || movies.isEmpty();
+
+        if(noMovieFound){
+            throw new NoMovieFoundException();
+        }
     }
 
     /**
@@ -148,5 +161,31 @@ public class Movies implements Iterable<Movie> {
      */
     public void clear(){
         movies.clear();
+    }
+
+    /**
+     * Selects a movie from the given list of movies by index.
+     *
+     * @param movies the list of movies from which to select.
+     * @param index the index of the movie to select.
+     * @return the selected movie.
+     * @throws IndexException if the index provided is not valid
+     */
+    public static Movie selectMovieByIndex(Movies movies, int index) throws IndexException {
+
+        isValidIndex(index, movies.size());
+        return movies.findMovieByIndex(index);
+
+    }
+
+    /**
+     * Retrieves the list of movies from the previous search and displays them.
+     *
+     * @return the list of movies from the previous search.
+     */
+    public static Movies moviesFromPreviousSearch(){
+        updateSearchReader();
+        System.out.println("\nBelow the movies from your precedent search: \n" + SEARCH_READER.findAllMovies());
+        return SEARCH_READER.findAllMovies();
     }
 }
