@@ -175,7 +175,6 @@ public class Movies implements Iterable<Movie> {
 
         isValidIndex(index, movies.size());
         return movies.findMovieByIndex(index);
-
     }
 
     /**
