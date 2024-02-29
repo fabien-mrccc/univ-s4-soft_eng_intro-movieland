@@ -37,9 +37,9 @@ public class JsonWriter {
     }
 
     /**
-     * Clean the json file by emptying it.
+     * Clear the json file by emptying it.
      */
-    public void clean(){
+    public void clear(){
         try (FileWriter writer = new FileWriter(jsonFile)) {
             writer.write("");
         } catch (IOException e) {

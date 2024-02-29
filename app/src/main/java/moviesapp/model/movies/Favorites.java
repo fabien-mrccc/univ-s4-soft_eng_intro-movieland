@@ -46,16 +46,6 @@ public class Favorites extends MovieFinder {
     }
 
     /**
-     * Removes a movie to the favorites list if it's already present and if it's not null.
-     * @param movie The movie to remove to favorites.
-     */
-    public static void remove(Movie movie){
-        if(movie != null && contains(movie)){
-            favorites.remove(movie);
-        }
-    }
-
-    /**
      * Checks if a movie is already in the favorites list.
      * @param movie The movie to check.
      * @return True if the movie is already in favorites, false otherwise.
@@ -116,7 +106,7 @@ public class Favorites extends MovieFinder {
      * @param index the index of the movie to add to the favorites list.
      * @throws IndexException if the index provided is not valid
      */
-    public static void addByIndex(Movies movies, int index) throws IndexException {
+    public static void addByIndex(Movies movies, int index) throws IndexException { //TODO: refactor this method and removeByIndex
 
         if (movies.size() > 1){
             add(selectMovieByIndex(movies, index));
@@ -129,14 +119,45 @@ public class Favorites extends MovieFinder {
     }
 
     /**
+     * Removes a movie from the given list of movies to the favorites list at the specified index.
+     *
+     * @param movies the list of movies from which to select the movie to remove.
+     * @param index the index of the movie to remove from the favorites list.
+     * @throws IndexException if the index provided is not valid
+     */
+    public static void removeByIndex(Movies movies, int index) throws IndexException {
+
+        if (movies.size() > 1){
+            remove(selectMovieByIndex(movies, index));
+        }
+        else{
+            remove(movies.get(0));
+        }
+        saveFavorites();
+
+    }
+
+    /**
      * Adds a movie to the favorites list if it is not null and not already contained in the favorites.
      *
      * @param movie the movie to add to the favorites list.
      */
-    public static void add(Movie movie){
+    public static void add(Movie movie){ //TODO: refactor this method and remove
 
         if(movie != null && !contains(movie)){
             favorites.add(movie);
+        }
+    }
+
+    /**
+     * Removes a movie to the favorites list if it's already present and if it's not null.
+     *
+     * @param movie The movie to remove to favorites.
+     */
+    public static void remove(Movie movie){
+
+        if(movie != null && contains(movie)){
+            favorites.remove(movie);
         }
     }
 

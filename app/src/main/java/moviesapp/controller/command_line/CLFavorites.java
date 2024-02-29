@@ -7,15 +7,23 @@ import moviesapp.model.movies.Movies;
 
 import static moviesapp.model.json.JsonWriter.FAVORITES_WRITER;
 import static moviesapp.model.movies.Favorites.addByIndex;
+import static moviesapp.model.movies.Favorites.removeByIndex;
 import static moviesapp.model.movies.Movies.moviesFromPreviousSearch;
-import static moviesapp.model.movies.Movies.selectMovieByIndex;
 
 public class CLFavorites extends CLController {
 
     /**
+     * Displays the user's favorite movie list and returns it as Movies object.
+     */
+    Movies display() {
+        System.out.print("Your favorite list:\n" + Favorites.instance);
+        return Favorites.asMovies();
+    }
+
+    /**
      * Executes the add command, allowing the user to add movies to their favorites.
      */
-    void add(){
+    void add() { //TODO: refactor this method and remove
         System.out.println("Add command has been started.");
         Movies movies = moviesFromPreviousSearch();
 
@@ -40,15 +48,43 @@ public class CLFavorites extends CLController {
     }
 
     /**
+     * Remove to the favorites the movie chosen by the user
+     */
+    void remove() {
+        System.out.println("Remove command has been started.\n");
+        Movies movies = display();
+        System.out.println();
+
+        try {
+            Movies.searchableMovie(movies);
+        }
+        catch (NoMovieFoundException e) {
+            System.out.println("\n| Be sure to have movies in your favorites before trying to use remove command.");
+            return;
+        }
+
+        boolean removeSuccess = false;
+
+        while (!removeSuccess) {
+            try {
+                removeCommandTry(movies);
+                removeSuccess = true;
+            } catch (IndexException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Attempts to add movies to favorites by index from the given list of movies.
      *
      * @param movies the list of movies from which to select movies to add.
      * @throws IndexException if an invalid index is provided during the addition process.
      */
-    private void addCommandTry(Movies movies) throws IndexException {
+    private void addCommandTry(Movies movies) throws IndexException { //TODO: refactor this method and removeCommandTry
 
         do{
-            addByIndex(movies, retrieveAsInt("Index of the movie to add to your favorites: "));
+            addByIndex(movies, retrieveAsInt("Index of the movie to add to your favorites: ") - 1);
         }
         while(askToConfirm("Do you want to add another movie?"));
 
@@ -57,62 +93,29 @@ public class CLFavorites extends CLController {
     }
 
     /**
-     * Displays the user's favorite movie list and returns it as Movies object.
+     * Attempts to remove movies to favorites by index from the given list of movies.
+     *
+     * @param movies the list of movies from which to select movies to remove.
+     * @throws IndexException if an invalid index is provided during the removing process.
      */
-    Movies display(){
-        System.out.print("Your favorite list:\n" + Favorites.instance);
-        return Favorites.asMovies();
+    private void removeCommandTry(Movies movies) throws IndexException {
+
+        do{
+            removeByIndex(movies, retrieveAsInt("Index of the movie to remove from your favorites: ") - 1);
+        }
+        while(askToConfirm("Do you want to remove another movie?"));
+
+        System.out.println();
+        display();
     }
 
     /**
-     * Remove to the favorites the movie chosen by the user
-     */
-    void remove() {
-        System.out.println("Remove command has been started.\n");
-
-        try {
-            do{
-                Movies movies = display();
-                System.out.println();
-
-                Movies.searchableMovie(movies);
-
-                if (movies.size() > 1){
-                    removeMovieByIndex(movies);
-                }
-                else{
-                    Favorites.remove(movies.get(0));
-                }
-                FAVORITES_WRITER.saveFavorites(Favorites.asMovies());
-
-            }
-            while(askToConfirm("Do you want to remove another movie?"));
-            System.out.println();
-            display();
-        }
-        catch (NoMovieFoundException e){
-            System.out.println(e.getMessage() + "\n| Be sure to have movies in your favorites before trying to use remove command.");
-        }
-        catch (IndexException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Remove a specific movie chosen by the user with the index of the movie to the favorite list
-     * @param movies chosen to browse
-     */
-    private void removeMovieByIndex(Movies movies) throws NoMovieFoundException, IndexException {
-        Favorites.remove(selectMovieByIndex(movies, retrieveAsInt("Index of the movie to remove from your favorites: ")));
-    }
-
-    /**
-     * Test if askToConfirm is true ,and if it is, clear the favorite list
+     * Clears the favorites list after confirming with the user.
      */
     void clear() {
         if (askToConfirm("Are you sure that you want to delete your favorites?")){
             Favorites.clear();
-            FAVORITES_WRITER.clean();
+            FAVORITES_WRITER.clear();
             System.out.println("Your favorite list has been cleared.");
         }
     }

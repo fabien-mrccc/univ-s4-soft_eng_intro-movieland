@@ -11,25 +11,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import java.io.File;
 import java.util.Objects;
 
 import static moviesapp.App.minHeight;
 import static moviesapp.App.minWidth;
 
-public class searchTest extends ApplicationTest {
-    private static File apiJsonPath;
+public class SearchTest extends ApplicationTest {
     private static JsonReader jsonReader;
+    static String apiJsonPath = System.getProperty("user.dir") + "/src/test/resources/api-results.json";
+
 
     @BeforeAll
     static void setupBeforeAll() {
-        new JsonWriter(System.getProperty("user.dir") + "/src/test/resources/api-results.json").clean();
-        apiJsonPath = new File(System.getProperty("user.dir") + "/src/test/resources/api-results.json");
+        new JsonWriter(System.getProperty("user.dir") + "/src/test/resources/api-results.json").clear();
         updateJsonReader();
     }
 
     public static void updateJsonReader(){
-        jsonReader = new JsonReader(System.getProperty("user.dir") + "/src/test/resources/api-results.json");
+        jsonReader = new JsonReader(apiJsonPath);
     }
 
     public void start(Stage primaryStage) throws Exception {

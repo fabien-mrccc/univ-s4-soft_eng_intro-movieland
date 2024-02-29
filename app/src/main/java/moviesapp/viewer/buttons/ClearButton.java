@@ -128,14 +128,9 @@ public class ClearButton {
 
     @FXML
     public void continueButtonClicked(){
-        Favorites.instance.clear();
-        FAVORITES_WRITER.clean();
+        Favorites.clear();
+        FAVORITES_WRITER.clear();
         closeClearConfirmationWindow();
-        AppController.updateImagePanelView(Favorites.instance.asMovies());
-    }
-
-    @FXML
-    public Button getContinueButton(){
-        return continueButton;
+        AppController.updateImagePanelView(Favorites.asMovies());
     }
 }
