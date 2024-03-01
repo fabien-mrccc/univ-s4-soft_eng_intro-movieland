@@ -14,16 +14,16 @@ public class TheMovieDbAPI {
 
     static final OkHttpClient client = new OkHttpClient();
 
-    public static void launchSearch(SearchCriteria criteria) {
+    public static void launchSearch(SearchCriteria criteria) throws SelectModeException {
 
-        if (criteria.title.isEmpty()) {
+        if (criteria.noInformationSent()){
+            throw new SelectModeException();
+        }
+        else if (criteria.title.isEmpty() && !criteria.noDiscoverCriteria()) {
             searchMovies(criteria, 2);
         }
-        else if (!criteria.gotDiscoverCriteria()) {
+        else if (!criteria.title.isEmpty() && criteria.noDiscoverCriteria()) {
             searchMovies(criteria, 1);
-        }
-        else if (criteria.noInformationSent()){
-            System.err.println("No Info");
         }
         else {
             //TODO: code merge search

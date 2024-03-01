@@ -109,8 +109,14 @@ public class CLSearch {
 
         retrieveCriteriaFromUser();
 
-        TheMovieDbAPI.launchSearch(criteria);
-
+        try {
+            TheMovieDbAPI.launchSearch(criteria);
+        }
+        catch (SelectModeException e) {
+            System.out.println("\n| No information provided, launch catalog command by default.\n");
+            catalog();
+            return;
+        }
         printSearchResults();
     }
 
@@ -127,8 +133,6 @@ public class CLSearch {
 
         criteria.minVoteAverage = minVoteAverageFromUser();
         criteria.genres = genresToGenreIds(genresFromUser());
-
-        System.out.println(criteria);
     }
 
     /**

@@ -38,14 +38,10 @@ public class SearchCriteria {
     }
 
     public boolean noInformationSent() {
-        if (gotDiscoverCriteria() && title.isEmpty()){
-            System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
-            return true;
-        }
-        return false;
+        return noDiscoverCriteria() && title.isEmpty();
     }
 
-    boolean gotDiscoverCriteria(){
-        return !minYear.isEmpty() || !maxYear.isEmpty() || !minVoteAverage.isEmpty() || !genres.isEmpty();
+    boolean noDiscoverCriteria(){
+        return minYear.isEmpty() && maxYear.isEmpty() && genres.isEmpty() && minVoteAverage.isEmpty();
     }
 }
