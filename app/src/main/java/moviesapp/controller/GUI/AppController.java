@@ -24,6 +24,7 @@ import moviesapp.viewer.right_panel.ImagePanelView;
 import moviesapp.viewer.right_panel.RightPanelView;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
@@ -114,13 +115,21 @@ public class AppController implements Initializable {
         SearchCriteria criteria = withTitlePanelViewComponent.searchCatcherWithTitle();
         boolean inputSuccess = true;
         try {
+            if(criteria.title.isEmpty()){
+                throw new NoTitleException();
+            }
+        }
+        catch (NoTitleException e) {
+            alterInput(searchBar, e);
+            inputSuccess = false;
+        }
+        try {
             checkYears(criteria.minYear, criteria.maxYear);
         }
         catch (IntervalException | NotAPositiveIntegerException | NotValidYearsException e) {
             alterInput(yearField, e);
             inputSuccess = false;
         }
-
         if (inputSuccess) {
             try {
                 searchMoviesWithCriteria(criteria);
@@ -170,7 +179,6 @@ public class AppController implements Initializable {
         if (inputSuccess) {
             try {
                 searchMoviesWithCriteria(criteria);
-                System.out.println(criteria);
             }
             catch (SelectModeException ignored) {
             }
@@ -202,8 +210,9 @@ public class AppController implements Initializable {
      */
     @FXML
     private void favoritesWithTitleButtonClicked() {
-        updateImagePanelView(asMovies());
+        updateImagePanelView(readMoviesInReverseOrder(asMovies()));
         clearWithTitleButton.setVisible(true);
+        pageManagementBox.setVisible(false);
     }
 
     /**
@@ -211,8 +220,21 @@ public class AppController implements Initializable {
      */
     @FXML
     private void favoritesWithoutTitleButtonClicked() {
-        updateImagePanelView(asMovies());
+        updateImagePanelView(readMoviesInReverseOrder(asMovies()));
         clearWithoutTitleButton.setVisible(true);
+        pageManagementBox.setVisible(false);
+    }
+
+    private static Movies readMoviesInReverseOrder(Movies movies) {
+
+        List<Movie> movieList = movies.getMovieList();
+        Movies moviesReverseOrder = new Movies();
+
+        for (int i = movieList.size() - 1; i >= 0; i--) {
+            moviesReverseOrder.add(movieList.get(i));
+        }
+
+        return moviesReverseOrder;
     }
 
     /**
@@ -310,7 +332,7 @@ public class AppController implements Initializable {
      * Applies modifications to the favorites by updating the image panel view and saving changes.
      */
     private static void applyFavoritesModifications() {
-        updateImagePanelView(asMovies());
+        updateImagePanelView(readMoviesInReverseOrder(asMovies()));
         currentDetailsWindow.globalStage.close();
         FAVORITES_WRITER.saveFavorites(asMovies());
     }
