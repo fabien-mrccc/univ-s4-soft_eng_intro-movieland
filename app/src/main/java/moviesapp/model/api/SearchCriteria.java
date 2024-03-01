@@ -12,9 +12,7 @@ public class SearchCriteria {
     public String minVoteAverage = "";
     public String page = "1";
 
-    public SearchCriteria(){
-
-    }
+    public SearchCriteria(){}
 
     public SearchCriteria(String title, String minYear, String maxYear, List<String> genreIds, String minVoteAverage, String page) {
         this.title = title;

@@ -29,21 +29,28 @@ public class RequestBuilder {
         if (criteria != null) {
             RequestBuilder.criteria = criteria;
             criteriaToUrl.put("title", "&query=" + criteria.title);
-            if(criteria.minYear.isEmpty()){
-                criteriaToUrl.put("minY", "&primary_release_date.gte=");
+
+            if(criteria.minYear.equals(criteria.maxYear) && criteria.minVoteAverage.isEmpty() && criteria.genreIds.isEmpty()) {
+
+                criteriaToUrl.put("minY", "&primary_release_year=" + criteria.minYear);
             }
             else {
-                criteriaToUrl.put("minY", "&primary_release_date.gte=" + criteria.minYear + "-01-01");
+                if(criteria.minYear.isEmpty()){
+                    criteriaToUrl.put("minY", "&primary_release_date.gte=");
+                }
+                else {
+                    criteriaToUrl.put("minY", "&primary_release_date.gte=" + criteria.minYear + "-01-01");
+                }
+                if (criteria.maxYear.isEmpty()) {
+                    criteriaToUrl.put("maxY", "&primary_release_date.lte=");
+                }
+                else {
+                    criteriaToUrl.put("maxY", "&primary_release_date.lte=" + criteria.maxYear + "-12-31");
+                }
+                criteriaToUrl.put("genres", "&with_genres=" + buildUrlWithGenres(criteria.genreIds));
+                criteriaToUrl.put("vote", "&vote_average.gte=" + criteria.minVoteAverage);
+                criteriaToUrl.put("page", "&page=" + criteria.page);
             }
-            if (criteria.maxYear.isEmpty()) {
-                criteriaToUrl.put("maxY", "&primary_release_date.lte=");
-            }
-            else {
-                criteriaToUrl.put("maxY", "&primary_release_date.lte=" + criteria.maxYear + "-12-31");
-            }
-            criteriaToUrl.put("genres", "&with_genres=" + buildUrlWithGenres(criteria.genreIds));
-            criteriaToUrl.put("vote", "&vote_average.gte=" + criteria.minVoteAverage);
-            criteriaToUrl.put("page", "&page=" + criteria.page);
         }
         else {
             criteriaToUrl.put("title", "&query=");
