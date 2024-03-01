@@ -14,6 +14,7 @@ import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.genresToGenreIds;
 import static moviesapp.model.api.RequestBuilder.*;
 import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.TheMovieDbAPI.checkYears;
 import static moviesapp.model.exceptions.IndexException.isValidIndex;
 import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
 import static moviesapp.model.json.JsonReader.SEARCH_READER;
@@ -26,7 +27,6 @@ public class CLSearch {
     public CLSearch(CLController controller) {
         this.controller = controller;
     }
-
 
     /**
      * Displays the catalog of popular movies.
@@ -110,7 +110,7 @@ public class CLSearch {
         retrieveCriteriaFromUser();
 
         try {
-            TheMovieDbAPI.launchSearch(criteria);
+            TheMovieDbAPI.searchMoviesWithCriteria(criteria);
         }
         catch (SelectModeException e) {
             System.out.println("\n| No information provided, launch catalog command by default.\n");
@@ -128,32 +128,38 @@ public class CLSearch {
 
         criteria.title = controller.askValue("Title of the movie: ");
 
-        criteria.minYear = getYearTry("Min release year [ ≧ " + minAcceptableYearValue + "]: ");
-        criteria.maxYear = getYearTry("Max release year [ ≦ " + maxAcceptableYearValue + "]: ");
+        String[] yearsFromUser = yearsFromUser(
+                "Min release year [ ≧ " + minAcceptableYearValue + "]: ",
+                "Max release year [ ≦ " + maxAcceptableYearValue + "]: ");
+
+        criteria.minYear = yearsFromUser[0];
+        criteria.maxYear = yearsFromUser[1];
 
         criteria.minVoteAverage = minVoteAverageFromUser();
         criteria.genres = genresToGenreIds(genresFromUser());
     }
 
     /**
-     * Prompts the user to input a release year within a specified range.
+     * Retrieves years input from the user.
      *
-     * @return the release year entered by the user
+     * @param minYearMessage The message to ask for the minimum year.
+     * @param maxYearMessage The message to ask for the maximum year.
+     * @return An array containing the minimum and maximum years provided by the user.
      */
-    private String getYearTry(String message) {
+    private String[] yearsFromUser(String minYearMessage, String maxYearMessage) {
 
-        String releaseYear;
+        String minYear;
+        String maxYear;
         try {
-            releaseYear = controller.askValue(message);
-            if(!releaseYear.isEmpty()) {
-                validateValueBetweenInterval(convertAsPositiveInt(releaseYear), minAcceptableYearValue, maxAcceptableYearValue);
-            }
+            minYear = controller.askValue(minYearMessage);
+            maxYear = controller.askValue(maxYearMessage);
+            checkYears(minYear, maxYear);
         }
-        catch (IntervalException | NotAPositiveIntegerException e){
+        catch (IntervalException | NotAPositiveIntegerException | NotValidYearsException e){
             System.out.println(e.getMessage());
-            return getYearTry(message);
+            return yearsFromUser(minYearMessage, maxYearMessage);
         }
-        return releaseYear;
+        return new String[]{minYear, maxYear};
     }
 
     /**
