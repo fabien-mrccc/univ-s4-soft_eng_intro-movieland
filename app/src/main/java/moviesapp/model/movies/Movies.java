@@ -2,14 +2,15 @@ package moviesapp.model.movies;
 
 import moviesapp.model.exceptions.IndexException;
 import moviesapp.model.exceptions.NoMovieFoundException;
+import moviesapp.model.exceptions.NotAPositiveIntegerException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static moviesapp.model.api.RequestBuilder.convertAsPositiveInt;
 import static moviesapp.model.json.JsonReader.SEARCH_READER;
-import static moviesapp.model.json.JsonReader.updateSearchReader;
 import static moviesapp.model.exceptions.IndexException.isValidIndex;
 
 public class Movies implements Iterable<Movie> {
@@ -178,12 +179,33 @@ public class Movies implements Iterable<Movie> {
     }
 
     /**
+     * Tries to select a movie by its index from the provided movies' collection.
+     * Continuously attempts movie selection until successful.
+     *
+     * @param movies The collection of movies to select from.
+     * @return The selected movie.
+     */
+    public static Movie selectMovieByIndexTry(Movies movies) {
+
+        Movie movieToSelect;
+        try {
+            int index = convertAsPositiveInt("Enter the index of a movie to see its details: ") - 1;
+            isValidIndex(index, movies.size());
+            movieToSelect = selectMovieByIndex(movies, index);
+        }
+        catch (IndexException | NotAPositiveIntegerException e) {
+            System.out.println(e.getMessage());
+            return selectMovieByIndexTry(movies);
+        }
+        return movieToSelect;
+    }
+
+    /**
      * Retrieves the list of movies from the previous search and displays them.
      *
      * @return the list of movies from the previous search.
      */
     public static Movies moviesFromPreviousSearch(){
-        updateSearchReader();
         System.out.println("\nBelow the movies from your precedent search: \n" + SEARCH_READER.findAllMovies());
         return SEARCH_READER.findAllMovies();
     }

@@ -5,14 +5,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import moviesapp.model.api.SearchCriteria;
 import moviesapp.model.api.TheMovieDbAPI;
-import moviesapp.model.api.UrlRequestBuilder;
 
 import moviesapp.viewer.buttons.FavoritesWithTitleButton;
 import moviesapp.viewer.buttons.GoWithTitleButton;
 
-import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
-import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
+import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.RequestBuilder.minAcceptableYearValue;
 
 public class WithTitlePanelView {
     private final Pane leftPane;
@@ -23,8 +23,6 @@ public class WithTitlePanelView {
     private final Pane yearPane;
     private final Label year;
     private final TextField yearField;
-    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
-
 
     public WithTitlePanelView(Pane leftPane, Button appTitleButton, Pane titleAndSearchPane, Label title, TextField searchBar,
                               Pane yearPane, Label year, TextField yearField, Pane favoritesPane, Button favoritesButton,
@@ -119,7 +117,7 @@ public class WithTitlePanelView {
     }
 
     private void searchHandling(String title, String year){
-        UrlRequestBuilder.searchMode = "1";
-        apiObject.searchMovies(title, year, "", null, null, "1");
+        SearchCriteria criteria = new SearchCriteria(title, year, "", null, null);
+        TheMovieDbAPI.searchMovies(criteria, "1", 1);
     }
 }

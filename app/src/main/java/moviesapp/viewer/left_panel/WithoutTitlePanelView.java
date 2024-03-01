@@ -4,13 +4,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import moviesapp.model.api.Genres;
+import moviesapp.model.api.SearchCriteria;
 import moviesapp.model.api.TheMovieDbAPI;
-import moviesapp.model.api.UrlRequestBuilder;
 
 import java.util.List;
 
-import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
-import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
+import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.RequestBuilder.minAcceptableYearValue;
 
 public class WithoutTitlePanelView {
     private final Pane leftPane;
@@ -33,7 +33,6 @@ public class WithoutTitlePanelView {
     private final Button favoritesButton;
     private final Button goButton;
     private final ListView<String> genreListView;
-    public final TheMovieDbAPI apiObject = new TheMovieDbAPI();
 
     public WithoutTitlePanelView(Pane leftPane, Button appTitleButton, Pane yearsPane, Label years, Label from, TextField singleOrMinYearField,
                                  Label to, TextField maxYearField, Pane genresPane, Label genres, Pane ratingPane, Label rating, Label atLeast,
@@ -176,8 +175,8 @@ public class WithoutTitlePanelView {
     }
 
     private void searchHandling(String title, List<String> selectedGenresId, String yearFrom, String yearTo, String rating) {
-        UrlRequestBuilder.searchMode = "2";
-        apiObject.searchMovies(title, yearFrom, yearTo, selectedGenresId, rating, "1");
+        SearchCriteria criteria = new SearchCriteria(title, yearFrom, yearTo, selectedGenresId, rating);
+        TheMovieDbAPI.searchMovies(criteria, "1", 2);
     }
 
     /**

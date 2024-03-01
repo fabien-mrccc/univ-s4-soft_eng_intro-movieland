@@ -24,18 +24,6 @@ public class JsonWriter {
         jsonFile = new File(path);
     }
 
-    public static JsonWriter updateSearchWriter() {
-        return new JsonWriter(API_FILE_PATH);
-    }
-
-    public static JsonWriter updateGenresWriter() {
-        return new JsonWriter(GENRES_FILE_PATH);
-    }
-
-    public static JsonWriter updateFavoritesWriter() {
-        return new JsonWriter(FAVORITES_FILE_PATH);
-    }
-
     /**
      * Clear the json file by emptying it.
      */

@@ -1,5 +1,7 @@
 package moviesapp.model.exceptions;
 
+import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
+
 public class IndexException extends Exception {
 
     public IndexException() {
@@ -15,8 +17,15 @@ public class IndexException extends Exception {
      */
     public static void isValidIndex(int index, int size) throws IndexException {
 
-        boolean isValidIndex = index >= 0 && index < size;
+        try {
+            validateValueBetweenInterval(index, 0, size - 1);
+        }
+        catch (IntervalException e) {
+            throw new IndexException();
+        }
+    }
 
-        if(!isValidIndex) throw new IndexException();;
+    public String specifySearchModeError() {
+        return "\n| Search Mode selection is not working here (wrong index or problem with request build).";
     }
 }

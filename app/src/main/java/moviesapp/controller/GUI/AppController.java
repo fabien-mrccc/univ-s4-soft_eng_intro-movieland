@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import moviesapp.controller.command_line.CLController;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.TheMovieDbAPI;
-import moviesapp.model.json.JsonReader;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 import moviesapp.viewer.buttons.ClearButton;
@@ -130,8 +128,7 @@ public class AppController implements Initializable {
     }
 
     public void appTitleButtonClicked(){
-        new TheMovieDbAPI().popularMovies("1");
-        updateSearchReader();
+        TheMovieDbAPI.popularMoviesFirstPage();
         updateImagePanelView(SEARCH_READER.findAllMovies());
     }
 

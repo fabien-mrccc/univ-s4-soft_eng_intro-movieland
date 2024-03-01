@@ -23,7 +23,7 @@ public class CLFavorites extends CLController {
     /**
      * Executes the add command, allowing the user to add movies to their favorites.
      */
-    void add() { //TODO: refactor this method and remove
+    void add() {
         System.out.println("Add command has been started.");
         Movies movies = moviesFromPreviousSearch();
 
@@ -84,7 +84,7 @@ public class CLFavorites extends CLController {
     private void addCommandTry(Movies movies) throws IndexException { //TODO: refactor this method and removeCommandTry
 
         do{
-            addByIndex(movies, retrieveAsInt("Index of the movie to add to your favorites: ") - 1);
+            addByIndex(movies, retrieveAsPositiveInt("Index of the movie to add to your favorites: ") - 1);
         }
         while(askToConfirm("Do you want to add another movie?"));
 
@@ -101,7 +101,7 @@ public class CLFavorites extends CLController {
     private void removeCommandTry(Movies movies) throws IndexException {
 
         do{
-            removeByIndex(movies, retrieveAsInt("Index of the movie to remove from your favorites: ") - 1);
+            removeByIndex(movies, retrieveAsPositiveInt("Index of the movie to remove from your favorites: ") - 1);
         }
         while(askToConfirm("Do you want to remove another movie?"));
 

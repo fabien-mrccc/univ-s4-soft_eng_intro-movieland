@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import moviesapp.model.api.UrlRequestBuilder;
+import moviesapp.model.api.RequestBuilder;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
 
@@ -46,7 +46,7 @@ public class DetailsMode {
         initMovieDetailsAnchorPane();
 
         initImageView();
-        Image movieImage = new Image(UrlRequestBuilder.imageBaseURL + UrlRequestBuilder.imageSize + movie.posterPath());
+        Image movieImage = new Image(RequestBuilder.imageBaseURL + RequestBuilder.imageSize + movie.posterPath());
         imageView.setImage(movieImage);
 
         initTitleLabelAndYear(movie);
@@ -55,7 +55,7 @@ public class DetailsMode {
         initVoteAverageLabel(movie);
         initOverviewLabel();
 
-        if(Favorites.instance.contains(movie)){
+        if(Favorites.contains(movie)){
             initRemoveButton(movie);
             movieDetailsAnchorPane.getChildren().add(removeButton);
         }

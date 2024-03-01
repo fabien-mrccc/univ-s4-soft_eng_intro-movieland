@@ -1,24 +1,17 @@
 package moviesapp.model.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import moviesapp.model.json.JsonReader;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 import static moviesapp.model.api.TheMovieDbAPI.client;
-import static moviesapp.model.api.UrlRequestBuilder.apiKey;
-import static moviesapp.model.api.UrlRequestBuilder.baseUrl;
+import static moviesapp.model.api.RequestBuilder.apiKey;
+import static moviesapp.model.api.RequestBuilder.baseUrl;
 import static moviesapp.model.json.JsonReader.GENRES_FILE_PATH;
 import static moviesapp.model.json.JsonReader.GENRES_READER;
 import static moviesapp.model.json.JsonWriter.convertJsonToFile;
@@ -43,7 +36,7 @@ public class Genres {
      * Update the genres.json with all genres from Tmdb
      */
     private static void updateGenresFile(){
-        String url = baseUrl + "/genre/movie/list?language=en" + apiKey;
+        String url = baseUrl + "language=en" + apiKey;
 
         Request request = new Request.Builder().url(url).build();
 
@@ -67,7 +60,7 @@ public class Genres {
      * Return a list of every registered genres
      * @return list of every genre
      */
-    public StringBuilder getGenres(){
+    public static StringBuilder getGenres(){
         StringBuilder list = new StringBuilder();
         int i = 1;
         for (String genre : GENRE_NAME_ID_MAP.keySet()) {
@@ -101,10 +94,6 @@ public class Genres {
      * @return a list of genres
      */
     public List<String> genreList(){
-        List<String> genreList = new ArrayList<>();
-        for (String genre : GENRE_NAME_ID_MAP.keySet()) {
-            genreList.add(genre);
-        }
-        return genreList;
+        return new ArrayList<>(GENRE_NAME_ID_MAP.keySet());
     }
 }
