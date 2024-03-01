@@ -5,14 +5,15 @@ import moviesapp.model.exceptions.NotAPositiveIntegerException;
 import okhttp3.Request;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RequestBuilder {
     final static String baseUrl = "https://api.themoviedb.org/3";
     final static String apiKey = "api_key=5e40bf6f22600832c99dbb5d52115269";
     final static String language = "&language=en-US";
+    private static SearchCriteria criteria = new SearchCriteria();
     static final Map<String, String> criteriaToUrl = new HashMap<>();
     public static String requestUrl;
     public static int minAcceptableYearValue = 1874;
@@ -23,15 +24,26 @@ public class RequestBuilder {
     public RequestBuilder() {
     }
 
-    public RequestBuilder(SearchCriteria criteria, String page) {
+    public RequestBuilder(SearchCriteria criteria) {
 
         if (criteria != null) {
+            RequestBuilder.criteria = criteria;
             criteriaToUrl.put("title", "&query=" + criteria.title);
-            criteriaToUrl.put("minY", "&primary_release_date.gte=" + criteria.minYear + "-01-01");
-            criteriaToUrl.put("maxY", "&primary_release_date.lte=" + criteria.maxYear + "-12-31");
+            if(criteria.minYear.isEmpty()){
+                criteriaToUrl.put("minY", "&primary_release_date.gte=");
+            }
+            else {
+                criteriaToUrl.put("minY", "&primary_release_date.gte=" + criteria.minYear + "-01-01");
+            }
+            if (criteria.maxYear.isEmpty()) {
+                criteriaToUrl.put("maxY", "&primary_release_date.lte=");
+            }
+            else {
+                criteriaToUrl.put("maxY", "&primary_release_date.lte=" + criteria.maxYear + "-12-31");
+            }
             criteriaToUrl.put("genres", "&with_genres=" + buildUrlWithGenres(criteria.genres));
             criteriaToUrl.put("vote", "&vote_average.gte=" + criteria.minVoteAverage);
-            criteriaToUrl.put("page", "&page=" + page);
+            criteriaToUrl.put("page", "&page=" + criteria.page);
         }
         else {
             criteriaToUrl.put("title", "&query=");
@@ -39,7 +51,7 @@ public class RequestBuilder {
             criteriaToUrl.put("maxY", "&primary_release_date.lte=");
             criteriaToUrl.put("genres", "&with_genres=");
             criteriaToUrl.put("vote", "&vote_average.gte=");
-            criteriaToUrl.put("page", "&page=" + page);
+            criteriaToUrl.put("page", "&page=");
         }
     }
 
@@ -90,6 +102,7 @@ public class RequestBuilder {
      */
     Request build(String url) {
         requestUrl = url;
+        retrieveCriteriaFromUrl();
         return new Request.Builder().url(url).build();
     }
 
@@ -132,21 +145,56 @@ public class RequestBuilder {
     }
 
     /**
-     * Retrieves the current page number from the request URL.
-     *
-     * @return The current page number.
+     * Parses criteria from the given URL and populates the corresponding fields in the criteria object.
+     * The URL should contain query parameters in the format key=value separated by '&'.
      */
-    public static char getCurrentPage() {
-        return requestUrl.charAt(requestUrl.length() - 1);
+    private void retrieveCriteriaFromUrl() {
+
+        Map <String, String> criteriaFromUrl = parseUrl();
+
+        criteria.title = criteriaFromUrl.get("query");
+
+        if (criteriaFromUrl.get("primary_release_date.gte").isEmpty()) {
+            criteria.minYear = "";
+        }
+        else {
+            criteria.minYear = criteriaFromUrl.get("primary_release_date.gte").substring(0, 4);
+        }
+        if (criteriaFromUrl.get("primary_release_date.lte").isEmpty()) {
+            criteria.maxYear = "";
+        }
+        else {
+            criteria.maxYear = criteriaFromUrl.get("primary_release_date.lte").substring(0, 4);
+        }
+        if (criteriaFromUrl.get("with_genres").isEmpty()) {
+            criteria.genres = new ArrayList<>();
+        }
+        else {
+            criteria.genres = Arrays.asList(criteriaFromUrl.get("with_genres").split(",\\s*"));
+        }
+        criteria.minVoteAverage = criteriaFromUrl.get("vote_average.gte");
+        criteria.page = criteriaFromUrl.get("page");
+    }
+
+    private static Map<String, String> parseUrl() {
+        return Stream.of(requestUrl.split("&"))
+                .map(param -> param.split("="))
+                .collect(Collectors.toMap(param -> param[0], param -> param.length > 1 ? param[1] : ""));
     }
 
     /**
-     * Updates the page number in the request URL with the specified new character.
+     * Retrieves the current page from the criteria object.
      *
-     * @param newChar The new character to replace the current page number.
-     * @return The updated request URL with the new character.
+     * @return The current page number.
      */
-    public static String updateRequestUrlPage (String newChar) {
-        return requestUrl.substring(0, requestUrl.length() - 1) + newChar;
+    public static int getCurrentPage() throws NotAPositiveIntegerException {
+
+        return convertAsPositiveInt(criteria.page);
+    }
+
+
+    public static String updateRequestUrlPage (String newPage) {
+        String oldPage = parseUrl().get("page");
+        return requestUrl.substring(0, requestUrl.length() - oldPage.length()) + newPage;
     }
 }
