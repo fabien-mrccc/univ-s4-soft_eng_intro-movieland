@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.TheMovieDbAPI;
+import moviesapp.model.exceptions.NoNextPageException;
+import moviesapp.model.exceptions.NoPreviousPageException;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 import moviesapp.viewer.buttons.ClearButton;
@@ -112,11 +114,21 @@ public class AppController implements Initializable {
     }
 
     @FXML
-    public void previousPage(){
+    public void previousPage() {
+        try {
+            TheMovieDbAPI.switchToPreviousPage();
+        }
+        catch (NoPreviousPageException ignored) {
+        }
     }
 
     @FXML
-    public void nextPage(){
+    public void nextPage() {
+        try {
+            TheMovieDbAPI.switchToNextPage();
+        }
+        catch (NoNextPageException ignored) {
+        }
     }
 
     public static void updateImagePanelView(Movies movies){
