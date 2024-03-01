@@ -29,7 +29,6 @@ public class CLController {
      * Select and execute a command based on user input
      */
     public void select() {
-        SEARCH_WRITER.clear();
         boolean exitRequested = false;
 
         do {
