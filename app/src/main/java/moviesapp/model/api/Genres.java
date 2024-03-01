@@ -1,58 +1,28 @@
 package moviesapp.model.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import okhttp3.Request;
-import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import static moviesapp.model.api.TheMovieDbAPI.client;
-import static moviesapp.model.api.RequestBuilder.apiKey;
-import static moviesapp.model.api.RequestBuilder.baseUrl;
-import static moviesapp.model.json.JsonReader.GENRES_FILE_PATH;
-import static moviesapp.model.json.JsonReader.GENRES_READER;
-import static moviesapp.model.json.JsonWriter.convertJsonToFile;
+import static moviesapp.model.api.TheMovieDbAPI.searchMovies;
+import static moviesapp.model.json.JsonReader.*;
 
 public class Genres {
 
     public static final Genres instance = new Genres();
-
     public static final TreeMap<String, String> GENRE_NAME_ID_MAP = new TreeMap<>();
 
     /**
      * Update the genres.json then fill the static GENRE_ID_MAP with the genres located in genres.json
      */
-    public static void fillGENRE_NAME_ID_MAP(){
-        updateGenresFile();
+    public static void fillGENRE_NAME_ID_MAP() {
+        searchMovies(null, "1", 4);
+        GENRES_READER = updateGenresReader();
+
         for(JsonNode genre : GENRES_READER.getJsonGenres()){
             GENRE_NAME_ID_MAP.put(genre.get("name").asText(),genre.get("id").asText());
-        }
-    }
-
-    /**
-     * Update the genres.json with all genres from Tmdb
-     */
-    private static void updateGenresFile(){
-        String url = baseUrl + "language=en" + apiKey;
-
-        Request request = new Request.Builder().url(url).build();
-
-        try {
-            Response response = client.newCall(request).execute();
-
-            if(response.isSuccessful()){
-                assert response.body() != null;
-                String genresResult = response.body().string();
-                convertJsonToFile(genresResult, GENRES_FILE_PATH);
-            }
-            else{
-                System.out.println("error :" + response.code());
-            }
-        }catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
         }
     }
 
