@@ -6,7 +6,6 @@ import moviesapp.model.exceptions.*;
 import java.util.*;
 
 import static moviesapp.model.api.RequestBuilder.convertAsPositiveInt;
-import static moviesapp.model.json.JsonWriter.SEARCH_WRITER;
 
 public class CLController {
 
@@ -19,6 +18,10 @@ public class CLController {
         scanner = new Scanner(System.in);
         initCommands();
     }
+
+    /**
+     * Initializes the command line commands.
+     */
     private void initCommands() {
         generalCommands = new CLGeneral(this);
         searchCommands = new CLSearch(this);
