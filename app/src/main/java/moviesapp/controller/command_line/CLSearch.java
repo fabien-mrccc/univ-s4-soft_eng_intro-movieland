@@ -78,6 +78,7 @@ public class CLSearch {
         }
         catch (NoPreviousPageException | NoNextPageException e) {
             System.out.println(e.getMessage());
+            return searchPageManagement();
         }
 
         System.out.println();
@@ -112,7 +113,7 @@ public class CLSearch {
             return;
         }
 
-        TheMovieDbAPI.launchSearch(criteria, "1");
+        TheMovieDbAPI.launchSearch(criteria);
 
         printSearchResults();
     }
