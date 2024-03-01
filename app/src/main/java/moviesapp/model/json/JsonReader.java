@@ -8,21 +8,19 @@ import moviesapp.model.movies.Movies;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Map;
 
 public class JsonReader extends MovieFinder {
     private final File jsonFile;
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
     private final JsonNode jsonGenres;
-    public static final String API_FILE_PATH = System.getProperty("user.dir") + "/src/main/resources/json/api-results.json";
+    public static final String SEARCH_FILE_PATH = System.getProperty("user.dir") + "/src/main/resources/json/search.json";
     public final static String FAVORITES_FILE_PATH = System.getProperty("user.dir")+"/src/main/resources/json/favorites.json";
     public final static String GENRES_FILE_PATH = System.getProperty("user.dir") + "/src/main/resources/json/genres.json";
-    public static JsonReader SEARCH_READER = new JsonReader(API_FILE_PATH);
+    public static JsonReader SEARCH_READER = new JsonReader(SEARCH_FILE_PATH);
     public static JsonReader GENRES_READER = new JsonReader(GENRES_FILE_PATH);
     public static JsonReader FAVORITES_READER = new JsonReader(FAVORITES_FILE_PATH);
 
@@ -39,7 +37,7 @@ public class JsonReader extends MovieFinder {
      * @return a JsonReader object initialized with the API file path
      */
     public static JsonReader updateSearchReader() {
-        return new JsonReader(API_FILE_PATH);
+        return new JsonReader(SEARCH_FILE_PATH);
     }
 
     public static JsonReader updateGenresReader() {

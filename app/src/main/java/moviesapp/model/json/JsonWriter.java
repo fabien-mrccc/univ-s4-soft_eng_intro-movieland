@@ -12,12 +12,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static moviesapp.model.api.RequestBuilder.requestUrl;
 import static moviesapp.model.json.JsonReader.*;
 
 public class JsonWriter {
     private final File jsonFile;
-    public static JsonWriter SEARCH_WRITER = new JsonWriter(API_FILE_PATH);
+    public static JsonWriter SEARCH_WRITER = new JsonWriter(SEARCH_FILE_PATH);
     public static JsonWriter GENRES_WRITER = new JsonWriter(GENRES_FILE_PATH);
     public static JsonWriter FAVORITES_WRITER = new JsonWriter(FAVORITES_FILE_PATH);
 

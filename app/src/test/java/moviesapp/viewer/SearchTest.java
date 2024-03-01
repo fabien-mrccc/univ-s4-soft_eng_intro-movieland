@@ -18,12 +18,12 @@ import static moviesapp.App.minWidth;
 
 public class SearchTest extends ApplicationTest {
     private static JsonReader jsonReader;
-    static String apiJsonPath = System.getProperty("user.dir") + "/src/test/resources/api-results.json";
+    static String apiJsonPath = System.getProperty("user.dir") + "/src/test/resources/search.json";
 
 
     @BeforeAll
     static void setupBeforeAll() {
-        new JsonWriter(System.getProperty("user.dir") + "/src/test/resources/api-results.json").clear();
+        new JsonWriter(System.getProperty("user.dir") + "/src/test/resources/search.json").clear();
         updateJsonReader();
     }
 
