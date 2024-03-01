@@ -1,15 +1,15 @@
 package moviesapp.viewer.left_panel;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import moviesapp.model.api.SearchCriteria;
-import moviesapp.model.api.TheMovieDbAPI;
 
 import moviesapp.viewer.buttons.FavoritesWithTitleButton;
 import moviesapp.viewer.buttons.GoWithTitleButton;
+
+import java.util.ArrayList;
 
 import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.RequestBuilder.minAcceptableYearValue;
@@ -82,42 +82,8 @@ public class WithTitlePanelView {
         yearField.setPromptText("from " + minAcceptableYearValue + " to " + maxAcceptableYearValue);
     }
 
-    public void searchCatcherWithTitle(){
+    public SearchCriteria searchCatcherWithTitle(){
         yearField.setStyle("");
-        String title = searchBar.getText().trim();
-        String year = yearField.getText().trim();
-
-        if(!isValidYear(year)){
-            yearField.setStyle("-fx-background-color: red;");
-            alertYear();
-            return;
-        }
-
-        searchHandling(title, year);
-    }
-
-    /**
-     * show an alert page if explaining why the years are not valid
-     */
-    private void alertYear(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Input");
-        alert.setHeaderText(null);
-        alert.setContentText("Please enter valid years. Year must be a 4 numbers and the year in the left field should be less than the year in the right field.");
-        alert.showAndWait();
-    }
-
-    /**
-     * test if the years are valid meaning either empty or 4 numbers
-     * @param year tested year
-     * @return true if the year pass false otherwise
-     */
-    private boolean isValidYear(String year) {
-        return year.isEmpty() || year.matches("\\d{4}");
-    }
-
-    private void searchHandling(String title, String year){
-        SearchCriteria criteria = new SearchCriteria(title, year, "", null, null, "1");
-        TheMovieDbAPI.searchMovies(criteria, 1);
+        return new SearchCriteria(searchBar.getText().trim(), yearField.getText().trim(), yearField.getText().trim(), new ArrayList<>(), "", "1");
     }
 }
