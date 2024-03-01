@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import static moviesapp.model.api.TheMovieDbAPI.searchMovies;
+import static moviesapp.model.api.TheMovieDbAPI.searchMoviesWithSearchMode;
 import static moviesapp.model.json.JsonReader.*;
 
 public class Genres {
@@ -18,7 +18,7 @@ public class Genres {
      * Update the genres.json then fill the static GENRE_ID_MAP with the genres located in genres.json
      */
     public static void fillGENRE_NAME_ID_MAP() {
-        searchMovies(null, 4);
+        searchMoviesWithSearchMode(4);
         GENRES_READER = updateGenresReader();
 
         for(JsonNode genre : GENRES_READER.getJsonGenres()){
