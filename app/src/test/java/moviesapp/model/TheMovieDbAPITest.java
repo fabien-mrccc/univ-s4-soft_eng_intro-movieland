@@ -11,6 +11,7 @@ import java.util.List;
 import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TheMovieDbAPITest {
     private static TheMovieDbAPI api;
@@ -55,8 +56,9 @@ public class TheMovieDbAPITest {
         assertThat(GENRE_NAME_ID_MAP.isEmpty()).isTrue();
         fillGENRE_NAME_ID_MAP();
         assertThat(GENRE_NAME_ID_MAP.isEmpty()).isFalse();
-        assertThat(GENRE_NAME_ID_MAP.toString()).isEqualTo(  "{Action=28, Adventure=12, Animation=16, Comedy=35, Crime=80, Documentary=99, " +
+        assertEquals(GENRE_NAME_ID_MAP.toString(),(  "{Action=28, Adventure=12, Animation=16, Comedy=35, Crime=80, Documentary=99, " +
                 "Drama=18, Family=10751, Fantasy=14, History=36, Horror=27, Music=10402, Mystery=9648, Romance=10749, Science Fiction=878, " +
-                "TV Movie=10770, Thriller=53, War=10752, Western=37}");
+                "TV Movie=10770, Thriller=53, War=10752, Western=37}"));
+
     }
 }
