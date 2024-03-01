@@ -80,9 +80,15 @@ public class TheMovieDbAPI {
      */
     private static void reactToRequestResponse(Response response) {
 
+        String filePath = API_FILE_PATH;
+
+        if (criteriaToUrl.get("searchMode").equals("/genre/movie/list?")) {
+            filePath = GENRES_FILE_PATH;
+        }
+
         try{
             if(response.isSuccessful() && response.body() != null){
-                convertJsonToFile(response.body().string(), API_FILE_PATH);
+                convertJsonToFile(response.body().string(), filePath);
                 SEARCH_READER = updateSearchReader();
             }
             else{
