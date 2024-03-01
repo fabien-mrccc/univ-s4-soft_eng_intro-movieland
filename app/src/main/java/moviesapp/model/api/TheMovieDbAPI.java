@@ -7,6 +7,7 @@ import okhttp3.Response;
 import java.io.IOException;
 
 import static moviesapp.model.api.RequestBuilder.*;
+import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
 import static moviesapp.model.json.JsonReader.*;
 import static moviesapp.model.json.JsonWriter.convertJsonToFile;
 
@@ -14,21 +15,53 @@ public class TheMovieDbAPI {
 
     static final OkHttpClient client = new OkHttpClient();
 
-    public static void launchSearch(SearchCriteria criteria) throws SelectModeException {
+    public static void searchMoviesWithCriteria(SearchCriteria criteria) throws SelectModeException {
 
         if (criteria.noInformationSent()){
             throw new SelectModeException();
         }
         else if (criteria.title.isEmpty() && !criteria.noDiscoverCriteria()) {
-            searchMovies(criteria, 2);
+            buildRequestToSearchMovies(criteria, 2);
         }
         else if (!criteria.title.isEmpty() && criteria.noDiscoverCriteria()) {
-            searchMovies(criteria, 1);
+            buildRequestToSearchMovies(criteria, 1);
         }
-        else {
-            //TODO: code merge search
+    }
 
+    public static void checkYears (String minYear, String maxYear) throws IntervalException, NotAPositiveIntegerException, NotValidYearsException {
+        int minYearValue = checkYear(minYear);
+        int maxYearValue =  checkYear(maxYear);
+        if (minYearValue > maxYearValue) {
+            throw new NotValidYearsException();
         }
+    }
+
+    private static int checkYear(String year) throws NotAPositiveIntegerException, IntervalException {
+        int yearValue = maxAcceptableYearValue;
+
+        if(!year.isEmpty()) {
+            yearValue = convertAsPositiveInt(year);
+            validateValueBetweenInterval(yearValue, minAcceptableYearValue, maxAcceptableYearValue);
+        }
+        return yearValue;
+    }
+
+    public static void checkMinVoteAverage(String minVoteAverage) throws NotAPositiveIntegerException, IntervalException {
+
+        if(!minVoteAverage.isEmpty()) {
+            int minVoteAverageValue = convertAsPositiveInt(minVoteAverage);
+            validateValueBetweenInterval(minVoteAverageValue, 0, 10);
+        }
+    }
+
+    /**
+     * Searches for movies using the provided request URL.
+     *
+     * @param requestUrl The request URL for searching movies.
+     */
+    public static void searchMoviesWithUrl(String requestUrl) {
+
+        searchMovies(new RequestBuilder().build(requestUrl));
     }
 
     /**
@@ -36,9 +69,9 @@ public class TheMovieDbAPI {
      *
      * @param searchMode The search mode (1 -> search, 2 -> discover, 3-> movie/popular, 4 -> genre)
      */
-    public static void searchMovies(SearchCriteria criteria, int searchMode) {
+    public static void searchMoviesWithSearchMode(int searchMode) {
 
-        RequestBuilder requestBuilder = new RequestBuilder(criteria);
+        RequestBuilder requestBuilder = new RequestBuilder(null);
 
         try {
             searchMovies(requestBuilder.build(searchMode));
@@ -49,13 +82,20 @@ public class TheMovieDbAPI {
     }
 
     /**
-     * Searches for movies using the provided request URL.
+     * Searches for movies based on the provided parameters.
      *
-     * @param requestUrl The request URL for searching movies.
+     * @param searchMode The search mode (1 -> search, 2 -> discover, 3-> movie/popular, 4 -> genre)
      */
-    public static void searchMovies(String requestUrl) {
+    private static void buildRequestToSearchMovies(SearchCriteria criteria, int searchMode) {
 
-        searchMovies(new RequestBuilder().build(requestUrl));
+        RequestBuilder requestBuilder = new RequestBuilder(criteria);
+
+        try {
+            searchMovies(requestBuilder.build(searchMode));
+        }
+        catch (IndexException e) {
+            System.err.println(e.getMessage() + e.specifySearchModeError());
+        }
     }
 
     /**
@@ -106,7 +146,7 @@ public class TheMovieDbAPI {
      * Retrieves the first page of popular movies in json.
      */
     public static void popularMoviesFirstPage() {
-        searchMovies(null, 3);
+        searchMoviesWithSearchMode(3);
     }
 
     /**
@@ -166,6 +206,6 @@ public class TheMovieDbAPI {
     }
 
     private static void switchPage(String pageNumber) {
-        searchMovies(updateRequestUrlPage(pageNumber));
+        searchMoviesWithUrl(updateRequestUrlPage(pageNumber));
     }
 }
