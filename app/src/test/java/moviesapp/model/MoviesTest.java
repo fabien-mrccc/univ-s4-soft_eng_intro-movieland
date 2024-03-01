@@ -12,8 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MoviesTest {
     private final Movie movie1 = new Movie(true,null,null,"1",null,
@@ -74,7 +73,7 @@ public class MoviesTest {
             Movies.searchableMovie(null);
         });
 
-        assertThrows(NoMovieFoundException.class, () -> {
+        assertDoesNotThrow(()-> {
             Movies.searchableMovie(movies);
         });
 
