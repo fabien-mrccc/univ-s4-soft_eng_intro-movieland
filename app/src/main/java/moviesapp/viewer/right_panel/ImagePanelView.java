@@ -1,8 +1,11 @@
 package moviesapp.viewer.right_panel;
 
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -14,24 +17,32 @@ import java.util.Objects;
 import static moviesapp.controller.GUI.AppController.handleClickOnImage;
 import static moviesapp.model.api.RequestBuilder.imageBaseURL;
 import static moviesapp.model.api.RequestBuilder.imageSize;
+import static moviesapp.model.json.JsonReader.SEARCH_READER;
+import static moviesapp.viewer.left_panel.WithoutTitlePanelView.getFieldStyle;
 import static moviesapp.viewer.right_panel.RightPanelView.rightScrollPanePadding;
 
 public class ImagePanelView {
     private final ScrollPane rightScrollPane;
     private final GridPane gridPane;
+    private final TextField specificPageField;
+    private final HBox pageManagementBox;
     private final int imageWidth = 258;
     private final int numberOfImagesPerRow = 3;
     private double horizontalGap = 15;
 
-    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane) {
+    public ImagePanelView(GridPane gridPane, ScrollPane rightScrollPane, TextField specificPageField, HBox pageManagementBox) {
         this.gridPane = gridPane;
         this.rightScrollPane = rightScrollPane;
+        this.specificPageField = specificPageField;
+        this.pageManagementBox = pageManagementBox;
 
         setupView();
     }
 
     public void setupView() {
         setGridPane();
+        setPageManagementBox();
+        setSpecificPageField();
     }
 
     private void setGridPane() {
@@ -61,11 +72,15 @@ public class ImagePanelView {
 
     public void distributeImages(Movies movies) {
         clearImageDisplay();
+        rightScrollPane.setVvalue(0.0);
 
         int row = 0, col = 0;
 
-        if(movies == null || movies.isEmpty()){ //TODO: update image
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/viewer/images/poster-unavailable.jpg")).toExternalForm());
+        if(movies == null || movies.isEmpty()){
+            pageManagementBox.setVisible(false);
+
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/viewer/images/no-movie-found.jpg")).toExternalForm());
+
             ImageView imageView = new ImageView();
             imageView.setImage(image);
             imageView.setPreserveRatio(true);
@@ -74,6 +89,7 @@ public class ImagePanelView {
             return;
         }
 
+        pageManagementBox.setVisible(true);
         for(Movie movie : movies) {
             String moviePosterPath = movie.posterPath();
             Image image;
@@ -98,5 +114,21 @@ public class ImagePanelView {
                 row++;
             }
         }
+    }
+
+    private void setPageManagementBox() {
+        pageManagementBox.setPadding(new Insets(0, 0, rightScrollPanePadding, 0));
+    }
+
+    private void setSpecificPageField() {
+        gridPane.getChildren().addListener((ListChangeListener<Node>) change -> {
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved()) {
+                    specificPageField.setStyle(getFieldStyle());
+                    specificPageField.setPromptText(SEARCH_READER.getPageInJson() + "/" + SEARCH_READER.numberOfPagesOfMoviesInJson());
+                    specificPageField.setText("");
+                }
+            }
+        });
     }
 }
