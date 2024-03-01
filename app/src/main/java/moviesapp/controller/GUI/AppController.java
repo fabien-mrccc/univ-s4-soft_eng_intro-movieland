@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.SearchCriteria;
@@ -79,7 +76,7 @@ public class AppController implements Initializable {
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
-        imagePanelViewComponent = new ImagePanelView(gridPane, rightScrollPane);
+        imagePanelViewComponent = new ImagePanelView(gridPane, rightScrollPane, specificPageField, pageManagementBox);
 
         new ClearButton(clearWithTitlePane, clearWithTitleButton, leftPane, withTitlePane);
         new ClearButton(clearWithoutTitlePane, clearWithoutTitleButton, leftPane, withoutTitlePane);
@@ -173,6 +170,7 @@ public class AppController implements Initializable {
         if (inputSuccess) {
             try {
                 searchMoviesWithCriteria(criteria);
+                System.out.println(criteria);
             }
             catch (SelectModeException ignored) {
             }
@@ -240,6 +238,17 @@ public class AppController implements Initializable {
             updateImagePanelView(SEARCH_READER.findAllMovies());
         }
         catch (NoNextPageException ignored) {
+        }
+    }
+
+    @FXML
+    private void specificPage() {
+        try {
+            TheMovieDbAPI.switchToSpecificPage(specificPageField.getText().trim());
+            updateImagePanelView(SEARCH_READER.findAllMovies());
+        }
+        catch(NotAPositiveIntegerException | IntervalException e) {
+            alterInput(specificPageField, e);
         }
     }
 
@@ -385,6 +394,9 @@ public class AppController implements Initializable {
     public Button clearWithTitleButton;
     public Button clearWithoutTitleButton;
     public Pane appTitlePane;
+    public Button specificPageButton;
+    public TextField specificPageField;
+    public HBox pageManagementBox;
 
     /////////////////////////////////////////////////////////// END FXML Identifiers
 }
