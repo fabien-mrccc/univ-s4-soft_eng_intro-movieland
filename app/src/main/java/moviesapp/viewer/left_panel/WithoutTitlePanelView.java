@@ -157,7 +157,7 @@ public class WithoutTitlePanelView {
         goButton.setPrefWidth(80);
     }
 
-    public void searchCatcherNoTitle(){
+    public void searchCatcherWithoutTitle(){
         singleOrMinYearField.setStyle("");
         maxYearField.setStyle("");
         String title = "";
@@ -176,7 +176,7 @@ public class WithoutTitlePanelView {
 
     private void searchHandling(String title, List<String> selectedGenresId, String yearFrom, String yearTo, String rating) {
         SearchCriteria criteria = new SearchCriteria(title, yearFrom, yearTo, selectedGenresId, rating, "1");
-        TheMovieDbAPI.searchMovies(criteria,2);
+        //TheMovieDbAPI.searchMovies(criteria,2);
     }
 
     /**

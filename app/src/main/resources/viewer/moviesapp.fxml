@@ -62,7 +62,7 @@
 
 
             <Pane fx:id="goWithoutTitlePane" styleClass="debug">
-                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherNoTitle"/>
+                <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithoutTitle"/>
             </Pane>
 
             <Pane fx:id="favoritesWithoutTitlePane" styleClass="debug">
