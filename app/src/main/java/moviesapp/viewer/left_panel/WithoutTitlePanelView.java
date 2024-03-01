@@ -121,7 +121,7 @@ public class WithoutTitlePanelView {
     }
 
     private void setRatingPane(){
-        ratingPane.layoutXProperty().bind(genresPane.layoutXProperty().add(genresPane.widthProperty().add(20)));
+        ratingPane.layoutXProperty().bind(genresPane.layoutXProperty().add(genresPane.widthProperty().add(50)));
         ratingPane.layoutYProperty().bind(genresPane.layoutYProperty());
         ratingPane.prefWidthProperty().bind(genresPane.prefWidthProperty());
     }
