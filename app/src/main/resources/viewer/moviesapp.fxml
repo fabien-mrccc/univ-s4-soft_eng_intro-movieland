@@ -15,32 +15,32 @@
     <!--Left Pane-->
     <Pane fx:id="leftPane" styleClass="leftPane">
 
-        <Pane fx:id="withTitlePane" styleClass="debug">
-            <Pane fx:id="titleAndSearchPane" styleClass="debug">
+        <Pane fx:id="withTitlePane" styleClass="debug-yellow">
+            <Pane fx:id="titleAndSearchPane" styleClass="debug-yellow">
                 <Label fx:id="title" styleClass="left-pane-label" text="Title:"/>
                 <TextField fx:id="searchBar" promptText="Search..." styleClass="black-field, searchIcon"/>
             </Pane>
 
-            <Pane fx:id="yearPane" styleClass="debug">
+            <Pane fx:id="yearPane" styleClass="debug-yellow">
                 <Label fx:id="yearLabel" styleClass="left-pane-label" text="Year:"/>
                 <TextField fx:id="yearField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="goWithTitlePane" styleClass="debug">
+            <Pane fx:id="goWithTitlePane" styleClass="debug-yellow">
                 <Button fx:id="goWithTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithTitle"/>
             </Pane>
 
-            <Pane fx:id="favoritesWithTitlePane" styleClass="debug">
+            <Pane fx:id="favoritesWithTitlePane" styleClass="debug-yellow">
                 <Button fx:id="favoritesWithTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithTitleButtonClicked"/>
             </Pane>
         </Pane>
 
-        <Pane fx:id="clearWithTitlePane" styleClass="debug">
+        <Pane fx:id="clearWithTitlePane" styleClass="debug-yellow">
             <Button fx:id="clearWithTitleButton" styleClass="button, yellow-button" text="Clear Favorites"/>
         </Pane>
 
-        <Pane fx:id="withoutTitlePane" styleClass="debug">
-            <Pane fx:id="yearsPane" styleClass="debug">
+        <Pane fx:id="withoutTitlePane" styleClass="debug-yellow">
+            <Pane fx:id="yearsPane" styleClass="debug-yellow">
                 <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
                 <Label fx:id="from" styleClass="left-pane-label" text="from"/>
                 <TextField fx:id="minYearField" styleClass="black-field"/>
@@ -48,32 +48,32 @@
                 <TextField fx:id="maxYearField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="genresPane" styleClass="debug">
+            <Pane fx:id="genresPane" styleClass="debug-yellow">
                 <Label fx:id="genres" text="Genres:" styleClass="left-pane-label"/>
                 <ListView fx:id="genreListView"/>
             </Pane>
 
-            <Pane fx:id="ratingPane" styleClass="debug" prefHeight="60">
+            <Pane fx:id="ratingPane" styleClass="debug-yellow" prefHeight="60">
                 <Label fx:id="rating" text="Rating:" styleClass="left-pane-label"/>
                 <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label"/>
                 <TextField fx:id="ratingField" styleClass="black-field"/>
             </Pane>
 
-            <Pane fx:id="goWithoutTitlePane" styleClass="debug">
+            <Pane fx:id="goWithoutTitlePane" styleClass="debug-yellow">
                 <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithoutTitle"/>
             </Pane>
 
-            <Pane fx:id="favoritesWithoutTitlePane" styleClass="debug">
+            <Pane fx:id="favoritesWithoutTitlePane" styleClass="debug-yellow">
                 <Button fx:id="favoritesWithoutTitleButton" styleClass="button, purple-button" text="Favorites" onAction="#favoritesWithoutTitleButtonClicked"/>
             </Pane>
         </Pane>
 
-        <Pane fx:id="selectModePane" styleClass="debug">
+        <Pane fx:id="selectModePane" styleClass="debug-yellow">
             <Button fx:id="withTitleButton" styleClass="button, red-button" text="With Title" onAction="#turnOnSearchWithTitleMode"/>
             <Button fx:id="withoutTitleButton" styleClass="button, purple-button" text="Without Title" onAction="#turnOnSearchWithoutTitleMode"/>
         </Pane>
 
-        <Pane fx:id="clearWithoutTitlePane" styleClass="debug">
+        <Pane fx:id="clearWithoutTitlePane" styleClass="debug-yellow">
             <Button fx:id="clearWithoutTitleButton" styleClass="button, yellow-button" text="Clear Favorites"/>
         </Pane>
 
@@ -87,17 +87,17 @@
     <StackPane fx:id="rightStackPane" styleClass="rightStackPane">
         <ScrollPane fx:id="rightScrollPane" styleClass="rightScrollPane">
             <VBox>
-                <GridPane fx:id="gridPane" styleClass="debug">
 
+                <GridPane fx:id="gridPane" styleClass="debug-yellow">
                 </GridPane>
 
-                <HBox alignment="CENTER" spacing="10">
+                <HBox fx:id="pageManagementBox" alignment="CENTER" spacing="10" styleClass = "debug-blue">
                     <Button styleClass="button, white-button" text="Previous Page" onAction="#previousPage"/>
                     <Button styleClass="button, white-button" text="Next Page" onAction="#nextPage"/>
+                    <TextField fx:id="specificPageField" styleClass="black-field" prefWidth="100"/>
+                    <Button fx:id="specificPageButton" styleClass="button, white-button" text="GO" onAction="#specificPage"/>
                 </HBox>
 
-                <Pane prefHeight="60">
-                </Pane>
             </VBox>
 
         </ScrollPane>
