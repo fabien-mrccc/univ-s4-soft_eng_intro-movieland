@@ -11,11 +11,13 @@ import java.util.List;
 import static moviesapp.model.movies.Movies.moviesFromPreviousSearch;
 import static moviesapp.model.movies.Movies.selectMovieByIndexTry;
 
-public class CLGeneral extends CLController {
+public class CLGeneral {
 
     private final List<String> commands = new ArrayList<>();
+    private final CLController controller;
 
-    public CLGeneral() {
+    public CLGeneral(CLController controller) {
+        this.controller = controller;
         setupHelpCommandsDescription();
     }
 
@@ -48,13 +50,13 @@ public class CLGeneral extends CLController {
      */
     void details() {
 
-        String detailsMode = selectModeTry("Choose details command mode: [1] From Search, [2] From Favorites", Arrays.asList("1","2"));
+        String detailsMode = controller.selectModeTry("Choose details command mode: [1] From Search, [2] From Favorites", Arrays.asList("1","2"));
 
         Movies movies;
 
         switch(detailsMode){
             case "1" -> movies = moviesFromPreviousSearch();
-            case "2" -> movies = favoritesCommands.display();
+            case "2" -> movies = controller.favoritesCommands.display();
             default -> {
                 System.out.println(new SelectModeException().getMessage());
                 return;
@@ -71,7 +73,7 @@ public class CLGeneral extends CLController {
      * @throws ExitException if the user confirms the exit action
      */
     void exit() throws ExitException {
-        if(askToConfirm("Are you sure that you want to leave the application?")){
+        if(controller.askToConfirm("Are you sure that you want to leave the application?")){
             throw new ExitException();
         }
     }

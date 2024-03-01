@@ -10,15 +10,19 @@ import static moviesapp.model.json.JsonWriter.SEARCH_WRITER;
 
 public class CLController {
 
-    private final CLGeneral generalCommands;
-    private final CLSearch searchCommands;
-    protected final CLFavorites favoritesCommands;
-    private final Scanner scanner = new Scanner(System.in);
+    private CLGeneral generalCommands;
+    private CLSearch searchCommands;
+    protected CLFavorites favoritesCommands;
+    private final Scanner scanner;
 
     public CLController() {
-        generalCommands = new CLGeneral();
-        searchCommands = new CLSearch();
-        favoritesCommands = new CLFavorites();
+        scanner = new Scanner(System.in);
+        initCommands();
+    }
+    private void initCommands() {
+        generalCommands = new CLGeneral(this);
+        searchCommands = new CLSearch(this);
+        favoritesCommands = new CLFavorites(this);
     }
 
     /**

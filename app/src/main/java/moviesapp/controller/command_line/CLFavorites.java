@@ -10,7 +10,13 @@ import static moviesapp.model.movies.Favorites.addByIndex;
 import static moviesapp.model.movies.Favorites.removeByIndex;
 import static moviesapp.model.movies.Movies.moviesFromPreviousSearch;
 
-public class CLFavorites extends CLController {
+public class CLFavorites {
+
+    private final CLController controller;
+
+    public CLFavorites(CLController controller) {
+        this.controller = controller;
+    }
 
     /**
      * Displays the user's favorite movie list and returns it as Movies object.
@@ -84,9 +90,9 @@ public class CLFavorites extends CLController {
     private void addCommandTry(Movies movies) throws IndexException { //TODO: refactor this method and removeCommandTry
 
         do{
-            addByIndex(movies, retrieveAsPositiveInt("Index of the movie to add to your favorites: ") - 1);
+            addByIndex(movies, controller.retrieveAsPositiveInt("Index of the movie to add to your favorites: ") - 1);
         }
-        while(askToConfirm("Do you want to add another movie?"));
+        while(controller.askToConfirm("Do you want to add another movie?"));
 
         System.out.println();
         display();
@@ -101,9 +107,9 @@ public class CLFavorites extends CLController {
     private void removeCommandTry(Movies movies) throws IndexException {
 
         do{
-            removeByIndex(movies, retrieveAsPositiveInt("Index of the movie to remove from your favorites: ") - 1);
+            removeByIndex(movies, controller.retrieveAsPositiveInt("Index of the movie to remove from your favorites: ") - 1);
         }
-        while(askToConfirm("Do you want to remove another movie?"));
+        while(controller.askToConfirm("Do you want to remove another movie?"));
 
         System.out.println();
         display();
@@ -113,7 +119,7 @@ public class CLFavorites extends CLController {
      * Clears the favorites list after confirming with the user.
      */
     void clear() {
-        if (askToConfirm("Are you sure that you want to delete your favorites?")){
+        if (controller.askToConfirm("Are you sure that you want to delete your favorites?")){
             Favorites.clear();
             FAVORITES_WRITER.clear();
             System.out.println("Your favorite list has been cleared.");

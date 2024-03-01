@@ -18,9 +18,15 @@ import static moviesapp.model.exceptions.IndexException.isValidIndex;
 import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
 import static moviesapp.model.json.JsonReader.SEARCH_READER;
 
-public class CLSearch extends CLController {
+public class CLSearch {
 
     private SearchCriteria criteria;
+    private final CLController controller;
+
+    public CLSearch(CLController controller) {
+        this.controller = controller;
+    }
+
 
     /**
      * Displays the catalog of popular movies.
@@ -54,7 +60,7 @@ public class CLSearch extends CLController {
      * @return {@code false} if the user chooses to continue or leave the command, otherwise {@code true}.
      */
     private boolean searchPageManagement() {
-        String response = selectModeTry(pageManagementMessage(), Arrays.asList("0","1","2","3"));
+        String response = controller.selectModeTry(pageManagementMessage(), Arrays.asList("0","1","2","3"));
 
         try {
             switch (response) {
@@ -84,7 +90,7 @@ public class CLSearch extends CLController {
     private void searchSpecificPageTry() {
 
         try {
-            TheMovieDbAPI.switchToSpecificPage(askValue("Enter a page number: "));
+            TheMovieDbAPI.switchToSpecificPage(controller.askValue("Enter a page number: "));
         }
         catch (IntervalException | NotAPositiveIntegerException e) {
             System.out.println(e.getMessage());
@@ -117,7 +123,7 @@ public class CLSearch extends CLController {
     private void retrieveCriteriaFromUser() {
         criteria = new SearchCriteria();
 
-        criteria.title = askValue("Title of the movie: ");
+        criteria.title = controller.askValue("Title of the movie: ");
 
         criteria.minYear = getYearTry("Min release year [ ≧ " + minAcceptableYearValue + "]: ");
         criteria.maxYear = getYearTry("Max release year [ ≦ " + maxAcceptableYearValue + "]: ");
@@ -135,7 +141,7 @@ public class CLSearch extends CLController {
 
         String releaseYear;
         try {
-            releaseYear = askValue(message);
+            releaseYear = controller.askValue(message);
             if(!releaseYear.isEmpty()) {
                 validateValueBetweenInterval(convertAsPositiveInt(releaseYear), minAcceptableYearValue, maxAcceptableYearValue);
             }
@@ -156,7 +162,7 @@ public class CLSearch extends CLController {
 
         String minVoteAverage;
         try {
-            minVoteAverage = askValue("Movie's minimum rate [0-10]: ");
+            minVoteAverage = controller.askValue("Movie's minimum rate [0-10]: ");
             if(!minVoteAverage.isEmpty()) {
                 validateValueBetweenInterval(convertAsPositiveInt(minVoteAverage), 0, 10);
             }
@@ -177,7 +183,7 @@ public class CLSearch extends CLController {
 
         List<String> genres = new ArrayList<>();
 
-        if(askToConfirm("Do you want to specify one or more genres?")){
+        if(controller.askToConfirm("Do you want to specify one or more genres?")){
             System.out.print("\nList of genres: \n" + Genres.getGenres());
             selectGenres(genres);
         }
@@ -203,7 +209,7 @@ public class CLSearch extends CLController {
             else {
                 System.out.println("\n| Please enter a valid genre that is not already selected.");
             }
-        } while(askToConfirm("Do you want to add more genres?"));
+        } while(controller.askToConfirm("Do you want to add more genres?"));
     }
 
     /**
@@ -215,7 +221,7 @@ public class CLSearch extends CLController {
     private String selectGenreByIndex(List<String> genres) {
 
         try {
-            int index = retrieveAsPositiveInt("Enter genre index: ") - 1;
+            int index = controller.retrieveAsPositiveInt("Enter genre index: ") - 1;
             isValidIndex(index, genres.size());
             return genres.get(index);
         }
