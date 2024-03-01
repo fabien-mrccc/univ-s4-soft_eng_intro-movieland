@@ -185,19 +185,12 @@ public class Movies implements Iterable<Movie> {
      * @param movies The collection of movies to select from.
      * @return The selected movie.
      */
-    public static Movie selectMovieByIndexTry(Movies movies) {
+    public static Movie selectMovieByIndexTry(Movies movies, String index) throws NotAPositiveIntegerException, IndexException {
 
-        Movie movieToSelect;
-        try {
-            int index = convertAsPositiveInt("Enter the index of a movie to see its details: ") - 1;
-            isValidIndex(index, movies.size());
-            movieToSelect = selectMovieByIndex(movies, index);
-        }
-        catch (IndexException | NotAPositiveIntegerException e) {
-            System.out.println(e.getMessage());
-            return selectMovieByIndexTry(movies);
-        }
-        return movieToSelect;
+        int positiveIndex = convertAsPositiveInt(index) - 1;
+        isValidIndex(positiveIndex, movies.size());
+
+        return selectMovieByIndex(movies, positiveIndex);
     }
 
     /**

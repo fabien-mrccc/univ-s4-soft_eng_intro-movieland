@@ -1,6 +1,8 @@
 package moviesapp.controller.command_line;
 
 import moviesapp.controller.command_line.exceptions.ExitException;
+import moviesapp.model.exceptions.IndexException;
+import moviesapp.model.exceptions.NotAPositiveIntegerException;
 import moviesapp.model.exceptions.SelectModeException;
 import moviesapp.model.movies.Movies;
 
@@ -56,14 +58,32 @@ public class CLGeneral {
 
         switch(detailsMode){
             case "1" -> movies = moviesFromPreviousSearch();
-            case "2" -> movies = controller.favoritesCommands.display();
+            case "2" -> {
+                System.out.println();
+                movies = controller.favoritesCommands.display();
+            }
             default -> {
                 System.out.println(new SelectModeException().getMessage());
                 return;
             }
         }
 
-        System.out.print(selectMovieByIndexTry(movies).details());
+        boolean detailsSuccess = false;
+
+        while (!detailsSuccess) {
+            try {
+                if (!movies.isEmpty()) {
+                    System.out.print(selectMovieByIndexTry(movies, controller.askValue("\nEnter the index of a movie to see its details: ")).details());
+                }
+                else {
+                    System.out.println("\n| Your previous search cannot be empty if you want to use the details command.");
+                }
+                detailsSuccess = true;
+            }
+            catch (IndexException | NotAPositiveIntegerException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     /**
