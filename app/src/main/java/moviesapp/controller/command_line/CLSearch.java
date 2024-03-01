@@ -14,9 +14,9 @@ import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.genresToGenreIds;
 import static moviesapp.model.api.RequestBuilder.*;
 import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.TheMovieDbAPI.checkMinVoteAverage;
 import static moviesapp.model.api.TheMovieDbAPI.checkYears;
 import static moviesapp.model.exceptions.IndexException.isValidIndex;
-import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
 import static moviesapp.model.json.JsonReader.SEARCH_READER;
 
 public class CLSearch {
@@ -172,9 +172,7 @@ public class CLSearch {
         String minVoteAverage;
         try {
             minVoteAverage = controller.askValue("Movie's minimum rate [0-10]: ");
-            if(!minVoteAverage.isEmpty()) {
-                validateValueBetweenInterval(convertAsPositiveInt(minVoteAverage), 0, 10);
-            }
+            checkMinVoteAverage(minVoteAverage);
         }
         catch (NotAPositiveIntegerException | IntervalException e) {
             System.out.println(e.getMessage());

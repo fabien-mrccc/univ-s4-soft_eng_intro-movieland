@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.SearchCriteria;
-import moviesapp.model.api.TheMovieDbAPI;
 
 import java.util.List;
 
