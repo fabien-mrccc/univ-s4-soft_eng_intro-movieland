@@ -65,6 +65,12 @@ public class TheMovieDbAPITest {
             assertThat(movie.title().contains("One Piece")).isTrue();
         }
 
+        TheMovieDbAPI.searchMoviesWithCriteria(new SearchCriteria("One Piece","1900","1900", new ArrayList<>(),"",""));
+        for(Movie movie : new JsonReader(JsonReader.SEARCH_FILE_PATH).findAllMovies()){
+            assertThat(movie.title().contains("One Piece")).isTrue();
+            assertThat(movie.getReleaseYear().substring(0,4).compareTo("1900")).isEqualTo(0);
+        }
+
     }
 
     @Test

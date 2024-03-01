@@ -1,6 +1,9 @@
 package moviesapp.model.movies;
 
+import moviesapp.model.api.Genres;
+
 import java.util.List;
+import java.util.Objects;
 
 public record Movie(boolean adult, String backdropPath, List<String> genres, String id, String originalLanguage,
                     String originalTitle, String overview, double popularity, String posterPath, String releaseDate,
@@ -76,7 +79,12 @@ public record Movie(boolean adult, String backdropPath, List<String> genres, Str
             if (genre == null || genre.isEmpty()) {
                 return genre;
             }
-            genresToString.append(genre.substring(0, 1).toUpperCase()).append(genre.substring(1)).append(", ");
+            for(String genreKey : Genres.GENRE_NAME_ID_MAP.keySet()){
+                if(Objects.equals(Genres.GENRE_NAME_ID_MAP.get(genreKey), genre)){
+                    genresToString.append(genreKey.substring(0, 1).toUpperCase()).append(genreKey.substring(1)).append(", ");
+                    continue;
+                }
+            }
         }
         return genresToString.substring(0,genresToString.length()-2);
     }
