@@ -20,10 +20,10 @@ public class TheMovieDbAPI {
         if (criteria.noInformationSent()){
             throw new SelectModeException();
         }
-        else if (criteria.title.isEmpty() && !criteria.noDiscoverCriteria()) {
+        else if (criteria.title.isEmpty()) {
             buildRequestToSearchMovies(criteria, 2);
         }
-        else if (!criteria.title.isEmpty() && criteria.noDiscoverCriteria()) {
+        else {
             buildRequestToSearchMovies(criteria, 1);
         }
     }
@@ -89,6 +89,7 @@ public class TheMovieDbAPI {
     private static void buildRequestToSearchMovies(SearchCriteria criteria, int searchMode) {
 
         RequestBuilder requestBuilder = new RequestBuilder(criteria);
+        System.err.println(requestUrl);
 
         try {
             searchMovies(requestBuilder.build(searchMode));
