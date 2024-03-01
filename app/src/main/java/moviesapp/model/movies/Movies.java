@@ -202,4 +202,13 @@ public class Movies implements Iterable<Movie> {
         System.out.print("\nBelow the movies from your precedent search:\n" + SEARCH_READER.findAllMovies());
         return SEARCH_READER.findAllMovies();
     }
+
+    /**
+     * Retrieves the list of movies encapsulated within this object.
+     *
+     * @return The list of movies.
+     */
+    public List<Movie> getMovieList() {
+        return movies;
+    }
 }
