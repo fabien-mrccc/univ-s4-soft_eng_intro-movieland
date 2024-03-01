@@ -199,7 +199,7 @@ public class Movies implements Iterable<Movie> {
      * @return the list of movies from the previous search.
      */
     public static Movies moviesFromPreviousSearch(){
-        System.out.println("\nBelow the movies from your precedent search: \n" + SEARCH_READER.findAllMovies());
+        System.out.print("\nBelow the movies from your precedent search:\n" + SEARCH_READER.findAllMovies());
         return SEARCH_READER.findAllMovies();
     }
 }

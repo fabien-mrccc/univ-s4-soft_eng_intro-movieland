@@ -32,6 +32,7 @@ public class CLFavorites {
     void add() {
         System.out.println("Add command has been started.");
         Movies movies = moviesFromPreviousSearch();
+        System.out.println();
 
         try {
             Movies.searchableMovie(movies);

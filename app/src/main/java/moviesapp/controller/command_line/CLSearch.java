@@ -201,7 +201,6 @@ public class CLSearch {
      */
     private void selectGenres(List<String> genres) {
         do{
-            System.out.println("\nGenres already selected: " + genres);
             List<String> genreNames = new ArrayList<>(GENRE_NAME_ID_MAP.keySet());
 
             String genreSelected = selectGenreByIndex(genreNames);
@@ -212,7 +211,7 @@ public class CLSearch {
             else {
                 System.out.println("\n| Please enter a valid genre that is not already selected.");
             }
-        } while(controller.askToConfirm("Do you want to add more genres?"));
+        } while(controller.askToConfirm("Do you want to add more genres? | Genres already selected: " + genres));
     }
 
     /**
@@ -224,7 +223,7 @@ public class CLSearch {
     private String selectGenreByIndex(List<String> genres) {
 
         try {
-            int index = controller.retrieveAsPositiveInt("Enter genre index: ") - 1;
+            int index = controller.retrieveAsPositiveInt("\nEnter genre index: ") - 1;
             isValidIndex(index, genres.size());
             return genres.get(index);
         }
