@@ -94,6 +94,17 @@
     -fx-cursor: hand;
 }
 
+.yellow-button {
+    -fx-background-color: #d7982f;
+    -fx-text-fill: #e5e5e5;
+}
+
+.yellow-button:hover{
+    -fx-background-color: #e5e5e5;
+    -fx-text-fill: #d7982f;
+    -fx-cursor: hand;
+}
+
 .scroll-bar {
     -fx-background-color: #0f0d13;
     -fx-border-color: #e5e5e5;
