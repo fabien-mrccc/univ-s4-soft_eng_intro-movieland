@@ -36,14 +36,14 @@
         </Pane>
 
         <Pane fx:id="clearWithTitlePane" styleClass="debug">
-            <Button fx:id="clearWithTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
+            <Button fx:id="clearWithTitleButton" styleClass="button, yellow-button" text="Clear Favorites"/>
         </Pane>
 
         <Pane fx:id="withoutTitlePane" styleClass="debug">
             <Pane fx:id="yearsPane" styleClass="debug">
                 <Label fx:id="years" styleClass="left-pane-label" text="Years:"/>
                 <Label fx:id="from" styleClass="left-pane-label" text="from"/>
-                <TextField fx:id="singleOrMinYearField" styleClass="black-field"/>
+                <TextField fx:id="minYearField" styleClass="black-field"/>
                 <Label fx:id="to" styleClass="left-pane-label" text="to"/>
                 <TextField fx:id="maxYearField" styleClass="black-field"/>
             </Pane>
@@ -58,7 +58,6 @@
                 <Label fx:id="atLeast" text="at least:" styleClass="left-pane-label"/>
                 <TextField fx:id="ratingField" styleClass="black-field"/>
             </Pane>
-
 
             <Pane fx:id="goWithoutTitlePane" styleClass="debug">
                 <Button fx:id="goWithoutTitleButton" styleClass="button, red-button" text="GO" onAction="#searchCatcherWithoutTitle"/>
@@ -75,7 +74,7 @@
         </Pane>
 
         <Pane fx:id="clearWithoutTitlePane" styleClass="debug">
-            <Button fx:id="clearWithoutTitleButton" styleClass="button, red-button" text="Clear Favorites"/>
+            <Button fx:id="clearWithoutTitleButton" styleClass="button, yellow-button" text="Clear Favorites"/>
         </Pane>
 
         <Pane fx:id="appTitlePane" styleClass="debug-blue">

@@ -41,7 +41,7 @@ public class RequestBuilder {
             else {
                 criteriaToUrl.put("maxY", "&primary_release_date.lte=" + criteria.maxYear + "-12-31");
             }
-            criteriaToUrl.put("genres", "&with_genres=" + buildUrlWithGenres(criteria.genres));
+            criteriaToUrl.put("genres", "&with_genres=" + buildUrlWithGenres(criteria.genreIds));
             criteriaToUrl.put("vote", "&vote_average.gte=" + criteria.minVoteAverage);
             criteriaToUrl.put("page", "&page=" + criteria.page);
         }
@@ -167,10 +167,10 @@ public class RequestBuilder {
             criteria.maxYear = criteriaFromUrl.get("primary_release_date.lte").substring(0, 4);
         }
         if (criteriaFromUrl.get("with_genres").isEmpty()) {
-            criteria.genres = new ArrayList<>();
+            criteria.genreIds = new ArrayList<>();
         }
         else {
-            criteria.genres = Arrays.asList(criteriaFromUrl.get("with_genres").split(",\\s*"));
+            criteria.genreIds = Arrays.asList(criteriaFromUrl.get("with_genres").split(",\\s*"));
         }
         criteria.minVoteAverage = criteriaFromUrl.get("vote_average.gte");
         criteria.page = criteriaFromUrl.get("page");

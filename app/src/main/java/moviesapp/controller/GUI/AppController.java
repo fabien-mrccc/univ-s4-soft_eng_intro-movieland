@@ -7,9 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import moviesapp.model.api.Genres;
+import moviesapp.model.api.SearchCriteria;
 import moviesapp.model.api.TheMovieDbAPI;
-import moviesapp.model.exceptions.NoNextPageException;
-import moviesapp.model.exceptions.NoPreviousPageException;
+import moviesapp.model.exceptions.*;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movies;
 import moviesapp.viewer.buttons.ClearButton;
@@ -24,6 +24,8 @@ import moviesapp.viewer.right_panel.RightPanelView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static moviesapp.model.api.Genres.fillGENRE_NAME_ID_MAP;
+import static moviesapp.model.api.TheMovieDbAPI.*;
 import static moviesapp.model.json.JsonReader.*;
 import static moviesapp.model.json.JsonWriter.FAVORITES_WRITER;
 import static moviesapp.model.movies.Favorites.asMovies;
@@ -32,7 +34,7 @@ public class AppController implements Initializable {
 
     private WithTitlePanelView withTitlePanelViewComponent;
     private WithoutTitlePanelView withoutTitlePanelViewComponent;
-    public static ImagePanelView imagePanelViewComponent;
+    private static ImagePanelView imagePanelViewComponent;
     private static DetailsMode currentDetailsWindow;
 
     @Override
@@ -44,22 +46,31 @@ public class AppController implements Initializable {
         appTitleButtonClicked();
     }
 
-    private void genreSelectorSetUp(){
-        Genres.fillGENRE_NAME_ID_MAP();
+    /**
+     * Sets up the genre selector.
+     */
+    private void genreSelectorSetUp() {
+        fillGENRE_NAME_ID_MAP();
         ObservableList<String> genres = FXCollections.observableArrayList(Genres.instance.genreList());
         genreListView.setItems(genres);
         genreListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private void setGUIComponents(){
+    /**
+     * Sets up the GUI components.
+     */
+    private void setGUIComponents() {
         new LeftPanelView(mainAnchorPane, leftPane, appTitlePane, appTitleButton, selectModePane, withTitleButton, withoutTitleButton);
 
-        withTitlePanelViewComponent = new WithTitlePanelView(leftPane, appTitleButton, titleAndSearchPane, title, searchBar, yearPane, yearLabel,yearField,
+        withTitlePanelViewComponent = new WithTitlePanelView
+                (leftPane, appTitleButton, titleAndSearchPane, title, searchBar, yearPane, yearLabel,yearField,
                 favoritesWithTitlePane, favoritesWithTitleButton, goWithTitlePane, goWithTitleButton);
 
-        withoutTitlePanelViewComponent = new WithoutTitlePanelView(leftPane, appTitleButton, yearsPane, years, from, singleOrMinYearField,
+        withoutTitlePanelViewComponent = new WithoutTitlePanelView
+                (leftPane, appTitleButton, yearsPane, years, from, minYearField,
                 to, maxYearField, genresPane, genres, ratingPane, rating, atLeast,
-                ratingField, searchBar, favoritesWithoutTitlePane, favoritesWithoutTitleButton, goWithoutTitlePane, goWithoutTitleButton, genreListView);
+                ratingField, searchBar, favoritesWithoutTitlePane, favoritesWithoutTitleButton,
+                goWithoutTitlePane, goWithoutTitleButton, genreListView);
 
         new RightPanelView(leftPane, mainAnchorPane, rightStackPane, rightScrollPane);
 
@@ -67,58 +78,148 @@ public class AppController implements Initializable {
 
         new ClearButton(clearWithTitlePane, clearWithTitleButton, leftPane, withTitlePane);
         new ClearButton(clearWithoutTitlePane, clearWithoutTitleButton, leftPane, withoutTitlePane);
+
         clearWithTitleButton.setVisible(false);
         clearWithoutTitleButton.setVisible(false);
     }
 
+    /**
+     * Turns on the search with title mode.
+     */
     @FXML
-    private void turnOnSearchWithTitleMode(){
+    private void turnOnSearchWithTitleMode() {
         withTitlePane.setVisible(true);
-        withTitlePane.setDisable(false);
         withoutTitlePane.setVisible(false);
-        withoutTitlePane.setDisable(true);
         clearWithoutTitleButton.setVisible(false);
     }
 
+    /**
+     * Turns on the search without title mode.
+     */
     @FXML
-    private void turnOnSearchWithoutTitleMode(){
+    private void turnOnSearchWithoutTitleMode() {
         withTitlePane.setVisible(false);
-        withTitlePane.setDisable(true);
         withoutTitlePane.setVisible(true);
-        withoutTitlePane.setDisable(false);
         clearWithTitleButton.setVisible(false);
     }
 
+    /**
+     * Handles the search event with title.
+     */
     @FXML
-    private void searchCatcherNoTitle(){
-        withoutTitlePanelViewComponent.searchCatcherNoTitle();
-        updateImagePanelView(SEARCH_READER.findAllMovies());
+    private void searchCatcherWithTitle() {
+
+        SearchCriteria criteria = withTitlePanelViewComponent.searchCatcherWithTitle();
+        boolean inputSuccess = true;
+        try {
+            checkYears(criteria.minYear, criteria.maxYear);
+        }
+        catch (IntervalException | NotAPositiveIntegerException | NotValidYearsException e) {
+            alterInput(yearField, e);
+            inputSuccess = false;
+        }
+
+        if (inputSuccess) {
+            try {
+                searchMoviesWithCriteria(criteria);
+            }
+            catch (SelectModeException ignored) {
+            }
+            updateImagePanelView(SEARCH_READER.findAllMovies());
+        }
     }
 
-    @FXML
-    private void searchCatcherWithTitle(){
-        withTitlePanelViewComponent.searchCatcherWithTitle();
-        updateImagePanelView(SEARCH_READER.findAllMovies());
+    /**
+     * Modifies a TextField's appearance to indicate invalid input and displays an error alert.
+     *
+     * @param field The TextField with invalid input.
+     * @param e The Exception representing the error.
+     */
+    private void alterInput(TextField field, Exception e) {
+        field.setStyle(getAlertStyle());
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Input");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
     }
 
+    /**
+     * Handles the search event without title.
+     */
     @FXML
-    public void favoritesWithoutTitleButtonClicked(){
-        updateImagePanelView(asMovies());
-        clearWithoutTitleButton.setVisible(true);
+    private void searchCatcherWithoutTitle() {
+
+        SearchCriteria criteria = withoutTitlePanelViewComponent.searchCatcherWithoutTitle();
+        boolean inputSuccess = true;
+        try {
+            checkYears(criteria.minYear, criteria.maxYear);
+        }
+        catch (IntervalException | NotAPositiveIntegerException | NotValidYearsException e) {
+            alterTwoInputs(minYearField, maxYearField, e);
+            inputSuccess = false;
+        }
+        try {
+            checkMinVoteAverage(criteria.minVoteAverage);
+        }
+        catch (IntervalException | NotAPositiveIntegerException e) {
+            alterInput(ratingField, e);
+            inputSuccess = false;
+        }
+        if (inputSuccess) {
+            try {
+                searchMoviesWithCriteria(criteria);
+            }
+            catch (SelectModeException ignored) {
+            }
+            updateImagePanelView(SEARCH_READER.findAllMovies());
+        }
     }
 
+    /**
+     * Modifies two TextField object appearance to indicate invalid inputs and displays an error alert.
+     *
+     * @param e The Exception representing the error.
+     */
+    private void alterTwoInputs(TextField field1, TextField field2, Exception e) {
+        field1.setStyle(getAlertStyle());
+        alterInput(field2, e);
+    }
+
+    /**
+     * Returns the CSS style string for customizing the appearance of an alert.
+     *
+     * @return The CSS style string for an alert's appearance.
+     */
+    private String getAlertStyle() {
+        return "-fx-background-color: #d7982f; -fx-prompt-text-fill: #0f0d13;";
+    }
+
+    /**
+     * Updates the image panel view with favorite movies and makes the clear button visible. (with title view)
+     */
     @FXML
-    public void favoritesWithTitleButtonClicked(){
+    private void favoritesWithTitleButtonClicked() {
         updateImagePanelView(asMovies());
         clearWithTitleButton.setVisible(true);
+    }
+
+    /**
+     * Updates the image panel view with favorite movies and makes the clear button visible. (without title view)
+     */
+    @FXML
+    private void favoritesWithoutTitleButtonClicked() {
+        updateImagePanelView(asMovies());
+        clearWithoutTitleButton.setVisible(true);
     }
 
     @FXML
     public void previousPage() {
         try {
             TheMovieDbAPI.switchToPreviousPage();
+            updateImagePanelView(SEARCH_READER.findAllMovies());
         }
         catch (NoPreviousPageException ignored) {
+            System.err.println("ERR");
         }
     }
 
@@ -126,8 +227,10 @@ public class AppController implements Initializable {
     public void nextPage() {
         try {
             TheMovieDbAPI.switchToNextPage();
+            updateImagePanelView(SEARCH_READER.findAllMovies());
         }
         catch (NoNextPageException ignored) {
+            System.err.println("ERR");
         }
     }
 
@@ -170,7 +273,7 @@ public class AppController implements Initializable {
     }
 
 
-    /////////////////////////////////////////////////////////// Begin FXML Identifiers
+    /////////////////////////////////////////////////////////// HEAD FXML Identifiers
     public AnchorPane mainAnchorPane;
     public Pane leftPane;
     public Button appTitleButton;
@@ -180,7 +283,7 @@ public class AppController implements Initializable {
     public Label years;
     public Label from;
     public Label to;
-    public TextField singleOrMinYearField;
+    public TextField minYearField;
     public TextField maxYearField;
     public Pane yearsPane;
     public Pane genresPane;
@@ -215,5 +318,5 @@ public class AppController implements Initializable {
     public Button clearWithoutTitleButton;
     public Pane appTitlePane;
 
-    /////////////////////////////////////////////////////////// End FXML Identifiers
+    /////////////////////////////////////////////////////////// END FXML Identifiers
 }

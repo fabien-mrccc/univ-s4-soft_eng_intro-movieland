@@ -8,7 +8,7 @@ public class SearchCriteria {
     public String title = "";
     public String minYear = "";
     public String maxYear = "";
-    public List<String> genres = new ArrayList<>();
+    public List<String> genreIds = new ArrayList<>();
     public String minVoteAverage = "";
     public String page = "1";
 
@@ -16,11 +16,11 @@ public class SearchCriteria {
 
     }
 
-    public SearchCriteria(String title, String minYear, String maxYear,  List<String> genres, String minVoteAverage, String page) {
+    public SearchCriteria(String title, String minYear, String maxYear, List<String> genreIds, String minVoteAverage, String page) {
         this.title = title;
         this.minYear = minYear;
         this.maxYear = maxYear;
-        this.genres = genres;
+        this.genreIds = genreIds;
         this.minVoteAverage = minVoteAverage;
         this.page = page;
     }
@@ -31,7 +31,7 @@ public class SearchCriteria {
                 "title='" + title + '\'' +
                 ", minYear='" + minYear + '\'' +
                 ", maxYear='" + maxYear + '\'' +
-                ", genres=" + genres +
+                ", genres=" + genreIds +
                 ", minVoteAverage='" + minVoteAverage + '\'' +
                 ", page='" + page + '\'' +
                 '}';
@@ -42,6 +42,6 @@ public class SearchCriteria {
     }
 
     boolean noDiscoverCriteria(){
-        return minYear.isEmpty() && maxYear.isEmpty() && genres.isEmpty() && minVoteAverage.isEmpty();
+        return minYear.isEmpty() && maxYear.isEmpty() && genreIds.isEmpty() && minVoteAverage.isEmpty();
     }
 }

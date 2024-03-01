@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
 import static moviesapp.model.api.RequestBuilder.minAcceptableYearValue;
+import static moviesapp.viewer.left_panel.WithoutTitlePanelView.getFieldStyle;
 
 public class WithTitlePanelView {
     private final Pane leftPane;
@@ -82,8 +83,8 @@ public class WithTitlePanelView {
         yearField.setPromptText("from " + minAcceptableYearValue + " to " + maxAcceptableYearValue);
     }
 
-    public SearchCriteria searchCatcherWithTitle(){
-        yearField.setStyle("");
+    public SearchCriteria searchCatcherWithTitle() {
+        yearField.setStyle(getFieldStyle());
         return new SearchCriteria(searchBar.getText().trim(), yearField.getText().trim(), yearField.getText().trim(), new ArrayList<>(), "", "1");
     }
 }
