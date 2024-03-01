@@ -25,12 +25,24 @@ public class SearchCriteria {
         this.page = page;
     }
 
-    public boolean informationSent() {
+    @Override
+    public String toString() {
+        return "SearchCriteria{" +
+                "title='" + title + '\'' +
+                ", minYear='" + minYear + '\'' +
+                ", maxYear='" + maxYear + '\'' +
+                ", genres=" + genres +
+                ", minVoteAverage='" + minVoteAverage + '\'' +
+                ", page='" + page + '\'' +
+                '}';
+    }
+
+    public boolean noInformationSent() {
         if (gotDiscoverCriteria() && title.isEmpty()){
             System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     boolean gotDiscoverCriteria(){
