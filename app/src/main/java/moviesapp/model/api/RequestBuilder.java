@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class RequestBuilder {
     final static String baseUrl = "https://api.themoviedb.org/3";
-    final static String apiKey = "&api_key=5e40bf6f22600832c99dbb5d52115269";
-    final static String language = "language=en-US";
-    private final Map<String, String> criteriaToUrl = new HashMap<>();
+    final static String apiKey = "api_key=5e40bf6f22600832c99dbb5d52115269";
+    final static String language = "&language=en-US";
+    static final Map<String, String> criteriaToUrl = new HashMap<>();
     public static String requestUrl;
     public static int minAcceptableYearValue = 1874;
     public static int maxAcceptableYearValue = LocalDate.now().getYear();
