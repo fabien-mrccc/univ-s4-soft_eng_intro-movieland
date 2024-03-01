@@ -118,8 +118,8 @@ public class WithoutTitlePanelView {
 
         ratingField.layoutXProperty().bind(atLeast.layoutXProperty().add(89));
         ratingField.layoutYProperty().bind(atLeast.layoutYProperty().subtract(7));
-        ratingField.setPrefWidth(75);
-        ratingField.setPromptText("0 to 5");
+        ratingField.setPrefWidth(85);
+        ratingField.setPromptText("0 to 10");
     }
 
     public SearchCriteria searchCatcherWithoutTitle(){
