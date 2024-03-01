@@ -1,6 +1,5 @@
 package moviesapp.viewer;
 
-import com.google.common.base.Verify;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,7 +15,7 @@ import static moviesapp.App.minHeight;
 import static moviesapp.App.minWidth;
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class titleModTest extends ApplicationTest {
+public class TitleModeTest extends ApplicationTest {
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/Watched.ttf"), 20);
         Font.loadFont(getClass().getResourceAsStream("/viewer/fonts/GROBOLD.ttf"), 20);

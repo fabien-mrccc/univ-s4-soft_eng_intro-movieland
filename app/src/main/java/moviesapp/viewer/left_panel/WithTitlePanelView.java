@@ -1,18 +1,19 @@
 package moviesapp.viewer.left_panel;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import moviesapp.model.api.TheMovieDbAPI;
-import moviesapp.model.api.UrlRequestBuilder;
+import moviesapp.model.api.SearchCriteria;
 
 import moviesapp.viewer.buttons.FavoritesWithTitleButton;
 import moviesapp.viewer.buttons.GoWithTitleButton;
 
-import static moviesapp.model.api.UrlRequestBuilder.maxAcceptableYearValue;
-import static moviesapp.model.api.UrlRequestBuilder.minAcceptableYearValue;
+import java.util.ArrayList;
+
+import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.RequestBuilder.minAcceptableYearValue;
+import static moviesapp.viewer.left_panel.WithoutTitlePanelView.getFieldStyle;
 
 public class WithTitlePanelView {
     private final Pane leftPane;
@@ -23,8 +24,6 @@ public class WithTitlePanelView {
     private final Pane yearPane;
     private final Label year;
     private final TextField yearField;
-    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
-
 
     public WithTitlePanelView(Pane leftPane, Button appTitleButton, Pane titleAndSearchPane, Label title, TextField searchBar,
                               Pane yearPane, Label year, TextField yearField, Pane favoritesPane, Button favoritesButton,
@@ -84,42 +83,8 @@ public class WithTitlePanelView {
         yearField.setPromptText("from " + minAcceptableYearValue + " to " + maxAcceptableYearValue);
     }
 
-    public void searchCatcherWithTitle(){
-        yearField.setStyle("");
-        String title = searchBar.getText().trim();
-        String year = yearField.getText().trim();
-
-        if(!isValidYear(year)){
-            yearField.setStyle("-fx-background-color: red;");
-            alertYear();
-            return;
-        }
-
-        searchHandling(title, year);
-    }
-
-    /**
-     * show an alert page if explaining why the years are not valid
-     */
-    private void alertYear(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Input");
-        alert.setHeaderText(null);
-        alert.setContentText("Please enter valid years. Year must be a 4 numbers and the year in the left field should be less than the year in the right field.");
-        alert.showAndWait();
-    }
-
-    /**
-     * test if the years are valid meaning either empty or 4 numbers
-     * @param year tested year
-     * @return true if the year pass false otherwise
-     */
-    private boolean isValidYear(String year) {
-        return year.isEmpty() || year.matches("\\d{4}");
-    }
-
-    private void searchHandling(String title, String year){
-        UrlRequestBuilder.searchMode = "1";
-        apiObject.searchMovies(title, year, "", null, null, "1");
+    public SearchCriteria searchCatcherWithTitle() {
+        yearField.setStyle(getFieldStyle());
+        return new SearchCriteria(searchBar.getText().trim(), yearField.getText().trim(), yearField.getText().trim(), new ArrayList<>(), "", "1");
     }
 }

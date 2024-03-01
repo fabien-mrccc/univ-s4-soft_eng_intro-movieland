@@ -1,4 +1,4 @@
-package moviesapp.viewer.right_panel;
+package moviesapp.viewer.new_windows;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -12,14 +12,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import moviesapp.model.api.UrlRequestBuilder;
+import moviesapp.model.api.RequestBuilder;
 import moviesapp.model.movies.Favorites;
 import moviesapp.model.movies.Movie;
 
 import static moviesapp.controller.GUI.AppController.addButtonClicked;
 import static moviesapp.controller.GUI.AppController.removeButtonClicked;
 
-public class DetailsMode {
+public class DetailsWindow {
 
     @FXML public Stage globalStage;
     @FXML public Button addButton;
@@ -33,7 +33,7 @@ public class DetailsMode {
     @FXML public Label overviewLabel;
     @FXML public TextFlow textFlow;
 
-    public DetailsMode(Movie movie){
+    public DetailsWindow(Movie movie){
         showDetails(movie);
     }
 
@@ -46,7 +46,7 @@ public class DetailsMode {
         initMovieDetailsAnchorPane();
 
         initImageView();
-        Image movieImage = new Image(UrlRequestBuilder.imageBaseURL + UrlRequestBuilder.imageSize + movie.posterPath());
+        Image movieImage = new Image(RequestBuilder.imageBaseURL + RequestBuilder.imageSize + movie.posterPath());
         imageView.setImage(movieImage);
 
         initTitleLabelAndYear(movie);
@@ -55,7 +55,7 @@ public class DetailsMode {
         initVoteAverageLabel(movie);
         initOverviewLabel();
 
-        if(Favorites.instance.contains(movie)){
+        if(Favorites.contains(movie)){
             initRemoveButton(movie);
             movieDetailsAnchorPane.getChildren().add(removeButton);
         }

@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static moviesapp.model.json.JsonReader.updateSearchReader;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class JsonReaderTest {
@@ -24,6 +26,12 @@ public class JsonReaderTest {
         actionAdventureGenres = new ArrayList<>();
         actionAdventureGenres.add("action");
         actionAdventureGenres.add("adventure");
+    }
+
+    @Test
+    public void testUpdateSearchReader() {
+        JsonReader reader = updateSearchReader();
+        assertNotNull(reader);
     }
 
     @Test

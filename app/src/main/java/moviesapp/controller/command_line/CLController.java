@@ -1,105 +1,173 @@
 package moviesapp.controller.command_line;
 
-import moviesapp.model.json.JsonReader;
-import moviesapp.model.json.JsonWriter;
+import moviesapp.controller.command_line.exceptions.ExitException;
+import moviesapp.model.exceptions.*;
 
 import java.util.*;
 
-import static moviesapp.model.json.JsonReader.apiFilePath;
+import static moviesapp.model.api.RequestBuilder.convertAsPositiveInt;
 
-public final class CLController {
+public class CLController {
 
-    static JsonReader jsonReader;
-    private CLMethods commandMethods;
-    private CLHelp help;
-    private CLCatalog catalog;
-    private CLSearch search;
-    private CLDetails details;
-    private CLAdd add;
-    private CLRemove remove;
-    private CLFavorites favorites;
-    private CLClear clear;
-    private CLExit exit;
+    private CLGeneral generalCommands;
+    private CLSearch searchCommands;
+    protected CLFavorites favoritesCommands;
+    private final Scanner scanner;
 
     public CLController() {
+        scanner = new Scanner(System.in);
         initCommands();
-        jsonReaderUpdate();
     }
 
     /**
-     * Initializes commands.
-     * This method is responsible for initializing command-related objects.
+     * Initializes the command line commands.
      */
-    private void initCommands(){
-        commandMethods = new CLMethods();
-        help = new CLHelp();
-        help.setupHelpCommandsDescription();
-        catalog = new CLCatalog();
-        search = new CLSearch();
-        details = new CLDetails();
-        add = new CLAdd();
-        remove = new CLRemove();
-        favorites = new CLFavorites();
-        clear = new CLClear();
-        exit = new CLExit();
+    private void initCommands() {
+        generalCommands = new CLGeneral(this);
+        searchCommands = new CLSearch(this);
+        favoritesCommands = new CLFavorites(this);
     }
 
     /**
-     * Update the file read by the jsonReader
+     * Select and execute a command based on user input
      */
-    public static void jsonReaderUpdate(){
-        jsonReader = new JsonReader(apiFilePath);
-    }
+    public void select() {
+        boolean exitRequested = false;
 
-    /**
-     * Select a method to execute based on user input and execute it
-     */
-    public void select(){
-        new JsonWriter(apiFilePath).clean();
+        do {
+            generalCommands.help();
 
-        for (;;) {
-            help.helpCommand();
-
-            String commandValue = commandMethods.askValue("\nInput your command: ").toLowerCase(Locale.ROOT).trim();
+            String commandValue = askValue("\nInput your command: ").toLowerCase(Locale.ROOT).trim();
             System.out.println();
 
-            switch(commandValue){
+            switch (commandValue) {
                 case "1":
-                    catalog.catalogCommand();
+                    searchCommands.catalog();
                     break;
 
                 case "2":
-                    search.searchCommand();
+                    searchCommands.search();
                     break;
 
                 case "3":
-                    details.detailsCommand();
+                    generalCommands.details();
                     break;
 
                 case "4":
-                    add.addCommand();
+                    favoritesCommands.add();
                     break;
 
                 case "5":
-                    remove.removeCommand();
+                    favoritesCommands.remove();
                     break;
 
                 case "6":
-                    favorites.favoritesCommand();
+                    favoritesCommands.display();
                     break;
 
                 case "7":
-                    clear.clearCommand();
+                    favoritesCommands.clear();
                     break;
 
                 case "8":
-                    exit.exitCommand();
+                    try {
+                        generalCommands.exit();
+                    } catch (ExitException e) {
+                        exitRequested = true;
+                    }
                     break;
 
-                default :
-                    System.out.println("*** Command '" + commandValue +  "' doesn't exist. ***");
+                default:
+                    System.out.println("*** Command '" + commandValue + "' doesn't exist. ***");
                     break;
             }
-        }
+
+        } while (!exitRequested);
+
+        System.exit(0);
     }
+
+    /**
+     * Asks the user to confirm an action.
+     *
+     * @param string the prompt to display asking for confirmation.
+     * @return {@code true} if the user confirms (enters 'Y' or 'y'), {@code false} otherwise.
+     */
+    protected boolean askToConfirm(String string) {
+        String answer;
+        do{
+            answer = askValue(string + " [Y/n]: ").trim().toLowerCase();
+        }while(!answer.equals("y") && !answer.equals("n"));
+
+        return answer.equals("y");
+    }
+
+    /**
+     * Asks the user for input with the given message and returns the input as a String.
+     *
+     * @param message the message to display prompting the user for input.
+     * @return the user's input as a String.
+     */
+    protected String askValue(String message) {
+        System.out.println(message);
+        return scanner.nextLine();
+    }
+
+    /**
+     * Prompts the user with a message to enter a positive integer value.
+     * Continuously prompts until a valid positive integer value is entered.
+     *
+     * @param message the message to display when prompting the user for input
+     * @return the positive integer value entered by the user
+     */
+    protected int retrieveAsPositiveInt(String message) {
+
+        int valueConverted ;
+        try{
+            valueConverted = convertAsPositiveInt(askValue(message));
+        }
+        catch (NotAPositiveIntegerException e) {
+            System.out.println(e.getMessage());
+            return retrieveAsPositiveInt(message);
+        }
+        return valueConverted;
+    }
+
+    /**
+     * Tries to select a mode based on the provided message and list of option numbers.
+     * Continuously attempts mode selection until successful.
+     *
+     * @param message        The message related to selecting a mode.
+     * @param optionNumbers  The list of option numbers representing available modes.
+     * @return               The selected mode.
+     */
+    protected String selectModeTry(String message, List<String> optionNumbers) {
+
+        String modeSelected;
+        try{
+            modeSelected = selectMode(message, optionNumbers);
+        }
+        catch(IndexException e){
+            System.out.println(e.getMessage());
+            return selectModeTry(message, optionNumbers);
+        }
+        return modeSelected;
+    }
+
+    /**
+     * Selects a mode based on provided options.
+     *
+     * @param message The message prompting the user for input.
+     * @param optionNumbers The list of valid option numbers.
+     * @return The selected mode.
+     */
+    private String selectMode(String message, List<String> optionNumbers) throws IndexException {
+        String selectMode = askValue(message);
+
+        if(!optionNumbers.contains(selectMode)){
+            throw new IndexException();
+        }
+        return selectMode;
+    }
+
 }

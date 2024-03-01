@@ -17,9 +17,12 @@ public class JsonReader extends MovieFinder {
     private final ObjectMapper objectMapper;
     private final JsonNode jsonMovies ;
     private final JsonNode jsonGenres;
-    public static final String apiFilePath = System.getProperty("user.dir") + "/src/main/resources/json/api-results.json";
-    public final static String favoritesFilePath = System.getProperty("user.dir")+"/src/main/resources/json/favorites.json";
-    public final static String genresFilePath = System.getProperty("user.dir") + "/src/main/resources/json/genres.json";
+    public static final String SEARCH_FILE_PATH = System.getProperty("user.dir") + "/src/main/resources/json/search.json";
+    public final static String FAVORITES_FILE_PATH = System.getProperty("user.dir")+"/src/main/resources/json/favorites.json";
+    public final static String GENRES_FILE_PATH = System.getProperty("user.dir") + "/src/main/resources/json/genres.json";
+    public static JsonReader SEARCH_READER = new JsonReader(SEARCH_FILE_PATH);
+    public static JsonReader GENRES_READER = new JsonReader(GENRES_FILE_PATH);
+    public static JsonReader FAVORITES_READER = new JsonReader(FAVORITES_FILE_PATH);
 
     public JsonReader(String path){
         jsonFile = new File(path);
@@ -27,6 +30,24 @@ public class JsonReader extends MovieFinder {
         jsonMovies = getJsonMoviesNode() ;
         jsonGenres = getJsonGenresNode();
     }
+
+    /**
+     * Updates the search reader with the specified API file path.
+     *
+     * @return a JsonReader object initialized with the API file path
+     */
+    public static JsonReader updateSearchReader() {
+        return new JsonReader(SEARCH_FILE_PATH);
+    }
+
+    public static JsonReader updateGenresReader() {
+        return new JsonReader(GENRES_FILE_PATH);
+    }
+
+    public static JsonReader updateFavoritesReader() {
+        return new JsonReader(FAVORITES_FILE_PATH);
+    }
+
 
     /**
      * Convert a jsonNode to a Movie
@@ -119,10 +140,12 @@ public class JsonReader extends MovieFinder {
     }
 
     /**
-     * Return a list of Movie containing there information from the JSON file
-     * @return the list of Movie contained in the JSON File
+     * Finds and returns all movies from the JSON movie data.
+     *
+     * @return a Movies object containing all the movies found in the JSON data,
+     *         or an empty Movies object if no movies are found or if the JSON data is null
      */
-    public Movies findAllMovies(){
+    public Movies findAllMovies() {
         Movies movieList = new Movies();
         if(jsonMovies != null){
             for(JsonNode jsonMovie : jsonMovies ){
@@ -130,7 +153,7 @@ public class JsonReader extends MovieFinder {
             }
             return movieList;
         }
-        return new Movies();
+        return movieList;
     }
 
     /**

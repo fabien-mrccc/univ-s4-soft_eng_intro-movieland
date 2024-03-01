@@ -1,329 +1,258 @@
 package moviesapp.controller.command_line;
 
 import moviesapp.model.api.Genres;
-import moviesapp.model.api.UrlRequestBuilder;
-import moviesapp.model.movies.Movies;
+import moviesapp.model.api.SearchCriteria;
 import moviesapp.model.api.TheMovieDbAPI;
+import moviesapp.model.exceptions.*;
+import moviesapp.model.movies.Movies;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static moviesapp.controller.command_line.CLController.*;
 import static moviesapp.model.api.Genres.GENRE_NAME_ID_MAP;
 import static moviesapp.model.api.Genres.genresToGenreIds;
-import static moviesapp.model.api.UrlRequestBuilder.*;
+import static moviesapp.model.api.RequestBuilder.*;
+import static moviesapp.model.api.RequestBuilder.maxAcceptableYearValue;
+import static moviesapp.model.api.TheMovieDbAPI.checkMinVoteAverage;
+import static moviesapp.model.api.TheMovieDbAPI.checkYears;
+import static moviesapp.model.exceptions.IndexException.isValidIndex;
+import static moviesapp.model.json.JsonReader.SEARCH_READER;
 
-public class CLSearch extends CLMethods {
+public class CLSearch {
 
-    protected final TheMovieDbAPI apiObject = new TheMovieDbAPI();
+    private SearchCriteria criteria;
+    private final CLController controller;
 
-    /**
-     * Ask title, a year span, vote average and genres information to the user to select a specific group of movies
-     */
-    void searchCommand(){
-        String title = "";
-        String singleYearOrMinYear = "";
-        String maxYear = "";
-        String minVoteAverage = "";
-        List <String> genres = new ArrayList<>();
-
-        UrlRequestBuilder.searchMode = selectMode("Search mode: [0] Exit Search, ["+ searchModeSearch +"] With Title, ["+ searchModeDiscover +"] Without Title",
-                Arrays.asList("0", searchModeSearch,searchModeDiscover));
-
-        switch(UrlRequestBuilder.searchMode){
-            case "0" -> {
-                return;
-            }
-            case "1" -> {
-                while(title.isEmpty()){
-                    title = askValue("Title of the movie (required): ");
-                }
-                singleYearOrMinYear = getYear();
-                if(informationSent(title, singleYearOrMinYear, maxYear, minVoteAverage, genres)){
-                    maxYear = UrlRequestBuilder.singleMode;
-                }
-                else{
-                    return;
-                }
-            }
-            case "2" -> {
-                String[] years = getYears();
-                if (years != null && (!years[0].isEmpty() || !years[1].isEmpty())){
-                    singleYearOrMinYear = years[0];
-                    maxYear = years[1];
-                }
-                minVoteAverage = getMinVoteAverage(0,10);
-                genres = genresToGenreIds(specifiedGenresByUser());
-            }
-            default -> {
-                printSelectModeError();
-                return;
-            }
-        }
-
-        if(informationSent(title, singleYearOrMinYear, maxYear, minVoteAverage, genres)){
-            apiObject.searchMovies(title, singleYearOrMinYear, maxYear, genres, minVoteAverage, "1");
-            do{
-                jsonReaderUpdate();
-                Movies moviesFromSearch = jsonReader.findAllMovies();
-                System.out.println("\nYour list of movies found in your search: \n" + moviesFromSearch);
-                if(Movies.noMovieFound(moviesFromSearch)){
-                    break;
-                }
-            } while(askPreviousOrNextPage(title, singleYearOrMinYear, maxYear, genres, minVoteAverage, messageOfAskPreviousOrNextPage()));
-        }
+    public CLSearch(CLController controller) {
+        this.controller = controller;
     }
 
     /**
-     * Retrieves the release year based on user input.
-     * @return An array containing the selected release year.
+     * Displays the catalog of popular movies.
+     * It retrieves the popular movies from the API and displays the list of popular movies.
+     * It prompts the user to navigate through pages of the catalog.
      */
-    private String getYear(){
-        String yearOfReleaseOption = selectMode("Select release year option: [0] Skip, [1] Specify", Arrays.asList("0","1"));
-        String releaseYear;
-        int minAcceptableValue = 1874;
-        int maxAcceptableValue = LocalDate.now().getYear();
+    void catalog() {
 
-        switch (yearOfReleaseOption){
-            case "0" -> {
-                return "";
-            }
-            case "1" -> releaseYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
-            default -> {
-                printIndexErrorMessage();
-                return getYear();
-            }
-        }
+        TheMovieDbAPI.popularMoviesFirstPage();
+        do{
+            System.out.println("The most popular movies at the moment are listed below: \n" + SEARCH_READER.findAllMovies());
 
-        if (!validateValueInterval(releaseYear, minAcceptableValue, maxAcceptableValue)) {
-            return getYear();
-        }
-
-        return releaseYear;
+        } while(searchPageManagement());
     }
 
     /**
-     * Checks if no search information is provided.
+     * Generates a message for page management actions.
      *
-     * @param title             The title of the movie.
-     * @param singleYearOrMinYear   The single year or minimum year in the range.
-     * @param maxYear           The maximum year in the range.
-     * @param minVoteAverage    The minimum vote average.
-     * @param genres            The list of genres.
-     * @return True if no information is sent for the search, false otherwise.
+     * @return The generated page management message.
      */
-    private boolean informationSent(String title, String singleYearOrMinYear, String maxYear, String minVoteAverage, List<String> genres){
-        if(title.isEmpty() && singleYearOrMinYear.isEmpty() && maxYear.isEmpty() && minVoteAverage.isEmpty() && genres.isEmpty()){
-            System.out.println("\n| No information sent. \n| Please give me more details for your next search.");
-            return false;
+    private String pageManagementMessage() {
+        return "Choose your action: [0] Continue/Leave command, [1] Previous Page, [2] Next Page, [3] Specify Page | page ("
+                + SEARCH_READER.getPageInJson()
+                + "/"
+                + SEARCH_READER.numberOfPagesOfMoviesInJson() +")";
+    }
+
+    /**
+     * Manages the page navigation within the current search.
+     *
+     * @return {@code false} if the user chooses to continue or leave the command, otherwise {@code true}.
+     */
+    private boolean searchPageManagement() {
+        String response = controller.selectModeTry(pageManagementMessage(), Arrays.asList("0","1","2","3"));
+
+        try {
+            switch (response) {
+                case "0" -> {
+                    return false;
+                }
+                case "1" -> TheMovieDbAPI.switchToPreviousPage();
+
+                case "2" -> TheMovieDbAPI.switchToNextPage();
+
+                case "3" -> searchSpecificPageTry();
+
+                default -> System.out.println(new SelectModeException().getMessage());
+            }
         }
+        catch (NoPreviousPageException | NoNextPageException e) {
+            System.out.println(e.getMessage());
+            return searchPageManagement();
+        }
+
+        System.out.println();
         return true;
     }
 
     /**
-     * Retrieves the release years based on user input.
-     * @return An array containing the selected release years. Null if skipped.
+     * Attempts to navigate to a specific page of current search using a loop until successful.
      */
-    private String[] getYears(){
-        String yearOfReleaseOption = selectMode("Select release year option: [0] Skip, [1] Single, [2] Range (min-max)", Arrays.asList("0","1","2"));
-        String singleYearOrMinYear;
-        String maxYear;
-        int minAcceptableValue = minAcceptableYearValue;
-        int maxAcceptableValue = maxAcceptableYearValue;
+    private void searchSpecificPageTry() {
 
-        switch (yearOfReleaseOption){
-            case "0" -> {
-                return null;
-            }
-            case "1" -> {
-                singleYearOrMinYear = askValue("Release year [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
-                maxYear = UrlRequestBuilder.singleMode;
-            }
-            case "2" -> {
-                singleYearOrMinYear = askValue("Min release year [ ≧ " + minAcceptableValue + "]: ");
-                maxYear = askValue("Max release year [ ≦ " + maxAcceptableValue + "]: ");
-            }
-            default -> {
-                printSelectModeError();
-                return getYears();
-            }
-        }
-
-        if (!validateYears(singleYearOrMinYear, maxYear, minAcceptableValue, maxAcceptableValue)) {
-            return getYears();
-        }
-
-        return new String[]{singleYearOrMinYear, maxYear};
-    }
-
-    /**
-     * Validates the provided years.
-     * @param singleYearOrMinYear The year value for a single year or the minimum year in a range.
-     * @param maxYear The maximum year in a range or a flag indicating single year mode.
-     * @param minAcceptableValue The minimum year acceptable.
-     * @param maxAcceptableValue The maximum year acceptable.
-     * @return {@code true} if the years are valid (greater than zero), {@code false} otherwise.
-     */
-    private boolean validateYears(String singleYearOrMinYear, String maxYear, int minAcceptableValue, int maxAcceptableValue) {
-        boolean isSingleMode = maxYear.equals(UrlRequestBuilder.singleMode);
-
-        if(isSingleMode){
-            return validateValueInterval(singleYearOrMinYear, minAcceptableValue, maxAcceptableValue);
-        }
-        else{
-            try {
-                int minYearValue = singleYearOrMinYear.isEmpty() ? minAcceptableValue : Integer.parseInt(singleYearOrMinYear);
-                int maxYearValue = maxYear.isEmpty() ? maxAcceptableValue : Integer.parseInt(maxYear);
-                boolean validNumbers = minYearValue >= minAcceptableValue && maxYearValue >= minAcceptableValue && maxYearValue <= maxAcceptableValue
-                        && minYearValue <= maxYearValue;
-                if (!validNumbers){
-                    printIndexErrorMessage();
-                }
-                return validNumbers;
-            } catch (NumberFormatException e) {
-                printIndexErrorMessage();
-                return false;
-            }
-        }
-    }
-
-    /**
-     * Validates if a given value falls within a specified interval.
-     * @param value                The value to be validated.
-     * @param minAcceptableValue   The minimum acceptable value.
-     * @param maxAcceptableValue   The maximum acceptable value.
-     * @return True if the value is within the specified interval, false otherwise.
-     */
-    private boolean validateValueInterval(String value, int minAcceptableValue, int maxAcceptableValue) {
         try {
-            int minVoteAverageValue = Integer.parseInt(value);
-            boolean validNumber = minVoteAverageValue >= minAcceptableValue && minVoteAverageValue <= maxAcceptableValue;
-            if (!validNumber){
-                printValueIntervalError();
-            }
-            return validNumber;
-        } catch (NumberFormatException e) {
-            printValueIntervalError();
-            return false;
+            TheMovieDbAPI.switchToSpecificPage(controller.askValue("Enter a page number: "));
         }
+        catch (IntervalException | NotAPositiveIntegerException e) {
+            System.out.println(e.getMessage());
+            searchSpecificPageTry();
+        }
+    }
+
+    /**
+     * Initiates a search for movies.
+     * This method retrieves search criteria from the user. If the criteria are not fully provided, the search is aborted.
+     * Otherwise, it launches the search using TheMovieDbAPI with the provided criteria and page number '1',
+     * then prints the search results.
+     */
+    void search() {
+
+        retrieveCriteriaFromUser();
+
+        try {
+            TheMovieDbAPI.searchMoviesWithCriteria(criteria);
+        }
+        catch (SelectModeException e) {
+            System.out.println("\n| No information provided, launch catalog command by default.\n");
+            catalog();
+            return;
+        }
+        printSearchResults();
+    }
+
+    /**
+     * Retrieves search criteria from the user.
+     */
+    private void retrieveCriteriaFromUser() {
+        criteria = new SearchCriteria();
+
+        criteria.title = controller.askValue("Title of the movie: ");
+
+        String[] yearsFromUser = yearsFromUser(
+                "Min release year [ ≧ " + minAcceptableYearValue + "]: ",
+                "Max release year [ ≦ " + maxAcceptableYearValue + "]: ");
+
+        criteria.minYear = yearsFromUser[0];
+        criteria.maxYear = yearsFromUser[1];
+
+        criteria.minVoteAverage = minVoteAverageFromUser();
+        criteria.genreIds = genresToGenreIds(genresFromUser());
+    }
+
+    /**
+     * Retrieves years input from the user.
+     *
+     * @param minYearMessage The message to ask for the minimum year.
+     * @param maxYearMessage The message to ask for the maximum year.
+     * @return An array containing the minimum and maximum years provided by the user.
+     */
+    private String[] yearsFromUser(String minYearMessage, String maxYearMessage) {
+
+        String minYear;
+        String maxYear;
+        try {
+            minYear = controller.askValue(minYearMessage);
+            maxYear = controller.askValue(maxYearMessage);
+            checkYears(minYear, maxYear);
+        }
+        catch (IntervalException | NotAPositiveIntegerException | NotValidYearsException e){
+            System.out.println(e.getMessage());
+            return yearsFromUser(minYearMessage, maxYearMessage);
+        }
+        return new String[]{minYear, maxYear};
     }
 
     /**
      * Retrieves the minimum vote average for a movie.
+     *
      * @return The minimum vote average provided by the user.
      */
-    private String getMinVoteAverage(int minAcceptableValue, int maxAcceptableValue){
-        String minVoteAverage = askValue("Movie's minimum rate [" + minAcceptableValue + "-" + maxAcceptableValue + "]: ");
+    private String minVoteAverageFromUser() {
 
-        if(!minVoteAverage.isEmpty()){
-            if (!validateValueInterval(minVoteAverage, minAcceptableValue, maxAcceptableValue)){
-                return getMinVoteAverage(minAcceptableValue,maxAcceptableValue);
-            }
+        String minVoteAverage;
+        try {
+            minVoteAverage = controller.askValue("Movie's minimum rate [0-10]: ");
+            checkMinVoteAverage(minVoteAverage);
+        }
+        catch (NotAPositiveIntegerException | IntervalException e) {
+            System.out.println(e.getMessage());
+            return minVoteAverageFromUser();
         }
         return minVoteAverage;
     }
 
     /**
-     * Return the user's specified genres
-     * @return the user's specified genres
+     * Prompts the user to select one or more genres for the search.
+     *
+     * @return The list of genres selected by the user.
      */
-    private List<String> specifiedGenresByUser(){
+    private List<String> genresFromUser() {
+
         List<String> genres = new ArrayList<>();
 
-        if(askToConfirm("Do you want to specify one or more genres?")){
-            System.out.print("\nList of genres: \n" + Genres.instance.getGenres());
-
-            do{
-                System.out.println("\nGenres already selected: " + genres);
-                List<String> genreNames = new ArrayList<>(GENRE_NAME_ID_MAP.keySet());
-                String genreSelected = selectGenreByIndex(genreNames);
-
-                if (GENRE_NAME_ID_MAP.containsKey(genreSelected) && !genres.contains(genreSelected)) {
-                    genres.add(genreSelected);
-                }
-                else {
-                    System.out.println("\n| No genre added. Please enter a valid genre that is not already selected.");
-                }
-            } while(askToConfirm("Do you want to add more genres?"));
+        if(controller.askToConfirm("Do you want to specify one or more genres?")){
+            System.out.print("\nList of genres: \n" + Genres.getGenres());
+            selectGenres(genres);
         }
         return genres;
     }
 
     /**
-     * Selects a genre from the list based on the provided index.
-     * @param genres The list of genres to select from.
-     * @return The selected movie.
+     * Allows the user to select genres in a loop until they choose to stop.
+     *
+     * @param genres The list of genres already selected.
+     *               This list will be updated with newly selected genres.
+     */
+    private void selectGenres(List<String> genres) {
+        do{
+            List<String> genreNames = new ArrayList<>(GENRE_NAME_ID_MAP.keySet());
+
+            String genreSelected = selectGenreByIndex(genreNames);
+
+            if (!genres.contains(genreSelected)) {
+                genres.add(genreSelected);
+            }
+            else {
+                System.out.println("\n| Please enter a valid genre that is not already selected.");
+            }
+        } while(controller.askToConfirm("Do you want to add more genres? | Genres already selected: " + genres));
+    }
+
+    /**
+     * Allows the user to select a genre from the provided list by index.
+     *
+     * @param genres The list of genres to choose from.
+     * @return The selected genre.
      */
     private String selectGenreByIndex(List<String> genres) {
-        for (;;) {
-            try {
-                int index = Integer.parseInt(askValue("Enter genre index: ")) - 1;
-                if (isValidIndex(index, genres.size())) {
-                    return genres.get(index);
-                } else {
-                    printIndexErrorMessage();
-                }
-            } catch (NumberFormatException e) {
-                printIndexErrorMessage();
-            }
+
+        try {
+            int index = controller.retrieveAsPositiveInt("\nEnter genre index: ") - 1;
+            isValidIndex(index, genres.size());
+            return genres.get(index);
+        }
+        catch (IndexException e){
+            System.out.println(e.getMessage());
+            return selectGenreByIndex(genres);
         }
     }
 
     /**
-     * Ask the user to select an interaction with page management system (previous, next, stop)
-     * @param title from the precedent search
-     * @param minYear from the precedent search
-     * @param maxYear from the precedent search
-     * @param genres from the precedent search
-     * @param minVoteAverage from the precedent search
-     * @param message the message to print to the user to interact with page management system
-     * @return the user's answer
+     * Prints the search results.
+     * It prompts the user to navigate through pages of the search results.
      */
-    protected boolean askPreviousOrNextPage(String title, String minYear, String maxYear, List<String> genres, String minVoteAverage , String message){
-        String response = askValue(message);
+    private void printSearchResults() {
 
-        switch (response) {
-            case "3" -> {
-                int pageNumber = Integer.parseInt(askValue("Enter page number: "));
-                if (pageNumber >= 1 && pageNumber <= jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(pageNumber));
-                    return true;
-                }
-                System.out.println("\n| Page number unavailable.");
+        try {
+            do{
+                Movies moviesFromSearch = SEARCH_READER.findAllMovies();
+                Movies.searchableMovie(moviesFromSearch);
+                System.out.println("\nYour list of movies found in your search: \n" + moviesFromSearch);
             }
-            case "2" -> {
-                if(jsonReader.getPageInJson() < jsonReader.numberOfPagesOfMoviesInJson()){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(jsonReader.getPageInJson() + 1));
-                    return true;
-                }
-                System.out.println("\n| There is no next page.");
-            }
-            case "1" -> {
-                if(jsonReader.getPageInJson() > 1){
-                    apiObject.searchMovies(title, minYear, maxYear, genres, minVoteAverage, String.valueOf(jsonReader.getPageInJson() - 1));
-                    return true;
-                }
-                System.out.println("\n| There is no precedent page.");
-            }
-            case "0" -> {
-                return false;
-            }
-            default -> System.out.println("\n| Please enter a valid option.");
+            while(searchPageManagement());
         }
-
-        return askPreviousOrNextPage(title, minYear, maxYear, genres, minVoteAverage, message);
-    }
-
-    /**
-     * Return the message corresponding to the page management user interactive
-     * @return the message corresponding to the page management user interactive
-     */
-    protected String messageOfAskPreviousOrNextPage(){
-        return "Choose your action: [0] Continue/Leave command, [1] Previous Page, [2] Next Page, [3] Specify Page | page ("
-                + jsonReader.getPageInJson()
-                + "/"
-                + jsonReader.numberOfPagesOfMoviesInJson() +")";
+        catch (NoMovieFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

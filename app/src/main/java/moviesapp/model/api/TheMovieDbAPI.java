@@ -1,98 +1,212 @@
 package moviesapp.model.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import moviesapp.controller.command_line.CLController;
+import moviesapp.model.exceptions.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
-import java.io.FileWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
-import static moviesapp.model.json.JsonReader.apiFilePath;
+import static moviesapp.model.api.RequestBuilder.*;
+import static moviesapp.model.exceptions.IntervalException.validateValueBetweenInterval;
+import static moviesapp.model.json.JsonReader.*;
+import static moviesapp.model.json.JsonWriter.convertJsonToFile;
 
 public class TheMovieDbAPI {
 
     static final OkHttpClient client = new OkHttpClient();
-    private UrlRequestBuilder urlRequestBuilder;
 
-    /**
-     * Call every necessary methods to create the appropriate url from the given parameters
-     * @param title part of or complete title of a movie
-     * @param singleYearOrMinYear min year of release of movie
-     * @param maxYear max year of release of movie
-     * @param genres a list of genres
-     * @param minVoteAverage the min vote average
-     */
-    public void searchMovies(String title, String singleYearOrMinYear, String maxYear, List<String> genres, String minVoteAverage , String page){
-        urlRequestBuilder = new UrlRequestBuilder(title, singleYearOrMinYear, maxYear, genres, minVoteAverage , page);
+    public static void searchMoviesWithCriteria(SearchCriteria criteria) throws SelectModeException {
 
-        Request request = urlRequestBuilder.build();
+        if (criteria.noInformationSent()){
+            throw new SelectModeException();
+        }
+        else if (criteria.title.isEmpty()) {
+            buildRequestToSearchMovies(criteria, 2);
+        }
+        else {
+            buildRequestToSearchMovies(criteria, 1);
+        }
+    }
 
-        try {
-            Response response = client.newCall(request).execute();
-            reactToRequestResponse(response);
+    public static void checkYears (String minYear, String maxYear) throws IntervalException, NotAPositiveIntegerException, NotValidYearsException {
+        int minYearValue = checkYear(minYear);
+        int maxYearValue =  checkYear(maxYear);
+        if (minYearValue > maxYearValue) {
+            throw new NotValidYearsException();
+        }
+    }
 
-        } catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+    private static int checkYear(String year) throws NotAPositiveIntegerException, IntervalException {
+        int yearValue = maxAcceptableYearValue;
+
+        if(!year.isEmpty()) {
+            yearValue = convertAsPositiveInt(year);
+            validateValueBetweenInterval(yearValue, minAcceptableYearValue, maxAcceptableYearValue);
+        }
+        return yearValue;
+    }
+
+    public static void checkMinVoteAverage(String minVoteAverage) throws NotAPositiveIntegerException, IntervalException {
+
+        if(!minVoteAverage.isEmpty()) {
+            int minVoteAverageValue = convertAsPositiveInt(minVoteAverage);
+            validateValueBetweenInterval(minVoteAverageValue, 0, 10);
         }
     }
 
     /**
-     * Convert the request response to a JSON file if it is successful or print an error.
-     * @param response from the API after a specific request
+     * Searches for movies using the provided request URL.
+     *
+     * @param requestUrl The request URL for searching movies.
      */
-    private void reactToRequestResponse(Response response){
+    public static void searchMoviesWithUrl(String requestUrl) {
+
+        searchMovies(new RequestBuilder().build(requestUrl));
+    }
+
+    /**
+     * Searches for movies based on the provided parameters.
+     *
+     * @param searchMode The search mode (1 -> search, 2 -> discover, 3-> movie/popular, 4 -> genre)
+     */
+    public static void searchMoviesWithSearchMode(int searchMode) {
+
+        RequestBuilder requestBuilder = new RequestBuilder(null);
+
+        try {
+            searchMovies(requestBuilder.build(searchMode));
+        }
+        catch (IndexException e) {
+            System.err.println(e.getMessage() + e.specifySearchModeError());
+        }
+    }
+
+    /**
+     * Searches for movies based on the provided parameters.
+     *
+     * @param searchMode The search mode (1 -> search, 2 -> discover, 3-> movie/popular, 4 -> genre)
+     */
+    private static void buildRequestToSearchMovies(SearchCriteria criteria, int searchMode) {
+
+        RequestBuilder requestBuilder = new RequestBuilder(criteria);
+        System.err.println(requestUrl);
+
+        try {
+            searchMovies(requestBuilder.build(searchMode));
+        }
+        catch (IndexException e) {
+            System.err.println(e.getMessage() + e.specifySearchModeError());
+        }
+    }
+
+    /**
+     * Searches for movies using the provided request.
+     *
+     * @param request The request for searching movies.
+     */
+    private static void searchMovies(Request request) {
+
+        try {
+            Response response = client.newCall(request).execute();
+            reactToRequestResponse(response);
+        }
+        catch(IOException e){
+            System.err.println("IOException e from \"Response response = client.newCall(request).execute();\" ");
+        }
+    }
+
+    /**
+     * Reacts to the response of a request.
+     * If the response is successful and contains a body, it saves the body content to a file.
+     * If the response is not successful, it prints an error message with the response code.
+     *
+     * @param response The response of the request.
+     */
+    private static void reactToRequestResponse(Response response) {
+
+        String filePath = SEARCH_FILE_PATH;
+
+        if (criteriaToUrl.get("searchMode").equals("/genre/movie/list?")) {
+            filePath = GENRES_FILE_PATH;
+        }
+
         try{
             if(response.isSuccessful() && response.body() != null){
-                String searchResult = response.body().string();
-                searchResultFromRequestToFile(searchResult);
+                convertJsonToFile(response.body().string(), filePath);
+                SEARCH_READER = updateSearchReader();
             }
             else{
                 System.err.println("Error API request: " + response.code());
             }
         } catch (IOException e){
-            System.err.println("IOException e from 'String searchResult = response.body().string();'");
+            System.err.println("IOException e from \"String searchResult = response.body().string();\"");
         }
     }
 
     /**
-     * Turns the response to an API request into a JSON file
-     * @param searchResult response of the api request
+     * Retrieves the first page of popular movies in json.
      */
-    public void searchResultFromRequestToFile(String searchResult){
-        ObjectMapper mapper = JsonMapper.builder().build();
+    public static void popularMoviesFirstPage() {
+        searchMoviesWithSearchMode(3);
+    }
+
+    /**
+     * Retrieves the previous page of popular movies in json.
+     *
+     * @throws NoPreviousPageException If there is no previous page available.
+     */
+    public static void switchToPreviousPage() throws NoPreviousPageException {
 
         try {
-            ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);
+            int currentPage = getCurrentPage() ;
 
-            try (FileWriter fileWriter = new FileWriter(apiFilePath, StandardCharsets.UTF_8)) {
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                mapper.writeValue(fileWriter, node);
-            } catch (IOException e) {
-                System.err.println("IOException from 'new FileWriter(...)' or 'mapper.writeValue(fileWriter, node)'");
+            if(currentPage > 1) {
+                switchPage(String.valueOf(currentPage - 1));
             }
-
-        } catch (JsonProcessingException e){
-            System.err.println("JsonProcessingException from 'ObjectNode node = mapper.readValue(searchResult, ObjectNode.class);'");
+            else {
+                throw new NoPreviousPageException();
+            }
+        }
+        catch (NotAPositiveIntegerException e) {
+            throw new NoPreviousPageException();
         }
     }
 
-    public void popularMovies(String page){
-        urlRequestBuilder = new UrlRequestBuilder(null, null,null,null,null, page);
-        String url = urlRequestBuilder.popularMoviesBuilder(page);
-        Request request = new Request.Builder().url(url).build();
-        try {
-            Response response = client.newCall(request).execute();
-            reactToRequestResponse(response);
+    /**
+     * Retrieves the next page of popular movies in json.
+     *
+     * @throws NoNextPageException If there is no next page available.
+     */
+    public static void switchToNextPage() throws NoNextPageException {
 
-        } catch(IOException e){
-            System.err.println("IOException e from 'Response response = client.newCall(request).execute();' ");
+        try {
+            int currentPage = getCurrentPage() ;
+
+            if(currentPage < SEARCH_READER.numberOfPagesOfMoviesInJson()) {
+                switchPage(String.valueOf(currentPage + 1));
+            }
+            else {
+                throw new NoNextPageException();
+            }
         }
+        catch (NotAPositiveIntegerException e) {
+            throw new NoNextPageException();
+        }
+    }
+
+    public static void switchToSpecificPage(String page) throws NotAPositiveIntegerException, IntervalException {
+
+        int pageNumber = convertAsPositiveInt(page);
+
+        if (pageNumber >= 1 && pageNumber <= SEARCH_READER.numberOfPagesOfMoviesInJson()) {
+            switchPage(page);
+        }
+        else {
+            throw new IntervalException();
+        }
+    }
+
+    private static void switchPage(String pageNumber) {
+        searchMoviesWithUrl(updateRequestUrlPage(pageNumber));
     }
 }
