@@ -22,8 +22,12 @@ public class TheMovieDbAPI {
         else if (!criteria.gotDiscoverCriteria()) {
             searchMovies(criteria, 1);
         }
+        else if (criteria.noInformationSent()){
+            System.err.println("No Info");
+        }
         else {
             //TODO: code merge search
+
         }
     }
 
@@ -79,7 +83,7 @@ public class TheMovieDbAPI {
      */
     private static void reactToRequestResponse(Response response) {
 
-        String filePath = API_FILE_PATH;
+        String filePath = SEARCH_FILE_PATH;
 
         if (criteriaToUrl.get("searchMode").equals("/genre/movie/list?")) {
             filePath = GENRES_FILE_PATH;

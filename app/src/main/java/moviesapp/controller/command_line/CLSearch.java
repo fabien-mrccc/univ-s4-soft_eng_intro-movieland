@@ -109,10 +109,6 @@ public class CLSearch {
 
         retrieveCriteriaFromUser();
 
-        if(!criteria.informationSent()) {
-            return;
-        }
-
         TheMovieDbAPI.launchSearch(criteria);
 
         printSearchResults();
@@ -131,6 +127,8 @@ public class CLSearch {
 
         criteria.minVoteAverage = minVoteAverageFromUser();
         criteria.genres = genresToGenreIds(genresFromUser());
+
+        System.out.println(criteria);
     }
 
     /**
