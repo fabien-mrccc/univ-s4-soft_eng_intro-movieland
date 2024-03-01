@@ -5,7 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import moviesapp.model.api.Genres;
 import moviesapp.model.api.SearchCriteria;
 import moviesapp.model.api.TheMovieDbAPI;
@@ -17,7 +21,8 @@ import moviesapp.model.movies.Movie;
 import moviesapp.viewer.left_panel.LeftPanelView;
 import moviesapp.viewer.left_panel.WithTitlePanelView;
 import moviesapp.viewer.left_panel.WithoutTitlePanelView;
-import moviesapp.viewer.right_panel.DetailsMode;
+import moviesapp.viewer.new_windows.AskToConfirmClearWindow;
+import moviesapp.viewer.new_windows.DetailsWindow;
 import moviesapp.viewer.right_panel.ImagePanelView;
 import moviesapp.viewer.right_panel.RightPanelView;
 
@@ -35,7 +40,7 @@ public class AppController implements Initializable {
     private WithTitlePanelView withTitlePanelViewComponent;
     private WithoutTitlePanelView withoutTitlePanelViewComponent;
     private static ImagePanelView imagePanelViewComponent;
-    private static DetailsMode currentDetailsWindow;
+    private static DetailsWindow currentDetailsWindow;
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -212,65 +217,128 @@ public class AppController implements Initializable {
         clearWithoutTitleButton.setVisible(true);
     }
 
+    /**
+     * Switches to the previous page of search results and updates the image panel view.
+     */
     @FXML
-    public void previousPage() {
+    private void previousPage() {
         try {
             TheMovieDbAPI.switchToPreviousPage();
             updateImagePanelView(SEARCH_READER.findAllMovies());
         }
         catch (NoPreviousPageException ignored) {
-            System.err.println("ERR");
         }
     }
 
+    /**
+     * Switches to the next page of search results and updates the image panel view.
+     */
     @FXML
-    public void nextPage() {
+    private void nextPage() {
         try {
             TheMovieDbAPI.switchToNextPage();
             updateImagePanelView(SEARCH_READER.findAllMovies());
         }
         catch (NoNextPageException ignored) {
-            System.err.println("ERR");
         }
     }
 
-    public static void updateImagePanelView(Movies movies){
+    /**
+     * Updates the image panel view with the provided list of movies.
+     *
+     * @param movies The list of movies to be displayed in the image panel view.
+     */
+    @FXML
+    private static void updateImagePanelView(Movies movies) {
         imagePanelViewComponent.distributeImages(movies);
     }
 
+    /**
+     * Handles the click event on an image by displaying details of the corresponding movie.
+     *
+     * @param movie The movie whose details are to be displayed.
+     */
+    @FXML
     public static void handleClickOnImage(Movie movie) {
-        currentDetailsWindow = new DetailsMode(movie);
+        currentDetailsWindow = new DetailsWindow(movie);
     }
 
-    public void appTitleButtonClicked(){
+    /**
+     * Handles the click event on the application title button.
+     * Retrieves popular movies and updates the image panel view.
+     */
+    @FXML
+    private void appTitleButtonClicked() {
         TheMovieDbAPI.popularMoviesFirstPage();
         updateImagePanelView(SEARCH_READER.findAllMovies());
     }
 
-
     /**
-     * remove the movie from favorites when the remove button is clicked
-     * @param movie the movie of which we want the details
+     * Handles the click event on the remove button by removing the specified movie from favorites.
+     * Applies modifications to the favorites.
+     *
+     * @param movie The movie to be removed from favorites.
      */
-    public static void removeButtonClicked(Movie movie){
+    @FXML
+    public static void removeButtonClicked(Movie movie) {
         Favorites.remove(movie);
         applyFavoritesModifications();
     }
 
     /**
-     * add the movie to favorites when the add button is clicked
-     * @param movie the movie of which we want the details
+     * Handles the click event on the add button by adding the specified movie to favorites.
+     * Applies modifications to the favorites.
+     *
+     * @param movie The movie to be added to favorites.
      */
-    public static void addButtonClicked(Movie movie){
+    @FXML
+    public static void addButtonClicked(Movie movie) {
         Favorites.add(movie);
         applyFavoritesModifications();
     }
 
-    private static void applyFavoritesModifications(){
+    /**
+     * Applies modifications to the favorites by updating the image panel view and saving changes.
+     */
+    private static void applyFavoritesModifications() {
         updateImagePanelView(asMovies());
         currentDetailsWindow.globalStage.close();
         FAVORITES_WRITER.saveFavorites(asMovies());
     }
+
+    /**
+     * Create a new window in which a confirmation is required to clear the list of favorites.
+     */
+    @FXML
+    public static void openClearConfirmationWindow() {
+        new AskToConfirmClearWindow();
+    }
+
+    /**
+     * Closes the clear confirmation window.
+     *
+     * @param globalStage The stage of the confirmation window to be closed.
+     */
+    @FXML
+    public static void closeClearConfirmationWindow(Stage globalStage) {
+        globalStage.close();
+    }
+
+    /**
+     * Handles the click event on the continue button, clears favorites, closes confirmation window,
+     * and updates the image panel view with cleared favorites.
+     *
+     * @param globalStage The stage of the confirmation window.
+     */
+    @FXML
+    public static void continueButtonClicked(Stage globalStage) {
+        Favorites.clear();
+        FAVORITES_WRITER.clear();
+        closeClearConfirmationWindow(globalStage);
+        updateImagePanelView(Favorites.asMovies());
+    }
+
+
 
 
     /////////////////////////////////////////////////////////// HEAD FXML Identifiers
