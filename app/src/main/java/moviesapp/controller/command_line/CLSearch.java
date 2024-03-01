@@ -136,7 +136,7 @@ public class CLSearch {
         criteria.maxYear = yearsFromUser[1];
 
         criteria.minVoteAverage = minVoteAverageFromUser();
-        criteria.genres = genresToGenreIds(genresFromUser());
+        criteria.genreIds = genresToGenreIds(genresFromUser());
     }
 
     /**
