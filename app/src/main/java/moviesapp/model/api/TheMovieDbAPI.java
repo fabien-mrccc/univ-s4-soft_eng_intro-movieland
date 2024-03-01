@@ -14,13 +14,13 @@ public class TheMovieDbAPI {
 
     static final OkHttpClient client = new OkHttpClient();
 
-    public static void launchSearch(SearchCriteria criteria, String page) {
+    public static void launchSearch(SearchCriteria criteria) {
 
         if (criteria.title.isEmpty()) {
-            searchMovies(criteria, page, 2);
+            searchMovies(criteria, 2);
         }
         else if (!criteria.gotDiscoverCriteria()) {
-            searchMovies(criteria, page, 1);
+            searchMovies(criteria, 1);
         }
         else {
             //TODO: code merge search
@@ -30,12 +30,11 @@ public class TheMovieDbAPI {
     /**
      * Searches for movies based on the provided parameters.
      *
-     * @param page The page number of the search results.
      * @param searchMode The search mode (1 -> search, 2 -> discover, 3-> movie/popular, 4 -> genre)
      */
-    public static void searchMovies(SearchCriteria criteria, String page, int searchMode) {
+    public static void searchMovies(SearchCriteria criteria, int searchMode) {
 
-        RequestBuilder requestBuilder = new RequestBuilder(criteria, page);
+        RequestBuilder requestBuilder = new RequestBuilder(criteria);
 
         try {
             searchMovies(requestBuilder.build(searchMode));
@@ -103,7 +102,7 @@ public class TheMovieDbAPI {
      * Retrieves the first page of popular movies in json.
      */
     public static void popularMoviesFirstPage() {
-        searchMovies(null, "1", 3);
+        searchMovies(null, 3);
     }
 
     /**
@@ -113,12 +112,17 @@ public class TheMovieDbAPI {
      */
     public static void switchToPreviousPage() throws NoPreviousPageException {
 
-        int currentPage = getCurrentPage() ;
+        try {
+            int currentPage = getCurrentPage() ;
 
-        if(currentPage > 1) {
-            switchPage(String.valueOf(currentPage - 1));
+            if(currentPage > 1) {
+                switchPage(String.valueOf(currentPage - 1));
+            }
+            else {
+                throw new NoPreviousPageException();
+            }
         }
-        else {
+        catch (NotAPositiveIntegerException e) {
             throw new NoPreviousPageException();
         }
     }
@@ -130,12 +134,17 @@ public class TheMovieDbAPI {
      */
     public static void switchToNextPage() throws NoNextPageException {
 
-        int currentPage = getCurrentPage() ;
+        try {
+            int currentPage = getCurrentPage() ;
 
-        if(currentPage < SEARCH_READER.numberOfPagesOfMoviesInJson()) {
-            switchPage(String.valueOf(currentPage + 1));
+            if(currentPage < SEARCH_READER.numberOfPagesOfMoviesInJson()) {
+                switchPage(String.valueOf(currentPage + 1));
+            }
+            else {
+                throw new NoNextPageException();
+            }
         }
-        else {
+        catch (NotAPositiveIntegerException e) {
             throw new NoNextPageException();
         }
     }

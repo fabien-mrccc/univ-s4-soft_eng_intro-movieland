@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static moviesapp.model.api.RequestBuilder.requestUrl;
 import static moviesapp.model.json.JsonReader.*;
 
 public class JsonWriter {
@@ -53,7 +54,7 @@ public class JsonWriter {
         }
     }
 
-    public static void convertJsonToFile(String jsonToWrite, String filePath){
+    public static void convertJsonToFile(String jsonToWrite, String filePath) {
 
         ObjectMapper mapper = JsonMapper.builder().build();
 

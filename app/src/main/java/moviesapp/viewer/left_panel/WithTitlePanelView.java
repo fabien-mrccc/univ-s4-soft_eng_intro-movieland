@@ -117,7 +117,7 @@ public class WithTitlePanelView {
     }
 
     private void searchHandling(String title, String year){
-        SearchCriteria criteria = new SearchCriteria(title, year, "", null, null);
-        TheMovieDbAPI.searchMovies(criteria, "1", 1);
+        SearchCriteria criteria = new SearchCriteria(title, year, "", null, null, "1");
+        TheMovieDbAPI.searchMovies(criteria, 1);
     }
 }

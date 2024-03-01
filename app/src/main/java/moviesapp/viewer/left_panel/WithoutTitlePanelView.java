@@ -175,8 +175,8 @@ public class WithoutTitlePanelView {
     }
 
     private void searchHandling(String title, List<String> selectedGenresId, String yearFrom, String yearTo, String rating) {
-        SearchCriteria criteria = new SearchCriteria(title, yearFrom, yearTo, selectedGenresId, rating);
-        TheMovieDbAPI.searchMovies(criteria, "1", 2);
+        SearchCriteria criteria = new SearchCriteria(title, yearFrom, yearTo, selectedGenresId, rating, "1");
+        TheMovieDbAPI.searchMovies(criteria,2);
     }
 
     /**

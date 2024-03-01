@@ -18,7 +18,7 @@ public class Genres {
      * Update the genres.json then fill the static GENRE_ID_MAP with the genres located in genres.json
      */
     public static void fillGENRE_NAME_ID_MAP() {
-        searchMovies(null, "1", 4);
+        searchMovies(null, 4);
         GENRES_READER = updateGenresReader();
 
         for(JsonNode genre : GENRES_READER.getJsonGenres()){
