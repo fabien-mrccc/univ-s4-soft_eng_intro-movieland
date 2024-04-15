@@ -3,7 +3,7 @@
 Team letter : S <br>
 Team group : 3 <br>
 Team members : Amina FANANI, Fabien MARCUCCINI, Batiste BORG, Numa EFREMON \
-Related Subject : "Software Engineering Introduction 2023-2024"
+Related Subject : "Software Engineering Introduction 2023-2024 at Aix-Marseille University"
 
 ## Overview:
 The MovieLand application allows its user to browse various movies and fill
