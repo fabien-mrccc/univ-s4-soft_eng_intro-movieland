@@ -39,7 +39,7 @@ the picture.
 #### Use Guide:
 After launching the application, MovieLand should look like this: 
 
-<img alt="MovieLand first display" src="https://fabien-marcuccini.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fb09fcc6c-df16-46f2-8a4f-d37dba6294b1%2F0422e29d-a2c9-4db2-beb7-6f0ee3c41982%2FScreenshot_2024-03-01_at_20.50.41.png?table=block&id=62c7177f-383e-4250-b7e8-b8d1853edb78&spaceId=b09fcc6c-df16-46f2-8a4f-d37dba6294b1&width=2000&userId=&cache=v2" width="800">
+<img alt="MovieLand first display" src="https://fabien-marcuccini.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fb09fcc6c-df16-46f2-8a4f-d37dba6294b1%2F0422e29d-a2c9-4db2-beb7-6f0ee3c41982%2FScreenshot_2024-03-01_at_20.50.41.png?table=block&id=62c7177f-383e-4250-b7e8-b8d1853edb78&spaceId=b09fcc6c-df16-46f2-8a4f-d37dba6294b1&width=2000" width="800">
 
 The right panel of the application is used to display the movies, such as the popular movies, the favorite movies 
 or the movies resulting from a search. 
